@@ -23,7 +23,7 @@ Para além disso existirão moedas (que podem ou não estar escondidas como a po
 1. Strategy:	
 	- implementar as diferentes dificuldades.
 
-1. Command: 	
+1. Commands.Command: 	
 	- registar todas as ações como comandos.
 
 ## To do (maybe, se tivermos tempo):
