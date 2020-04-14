@@ -1,25 +1,14 @@
+package com.noclue;
+
 import java.util.Objects;
 
 public class Position {
     private int x,y;
     private int x_max,y_max;
 
-    Position(int x,int y){
-        this.x = x;
-        this.y = y;
-    }
-
-    Position(int x,int y,int x_max,int y_max) throws PositionError{
+    Position(int x_max,int y_max){
         this.x_max=x_max;
         this.y_max=y_max;
-        if(x>x_max) {
-            throw new PositionError("x is bigger than x_max");
-        }
-        else if(y>y_max) {
-            throw new PositionError("y is bigger than y_max");
-        }
-        this.x = x;
-        this.y = y;
     }
 
 

@@ -1,4 +1,4 @@
-package CanExplode;
+package com.noclue;
 
 public interface CanExplode {
 }
