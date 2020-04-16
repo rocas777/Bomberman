@@ -1,13 +1,10 @@
 package com.noclue;
 
-import javafx.geometry.Pos;
+//import javafx.geometry.Pos;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.fail;
 
 public class PositionTest {
     private Position a;
