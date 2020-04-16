@@ -21,6 +21,6 @@ dependencies {
 }
 
 application {
-    mainClassName = 'Bomberman'
+    mainClassName = 'com.noclue.Bomberman'
 }
 

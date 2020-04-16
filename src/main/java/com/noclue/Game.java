@@ -13,7 +13,7 @@ public class Game {
     private Field field;
 
     public Game(){
-        field=new Field();
+        field=new Field(80,24);
         try{
             Terminal terminal = new DefaultTerminalFactory().createTerminal();
             screen = new TerminalScreen(terminal);
@@ -31,7 +31,7 @@ public class Game {
 
     private void draw() throws IOException {
         screen.clear();
-        //call field draw func
+        field.draw(screen.newTextGraphics());
         screen.refresh();
     }
 
