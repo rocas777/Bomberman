@@ -51,9 +51,7 @@ public class Game {
                     int i=0;
                     while (running) {
                         try {
-                            sleep(1000);    //updates field every 2s (for now)
-                            i++;
-                            System.out.println(i);
+                            sleep(500);    //updates field every 2s (for now)
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
