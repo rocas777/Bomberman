@@ -5,7 +5,7 @@ import com.noclue.Drawable;
 import com.noclue.Position;
 import org.w3c.dom.css.Rect;
 
-public class RemovableBlockView implements Drawable {
+public class RemovableBlockView implements BlockView {
     RemovableBlock removableBlock;
     RemovableBlockView(RemovableBlock removableBlock){
         this.removableBlock=removableBlock;

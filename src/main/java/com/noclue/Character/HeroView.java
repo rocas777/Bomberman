@@ -4,7 +4,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.Drawable;
 import com.noclue.Position;
 
-public class HeroView implements Drawable {
+public class HeroView implements CharacyerView {
     Hero hero;
     HeroView(Hero hero){
         this.hero=hero;

@@ -4,7 +4,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.Drawable;
 import com.noclue.Position;
 
-public class CoinView implements Drawable {
+public class CoinView implements CollectibleView {
     Coin coin;
     CoinView(Coin coin){
         this.coin=coin;
