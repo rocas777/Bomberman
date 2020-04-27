@@ -33,4 +33,12 @@ public class Tile {
     public void collect(){
         collectible.collect();
     }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
+    }
 }
