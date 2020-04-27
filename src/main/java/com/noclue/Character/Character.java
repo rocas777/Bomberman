@@ -1,4 +1,6 @@
 package com.noclue.Character;
 
-public interface Character {
+import com.noclue.Filler;
+
+public interface Character extends Filler {
 }
