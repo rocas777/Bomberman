@@ -1,14 +1,26 @@
 package com.noclue;
 
+import com.googlecode.lanterna.TerminalPosition;
+
 import java.util.Objects;
 
 public class Position {
     private int x,y;
     private int x_max,y_max;
+    static int x_maxG,y_maxG;
+
+    static void setMaxPosition(int x_max,int y_max){
+        x_maxG=x_max;
+        y_maxG=y_max;
+    }
 
     Position(int x_max,int y_max){
         this.x_max=x_max;
         this.y_max=y_max;
+    }
+    Position(){
+        x_max=x_maxG;
+        y_max=y_maxG;
     }
 
 
@@ -47,6 +59,10 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public TerminalPosition getTerminalPosition(){
+        return new TerminalPosition(this.x,this.y);
     }
 }
 
