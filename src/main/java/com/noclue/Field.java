@@ -113,8 +113,6 @@ public class Field {
     }
 
     public void setLayout() {
-        System.out.println("olkj");
-
         Position hero=setHero();
         Position door=setDoor(hero);
 
