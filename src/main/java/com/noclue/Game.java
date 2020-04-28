@@ -32,7 +32,6 @@ public class Game {
         catch(IOException e){
             e.printStackTrace();
         }
-        field.setLayout();
     }
 
     private void draw() throws IOException {
