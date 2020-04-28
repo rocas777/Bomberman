@@ -1,14 +1,14 @@
-package com.noclue.Block;
+package com.noclue.block;
 
-import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.Drawable;
+import com.noclue.Filler;
 import com.noclue.Position;
 
 
 public class IndestructableBlock implements Block, Drawable {
     private Position position;
-    IndestructableBlock(Position position){
+    public IndestructableBlock(Position position){
        this.position=position;
     }
 

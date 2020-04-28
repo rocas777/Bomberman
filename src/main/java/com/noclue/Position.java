@@ -14,13 +14,11 @@ public class Position {
         y_maxG=y_max;
     }
 
-    Position(int x_max,int y_max){
+    Position(int x_max,int y_max,int x,int y){
         this.x_max=x_max;
         this.y_max=y_max;
-    }
-    Position(){
-        x_max=x_maxG;
-        y_max=y_maxG;
+        this.y=y;
+        this.x=x;
     }
 
 

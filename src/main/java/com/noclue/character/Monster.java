@@ -1,4 +1,4 @@
-package com.noclue.Character;
+package com.noclue.character;
 
 import com.noclue.CanExplode;
 

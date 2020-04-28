@@ -1,4 +1,4 @@
-package com.noclue.Commands;
+package com.noclue.commands;
 
 public interface Command {
 }
