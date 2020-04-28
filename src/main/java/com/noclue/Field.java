@@ -32,27 +32,30 @@ public class Field {
         Position hero=new Position(23,15,random.nextInt(23),random.nextInt(15));
         Position door=new Position(23,15,random.nextInt(12)+11,random.nextInt(7)+8);
 
-        for(int y=0;y<15;y++){
-            for(int x=0;x<23;x++){
+        for(int y=0;y<13;y++){
+            for(int x=0;x<22;x++){
                 if(y%2==0){
                     if(x%2==0){
                         Position p=new Position(23,15,x,y);
                         //if(p==hero)
-
+                        p=new Position(23*6+14,15*3+6,x*6+6,y*3+3);
                         tiles.add(new Tile(p, new Coin(),new IndestructableBlock(p)));
                     }
                     else {
                         Position p=new Position(23,15,x,y);
+                        p=new Position(23*6+14,15*3+6,x*6+6,y*3+3);
                         tiles.add(new Tile(p, new Coin(),new RemovableBlock(p)));
                     }
                 }
                 else {
                     if(x%2==1){
                         Position p=new Position(23,15,x,y);
+                        p=new Position(23*6+14,15*3+6,x*6+6,y*3+3);
                         tiles.add(new Tile(p, new Coin(),new IndestructableBlock(p)));
                     }
                     else {
                         Position p=new Position(23,15,x,y);
+                        p=new Position(23*6+14,15*3+6,x*6+6,y*3+3);
                         tiles.add(new Tile(p, new Coin(),new RemovableBlock(p)));
                     }
 
