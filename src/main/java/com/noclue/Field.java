@@ -26,12 +26,12 @@ public class Field {
     public Field(int width, int height) {
         this.height = height;
         this.width = width;
-        tiles=new ArrayList<ArrayList<Tile>>();
+        tiles=new ArrayList<>();
     }
 
-    private void setRemovableBlocks(Position door, Position hero){
+    private void setRemovableBlocks(Position door, Position hero,int numerOfBlocks){
         Random random=new Random();
-        for(int i=0;i<100;i++){
+        for(int i=0;i<numerOfBlocks;i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             Position nblock=new Position(23*6+20,15*3+6,block.getX()*6,block.getY()*3);
 
@@ -80,9 +80,9 @@ public class Field {
         }
     }
 
-    private void setMonsters(Position door,Position hero){
+    private void setMonsters(Position door,Position hero,int numberOfMonsters){
         Random random=new Random();
-        for(int i=0;i<3;i++){
+        for(int i=0;i<numberOfMonsters;i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             Position nblock=new Position(23*6+20,15*3+6,block.getX()*6,block.getY()*3);
 
@@ -119,10 +119,10 @@ public class Field {
         Position door=setDoor(hero);
 
         setIndestructableBlocks(door,hero);
-        setRemovableBlocks(door,hero);
-        setMonsters(door,hero);
+        setRemovableBlocks(door,hero,150);
+        setMonsters(door,hero,3);
     }
-    public void draw(TextGraphics textGraphics) throws IOException {
+    public void draw(TextGraphics textGraphics){
         Random random = new Random();
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
