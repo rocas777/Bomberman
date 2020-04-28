@@ -31,6 +31,7 @@ public class Game {
         catch(IOException e){
             e.printStackTrace();
         }
+        field.setLayout();
     }
 
     private void draw() throws IOException {
@@ -55,16 +56,17 @@ public class Game {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
                     }
                 }
-            }.start();
+            }).start();
 
-            while(running){
+            while (running) {
                 draw();
                 KeyStroke key = screen.readInput();
                 processKey(key);
-                if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
-                    running=false;
+                if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
+                    running = false;
                     System.out.println(key);
                     screen.close();
                 }
