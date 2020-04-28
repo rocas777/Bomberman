@@ -10,7 +10,7 @@ public class PositionTest {
     private Position a;
     @Before
     public void pre_handler() {
-        a = new Position(5, 4);
+        a = new Position(5, 4,2,3);
     }
 
     @Test
