@@ -31,6 +31,7 @@ public class Game {
         catch(IOException e){
             e.printStackTrace();
         }
+        field.setLayout();
     }
 
     private void draw() throws IOException {
@@ -44,29 +45,26 @@ public class Game {
     }
 
     public void run(){
-        try{
-            new Thread() {
-                @Override
-                public void run() {
-                    int i=0;
-                    while (running) {
-                        try {
-                            sleep(1000);    //updates field every 2s (for now)
-                            i++;
-                            System.out.println(i);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+        try {
+            new Thread(() -> {
+                int i = 0;
+                while (running) {
+                    try {
+                        Thread.sleep(1000);    //updates field every 2s (for now)
+                        i++;
+                        System.out.println(i);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
-            }.start();
+            }).start();
 
-            while(running){
+            while (running) {
                 draw();
                 KeyStroke key = screen.readInput();
                 processKey(key);
-                if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
-                    running=false;
+                if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
+                    running = false;
                     System.out.println(key);
                     screen.close();
                 }
