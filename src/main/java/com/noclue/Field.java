@@ -4,8 +4,13 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.terminal.swing.TerminalScrollController;
+import com.noclue.block.IndestructableBlock;
+import com.noclue.block.RemovableBlock;
+import com.noclue.collectible.Coin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import static com.googlecode.lanterna.SGR.BOLD;
@@ -13,15 +18,41 @@ import static com.googlecode.lanterna.SGR.BOLD;
 public class Field {
     private final int width;
     private final int height;
+    private ArrayList<Tile> tiles;
 
     public Field(int width, int height) {
         this.height = height;
         this.width = width;
+        tiles=new ArrayList<>();
     }
 
 
     public void setLayout() {
+        for(int y=0;y<15;y++){
+            for(int x=0;x<23;x++){
+                if(y%2==0){
+                    if(x%2==0){
+                        Position p=new Position(23,15,x,y);
+                        tiles.add(new Tile(p, new Coin(),new IndestructableBlock(p)));
+                    }
+                    else {
+                        Position p=new Position(23,15,x,y);
+                        tiles.add(new Tile(p, new Coin(),new RemovableBlock(p)));
+                    }
+                }
+                else {
+                    if(x%2==1){
+                        Position p=new Position(23,15,x,y);
+                        tiles.add(new Tile(p, new Coin(),new IndestructableBlock(p)));
+                    }
+                    else {
+                        Position p=new Position(23,15,x,y);
+                        tiles.add(new Tile(p, new Coin(),new RemovableBlock(p)));
+                    }
 
+                }
+            }
+        }
     }
     public void draw(TextGraphics textGraphics) throws IOException {
         Random random = new Random();
@@ -33,5 +64,8 @@ public class Field {
         textGraphics.fillRectangle(new TerminalPosition(width-8, 0), new TerminalSize(width-8, height), ' ');
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
         textGraphics.fillRectangle(new TerminalPosition(6, 3), new TerminalSize(width-8-6-6, height-3-3), ' ');
+        for (Tile t: tiles){
+            t.draw(textGraphics);
+        }
     }
 }
