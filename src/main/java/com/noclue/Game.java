@@ -17,6 +17,7 @@ public class Game {
 
     public Game(int width, int height){
         field=new Field(width,height);
+        field.setLayout();
         running=true;
         try{
             Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(width, height)).createTerminal();

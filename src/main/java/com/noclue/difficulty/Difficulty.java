@@ -1,4 +1,4 @@
-package com.noclue.Difficulty;
+package com.noclue.difficulty;
 
 public interface Difficulty {
 }
