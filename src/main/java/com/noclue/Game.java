@@ -45,16 +45,18 @@ public class Game {
     }
 
     public void run(){
-        try {
-            new Thread(() -> {
-                int i = 0;
-                while (running) {
-                    try {
-                        Thread.sleep(1000);    //updates field every 2s (for now)
-                        i++;
-                        System.out.println(i);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        try{
+            new Thread() {
+                @Override
+                public void run() {
+                    int i=0;
+                    while (running) {
+                        try {
+                            sleep(500);    //updates field every 2s (for now)
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             }).start();
