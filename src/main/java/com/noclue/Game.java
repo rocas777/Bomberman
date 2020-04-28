@@ -7,11 +7,8 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-import com.noclue.Collectible.CollectibleView;
-import com.noclue.Collectible.DoorView;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Game {
     private static Screen screen;
@@ -20,12 +17,6 @@ public class Game {
 
     public Game(int width, int height){
         field=new Field(width,height);
-        ArrayList<Tile> tiles=new ArrayList<>();
-        for(int y=0;y<15;y++)
-            for (int x=0;x<23;x++){
-                Tile tmp=new Tile(x,y);
-                tiles.add(tmp);
-            }
         running=true;
         try{
             Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(width, height)).createTerminal();
@@ -54,20 +45,22 @@ public class Game {
     }
 
     public void run(){
-        try {
-            new Thread(() -> {
-                int i = 0;
-                while (running) {
-                    try {
-                        Thread.sleep(1000);    //updates field every 2s (for now)
-                        i++;
-                        System.out.println(i);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        try{
+            new Thread() {
+                @Override
+                public void run() {
+                    int i=0;
+                    while (running) {
+                        try {
+                            sleep(500);    //updates field every 2s (for now)
+                            System.out.println(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }
-            }).start();
+            }.start();
 
             while (running) {
                 draw();

@@ -2,5 +2,5 @@ package com.noclue.Character;
 
 import com.noclue.CanExplode;
 
-public class HeroModel{
+public class Hero implements Character, CanExplode {
 }

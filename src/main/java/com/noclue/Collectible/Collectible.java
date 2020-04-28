@@ -1,4 +1,4 @@
 package com.noclue.Collectible;
 
-public class CoinModel{
+public interface Collectible {
 }
