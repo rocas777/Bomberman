@@ -28,11 +28,17 @@ public class Field {
 
 
     public void setLayout() {
+        Random random=new Random();
+        Position hero=new Position(23,15,random.nextInt(23),random.nextInt(15));
+        Position door=new Position(23,15,random.nextInt(12)+11,random.nextInt(7)+8);
+
         for(int y=0;y<15;y++){
             for(int x=0;x<23;x++){
                 if(y%2==0){
                     if(x%2==0){
                         Position p=new Position(23,15,x,y);
+                        //if(p==hero)
+
                         tiles.add(new Tile(p, new Coin(),new IndestructableBlock(p)));
                     }
                     else {
