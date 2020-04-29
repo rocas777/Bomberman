@@ -53,7 +53,7 @@ public class Game {
                     while (running) {
                         try {
                             sleep(500);    //updates field every 2s (for now)
-                            System.out.println(1);
+                            //System.out.println(1);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -66,16 +66,18 @@ public class Game {
                 draw();
                 KeyStroke key = screen.readInput();
                 processKey(key);
-                if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
-                    running = false;
-                    System.out.println(key);
-                    screen.close();
-                }
-                else if(key.getKeyType()==KeyType.EOF){
-                    running=false;
-                }
-                else{
-                    System.out.println(key);
+                if (key.getKeyType() == KeyType.Character) {
+                    System.out.println(key.getCharacter());
+                    if (key.getCharacter() == 'q') {
+                        running = false;
+                        System.out.println(key);
+                        screen.close();
+                    } else if (key.getKeyType() == KeyType.EOF) {
+                        running = false;
+                    } else {
+                        System.out.println(key.getCharacter());
+                        field.updateOnKeyboard(key);
+                    }
                 }
             }
         }

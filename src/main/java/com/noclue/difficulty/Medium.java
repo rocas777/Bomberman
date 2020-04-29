@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Medium implements Difficulty {
     @Override
-    public ArrayList<Position> nextMove() {
+    public ArrayList<Position> nextMove(Position position) {
         return null;
     }
 }

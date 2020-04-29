@@ -19,4 +19,20 @@ public class Tile {
         collectible.draw(textGraphics,position);
         filler.draw(textGraphics,position);
     }
+
+    public Filler getFiller() {
+        return filler;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setCollectible(Collectible collectible) {
+        this.collectible = collectible;
+    }
+
+    public void setFiller(Filler filler) {
+        this.filler = filler;
+    }
 }

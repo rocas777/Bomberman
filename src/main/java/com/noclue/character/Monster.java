@@ -19,4 +19,9 @@ public class Monster implements Character, CanExplode, Drawable {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
     }
+
+    @Override
+    public boolean isFilled() {
+        return true;
+    }
 }

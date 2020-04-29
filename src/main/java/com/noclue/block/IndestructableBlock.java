@@ -24,4 +24,9 @@ public class IndestructableBlock implements Block, Drawable {
         textGraphics.putString(position.getX(),position.getY()+1,"|XXXX|",BOLD);
         textGraphics.putString(position.getX(),position.getY()+2,"+----+",BOLD);
     }
+
+    @Override
+    public boolean isFilled() {
+        return true;
+    }
 }
