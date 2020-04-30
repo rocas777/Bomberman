@@ -4,7 +4,7 @@ import com.googlecode.lanterna.TerminalPosition;
 
 import java.util.Objects;
 
-public class Position {
+public class Position implements Cloneable{
     private int x,y;
     private int x_max,y_max;
     static int x_maxG,y_maxG;
@@ -21,6 +21,17 @@ public class Position {
         this.x=x;
     }
 
+    @Override
+    public Object clone(){
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
     public int getY() {
         return y;
@@ -30,17 +41,13 @@ public class Position {
         return x;
     }
 
-    public void setY(int y) throws PositionError{
-        if(y>y_max)
-            throw new PositionError("y is bigger than y_max");
-        else
+    public void setY(int y){
+        if(!(y>y_max))
             this.y = y;
     }
 
-    public void setX(int x) throws PositionError {
-        if(x>x_max)
-            throw new PositionError("x is bigger than x_max");
-        else
+    public void setX(int x)  {
+        if(!(x>x_max))
             this.x = x;
     }
 
@@ -64,15 +71,5 @@ public class Position {
 
     public TerminalPosition getTerminalPosition(){
         return new TerminalPosition(this.x,this.y);
-    }
-}
-
-class PositionError extends Exception{
-    private String error;
-    PositionError(String error) {
-        this.error=error;
-    }
-    public String toString(){
-        return ("Position Error Occurred: "+error) ;
     }
 }
