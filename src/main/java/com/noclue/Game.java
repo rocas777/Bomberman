@@ -11,14 +11,13 @@ import com.noclue.character.TimeListener;
 
 import java.io.IOException;
 
-public class Game implements TimeListener {
+public class Game implements TimeListener, KeyboardListener {
     private static Screen screen;
     private Field field;
     boolean running;
 
     public Game(int width, int height){
         field=new Field(width,height);
-        field.setLayout();
         running=true;
         try{
             Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(width, height)).createTerminal();
@@ -34,8 +33,11 @@ public class Game implements TimeListener {
             e.printStackTrace();
         }
         Timer.addListener(field);
-        new Timer(50).start();
         Timer.addListener(this);
+        new Timer(20).start();
+
+        KeyBoard.addListener(this);
+        new KeyBoard((TerminalScreen) screen).start();
     }
 
     private void draw() throws IOException {
@@ -44,33 +46,8 @@ public class Game implements TimeListener {
         screen.refresh();
     }
 
-    private void processKey(KeyStroke key){
-
-    }
-
     public void run(){
-        try{
-            while (running) {
-                KeyStroke key = screen.readInput();
-                processKey(key);
-                if (key.getKeyType() == KeyType.Character) {
-                    //System.out.println(key.getCharacter());
-                    if (key.getCharacter() == 'q') {
-                        running = false;
-                        //System.out.println(key);
-                        screen.close();
-                    } else if (key.getKeyType() == KeyType.EOF) {
-                        running = false;
-                    } else {
-                        //System.out.println(key.getCharacter());
-                        field.updateOnKeyboard(key);
-                    }
-                }
-            }
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        field.setLayout();
     }
 
     @Override
@@ -79,6 +56,18 @@ public class Game implements TimeListener {
             draw();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateOnKeyboard(KeyStroke keyPressed) {
+        if (keyPressed.getCharacter() == 'q' || keyPressed.getKeyType() == KeyType.EOF) {
+            try {
+                screen.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
         }
     }
 }

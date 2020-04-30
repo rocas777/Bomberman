@@ -33,7 +33,6 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
         this.height = height;
         this.width = width;
         tiles=new ArrayList<>();
-
     }
 
     private void setRemovableBlocks(Position door, Position hero,int numberBlocks){
@@ -123,6 +122,7 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
     }
 
     public void setLayout() {
+
         Position hero=setHeroPos();
         Position door=setDoorPos(hero);
 
@@ -132,6 +132,8 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
 
         setHero(hero);
         setDoor(door);
+
+        KeyBoard.addListener(this);
     }
     public void draw(TextGraphics textGraphics){
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
@@ -217,7 +219,7 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
     @Override
     public void updateOnTime() {
         timerSum=timerSum+1;
-        if(timerSum==10) {
+        if(timerSum==25) {
             for (Position pos : monsters) {
                 Monster tmp_monster = (Monster) tiles.get(pos.getY()).get(pos.getX()).getFiller();
                 for (Movement m : tmp_monster.nextMove(pos)) {
