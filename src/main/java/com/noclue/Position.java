@@ -6,13 +6,8 @@ import java.util.Objects;
 
 public class Position implements Cloneable{
     private int x,y;
-    private int x_max,y_max;
-    static int x_maxG,y_maxG;
+    final private int x_max,y_max;
 
-    static void setMaxPosition(int x_max,int y_max){
-        x_maxG=x_max;
-        y_maxG=y_max;
-    }
 
     Position(int x_max,int y_max,int x,int y){
         this.x_max=x_max;
@@ -69,7 +64,4 @@ public class Position implements Cloneable{
         return Objects.hash(x, y);
     }
 
-    public TerminalPosition getTerminalPosition(){
-        return new TerminalPosition(this.x,this.y);
-    }
 }

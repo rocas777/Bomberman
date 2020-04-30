@@ -7,10 +7,11 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import com.noclue.character.TimeListener;
 
 import java.io.IOException;
 
-public class Game {
+public class Game implements TimeListener {
     private static Screen screen;
     private Field field;
     boolean running;
@@ -32,6 +33,9 @@ public class Game {
         catch(IOException e){
             e.printStackTrace();
         }
+        Timer.addListener(field);
+        new Timer(50).start();
+        Timer.addListener(this);
     }
 
     private void draw() throws IOException {
@@ -46,24 +50,7 @@ public class Game {
 
     public void run(){
         try{
-            new Thread() {
-                @Override
-                public void run() {
-                    int i=0;
-                    while (running) {
-                        try {
-                            sleep(500);    //updates field every 2s (for now)
-                            //System.out.println(1);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }
-            }.start();
-
             while (running) {
-                draw();
                 KeyStroke key = screen.readInput();
                 processKey(key);
                 if (key.getKeyType() == KeyType.Character) {
@@ -77,12 +64,20 @@ public class Game {
                     } else {
                         //System.out.println(key.getCharacter());
                         field.updateOnKeyboard(key);
-                        field.updateOnTime();
                     }
                 }
             }
         }
         catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateOnTime() {
+        try {
+            draw();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
