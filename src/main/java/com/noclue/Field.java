@@ -5,32 +5,28 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.noclue.block.Block;
 import com.noclue.block.IndestructableBlock;
 import com.noclue.block.NoBlock;
 import com.noclue.block.RemovableBlock;
 import com.noclue.character.Character;
 import com.noclue.character.Hero;
 import com.noclue.character.Monster;
+import com.noclue.character.TimeListener;
 import com.noclue.collectible.Coin;
 import com.noclue.collectible.Door;
 import com.noclue.collectible.NoCollectible;
+import com.noclue.difficulty.Easy;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-enum Movement {
-    left,
-    right,
-    up,
-    down
-}
-
-public class Field implements KeyboardListener{
+public class Field implements KeyboardListener, TimeListener {
     private final int width;
     private final int height;
     private ArrayList<ArrayList<Tile>> tiles;
-    private Tile heroTile;
+    private Position hero_pos;
+    private ArrayList<Position> monsters=new ArrayList<>();
 
     public Field(int width, int height) {
         this.height = height;
@@ -88,7 +84,9 @@ public class Field implements KeyboardListener{
             while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0)) {
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             }
-            tiles.get(block.getY()).set(block.getX(),new Tile(block, new NoCollectible(), new Monster()));
+            tiles.get(block.getY()).get(block.getX()).setFiller(new Monster(new Easy()));
+            tiles.get(block.getY()).get(block.getX()).setCollectible(new NoCollectible());
+            monsters.add((Position) block.clone());
         }
     }
 
@@ -115,7 +113,7 @@ public class Field implements KeyboardListener{
         tiles.get(position.getY()).get(position.getX()).setFiller(new Hero());
         tiles.get(position.getY()).get(position.getX()).setCollectible(new NoCollectible());
 
-        heroTile = tiles.get(position.getY()).get(position.getX());
+        hero_pos = position;
     }
 
     private void setDoor(Position position){
@@ -142,56 +140,52 @@ public class Field implements KeyboardListener{
 
         textGraphics.fillRectangle(new TerminalPosition(6, 3), new TerminalSize(width-8-6-6, height-3-3), ' ');
         for (int y=0;y<15;y++){
-            for (Tile t : tiles.get(y))
+            for (Tile t : tiles.get(y)) {
                 t.draw(textGraphics);
+            }
         }
     }
 
     private void moveLeft(Position position, Character character){
         tiles.get(position.getY()).get(position.getX()-1).setFiller(character);
         tiles.get(position.getY()).get(position.getX()).setFiller(new NoBlock());
-        heroTile=tiles.get(position.getY()).get(position.getX()-1);
+        position.setX(position.getX()-1);
     }
 
     private void moveRight(Position position, Character character){
         tiles.get(position.getY()).get(position.getX()+1).setFiller(character);
         tiles.get(position.getY()).get(position.getX()).setFiller(new NoBlock());
-        heroTile=tiles.get(position.getY()).get(position.getX()+1);
+        position.setX(position.getX()+1);
     }
 
     private void moveUp(Position position, Character character){
         tiles.get(position.getY()-1).get(position.getX()).setFiller(character);
         tiles.get(position.getY()).get(position.getX()).setFiller(new NoBlock());
-        heroTile=tiles.get(position.getY()-1).get(position.getX());
+        position.setY(position.getY()-1);
     }
 
     private void moveDown(Position position, Character character){
         tiles.get(position.getY()+1).get(position.getX()).setFiller(character);
         tiles.get(position.getY()).get(position.getX()).setFiller(new NoBlock());
-        heroTile=tiles.get(position.getY()+1).get(position.getX());
+        position.setY(position.getY()+1);
     }
 
     private  boolean checkPos(Position position, Movement movement){
         System.out.println(position.getX()+" "+position.getY());
         if (movement==Movement.left) {
             boolean a= !(tiles.get(position.getY()).get(position.getX()-1).getFiller().isFilled());
-            System.out.println(a);
             return a;
         }
         else if (movement==Movement.right) {
             boolean a=!(tiles.get(position.getY()).get(position.getX()+1).getFiller().isFilled());
-            System.out.println(tiles.get(position.getY()).get(position.getX()+1).getFiller().getClass());
-            System.out.println(a);
             return a;
         }
         else if (movement==Movement.up) {
             boolean a= !(tiles.get(position.getY()-1).get(position.getX()).getFiller().isFilled());
-            System.out.println(a);
             return a;
         }
         else if (movement==Movement.down) {
             boolean a= !(tiles.get(position.getY()+1).get(position.getX()).getFiller().isFilled());
-            System.out.println(a);
             return a;
         }
         return false;
@@ -201,21 +195,45 @@ public class Field implements KeyboardListener{
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
         if(keyPressed.getCharacter()=='a'){
-            if(checkPos(heroTile.getPosition(),Movement.left)) {
-                moveLeft(heroTile.getPosition(), (Character) heroTile.getFiller());
+            if(checkPos(hero_pos,Movement.left)) {
+                moveLeft(hero_pos, (Character) tiles.get(hero_pos.getY()).get(hero_pos.getX()).getFiller());
             }
         }
         else if(keyPressed.getCharacter()=='d'){
-            if(checkPos(heroTile.getPosition(),Movement.right))
-                moveRight(heroTile.getPosition(),(Character) heroTile.getFiller());
+            if(checkPos(hero_pos,Movement.right)) {
+                moveRight(hero_pos, (Character) tiles.get(hero_pos.getY()).get(hero_pos.getX()).getFiller());
+            }
         }
         else if(keyPressed.getCharacter()=='w'){
-            if(checkPos(heroTile.getPosition(),Movement.up))
-                moveUp(heroTile.getPosition(),(Character) heroTile.getFiller());
+            if(checkPos(hero_pos,Movement.up)) {
+                moveUp(hero_pos, (Character) tiles.get(hero_pos.getY()).get(hero_pos.getX()).getFiller());
+            }
         }
         else if(keyPressed.getCharacter()=='s'){
-            if(checkPos(heroTile.getPosition(),Movement.down))
-                moveDown(heroTile.getPosition(),(Character) heroTile.getFiller());
+            if(checkPos(hero_pos,Movement.down)) {
+                moveDown(hero_pos, (Character) tiles.get(hero_pos.getY()).get(hero_pos.getX()).getFiller());
+            }
+        }
+    }
+
+
+    @Override
+    public void updateOnTime() {
+        for(Position pos:monsters){
+            Monster tmp_monster= (Monster) tiles.get(pos.getY()).get(pos.getX()).getFiller();
+            for(Movement m:tmp_monster.nextMove(pos)) {
+                if (checkPos(pos,m)){
+                    if(m==Movement.left)
+                        moveLeft(pos,(Monster) tiles.get(pos.getY()).get(pos.getX()).getFiller());
+                    else if(m==Movement.right)
+                        moveRight(pos,(Monster) tiles.get(pos.getY()).get(pos.getX()).getFiller());
+                    else if(m==Movement.up)
+                        moveUp(pos,(Monster) tiles.get(pos.getY()).get(pos.getX()).getFiller());
+                    else if(m==Movement.down)
+                        moveDown(pos,(Monster) tiles.get(pos.getY()).get(pos.getX()).getFiller());
+                    break;
+                }
+            }
         }
     }
 }

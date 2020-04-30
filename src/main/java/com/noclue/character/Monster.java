@@ -4,11 +4,16 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.CanExplode;
 import com.noclue.Drawable;
+import com.noclue.Movement;
 import com.noclue.Position;
+import com.noclue.difficulty.Difficulty;
+
+import java.util.ArrayList;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class Monster implements Character, CanExplode, Drawable {
+    private Difficulty difficulty;
     @Override
     public void draw(TextGraphics textGraphics, Position position) {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
@@ -23,5 +28,13 @@ public class Monster implements Character, CanExplode, Drawable {
     @Override
     public boolean isFilled() {
         return true;
+    }
+
+    public Monster(Difficulty difficulty){
+        this.difficulty=difficulty;
+    }
+
+    public ArrayList<Movement> nextMove(Position position){
+        return difficulty.nextMove(position);
     }
 }

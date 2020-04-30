@@ -1,5 +1,6 @@
 package com.noclue.difficulty;
 
+import com.noclue.Movement;
 import com.noclue.Position;
 
 import java.util.ArrayList;
@@ -7,43 +8,24 @@ import java.util.Random;
 
 public class Easy implements Difficulty {
 
-    private ArrayList<Position> randomizeArray(ArrayList<Position> positions){
+    private ArrayList<Movement> randomizeArray(ArrayList<Movement> movements){
         Random rand=new Random();
-        for (int i = 0; i < positions.size(); i++) {
-            int randomIndexToSwap = rand.nextInt(positions.size());
-            Position temp = positions.get(randomIndexToSwap);
-            positions.set(randomIndexToSwap,positions.get(i));
-            positions.set(i,temp);
+        for (int i = 0; i < movements.size(); i++) {
+            int randomIndexToSwap = rand.nextInt(movements.size());
+            Movement temp = movements.get(randomIndexToSwap);
+            movements.set(randomIndexToSwap,movements.get(i));
+            movements.set(i,temp);
         }
-        return positions;
+        return movements;
     }
     @Override
-    public ArrayList<Position> nextMove(Position position) {
-        Position _1 = position;
-        Position _2 = position;
-        Position _3 = position;
-        Position _4 = position;
-        try {
-            _1.setX(position.getX() + 1);
-        } catch (Exception positionError) {
-            positionError.printStackTrace();
-        }
-        try {
-            _2.setY(position.getY() + 1);
-        } catch (Exception positionError) {
-            positionError.printStackTrace();
-        }
-        try {
-            _3.setX(position.getX() - 1);
-        } catch (Exception positionError) {
-            positionError.printStackTrace();
-        }
-        try {
-            _4.setY(position.getY() - 1);
-        } catch (Exception positionError) {
-            positionError.printStackTrace();
-        }
-        ArrayList<Position> out=new ArrayList<Position>(){
+    public ArrayList<Movement> nextMove(Position position) {
+        Movement _1 = Movement.left;
+        Movement _2 = Movement.right;
+        Movement _3 = Movement.up;
+        Movement _4 = Movement.down;
+
+        ArrayList<Movement> out=new ArrayList<com.noclue.Movement>(){
             {
                 add(_1);
                 add(_2);

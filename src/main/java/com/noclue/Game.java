@@ -67,16 +67,17 @@ public class Game {
                 KeyStroke key = screen.readInput();
                 processKey(key);
                 if (key.getKeyType() == KeyType.Character) {
-                    System.out.println(key.getCharacter());
+                    //System.out.println(key.getCharacter());
                     if (key.getCharacter() == 'q') {
                         running = false;
-                        System.out.println(key);
+                        //System.out.println(key);
                         screen.close();
                     } else if (key.getKeyType() == KeyType.EOF) {
                         running = false;
                     } else {
-                        System.out.println(key.getCharacter());
+                        //System.out.println(key.getCharacter());
                         field.updateOnKeyboard(key);
+                        field.updateOnTime();
                     }
                 }
             }
