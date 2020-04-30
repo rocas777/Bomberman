@@ -5,6 +5,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.noclue.block.IndestructibleBlock;
 import com.noclue.block.NoBlock;
 import com.noclue.block.RemovableBlock;
@@ -26,6 +27,7 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
     final private ArrayList<ArrayList<Tile>> tiles;
     private Position hero_pos;
     private ArrayList<Position> monsters=new ArrayList<>();
+    Bomb bomb=null;
 
     private int timerSum=0;
 
@@ -147,6 +149,9 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
                 t.draw(textGraphics);
             }
         }
+        if(bomb!=null)
+            bomb.draw(textGraphics);
+
     }
 
     private void moveLeft(Position position, Character character){
@@ -174,7 +179,7 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
     }
 
     private  boolean checkPos(Position position, Movement movement){
-        System.out.println(position.getX()+" "+position.getY());
+        //System.out.println(position.getX()+" "+position.getY());
         if (movement==Movement.left) {
             return !(tiles.get(position.getY()).get(position.getX()-1).isFilled());
         }
@@ -213,6 +218,11 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
                 moveDown(hero_pos, (Character) tiles.get(hero_pos.getY()).get(hero_pos.getX()).getFiller());
             }
         }
+        else if(keyPressed.getCharacter()=='p'){
+            //System.out.println("ENTER");
+            bomb=new Bomb(2000,this, (Position) hero_pos.clone());
+            bomb.start();
+        }
     }
 
 
@@ -242,6 +252,7 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
 
     @Override
     public void explode(Position position) {
-
+        System.out.println("OKK");
+        bomb=null;
     }
 }
