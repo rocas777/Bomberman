@@ -13,9 +13,9 @@ public class Monster implements Character, CanExplode, Drawable {
     public void draw(TextGraphics textGraphics, Position position) {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
-        textGraphics.putString(position.getX(),position.getY(),"*(OO)*",BOLD);
-        textGraphics.putString(position.getX(),position.getY()+1,"X=VV=X",BOLD);
-        textGraphics.putString(position.getX(),position.getY()+2,"X=VV=X",BOLD);
+        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY(),"*(OO)*",BOLD);
+        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+1,"X=VV=X",BOLD);
+        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2,"X=VV=X",BOLD);
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
     }

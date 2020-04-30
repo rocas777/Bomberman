@@ -42,18 +42,16 @@ public class Field implements KeyboardListener{
         Random random=new Random();
         for(int i=0;i<numerOfBlocks;i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
-            Position nblock=new Position(23*6+20,15*3+6,block.getX()*6,block.getY()*3);
 
-            while(nblock.equals(hero)|| nblock.equals(door) || (block.getY()%2==0 && block.getX()%2==0) ||(block.getX()<4 && block.getY()<4)) {
+            while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0) ||(block.getX()<4 && block.getY()<4)) {
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
-                nblock=new Position(23*6+20,15*3+6,block.getX()*6,block.getY()*3);
             }
 
             boolean coin=random.nextBoolean();
             if(coin) {
-                tiles.get(block.getY()).set(block.getX(),new Tile(nblock, new Coin(), new RemovableBlock(nblock)));
+                tiles.get(block.getY()).set(block.getX(),new Tile(block, new Coin(), new RemovableBlock(block)));
             }
-            else {tiles.get(block.getY()).set(block.getX(),new Tile(nblock, new NoCollectible(), new RemovableBlock(nblock)));
+            else {tiles.get(block.getY()).set(block.getX(),new Tile(block, new NoCollectible(), new RemovableBlock(block)));
             }
         }
     }
@@ -62,7 +60,7 @@ public class Field implements KeyboardListener{
         for(int y=0;y<15;y++){
             tiles.add(new ArrayList<>());
             for(int x=0;x<23;x++){
-                Position p=new Position(23 * 6 + 20, 15 * 3 + 6, x * 6, y * 3);
+                Position p=new Position(23, 15, x, y);
                 //System.out.println(door.getX()+" "+door.getY());
                 if(x==0 || x==22 || y==0 || y==14) {
                     tiles.get(y).add(new Tile(p, new Coin(),new IndestructableBlock(p)));
@@ -86,44 +84,42 @@ public class Field implements KeyboardListener{
         Random random=new Random();
         for(int i=0;i<numberOfMonsters;i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
-            Position nblock=new Position(23*6+20,15*3+6,block.getX()*6,block.getY()*3);
 
-            while(nblock.equals(hero)|| nblock.equals(door) || (block.getY()%2==0 && block.getX()%2==0)) {
+            while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0)) {
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
-                nblock=new Position(23*6+20,15*3+6,block.getX()*6,block.getY()*3);
             }
-            tiles.get(block.getY()).set(block.getX(),new Tile(nblock, new NoCollectible(), new Monster()));
+            tiles.get(block.getY()).set(block.getX(),new Tile(block, new NoCollectible(), new Monster()));
         }
     }
 
     private Position setHeroPos(){
         Random random=new Random();
-        Position hero=new Position(23*6+20,15*6+20,6,3);
+        Position hero=new Position(23,15,1,1);
         while (hero.getX()%2==0 && hero.getY()%2==0) {
-            hero = new Position(23 * 6 + 20, 15 * 6 + 20, (random.nextInt(23)) * 6, (random.nextInt(13) * 3));
+            hero = new Position(23, 15, (random.nextInt(23)), (random.nextInt(13)));
         }
         return hero;
     }
 
     private Position setDoorPos(Position hero){
         Random random=new Random();
-        Position door=new Position(23*6+20,15*6+20,(random.nextInt(12)+10)*6,(random.nextInt(6)+6)*3);
+        Position door=new Position(23,15,(random.nextInt(12)+10),(random.nextInt(6)+6));
         while ((door.getX()%2==0 && door.getY()%2==0) || door.equals(hero)){
-            door=new Position(23*6+20,15*6+20,(random.nextInt(23))*6,(random.nextInt(13)*3));
+            door=new Position(23,15,(random.nextInt(23)),(random.nextInt(13)));
         }
         return door;
     }
 
 
     private void setHero(Position position){
-        tiles.get((position.getY())/3).get((position.getX())/6).setFiller(new Hero());
-        tiles.get((position.getY())/3).get((position.getX())/6).setCollectible(new NoCollectible());
+        tiles.get(position.getY()).get(position.getX()).setFiller(new Hero());
+        tiles.get(position.getY()).get(position.getX()).setCollectible(new NoCollectible());
 
-        heroTile = tiles.get((position.getY())/3).get((position.getX())/6);
+        heroTile = tiles.get(position.getY()).get(position.getX());
     }
 
     private void setDoor(Position position){
-        tiles.get((position.getY())/3).set((position.getX())/6,new Tile(position, new Door(),new RemovableBlock(position)));
+        tiles.get(position.getY()).set(position.getX(),new Tile(position, new Door(),new RemovableBlock(position)));
     }
 
     public void setLayout() {
@@ -151,59 +147,50 @@ public class Field implements KeyboardListener{
         }
     }
 
-    private void moveHeroLeft(Position position){
-        //Tile tile_tmp = (tiles.get(position.getY()).get(position.getX()));
-        //Hero hero_tmp=(Hero)(tile_tmp.getFiller());
+    private void moveLeft(Position position, Character character){
+        tiles.get(position.getY()).get(position.getX()-1).setFiller(character);
         tiles.get(position.getY()).get(position.getX()).setFiller(new NoBlock());
-        tiles.get(position.getY()).get(position.getX()-1).setFiller(tiles.get(position.getY()).get(position.getX()).getFiller());
-        System.out.println("left");
+        heroTile=tiles.get(position.getY()).get(position.getX()-1);
     }
 
-    private void moveHeroRight(Position position){
-        System.out.println(position.getX()+" "+position.getY());
-        Tile tile_tmp = (tiles.get(position.getY()).get(position.getX()));
-        Filler hero_tmp=(tile_tmp.getFiller());
-        tile_tmp.setFiller(new NoBlock());
-        tiles.get(position.getY()).get(position.getX()+1).setFiller(hero_tmp);
-        System.out.println("right ole");
+    private void moveRight(Position position, Character character){
+        tiles.get(position.getY()).get(position.getX()+1).setFiller(character);
+        tiles.get(position.getY()).get(position.getX()).setFiller(new NoBlock());
+        heroTile=tiles.get(position.getY()).get(position.getX()+1);
     }
 
-    private void moveHeroUp(Position position){
-        Tile tile_tmp = (tiles.get(position.getY()).get(position.getX()));
-        Hero hero_tmp=(Hero)(tile_tmp.getFiller());
-        tile_tmp.setFiller(new NoBlock());
-        tiles.get(position.getY()-1).get(position.getX()).setFiller(hero_tmp);
-        System.out.println("up");
+    private void moveUp(Position position, Character character){
+        tiles.get(position.getY()-1).get(position.getX()).setFiller(character);
+        tiles.get(position.getY()).get(position.getX()).setFiller(new NoBlock());
+        heroTile=tiles.get(position.getY()-1).get(position.getX());
     }
 
-    private void moveHeroDown(Position position){
-        Tile tile_tmp = (tiles.get(position.getY()).get(position.getX()));
-        Hero hero_tmp=(Hero)(tile_tmp.getFiller());
-        tile_tmp.setFiller(new NoBlock());
-        tiles.get(position.getY()+1).get(position.getX()).setFiller(hero_tmp);
-        System.out.println("down");
+    private void moveDown(Position position, Character character){
+        tiles.get(position.getY()+1).get(position.getX()).setFiller(character);
+        tiles.get(position.getY()).get(position.getX()).setFiller(new NoBlock());
+        heroTile=tiles.get(position.getY()+1).get(position.getX());
     }
 
     private  boolean checkPos(Position position, Movement movement){
         System.out.println(position.getX()+" "+position.getY());
         if (movement==Movement.left) {
-            boolean a= !(tiles.get(position.getY()).get(position.getX()-6).getFiller().isFilled());
+            boolean a= !(tiles.get(position.getY()).get(position.getX()-1).getFiller().isFilled());
             System.out.println(a);
             return a;
         }
         else if (movement==Movement.right) {
-            boolean a=!(tiles.get(position.getY()).get(position.getX()+6).getFiller().isFilled());
-            System.out.println(tiles.get(position.getY()).get(position.getX()+6).getFiller().getClass());
+            boolean a=!(tiles.get(position.getY()).get(position.getX()+1).getFiller().isFilled());
+            System.out.println(tiles.get(position.getY()).get(position.getX()+1).getFiller().getClass());
             System.out.println(a);
             return a;
         }
         else if (movement==Movement.up) {
-            boolean a= !(tiles.get(position.getY()-3).get(position.getX()).getFiller().isFilled());
+            boolean a= !(tiles.get(position.getY()-1).get(position.getX()).getFiller().isFilled());
             System.out.println(a);
             return a;
         }
         else if (movement==Movement.down) {
-            boolean a= !(tiles.get(position.getY()+3).get(position.getX()).getFiller().isFilled());
+            boolean a= !(tiles.get(position.getY()+1).get(position.getX()).getFiller().isFilled());
             System.out.println(a);
             return a;
         }
@@ -215,20 +202,20 @@ public class Field implements KeyboardListener{
     public void updateOnKeyboard(KeyStroke keyPressed) {
         if(keyPressed.getCharacter()=='a'){
             if(checkPos(heroTile.getPosition(),Movement.left)) {
-                moveHeroLeft(heroTile.getPosition());
+                moveLeft(heroTile.getPosition(), (Character) heroTile.getFiller());
             }
         }
         else if(keyPressed.getCharacter()=='d'){
             if(checkPos(heroTile.getPosition(),Movement.right))
-                moveHeroRight(heroTile.getPosition());
+                moveRight(heroTile.getPosition(),(Character) heroTile.getFiller());
         }
         else if(keyPressed.getCharacter()=='w'){
             if(checkPos(heroTile.getPosition(),Movement.up))
-                moveHeroUp(heroTile.getPosition());
+                moveUp(heroTile.getPosition(),(Character) heroTile.getFiller());
         }
         else if(keyPressed.getCharacter()=='s'){
             if(checkPos(heroTile.getPosition(),Movement.down))
-                moveHeroDown(heroTile.getPosition());
+                moveDown(heroTile.getPosition(),(Character) heroTile.getFiller());
         }
     }
 }

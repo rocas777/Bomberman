@@ -13,9 +13,9 @@ public class Hero implements Character, CanExplode, Drawable {
     public void draw(TextGraphics textGraphics, Position position) {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0000FF"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
-        textGraphics.putString(position.getX(),position.getY(),"  ()  ",BOLD);
-        textGraphics.putString(position.getX(),position.getY()+1,"0=||=0",BOLD);
-        textGraphics.putString(position.getX(),position.getY()+2,"0=||=0",BOLD);
+        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY(),"  ()  ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+1,"0=||=0",BOLD);
+        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2,"0=||=0",BOLD);
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
     }

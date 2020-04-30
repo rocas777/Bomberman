@@ -44,6 +44,10 @@ public class Position {
             this.x = x;
     }
 
+    public Position getRealPosition(){
+        return new Position(x_max*6+20,y_max*3+20,x*6,y*3);
+    }
+
 
     @Override
     public boolean equals(Object o) {
