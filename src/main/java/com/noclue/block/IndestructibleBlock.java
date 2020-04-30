@@ -2,17 +2,15 @@ package com.noclue.block;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.noclue.CanExplode;
 import com.noclue.Drawable;
-import com.noclue.Filler;
 import com.noclue.Position;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
 
-public class IndestructableBlock implements Block, Drawable {
-    private Position position;
-    public IndestructableBlock(Position position){
-       this.position=position;
+public class IndestructibleBlock implements Block, Drawable {
+    public IndestructibleBlock(){
     }
 
 

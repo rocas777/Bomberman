@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class Monster implements Character, CanExplode, Drawable {
-    private Difficulty difficulty;
+    final private Difficulty difficulty;
     @Override
     public void draw(TextGraphics textGraphics, Position position) {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));

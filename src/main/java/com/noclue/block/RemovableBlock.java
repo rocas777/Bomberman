@@ -4,15 +4,13 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.CanExplode;
 import com.noclue.Drawable;
-import com.noclue.Filler;
 import com.noclue.Position;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class RemovableBlock implements Block, CanExplode, Drawable {
-    private Position position;
-    public RemovableBlock(Position position){
-        this.position=position;
+    public RemovableBlock(){
+
     }
 
 

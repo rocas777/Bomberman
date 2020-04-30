@@ -7,7 +7,7 @@ import com.noclue.collectible.Collectible;
 public class Tile {
     Filler filler;
     Collectible collectible;
-    Position position;
+    final Position position;
 
     Tile(Position position, Collectible collectible, Filler filler){
         this.collectible=collectible;
@@ -24,15 +24,15 @@ public class Tile {
         return filler;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
     public void setCollectible(Collectible collectible) {
         this.collectible = collectible;
     }
 
     public void setFiller(Filler filler) {
         this.filler = filler;
+    }
+
+    public boolean isFilled(){
+        return filler.isFilled();
     }
 }
