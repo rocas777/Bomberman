@@ -18,7 +18,6 @@ public class Game implements TimeListener {
 
     public Game(int width, int height){
         field=new Field(width,height);
-        field.setLayout();
         running=true;
         try{
             Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(width, height)).createTerminal();
@@ -34,8 +33,10 @@ public class Game implements TimeListener {
             e.printStackTrace();
         }
         Timer.addListener(field);
-        new Timer(50).start();
         Timer.addListener(this);
+        new Timer(50).start();
+
+        new KeyBoard((TerminalScreen) screen).start();
     }
 
     private void draw() throws IOException {
@@ -44,33 +45,8 @@ public class Game implements TimeListener {
         screen.refresh();
     }
 
-    private void processKey(KeyStroke key){
-
-    }
-
     public void run(){
-        try{
-            while (running) {
-                KeyStroke key = screen.readInput();
-                processKey(key);
-                if (key.getKeyType() == KeyType.Character) {
-                    //System.out.println(key.getCharacter());
-                    if (key.getCharacter() == 'q') {
-                        running = false;
-                        //System.out.println(key);
-                        screen.close();
-                    } else if (key.getKeyType() == KeyType.EOF) {
-                        running = false;
-                    } else {
-                        //System.out.println(key.getCharacter());
-                        field.updateOnKeyboard(key);
-                    }
-                }
-            }
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        field.setLayout();
     }
 
     @Override
