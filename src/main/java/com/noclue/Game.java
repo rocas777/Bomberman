@@ -11,7 +11,7 @@ import com.noclue.character.TimeListener;
 
 import java.io.IOException;
 
-public class Game implements TimeListener {
+public class Game implements TimeListener, KeyboardListener {
     private static Screen screen;
     private Field field;
     boolean running;
@@ -34,8 +34,9 @@ public class Game implements TimeListener {
         }
         Timer.addListener(field);
         Timer.addListener(this);
-        new Timer(50).start();
+        new Timer(20).start();
 
+        KeyBoard.addListener(this);
         new KeyBoard((TerminalScreen) screen).start();
     }
 
@@ -55,6 +56,18 @@ public class Game implements TimeListener {
             draw();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateOnKeyboard(KeyStroke keyPressed) {
+        if (keyPressed.getCharacter() == 'q' || keyPressed.getKeyType() == KeyType.EOF) {
+            try {
+                screen.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
         }
     }
 }

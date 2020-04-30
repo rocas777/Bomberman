@@ -219,7 +219,7 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
     @Override
     public void updateOnTime() {
         timerSum=timerSum+1;
-        if(timerSum==10) {
+        if(timerSum==25) {
             for (Position pos : monsters) {
                 Monster tmp_monster = (Monster) tiles.get(pos.getY()).get(pos.getX()).getFiller();
                 for (Movement m : tmp_monster.nextMove(pos)) {

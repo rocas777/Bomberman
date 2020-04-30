@@ -29,17 +29,8 @@ public class KeyBoard {
                 try {
                     key = screen.readInput();
                     if (key.getKeyType() == KeyType.Character) {
-                        //System.out.println(key.getCharacter());
-                        if (key.getCharacter() == 'q') {
-                            isOn = false;
-                            //System.out.println(key);
-                            screen.close();
-                        } else if (key.getKeyType() == KeyType.EOF) {
-                            isOn = false;
-                        } else {
-                            for(KeyboardListener listener:keyboardListeners)
-                                listener.updateOnKeyboard(key);
-                        }
+                        for(KeyboardListener listener:keyboardListeners)
+                            listener.updateOnKeyboard(key);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
