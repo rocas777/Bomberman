@@ -1,7 +1,7 @@
 package com.noclue.model;
 
 import com.noclue.ExplosionListener;
-import com.noclue.TimerInterface;
+import com.noclue.controller.TimerInterface;
 
 public class BombModel {
     private int mseconds;

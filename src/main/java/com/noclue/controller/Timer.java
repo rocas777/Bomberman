@@ -1,8 +1,6 @@
-package com.noclue;
+package com.noclue.controller;
 
 import com.googlecode.lanterna.screen.Screen;
-import com.noclue.TimerInterface;
-import com.noclue.TimeListener;
 
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;

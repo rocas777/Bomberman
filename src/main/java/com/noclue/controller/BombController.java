@@ -1,7 +1,6 @@
 package com.noclue.controller;
 
 import com.noclue.model.BombModel;
-import com.noclue.TimeListener;
 import com.noclue.view.BombView;
 
 public class BombController implements TimeListener {

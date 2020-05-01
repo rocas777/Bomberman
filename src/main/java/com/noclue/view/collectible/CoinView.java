@@ -2,7 +2,7 @@ package com.noclue.view.collectible;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.Position;
-import com.noclue.TimeListener;
+import com.noclue.controller.TimeListener;
 import com.noclue.model.collectible.CoinModel;
 
 import static com.googlecode.lanterna.SGR.BOLD;

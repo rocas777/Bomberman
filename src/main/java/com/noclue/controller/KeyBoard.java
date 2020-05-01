@@ -1,9 +1,8 @@
-package com.noclue;
+package com.noclue.controller;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.TerminalScreen;
-import com.noclue.KeyboardListener;
 
 import java.io.IOException;
 import java.util.ArrayList;

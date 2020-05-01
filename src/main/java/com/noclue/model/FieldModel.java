@@ -1,8 +1,8 @@
 package com.noclue.model;
 
 import com.noclue.*;
-import com.noclue.KeyBoard;
-import com.noclue.Timer;
+import com.noclue.controller.KeyBoard;
+import com.noclue.controller.Timer;
 
 import java.util.ArrayList;
 

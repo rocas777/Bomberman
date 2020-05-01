@@ -1,4 +1,4 @@
-package com.noclue;
+package com.noclue.controller;
 
 public interface TimeListener {
     void updateOnTime();

@@ -1,4 +1,6 @@
-package com.noclue;
+package com.noclue.controller;
+
+import com.noclue.controller.TimeListener;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
