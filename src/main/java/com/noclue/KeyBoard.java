@@ -9,15 +9,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class KeyBoard {
-    static private ArrayList<KeyboardListener> keyboardListeners=new ArrayList<>();
+    private ArrayList<KeyboardListener> keyboardListeners=new ArrayList<>();
     boolean isOn;
-    static private TerminalScreen screen;
+    private TerminalScreen screen;
     KeyBoard(TerminalScreen screen){
         isOn=false;
-        KeyBoard.screen=screen;
+        this.screen=screen;
     }
 
-    static public void addListener(KeyboardListener keyboardListener){
+    public void addListener(KeyboardListener keyboardListener){
         keyboardListeners.add(keyboardListener);
     }
 

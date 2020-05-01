@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'info.solidsoft.pitest' version '1.4.6'
 }
 
 group 'com.noclue'
@@ -24,3 +25,6 @@ application {
     mainClassName = 'com.noclue.Bomberman'
 }
 
+pitest {
+    targetClasses = ['com.noclue.*']
+}

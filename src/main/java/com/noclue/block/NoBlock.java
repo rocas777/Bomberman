@@ -16,7 +16,6 @@ public class NoBlock implements Block {
         textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2,"      ",BOLD);
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
-
     }
 
     @Override
