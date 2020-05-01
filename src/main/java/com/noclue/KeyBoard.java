@@ -1,4 +1,4 @@
-package com.noclue.controller;
+package com.noclue;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;

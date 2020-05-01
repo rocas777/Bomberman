@@ -1,16 +1,11 @@
 package com.noclue.model.character;
 
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.CanExplode;
-import com.noclue.Drawable;
 import com.noclue.Movement;
 import com.noclue.model.Position;
 import com.noclue.model.difficulty.Difficulty;
 
 import java.util.ArrayList;
-
-import static com.googlecode.lanterna.SGR.BOLD;
 
 public class MonsterModel implements Character, CanExplode {
     final private Difficulty difficulty;

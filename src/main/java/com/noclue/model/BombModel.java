@@ -1,12 +1,7 @@
 package com.noclue.model;
 
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.ExplosionListener;
 import com.noclue.TimerInterface;
-import com.noclue.model.character.TimeListener;
-
-import static com.googlecode.lanterna.SGR.BOLD;
 
 public class BombModel {
     private int mseconds;
