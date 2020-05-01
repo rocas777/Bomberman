@@ -11,9 +11,9 @@ public class Bomb implements TimeListener {
     private int sum = 0;
     private ExplosionListener explosionListener;
     Position position;
-    Timer timer;
+    TimerInterface timer;
 
-    public Bomb(int mseconds,ExplosionListener explosionListener,Position position,Timer timer){
+    public Bomb(int mseconds,ExplosionListener explosionListener,Position position,TimerInterface timer){
         synchronized (explosionListener) {
             this.explosionListener = explosionListener;
         }
@@ -27,13 +27,11 @@ public class Bomb implements TimeListener {
     @Override
     public void updateOnTime() {
         sum++;
-        System.out.println(sum);
         if(sum*timer.getMSeconds()>mseconds) {
             synchronized (explosionListener) {
                 explosionListener.explode(position);
             }
             timer.removeListener(this);
-            timer=null;
         }
     }
     public void draw(TextGraphics textGraphics){

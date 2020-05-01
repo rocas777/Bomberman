@@ -2,10 +2,11 @@ package com.noclue;
 
 import com.noclue.character.TimeListener;
 
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Timer {
+public class Timer implements TimerInterface{
     private CopyOnWriteArrayList<TimeListener> timeListeners = new CopyOnWriteArrayList<TimeListener>();
 
     private int mseconds;
@@ -45,8 +46,7 @@ public class Timer {
         new Thread(() -> {
             while (isOn) {
                 try {
-                    for (TimeListener t : timeListeners)
-                        t.updateOnTime();
+                    updateListeners(timeListeners);
                     if(mseconds<1) {
                         return;
                     }
@@ -60,5 +60,11 @@ public class Timer {
 
     public void stop(){
         isOn=false;
+    }
+
+    @Override
+    public void updateListeners(CopyOnWriteArrayList<TimeListener> timeListeners) {
+        for (TimeListener t : timeListeners)
+            t.updateOnTime();
     }
 }
