@@ -1,8 +1,7 @@
 package com.noclue;
 
-import com.noclue.character.TimeListener;
+import com.noclue.model.character.TimeListener;
 
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public interface TimerInterface {
