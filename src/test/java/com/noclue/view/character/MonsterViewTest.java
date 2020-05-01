@@ -57,6 +57,10 @@ public class MonsterViewTest {
         MonsterModel monsterModel = Mockito.mock(MonsterModel.class);
         TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
         Position position = Mockito.mock(Position.class);
+        when(position.getRealPosition()).thenReturn(position);
+        when(position.getX()).thenReturn(20);
+        when(position.getY()).thenReturn(20);
+
 
         when(monsterModel.getPosition()).thenReturn(position);
         monsterView = new MonsterView(monsterModel,textGraphics);
