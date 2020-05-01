@@ -28,6 +28,9 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
     private Position hero_pos;
     private ArrayList<Position> monsters=new ArrayList<>();
     Bomb bomb=null;
+    KeyBoard kServer;
+    Timer tServer;
+
 
     private int timerSum=0;
 
@@ -123,6 +126,14 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
         tiles.get(position.getY()).set(position.getX(),new Tile(position, new Door(),new RemovableBlock()));
     }
 
+    public void setkServer(KeyBoard kServer) {
+        this.kServer = kServer;
+    }
+
+    public void settServer(Timer tServer) {
+        this.tServer = tServer;
+    }
+
     public void setLayout() {
 
         Position hero=setHeroPos();
@@ -135,7 +146,7 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
         setHero(hero);
         setDoor(door);
 
-        KeyBoard.addListener(this);
+        kServer.addListener(this);
     }
     public void draw(TextGraphics textGraphics){
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
@@ -220,8 +231,7 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
         }
         else if(keyPressed.getCharacter()=='p'){
             //System.out.println("ENTER");
-            bomb=new Bomb(2000,this, (Position) hero_pos.clone());
-            bomb.start();
+            bomb=new Bomb(2000,this, (Position) hero_pos.clone(),new Timer(1000));
         }
     }
 

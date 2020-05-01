@@ -32,12 +32,18 @@ public class Game implements TimeListener, KeyboardListener {
         catch(IOException e){
             e.printStackTrace();
         }
-        Timer.addListener(field);
-        Timer.addListener(this);
-        new Timer(20).start();
 
-        KeyBoard.addListener(this);
-        new KeyBoard((TerminalScreen) screen).start();
+        Timer t=new Timer(20);
+        t.addListener(field);
+        t.addListener(this);
+        t.start();
+
+        KeyBoard k= new KeyBoard((TerminalScreen) screen);
+        k.addListener(this);
+        k.start();
+
+        field.setkServer(k);
+        field.settServer(t);
     }
 
     private void draw() throws IOException {

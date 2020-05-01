@@ -8,29 +8,32 @@ import static com.googlecode.lanterna.SGR.BOLD;
 
 public class Bomb implements TimeListener {
     private int mseconds;
-    private int sum;
+    private int sum = 0;
     private ExplosionListener explosionListener;
     Position position;
-    public Bomb(int mseconds,ExplosionListener explosionListener,Position position){
+    Timer timer;
+
+    public Bomb(int mseconds,ExplosionListener explosionListener,Position position,Timer timer){
         synchronized (explosionListener) {
             this.explosionListener = explosionListener;
         }
         this.mseconds=mseconds;
         this.position=position;
-    }
-    public void start(){
-        Timer.addListener(this);
+        this.timer = timer;
+        timer.addListener(this);
+        timer.start();
     }
 
     @Override
     public void updateOnTime() {
         sum++;
         System.out.println(sum);
-        if(sum*Timer.getMSeconsd()>=mseconds) {
+        if(sum*timer.getMSeconds()>mseconds) {
             synchronized (explosionListener) {
                 explosionListener.explode(position);
             }
-            Timer.removeListener(this);
+            timer.removeListener(this);
+            timer=null;
         }
     }
     public void draw(TextGraphics textGraphics){

@@ -2,42 +2,42 @@ package com.noclue;
 
 import com.noclue.character.TimeListener;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Timer {
-    static CopyOnWriteArrayList<TimeListener> timeListeners = new CopyOnWriteArrayList<TimeListener>(); ;
+    private CopyOnWriteArrayList<TimeListener> timeListeners = new CopyOnWriteArrayList<TimeListener>();
 
-    static private int mseconds;
-    boolean isOn;
+    private int mseconds;
+    private boolean isOn;
     Timer(int mseconds){
-        Timer.mseconds=mseconds;
+        this.mseconds=mseconds;
         isOn=false;
     }
-    static public int getMSeconsd(){
+    public int getMSeconds(){
         return mseconds;
     }
 
-    static public void addListener(TimeListener timeListener){
+    public boolean addListener(TimeListener timeListener){
         try {
             timeListeners.add(timeListener);
+            return true;
         }
         catch (Exception e){
-            e.printStackTrace();
+            return false;
         }
-
     }
 
-    static public void removeListener(TimeListener timeListener){
+
+
+    public boolean removeListener(TimeListener timeListener){
         try {
             timeListeners.remove(timeListener);
-        } catch (Exception e) {
-            e.printStackTrace();
-
+            return true;
         }
-
+        catch (Exception e){
+            return false;
+        }
     }
 
     public void start(){
@@ -47,9 +47,11 @@ public class Timer {
                 try {
                     for (TimeListener t : timeListeners)
                         t.updateOnTime();
-
+                    if(mseconds<1) {
+                        return;
+                    }
                     java.lang.Thread.sleep(mseconds);
-                } catch (Exception e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
