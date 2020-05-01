@@ -1,27 +1,10 @@
 package com.noclue.model;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.input.KeyStroke;
 import com.noclue.*;
-import com.noclue.controller.KeyBoard;
-import com.noclue.controller.Timer;
-import com.noclue.model.block.IndestructibleBlockModel;
-import com.noclue.model.block.NoBlockModel;
-import com.noclue.model.block.RemovableBlockModel;
-import com.noclue.model.character.Character;
-import com.noclue.model.character.HeroModel;
-import com.noclue.model.character.MonsterModel;
-import com.noclue.model.character.TimeListener;
-import com.noclue.model.collectible.CoinModel;
-import com.noclue.model.collectible.DoorModel;
-import com.noclue.model.collectible.NoCollectibleModel;
-import com.noclue.model.difficulty.Easy;
+import com.noclue.KeyBoard;
+import com.noclue.Timer;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class FieldModel  {
     private final int width;

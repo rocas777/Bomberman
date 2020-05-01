@@ -4,8 +4,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.Position;
 import com.noclue.model.block.IndestructibleBlockModel;
-import com.noclue.model.character.TimeListener;
-import com.noclue.model.collectible.CoinModel;
+import com.noclue.TimeListener;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 

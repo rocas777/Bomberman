@@ -5,6 +5,8 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.noclue.ExplosionListener;
 import com.noclue.KeyboardListener;
 import com.noclue.Movement;
+import com.noclue.TimeListener;
+import com.noclue.Timer;
 import com.noclue.model.BombModel;
 import com.noclue.model.FieldModel;
 import com.noclue.model.Position;
@@ -15,9 +17,7 @@ import com.noclue.model.block.RemovableBlockModel;
 import com.noclue.model.character.Character;
 import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
-import com.noclue.model.character.TimeListener;
 import com.noclue.model.collectible.CoinModel;
-import com.noclue.model.collectible.DoorModel;
 import com.noclue.model.collectible.NoCollectibleModel;
 import com.noclue.model.difficulty.Easy;
 import com.noclue.view.BombView;
@@ -31,7 +31,7 @@ import com.noclue.view.collectible.CoinView;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class FieldController implements KeyboardListener, TimeListener, ExplosionListener {
+class FieldController implements KeyboardListener, TimeListener, ExplosionListener {
     int timerSum=0;
     FieldModel model;
     FieldView view;

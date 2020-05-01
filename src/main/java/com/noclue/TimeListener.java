@@ -1,4 +1,4 @@
-package com.noclue.model.character;
+package com.noclue;
 
 public interface TimeListener {
     void updateOnTime();
