@@ -53,7 +53,7 @@ public class Game implements TimeListener, KeyboardListener {
     }
 
     public void run(){
-        field.setLayout();
+        field.setup();
     }
 
     @Override

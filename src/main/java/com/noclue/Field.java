@@ -134,7 +134,7 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
         this.tServer = tServer;
     }
 
-    public void setLayout() {
+    public void setup() {
 
         Position hero=setHeroPos();
         Position door=setDoorPos(hero);
@@ -262,7 +262,6 @@ public class Field implements KeyboardListener, TimeListener, ExplosionListener 
 
     @Override
     public void explode(Position position) {
-        System.out.println("OKK");
         bomb=null;
     }
 }
