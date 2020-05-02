@@ -1,5 +1,6 @@
 package com.noclue.view.character;
 
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.controller.TimeListener;
 import com.noclue.controller.Timer;
@@ -12,6 +13,7 @@ import org.mockito.Mockito;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static com.googlecode.lanterna.SGR.BOLD;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -74,7 +76,20 @@ public class MonsterViewTest {
 
     @Test
     public void draw() {
+        monsterView.draw(monsterView.getTextGraphics(),monsterView.getMonsterModel().getPosition());
 
+        Mockito.verify(monsterView.getTextGraphics(),Mockito.times(1))
+                .setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
+        Mockito.verify(monsterView.getTextGraphics(),Mockito.times(2))
+                .setForegroundColor(TextColor.Factory.fromString("#ffffff"));
+        Mockito.verify(monsterView.getTextGraphics(),Mockito.times(1))
+                .putString(monsterView.getMonsterModel().getPosition().getRealPosition().getX(),monsterView.getMonsterModel().getPosition().getRealPosition().getY(),"*(OO)*",BOLD);
+        Mockito.verify(monsterView.getTextGraphics(),Mockito.times(1))
+                .putString(monsterView.getMonsterModel().getPosition().getRealPosition().getX(),monsterView.getMonsterModel().getPosition().getRealPosition().getY()+1,"X=VV=X",BOLD);
+        Mockito.verify(monsterView.getTextGraphics(),Mockito.times(1))
+                .putString(monsterView.getMonsterModel().getPosition().getRealPosition().getX(),monsterView.getMonsterModel().getPosition().getRealPosition().getY()+2,"X=VV=X",BOLD);
+        Mockito.verify(monsterView.getTextGraphics(),Mockito.times(1))
+                .setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
     }
 
     @Test
