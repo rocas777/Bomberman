@@ -8,15 +8,13 @@ public class BombModel {
     private int sum = 0;
     private ExplosionListener explosionListener;
     Position position;
-    TimerInterface timer;
 
-    public BombModel(int mseconds, ExplosionListener explosionListener, Position position, TimerInterface timer){
+    public BombModel(int mseconds, ExplosionListener explosionListener, Position position){
         synchronized (explosionListener) {
             this.explosionListener = explosionListener;
         }
         this.mseconds=mseconds;
         this.position=position;
-        this.timer = timer;
     }
 
     public int getSum() {
@@ -25,10 +23,6 @@ public class BombModel {
 
     public void setSum(int sum) {
         this.sum = sum;
-    }
-
-    public TimerInterface getTimer() {
-        return timer;
     }
 
     public int getMseconds() {

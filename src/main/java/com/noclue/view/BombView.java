@@ -7,7 +7,7 @@ import com.noclue.model.Position;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
-public class BombView {
+public class BombView implements IView{
     TextGraphics textGraphics;
     BombModel model;
     public BombView(TextGraphics textGraphics, BombModel bombModel){
@@ -29,5 +29,11 @@ public class BombView {
                 ,model.getPosition().getRealPosition().getY()+1
                 ,"++",BOLD
         );
+        System.out.println("errrr");
+    }
+
+    @Override
+    public void draw() {
+        draw(textGraphics,model);
     }
 }

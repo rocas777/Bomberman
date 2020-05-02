@@ -1,4 +1,4 @@
-package com.noclue.controller;
+package com.noclue;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -8,6 +8,10 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import com.noclue.controller.FieldController;
+import com.noclue.controller.KeyBoard;
+import com.noclue.controller.KeyboardListener;
+import com.noclue.controller.Timer;
 import com.noclue.model.FieldModel;
 import com.noclue.view.FieldView;
 

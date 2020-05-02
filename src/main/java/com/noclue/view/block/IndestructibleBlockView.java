@@ -5,10 +5,11 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.Position;
 import com.noclue.model.block.IndestructibleBlockModel;
 import com.noclue.controller.TimeListener;
+import com.noclue.view.IView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
-public class IndestructibleBlockView implements TimeListener {
+public class IndestructibleBlockView implements IView {
     IndestructibleBlockModel model;
     TextGraphics textGraphics;
     public IndestructibleBlockView(IndestructibleBlockModel model, TextGraphics textGraphics){
@@ -24,7 +25,7 @@ public class IndestructibleBlockView implements TimeListener {
     }
 
     @Override
-    public void updateOnTime() {
+    public void draw() {
         draw(textGraphics,model.getPosition());
     }
 }

@@ -4,10 +4,11 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.Position;
 import com.noclue.controller.TimeListener;
 import com.noclue.model.collectible.CoinModel;
+import com.noclue.view.IView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
-public class CoinView implements TimeListener {
+public class CoinView implements IView {
     CoinModel model;
     TextGraphics textGraphics;
     public CoinView(CoinModel model, TextGraphics textGraphics){
@@ -22,7 +23,7 @@ public class CoinView implements TimeListener {
     }
 
     @Override
-    public void updateOnTime() {
+    public void draw() {
         draw(textGraphics,model.getPosition());
     }
 }

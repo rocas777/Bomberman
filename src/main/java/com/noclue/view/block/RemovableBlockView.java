@@ -5,10 +5,11 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.Position;
 import com.noclue.model.block.RemovableBlockModel;
 import com.noclue.controller.TimeListener;
+import com.noclue.view.IView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
-public class RemovableBlockView implements TimeListener {
+public class RemovableBlockView implements IView {
     RemovableBlockModel model;
     TextGraphics textGraphics;
     public RemovableBlockView(RemovableBlockModel model, TextGraphics textGraphics) {
@@ -26,7 +27,7 @@ public class RemovableBlockView implements TimeListener {
     }
 
     @Override
-    public void updateOnTime() {
+    public void draw() {
         draw(textGraphics,model.getPosition());
     }
 }

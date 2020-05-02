@@ -5,10 +5,11 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.Position;
 import com.noclue.model.character.MonsterModel;
 import com.noclue.controller.TimeListener;
+import com.noclue.view.IView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
-public class MonsterView implements TimeListener {
+public class MonsterView implements IView {
     TextGraphics textGraphics;
     MonsterModel monsterModel;
     public MonsterView(MonsterModel monsterModel,TextGraphics textGraphics){
@@ -35,7 +36,7 @@ public class MonsterView implements TimeListener {
     }
 
     @Override
-    public void updateOnTime() {
+    public void draw() {
         draw(textGraphics,monsterModel.getPosition());
     }
 }

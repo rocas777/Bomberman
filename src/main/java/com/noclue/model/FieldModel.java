@@ -1,8 +1,10 @@
 package com.noclue.model;
 
 import com.noclue.*;
+import com.noclue.controller.BombController;
 import com.noclue.controller.KeyBoard;
 import com.noclue.controller.Timer;
+import com.noclue.view.IView;
 
 import java.util.ArrayList;
 
@@ -12,9 +14,22 @@ public class FieldModel  {
     final private ArrayList<ArrayList<Tile>> tiles;
     private Position hero_pos;
     private ArrayList<Position> monsters=new ArrayList<>();
-    BombModel bombModel =null;
+    BombController bombController =null;
     KeyBoard kServer;
     Timer tServer;
+    ArrayList<ArrayList<IView>> views = new ArrayList<>();
+
+    public ArrayList<ArrayList<IView>> getViews() {
+        return views;
+    }
+
+    public void setMonsters(ArrayList<Position> monsters) {
+        this.monsters = monsters;
+    }
+
+    public void setViews(ArrayList<ArrayList<IView>> views) {
+        this.views = views;
+    }
 
     public FieldModel(int width, int height) {
         this.height = height;
@@ -46,8 +61,8 @@ public class FieldModel  {
         return monsters;
     }
 
-    public BombModel getBombModel() {
-        return bombModel;
+    public BombController getBomb() {
+        return bombController;
     }
 
     public KeyBoard getkServer() {
@@ -66,8 +81,8 @@ public class FieldModel  {
         this.hero_pos = hero_pos;
     }
 
-    public void setBombModel(BombModel bombModel) {
-        this.bombModel = bombModel;
+    public void setBombModel(BombController bombController) {
+        this.bombController = bombController;
     }
 
     public boolean checkPos(Position position, Movement movement){
@@ -83,6 +98,9 @@ public class FieldModel  {
         }
         else if (movement==Movement.down) {
             return !(tiles.get(position.getY()+1).get(position.getX()).isFilled());
+        }
+        else if (movement==Movement.stay) {
+            return !(tiles.get(position.getY()).get(position.getX()).isFilled());
         }
         return false;
     }

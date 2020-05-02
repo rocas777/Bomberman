@@ -19,6 +19,8 @@ import com.noclue.model.collectible.NoCollectibleModel;
 import com.noclue.model.difficulty.Easy;
 import com.noclue.view.BombView;
 import com.noclue.view.FieldView;
+import com.noclue.view.IView;
+import com.noclue.view.NoView;
 import com.noclue.view.block.IndestructibleBlockView;
 import com.noclue.view.block.RemovableBlockView;
 import com.noclue.view.character.HeroView;
@@ -39,7 +41,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         this.view=view;
         this.textGraphics=textGraphics;
 
-
         model.gettServer().addListener(this);
         model.getkServer().addListener(this);
         //setup();
@@ -58,14 +59,14 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             RemovableBlockModel tmp_rm = new RemovableBlockModel((Position) block.clone());
             if(coin) {
                 CoinModel tmp_coin = new CoinModel((Position) block.clone());
-                model.gettServer().addListener(new CoinView(tmp_coin,textGraphics));
-                model.gettServer().addListener(new RemovableBlockView(tmp_rm,textGraphics));
+                model.getViews().get(block.getY()).set(block.getX(),(new CoinView(tmp_coin,textGraphics)));
+                model.getViews().get(block.getY()).set(block.getX(),(new RemovableBlockView(tmp_rm,textGraphics)));
 
                 model.getTiles().get(block.getY()).set(block.getX(),new Tile(block,tmp_coin,tmp_rm));
             }
             else {
                 NoCollectibleModel tmp_no = new NoCollectibleModel();
-                model.gettServer().addListener(new RemovableBlockView(tmp_rm,textGraphics));
+                model.getViews().get(block.getY()).set(block.getX(),(new RemovableBlockView(tmp_rm,textGraphics)));
 
                 model.getTiles().get(block.getY()).set(block.getX(),new Tile(block, tmp_no, tmp_rm));
             }
@@ -75,31 +76,28 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     private void setIndestructibleBlocks(){
         for(int y=0;y<15;y++){
             model.getTiles().add(new ArrayList<>());
+            model.getViews().add(new ArrayList<>());
             for(int x=0;x<23;x++){
                 Position p=new Position(23, 15, x, y);
                 //System.out.println(door.getX()+" "+door.getY());
                 if(x==0 || x==22 || y==0 || y==14) {
-                    CoinModel tmp_coin = new CoinModel((Position) p.clone());
                     IndestructibleBlockModel tmp_ind = new IndestructibleBlockModel((Position) p.clone());
-                    model.gettServer().addListener(new CoinView(tmp_coin,textGraphics));
-                    model.gettServer().addListener(new IndestructibleBlockView(tmp_ind,textGraphics));
-                    model.getTiles().get(y).add(new Tile(p, tmp_coin, tmp_ind));
+                    model.getViews().get(p.getY()).add((new IndestructibleBlockView(tmp_ind,textGraphics)));
+                    model.getTiles().get(y).add(new Tile(p, new NoCollectibleModel(), tmp_ind));
                 }
                 else if(y%2==0) {
                     if (x % 2 == 0) {
-                        CoinModel tmp_coin = new CoinModel((Position) p.clone());
                         IndestructibleBlockModel tmp_ind = new IndestructibleBlockModel((Position) p.clone());
-                        model.gettServer().addListener(new CoinView(tmp_coin,textGraphics));
-                        model.gettServer().addListener(new IndestructibleBlockView(tmp_ind,textGraphics));
-                        model.getTiles().get(y).add(new Tile(p, tmp_coin, tmp_ind));
+                        model.getViews().get(p.getY()).add((new IndestructibleBlockView(tmp_ind,textGraphics)));
+                        model.getTiles().get(y).add(new Tile(p,new NoCollectibleModel(), tmp_ind));
                     }
                     else {
-                        NoBlockModel tmp_noblock = new NoBlockModel();
-
+                        model.getViews().get(p.getY()).add((new NoView()));
                         model.getTiles().get(y).add(new Tile(p, new NoCollectibleModel(), new NoBlockModel()));
                     }
                 }
                 else {
+                    model.getViews().get(p.getY()).add((new NoView()));
                     model.getTiles().get(y).add(new Tile(p, new NoCollectibleModel(), new NoBlockModel()));
                 }
             }
@@ -115,7 +113,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             }
             MonsterModel tmp_monster = new MonsterModel(new Easy(), (Position) block.clone());
-            model.gettServer().addListener(new MonsterView(tmp_monster,textGraphics));
+            model.getViews().get(block.getY()).set(block.getX(),(new MonsterView(tmp_monster,textGraphics)));
 
             model.getTiles().get(block.getY()).get(block.getX()).setFiller(tmp_monster);
             model.getTiles().get(block.getY()).get(block.getX()).setCollectible(new NoCollectibleModel());
@@ -147,7 +145,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(tmp_hero);
         model.getTiles().get(position.getY()).get(position.getX()).setCollectible(new NoCollectibleModel());
 
-        model.gettServer().addListener(new HeroView(tmp_hero,textGraphics));
+        model.getViews().get(position.getY()).set(position.getX(),(new HeroView(tmp_hero,textGraphics)));
 
         model.setHero_pos(position);
     }
@@ -226,9 +224,10 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
         else if(keyPressed.getCharacter()=='p'){
             //System.out.println("ENTER");
-            BombModel bombModel = new BombModel(2000,this, (Position) model.getHero_pos().clone(),new Timer(1000));
-            new BombController(bombModel,new BombView(textGraphics,bombModel));
-            model.setBombModel(bombModel);
+            BombModel bombModel = new BombModel(2000,this, (Position) model.getHero_pos().clone());
+            BombView view = new BombView(textGraphics,bombModel);
+            model.setBombModel(new BombController(bombModel,view));
+            model.gettServer().addListener(model.getBomb());
         }
     }
 
@@ -255,11 +254,30 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 }
             }
             timerSum=0;
+
         }
     }
 
     @Override
     public void explode(Position position) {
+        model.gettServer().removeListener(model.getBomb());
+        Position p1 = (Position) model.getBomb().model.getPosition().clone();
+        p1.setX(p1.getX()+1);
+        Position p2 = (Position) model.getBomb().model.getPosition().clone();
+        p2.setX(p2.getX()+2);
+        Position p3 = (Position) model.getBomb().model.getPosition().clone();
+        p3.setX(p3.getX()-1);
+        Position p4 = (Position) model.getBomb().model.getPosition().clone();
+        p4.setX(p4.getX()-2);
+        Position p5 = (Position) model.getBomb().model.getPosition().clone();
+        p5.setY(p5.getY()+1);
+        Position p6 = (Position) model.getBomb().model.getPosition().clone();
+        p6.setY(p6.getY()+2);
+        Position p7 = (Position) model.getBomb().model.getPosition().clone();
+        p7.setY(p7.getY()-1);
+        Position p8 = (Position) model.getBomb().model.getPosition().clone();
+        p8.setY(p8.getY()-2);
+
         model.setBombModel(null);
     }
 

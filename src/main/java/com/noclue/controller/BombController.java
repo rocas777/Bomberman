@@ -10,18 +10,17 @@ public class BombController implements TimeListener {
     BombController(BombModel model,BombView view){
         this.view=view;
         this.model=model;
-
-        model.getTimer().addListener(this);
-        model.getTimer().start();
     }
 
     @Override
     public void updateOnTime() {
         model.setSum(model.getSum()+1);
-        if(model.getSum()*model.getTimer().getMSeconds()>model.getMseconds()) {
+        if(model.getSum()*20>=model.getMseconds()) {
             model.getExplosionListener().explode(model.getPosition());
-            model.getTimer().removeListener(this);
         }
-        view.draw(view.getTextGraphics(),view.getModel());
+    }
+
+    public void draw(){
+        view.draw();
     }
 }

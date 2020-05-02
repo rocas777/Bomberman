@@ -5,10 +5,11 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.Position;
 import com.noclue.model.character.HeroModel;
 import com.noclue.controller.TimeListener;
+import com.noclue.view.IView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
-public class HeroView implements TimeListener {
+public class HeroView implements IView {
     HeroModel model;
     TextGraphics textGraphics;
     public HeroView(HeroModel model, TextGraphics textGraphics){
@@ -26,7 +27,7 @@ public class HeroView implements TimeListener {
     }
 
     @Override
-    public void updateOnTime() {
+    public void draw() {
         draw(textGraphics,model.getPosition());
     }
 }
