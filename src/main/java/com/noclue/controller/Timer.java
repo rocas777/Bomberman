@@ -17,8 +17,15 @@ public class Timer implements TimerInterface {
         this.screen=screen;
     }
 
+    public CopyOnWriteArrayList<TimeListener> getTimeListeners() {
+        return timeListeners;
+    }
+
     public Timer(int mseconds){
-        this.mseconds=mseconds;
+        if(mseconds<1)
+            this.mseconds=1;
+        else
+            this.mseconds=mseconds;
         isOn=false;
     }
 
@@ -27,25 +34,15 @@ public class Timer implements TimerInterface {
     }
 
     public boolean addListener(TimeListener timeListener){
-        try {
             timeListeners.add(timeListener);
             return true;
-        }
-        catch (Exception e){
-            return false;
-        }
     }
 
 
 
     public boolean removeListener(TimeListener timeListener){
-        try {
             timeListeners.remove(timeListener);
             return true;
-        }
-        catch (Exception e){
-            return false;
-        }
     }
 
     public void start(){

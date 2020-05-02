@@ -14,7 +14,16 @@ public class BombView {
         this.textGraphics = textGraphics;
         this.model = bombModel;
     }
-    public void draw(){
+
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public BombModel getModel() {
+        return model;
+    }
+
+    public void draw(TextGraphics textGraphics, BombModel model){
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
         textGraphics.putString(model.getPosition().getRealPosition().getX()+2
                 ,model.getPosition().getRealPosition().getY()+1

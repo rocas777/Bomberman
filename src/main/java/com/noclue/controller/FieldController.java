@@ -28,7 +28,7 @@ import com.noclue.view.collectible.CoinView;
 import java.util.ArrayList;
 import java.util.Random;
 
-class FieldController implements KeyboardListener, TimeListener, ExplosionListener {
+public class FieldController implements KeyboardListener, TimeListener, ExplosionListener {
     int timerSum=0;
     FieldModel model;
     FieldView view;
@@ -235,7 +235,7 @@ class FieldController implements KeyboardListener, TimeListener, ExplosionListen
 
     @Override
     public void updateOnTime() {
-        view.draw();
+        view.draw(view.getModel(),view.getTextGraphics());
         timerSum=timerSum+1;
         if(timerSum==25) {
             for (Position pos : model.getMonsters()) {

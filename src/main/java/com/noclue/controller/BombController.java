@@ -22,6 +22,6 @@ public class BombController implements TimeListener {
             model.getExplosionListener().explode(model.getPosition());
             model.getTimer().removeListener(this);
         }
-        view.draw();
+        view.draw(view.getTextGraphics(),view.getModel());
     }
 }

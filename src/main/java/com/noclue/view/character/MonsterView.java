@@ -15,6 +15,15 @@ public class MonsterView implements TimeListener {
         this.monsterModel=monsterModel;
         this.textGraphics=textGraphics;
     }
+
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public MonsterModel getMonsterModel() {
+        return monsterModel;
+    }
+
     public void draw(TextGraphics textGraphics, Position position) {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
