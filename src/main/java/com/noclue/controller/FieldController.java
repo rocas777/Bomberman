@@ -261,6 +261,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     @Override
     public void explode(Position position) {
         model.gettServer().removeListener(model.getBomb());
+        remove(position);
         Position p1 = (Position) model.getBomb().model.getPosition().clone();
         p1.setX(p1.getX()+1);
         Position p2 = (Position) model.getBomb().model.getPosition().clone();
