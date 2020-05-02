@@ -112,7 +112,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         for(int i=0;i<numberOfMonsters;i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
 
-            while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0)) {
+            while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0) || block.equals(door)) {
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             }
             MonsterModel tmp_monster = new MonsterModel(new Easy(), (Position) block.clone());
@@ -139,6 +139,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         while ((door.getX()%2==0 && door.getY()%2==0) || door.equals(hero)){
             door=new Position(23,15,(random.nextInt(23)),(random.nextInt(13)));
         }
+        System.out.println(door.getX()+" "+door.getY());
         return door;
     }
 
@@ -155,6 +156,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     private void setDoor(Position position){
         model.getTiles().get(position.getY()).set(position.getX(),new Tile(position, new DoorModel((Position) position.clone()),new RemovableBlockModel(position)));
+        model.getViews().get(position.getY()).set(position.getX(),new RemovableBlockView((RemovableBlockModel) model.getTiles().get(position.getY()).get(position.getX()).getFiller(),textGraphics));
     }
 
 
@@ -169,7 +171,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
         setHero(hero);
         setDoor(door);
-
     }
 
     private void moveLeft(Position position, Character character){
@@ -254,6 +255,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             model.setBombModel(new BombController(bombModel,textGraphics));
             model.gettServer().addListener(model.getBomb());
         }
+        if(model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getCollectible() instanceof DoorModel)
+            System.exit(0);
     }
 
 
