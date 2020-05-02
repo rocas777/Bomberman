@@ -278,7 +278,30 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         Position p8 = (Position) model.getBomb().model.getPosition().clone();
         p8.setY(p8.getY()-2);
 
+        if(!(model.getTiles().get(p1.getY()).get(p1.getX()).getFiller() instanceof IndestructibleBlockModel))
+            remove(p1);
+        if(!(model.getTiles().get(p2.getY()).get(p2.getX()).getFiller() instanceof IndestructibleBlockModel))
+            remove(p2);
+        if(!(model.getTiles().get(p3.getY()).get(p3.getX()).getFiller() instanceof IndestructibleBlockModel))
+            remove(p3);
+        if(!(model.getTiles().get(p4.getY()).get(p4.getX()).getFiller() instanceof IndestructibleBlockModel))
+            remove(p4);
+        if(!(model.getTiles().get(p5.getY()).get(p5.getX()).getFiller() instanceof IndestructibleBlockModel))
+            remove(p5);
+        if(!(model.getTiles().get(p6.getY()).get(p6.getX()).getFiller() instanceof IndestructibleBlockModel))
+            remove(p6);
+        if(!(model.getTiles().get(p7.getY()).get(p7.getX()).getFiller() instanceof IndestructibleBlockModel))
+            remove(p7);
+        if(!(model.getTiles().get(p8.getY()).get(p8.getX()).getFiller() instanceof IndestructibleBlockModel))
+            remove(p8);
+
         model.setBombModel(null);
+    }
+
+    private void remove(Position position){
+        model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
+        model.getTiles().get(position.getY()).get(position.getX()).setCollectible(new NoCollectibleModel());
+        model.getViews().get(position.getY()).set(position.getX(),new NoView());
     }
 
 }
