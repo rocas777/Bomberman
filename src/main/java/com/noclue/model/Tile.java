@@ -20,6 +20,10 @@ public class Tile {
         return filler;
     }
 
+    public Collectible getCollectible() {
+        return collectible;
+    }
+
     public void setCollectible(Collectible collectible) {
         this.collectible = collectible;
     }

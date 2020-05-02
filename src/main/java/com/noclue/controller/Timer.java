@@ -68,15 +68,7 @@ public class Timer implements TimerInterface {
 
     @Override
     public void updateListeners(CopyOnWriteArrayList<TimeListener> timeListeners) {
-        if(screen!=null)
-            screen.clear();
         for (TimeListener t : timeListeners)
             t.updateOnTime();
-        try {
-            if(screen!=null)
-                screen.refresh();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

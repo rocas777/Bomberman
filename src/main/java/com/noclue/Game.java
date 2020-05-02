@@ -54,7 +54,7 @@ public class Game implements KeyboardListener {
     }
 
     public void run(){
-        new FieldController(fieldModel,new FieldView(textGraphics,fieldModel),textGraphics).setup();
+        new FieldController(fieldModel,new FieldView(screen,textGraphics,fieldModel),textGraphics).setup();
     }
 
 

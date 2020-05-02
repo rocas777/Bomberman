@@ -1,16 +1,14 @@
 package com.noclue.controller;
 
 import com.noclue.model.BombModel;
-import com.noclue.model.FieldModel;
 import com.noclue.model.Position;
-import com.noclue.view.BombView;
+import com.noclue.view.BombViewTicking;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 public class BombControllerTest {
@@ -58,7 +56,7 @@ public class BombControllerTest {
 
     mockTimer timer;
     BombModel bombModel;
-    BombView bombView;
+    BombViewTicking bombViewTicking;
     BombController bombController;
     FieldController fieldController;
     Position position;
@@ -67,7 +65,7 @@ public class BombControllerTest {
     public void setup(){
         timer = new mockTimer();
         bombModel = Mockito.mock(BombModel.class);
-        bombView = Mockito.mock(BombView.class);
+        bombViewTicking = Mockito.mock(BombViewTicking.class);
         fieldController = Mockito.mock(FieldController.class);
         position = Mockito.mock(Position.class);
 
@@ -77,7 +75,7 @@ public class BombControllerTest {
         when(bombModel.getSum()).thenReturn(i);
         when(bombModel.getPosition()).thenReturn(position);
 
-        bombController = new BombController(bombModel,bombView);
+        bombController = new BombController(bombModel, bombViewTicking);
 
     }
 
@@ -107,7 +105,7 @@ public class BombControllerTest {
 
         Mockito.verify(bombModel, Mockito.times(1))
                 .getExplosionListener();
-        Mockito.verify(bombView,Mockito.times(6))
-                .draw(bombView.getTextGraphics(),bombModel);
+        Mockito.verify(bombViewTicking,Mockito.times(6))
+                .draw(bombViewTicking.getTextGraphics(),bombModel);
     }
 }

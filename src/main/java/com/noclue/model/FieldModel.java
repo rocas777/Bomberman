@@ -3,38 +3,40 @@ package com.noclue.model;
 import com.noclue.*;
 import com.noclue.controller.BombController;
 import com.noclue.controller.KeyBoard;
+import com.noclue.controller.TimeListener;
 import com.noclue.controller.Timer;
 import com.noclue.view.IView;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FieldModel  {
     private final int width;
     private final int height;
-    final private ArrayList<ArrayList<Tile>> tiles;
+    final private CopyOnWriteArrayList<CopyOnWriteArrayList<Tile>> tiles;
     private Position hero_pos;
-    private ArrayList<Position> monsters=new ArrayList<>();
+    private CopyOnWriteArrayList<Position> monsters=new CopyOnWriteArrayList<>();
     BombController bombController =null;
     KeyBoard kServer;
     Timer tServer;
-    ArrayList<ArrayList<IView>> views = new ArrayList<>();
+    CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views = new CopyOnWriteArrayList<>();
 
-    public ArrayList<ArrayList<IView>> getViews() {
+    public CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> getViews() {
         return views;
     }
 
-    public void setMonsters(ArrayList<Position> monsters) {
+    public void setMonsters(CopyOnWriteArrayList<Position> monsters) {
         this.monsters = monsters;
     }
 
-    public void setViews(ArrayList<ArrayList<IView>> views) {
+    public void setViews(CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views) {
         this.views = views;
     }
 
     public FieldModel(int width, int height) {
         this.height = height;
         this.width = width;
-        tiles=new ArrayList<>();
+        tiles=new CopyOnWriteArrayList<>();
     }
 
     public void setkServer(KeyBoard kServer) {
@@ -53,11 +55,11 @@ public class FieldModel  {
         return width;
     }
 
-    public ArrayList<ArrayList<Tile>> getTiles() {
+    public CopyOnWriteArrayList<CopyOnWriteArrayList<Tile>> getTiles() {
         return tiles;
     }
 
-    public ArrayList<Position> getMonsters() {
+    public CopyOnWriteArrayList<Position> getMonsters() {
         return monsters;
     }
 

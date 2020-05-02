@@ -15,20 +15,23 @@ import com.noclue.model.character.Character;
 import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
 import com.noclue.model.collectible.CoinModel;
+import com.noclue.model.collectible.DoorModel;
 import com.noclue.model.collectible.NoCollectibleModel;
 import com.noclue.model.difficulty.Easy;
-import com.noclue.view.BombView;
+import com.noclue.view.BombViewFire;
+import com.noclue.view.BombViewTicking;
 import com.noclue.view.FieldView;
-import com.noclue.view.IView;
 import com.noclue.view.NoView;
 import com.noclue.view.block.IndestructibleBlockView;
 import com.noclue.view.block.RemovableBlockView;
 import com.noclue.view.character.HeroView;
 import com.noclue.view.character.MonsterView;
 import com.noclue.view.collectible.CoinView;
+import com.noclue.view.collectible.DoorView;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FieldController implements KeyboardListener, TimeListener, ExplosionListener {
     int timerSum=0;
@@ -57,7 +60,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
             boolean coin=random.nextBoolean();
             RemovableBlockModel tmp_rm = new RemovableBlockModel((Position) block.clone());
-            if(coin) {
+            if(false) {
                 CoinModel tmp_coin = new CoinModel((Position) block.clone());
                 model.getViews().get(block.getY()).set(block.getX(),(new CoinView(tmp_coin,textGraphics)));
                 model.getViews().get(block.getY()).set(block.getX(),(new RemovableBlockView(tmp_rm,textGraphics)));
@@ -75,8 +78,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     private void setIndestructibleBlocks(){
         for(int y=0;y<15;y++){
-            model.getTiles().add(new ArrayList<>());
-            model.getViews().add(new ArrayList<>());
+            model.getTiles().add(new CopyOnWriteArrayList<>());
+            model.getViews().add(new CopyOnWriteArrayList<>());
             for(int x=0;x<23;x++){
                 Position p=new Position(23, 15, x, y);
                 //System.out.println(door.getX()+" "+door.getY());
@@ -151,7 +154,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     private void setDoor(Position position){
-        //model.getTiles().get(position.getY()).set(position.getX(),new Tile(position, new DoorModel((Position) position.clone()),new RemovableBlockModel()));
+        model.getTiles().get(position.getY()).set(position.getX(),new Tile(position, new DoorModel((Position) position.clone()),new RemovableBlockModel(position)));
     }
 
 
@@ -172,6 +175,12 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     private void moveLeft(Position position, Character character){
         model.getTiles().get(position.getY()).get(position.getX()-1).setFiller(character);
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
+
+        model.getViews().get(position.getY())
+                .set(position.getX()-1,model.getViews().get(position.getY()).get(position.getX()));
+        model.getViews().get(position.getY())
+                .set(position.getX(),new NoView());
+
         position.setX(position.getX()-1);
         character.setPosition((Position) position.clone());
 
@@ -180,6 +189,12 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     private void moveRight(Position position, Character character){
         model.getTiles().get(position.getY()).get(position.getX()+1).setFiller(character);
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
+
+        model.getViews().get(position.getY())
+                .set(position.getX()+1,model.getViews().get(position.getY()).get(position.getX()));
+        model.getViews().get(position.getY())
+                .set(position.getX(),new NoView());
+
         position.setX(position.getX()+1);
         character.setPosition((Position) position.clone());
     }
@@ -187,6 +202,12 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     private void moveUp(Position position, Character character){
         model.getTiles().get(position.getY()-1).get(position.getX()).setFiller(character);
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
+
+        model.getViews().get(position.getY()-1)
+                .set(position.getX(),model.getViews().get(position.getY()).get(position.getX()));
+        model.getViews().get(position.getY())
+                .set(position.getX(),new NoView());
+
         position.setY(position.getY()-1);
         character.setPosition((Position) position.clone());
     }
@@ -194,14 +215,18 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     private void moveDown(Position position, Character character){
         model.getTiles().get(position.getY()+1).get(position.getX()).setFiller(character);
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
+
+        model.getViews().get(position.getY()+1)
+                .set(position.getX(),model.getViews().get(position.getY()).get(position.getX()));
+        model.getViews().get(position.getY())
+                .set(position.getX(),new NoView());
+
         position.setY(position.getY()+1);
         character.setPosition((Position) position.clone());
     }
 
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
-
-        System.out.println("Okk!");
         if(keyPressed.getCharacter()=='a'){
             if(model.checkPos(model.getHero_pos(), Movement.left)) {
                 moveLeft(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
@@ -222,11 +247,11 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 moveDown(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
             }
         }
-        else if(keyPressed.getCharacter()=='p'){
+        else if(keyPressed.getCharacter()=='p' && model.getBomb()==null){
             //System.out.println("ENTER");
-            BombModel bombModel = new BombModel(2000,this, (Position) model.getHero_pos().clone());
-            BombView view = new BombView(textGraphics,bombModel);
-            model.setBombModel(new BombController(bombModel,view));
+            BombModel bombModel = new BombModel(750,this, (Position) model.getHero_pos().clone(),model.gettServer());
+            BombViewFire viewFire = new BombViewFire(textGraphics,bombModel);
+            model.setBombModel(new BombController(bombModel,textGraphics));
             model.gettServer().addListener(model.getBomb());
         }
     }
@@ -234,75 +259,129 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     @Override
     public void updateOnTime() {
-        view.draw(view.getModel(),view.getTextGraphics());
         timerSum=timerSum+1;
         if(timerSum==25) {
             for (Position pos : model.getMonsters()) {
-                MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller();
-                for (Movement m : tmp_monsterModel.nextMove(pos)) {
-                    if (model.checkPos(pos, m)) {
-                        if (m == Movement.left)
-                            moveLeft(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
-                        else if (m == Movement.right)
-                            moveRight(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
-                        else if (m == Movement.up)
-                            moveUp(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
-                        else if (m == Movement.down)
-                            moveDown(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
-                        break;
+                try {
+                    MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller();
+                    for (Movement m : tmp_monsterModel.nextMove(pos)) {
+                        if (model.checkPos(pos, m)) {
+                            if (m == Movement.left)
+                                moveLeft(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
+                            else if (m == Movement.right)
+                                moveRight(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
+                            else if (m == Movement.up)
+                                moveUp(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
+                            else if (m == Movement.down)
+                                moveDown(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
+                            break;
+                        }
                     }
+                }
+                catch (Exception e){
+
                 }
             }
             timerSum=0;
-
         }
+        view.draw();
     }
 
     @Override
     public void explode(Position position) {
-        model.gettServer().removeListener(model.getBomb());
-        remove(position);
-        Position p1 = (Position) model.getBomb().model.getPosition().clone();
+        ArrayList<Position> tmp = new ArrayList<>();
+        Position p1 = (Position) position.clone();
         p1.setX(p1.getX()+1);
-        Position p2 = (Position) model.getBomb().model.getPosition().clone();
-        p2.setX(p2.getX()+2);
-        Position p3 = (Position) model.getBomb().model.getPosition().clone();
+        Position p2 = (Position) position.clone();
+        Position p3 = (Position) position.clone();
         p3.setX(p3.getX()-1);
-        Position p4 = (Position) model.getBomb().model.getPosition().clone();
-        p4.setX(p4.getX()-2);
-        Position p5 = (Position) model.getBomb().model.getPosition().clone();
+        Position p4 = (Position) position.clone();
+        Position p5 = (Position) position.clone();
         p5.setY(p5.getY()+1);
-        Position p6 = (Position) model.getBomb().model.getPosition().clone();
-        p6.setY(p6.getY()+2);
-        Position p7 = (Position) model.getBomb().model.getPosition().clone();
+        Position p6 = (Position) position.clone();
+        Position p7 = (Position) position.clone();
         p7.setY(p7.getY()-1);
-        Position p8 = (Position) model.getBomb().model.getPosition().clone();
-        p8.setY(p8.getY()-2);
+        Position p8 = (Position) position.clone();
 
-        if(!(model.getTiles().get(p1.getY()).get(p1.getX()).getFiller() instanceof IndestructibleBlockModel))
+        if(position.getX()>=2){
+            p4.setX(p4.getX()-2);
+        }
+        if(position.getX()<=21){
+            p2.setX(p2.getX()+2);
+
+        }
+
+        if(position.getY()>=2){
+            p6.setY(p6.getY()+2);
+        }
+        if(position.getY()<=13){
+            p8.setY(p8.getY()-2);
+        }
+        if(!(model.getTiles().get(p1.getY()).get(p1.getX()).getFiller() instanceof IndestructibleBlockModel)) {
             remove(p1);
-        if(!(model.getTiles().get(p2.getY()).get(p2.getX()).getFiller() instanceof IndestructibleBlockModel))
-            remove(p2);
-        if(!(model.getTiles().get(p3.getY()).get(p3.getX()).getFiller() instanceof IndestructibleBlockModel))
+            tmp.add(p1);
+            if (!(model.getTiles().get(p2.getY()).get(p2.getX()).getFiller() instanceof IndestructibleBlockModel)) {
+                remove(p2);
+                tmp.add(p2);
+            }
+        }
+        if(!(model.getTiles().get(p3.getY()).get(p3.getX()).getFiller() instanceof IndestructibleBlockModel)) {
             remove(p3);
-        if(!(model.getTiles().get(p4.getY()).get(p4.getX()).getFiller() instanceof IndestructibleBlockModel))
-            remove(p4);
-        if(!(model.getTiles().get(p5.getY()).get(p5.getX()).getFiller() instanceof IndestructibleBlockModel))
+            tmp.add(p3);
+            if (!(model.getTiles().get(p4.getY()).get(p4.getX()).getFiller() instanceof IndestructibleBlockModel)) {
+                remove(p4);
+                tmp.add(p4);
+            }
+        }
+        if(!(model.getTiles().get(p5.getY()).get(p5.getX()).getFiller() instanceof IndestructibleBlockModel)) {
             remove(p5);
-        if(!(model.getTiles().get(p6.getY()).get(p6.getX()).getFiller() instanceof IndestructibleBlockModel))
-            remove(p6);
-        if(!(model.getTiles().get(p7.getY()).get(p7.getX()).getFiller() instanceof IndestructibleBlockModel))
+            tmp.add(p5);
+            if (!(model.getTiles().get(p6.getY()).get(p6.getX()).getFiller() instanceof IndestructibleBlockModel)) {
+                remove(p6);
+                tmp.add(p6);
+            }
+        }
+        if(!(model.getTiles().get(p7.getY()).get(p7.getX()).getFiller() instanceof IndestructibleBlockModel)) {
             remove(p7);
-        if(!(model.getTiles().get(p8.getY()).get(p8.getX()).getFiller() instanceof IndestructibleBlockModel))
-            remove(p8);
+            tmp.add(p7);
+            if (!(model.getTiles().get(p8.getY()).get(p8.getX()).getFiller() instanceof IndestructibleBlockModel)) {
+                remove(p8);
+                tmp.add(p8);
+            }
+        }
+        if(!(model.getTiles().get(position.getY()).get(position.getX()).getFiller() instanceof IndestructibleBlockModel)) {
+            remove(position);
+            tmp.add(position);
+        }
 
+        model.getBomb().getModel().setExplosionList(tmp);
+    }
+
+    @Override
+    public void fireDone(Position position) {
         model.setBombModel(null);
     }
 
     private void remove(Position position){
+        if(model.getTiles().get(position.getY()).get(position.getX()).getFiller() instanceof MonsterModel)
+            model.getMonsters().remove(model.getTiles().get(position.getY()).get(position.getX()).getFiller());
+        else if(model.getTiles().get(position.getY()).get(position.getX()).getFiller() instanceof HeroModel)
+            System.exit(0);
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
-        model.getTiles().get(position.getY()).get(position.getX()).setCollectible(new NoCollectibleModel());
+        System.out.println(position.getY()+" "+position.getX());
+        System.out.println(model.getViews().get(position.getY()).get(position.getX()).getClass());
         model.getViews().get(position.getY()).set(position.getX(),new NoView());
+
+        if(model.getTiles().get(position.getY()).get(position.getX()).getCollectible() instanceof DoorModel)
+            model.getViews().get(position.getY()).set(
+                    position.getX(),
+                    new DoorView((DoorModel)model.getTiles().get(position.getY()).get(position.getX()).getCollectible(),textGraphics)
+            );
+        if(model.getTiles().get(position.getY()).get(position.getX()).getCollectible() instanceof CoinModel)
+            model.getViews().get(position.getY()).set(
+                    position.getX(),
+                    new CoinView((CoinModel) model.getTiles().get(position.getY()).get(position.getX()).getCollectible(),textGraphics)
+            );
     }
 
 }

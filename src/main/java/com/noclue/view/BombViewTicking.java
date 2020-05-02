@@ -7,10 +7,10 @@ import com.noclue.model.Position;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
-public class BombView implements IView{
+public class BombViewTicking implements IView{
     TextGraphics textGraphics;
     BombModel model;
-    public BombView(TextGraphics textGraphics, BombModel bombModel){
+    public BombViewTicking(TextGraphics textGraphics, BombModel bombModel){
         this.textGraphics = textGraphics;
         this.model = bombModel;
     }
@@ -29,7 +29,6 @@ public class BombView implements IView{
                 ,model.getPosition().getRealPosition().getY()+1
                 ,"++",BOLD
         );
-        System.out.println("errrr");
     }
 
     @Override
