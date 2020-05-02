@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class MonsterViewTest {
@@ -52,6 +53,7 @@ public class MonsterViewTest {
 
     mockTimer timer = new mockTimer();
     MonsterView monsterView;
+    MonsterView m1;
     @Before
     public void setup(){
         MonsterModel monsterModel = Mockito.mock(MonsterModel.class);
@@ -64,11 +66,15 @@ public class MonsterViewTest {
 
         when(monsterModel.getPosition()).thenReturn(position);
         monsterView = new MonsterView(monsterModel,textGraphics);
-        timer.addListener(monsterView);
+
+        m1 = spy(monsterView);
+        timer.addListener(m1);
+        when(m1.getMonsterModel()).thenReturn(monsterModel);
     }
 
     @Test
     public void draw() {
+
     }
 
     @Test
@@ -79,7 +85,7 @@ public class MonsterViewTest {
         timer.updateListeners(null);
         timer.updateListeners(null);
 
-        Mockito.verify(monsterView,Mockito.times(5))
-                .draw(monsterView.getTextGraphics(),monsterView.getMonsterModel().getPosition());
+        Mockito.verify(m1,Mockito.times(5))
+                .updateOnTime();
     }
 }
