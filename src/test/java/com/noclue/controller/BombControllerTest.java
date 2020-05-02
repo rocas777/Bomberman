@@ -1,8 +1,11 @@
 package com.noclue.controller;
 
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.BombModel;
 import com.noclue.model.Position;
 import com.noclue.view.BombViewTicking;
+import com.noclue.view.IView;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -69,18 +72,19 @@ public class BombControllerTest {
         fieldController = Mockito.mock(FieldController.class);
         position = Mockito.mock(Position.class);
 
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+
         when(bombModel.getMseconds()).thenReturn(100);
-        when(bombModel.getTimer()).thenReturn(timer);
         when(bombModel.getExplosionListener()).thenReturn(fieldController);
         when(bombModel.getSum()).thenReturn(i);
         when(bombModel.getPosition()).thenReturn(position);
 
-        bombController = new BombController(bombModel, bombViewTicking);
-
+        bombController = new BombController(bombModel,textGraphics);
     }
 
     @Test
     public void updateOnTime() {
+        IView view = bombController.getView();
 
         i++;
         when(bombModel.getSum()).thenReturn(i);
@@ -101,11 +105,52 @@ public class BombControllerTest {
         when(bombModel.getSum()).thenReturn(i);
         timer.updateListeners(timer.getTimeListeners());
         i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+        when(bombModel.getSum()).thenReturn(i);
+        timer.updateListeners(timer.getTimeListeners());
+        i++;
+
+        System.out.println(i);
+        System.out.println(bombModel.getSum()*20);
         when(bombModel.getSum()).thenReturn(i);
 
         Mockito.verify(bombModel, Mockito.times(1))
-                .getExplosionListener();
+                .getExplosionListener().explode(position);
         Mockito.verify(bombViewTicking,Mockito.times(6))
                 .draw(bombViewTicking.getTextGraphics(),bombModel);
+
+        Assert.assertNotEquals(view,bombController.getView());
     }
 }

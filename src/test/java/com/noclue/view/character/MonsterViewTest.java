@@ -3,19 +3,19 @@ package com.noclue.view.character;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.controller.TimeListener;
-import com.noclue.controller.Timer;
 import com.noclue.controller.TimerInterface;
+import com.noclue.model.FieldModel;
 import com.noclue.model.Position;
 import com.noclue.model.character.MonsterModel;
+import com.noclue.view.IView;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.googlecode.lanterna.SGR.BOLD;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class MonsterViewTest {
@@ -61,17 +61,18 @@ public class MonsterViewTest {
         MonsterModel monsterModel = Mockito.mock(MonsterModel.class);
         TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
         Position position = Mockito.mock(Position.class);
-        when(position.getRealPosition()).thenReturn(position);
-        when(position.getX()).thenReturn(20);
-        when(position.getY()).thenReturn(20);
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
 
-
-        when(monsterModel.getPosition()).thenReturn(position);
         monsterView = new MonsterView(monsterModel,textGraphics);
+        CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> iViews = new CopyOnWriteArrayList<>();
+        iViews.add(new CopyOnWriteArrayList<IView>());
+        iViews.get(0).add(monsterView);
+        when(fieldModel.getViews()).thenReturn(iViews);
+        when(monsterModel.getPosition()).thenReturn(position);
+        when(position.getRealPosition()).thenReturn(position);
+        when(position.getRealPosition().getX()).thenReturn(20);
+        when(position.getRealPosition().getY()).thenReturn(20);
 
-        m1 = spy(monsterView);
-        timer.addListener(m1);
-        when(m1.getMonsterModel()).thenReturn(monsterModel);
     }
 
     @Test
@@ -92,15 +93,4 @@ public class MonsterViewTest {
                 .setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
     }
 
-    @Test
-    public void updateOnTime() {
-        timer.updateListeners(null);
-        timer.updateListeners(null);
-        timer.updateListeners(null);
-        timer.updateListeners(null);
-        timer.updateListeners(null);
-
-        Mockito.verify(m1,Mockito.times(5))
-                .updateOnTime();
-    }
 }

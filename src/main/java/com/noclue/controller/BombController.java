@@ -32,6 +32,18 @@ public class BombController implements TimeListener {
         return view;
     }
 
+    public void setViewFire(IView viewFire) {
+        this.viewFire = viewFire;
+    }
+
+    public void setView(IView view) {
+        this.view = view;
+    }
+
+    public void setViewTicking(IView viewTicking) {
+        this.viewTicking = viewTicking;
+    }
+
     @Override
     public synchronized void updateOnTime() {
         model.setSum(model.getSum()+1);

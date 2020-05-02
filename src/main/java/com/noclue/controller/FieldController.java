@@ -343,41 +343,27 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         if(position.getY()<=13){
             p8.setY(p8.getY()-2);
         }
-        if(!(model.getTiles().get(p1.getY()).get(p1.getX()).getFiller() instanceof IndestructibleBlockModel)) {
-            remove(p1);
-            tmp.add(p1);
-            if (!(model.getTiles().get(p2.getY()).get(p2.getX()).getFiller() instanceof IndestructibleBlockModel)) {
-                remove(p2);
-                tmp.add(p2);
+        ArrayList<Position> arrayList = new ArrayList();
+        arrayList.add(p1);
+        arrayList.add(p2);
+        arrayList.add(p3);
+        arrayList.add(p4);
+        arrayList.add(p5);
+        arrayList.add(p6);
+        arrayList.add(p7);
+        arrayList.add(p8);
+        arrayList.add(position);
+
+        for (int i = 0;i<arrayList.size();i++){
+            if(!(model.getTiles().get(arrayList.get(i).getY()).get(arrayList.get(i).getX()).getFiller() instanceof IndestructibleBlockModel)) {
+                remove(arrayList.get(i));
+                tmp.add(arrayList.get(i));
+                if (i+1<arrayList.size() && !(model.getTiles().get(arrayList.get(i+1).getY()).get(arrayList.get(i+1).getX()).getFiller() instanceof IndestructibleBlockModel)) {
+                    remove(arrayList.get(i+1));
+                    tmp.add(arrayList.get(i+1));
+                }
             }
-        }
-        if(!(model.getTiles().get(p3.getY()).get(p3.getX()).getFiller() instanceof IndestructibleBlockModel)) {
-            remove(p3);
-            tmp.add(p3);
-            if (!(model.getTiles().get(p4.getY()).get(p4.getX()).getFiller() instanceof IndestructibleBlockModel)) {
-                remove(p4);
-                tmp.add(p4);
-            }
-        }
-        if(!(model.getTiles().get(p5.getY()).get(p5.getX()).getFiller() instanceof IndestructibleBlockModel)) {
-            remove(p5);
-            tmp.add(p5);
-            if (!(model.getTiles().get(p6.getY()).get(p6.getX()).getFiller() instanceof IndestructibleBlockModel)) {
-                remove(p6);
-                tmp.add(p6);
-            }
-        }
-        if(!(model.getTiles().get(p7.getY()).get(p7.getX()).getFiller() instanceof IndestructibleBlockModel)) {
-            remove(p7);
-            tmp.add(p7);
-            if (!(model.getTiles().get(p8.getY()).get(p8.getX()).getFiller() instanceof IndestructibleBlockModel)) {
-                remove(p8);
-                tmp.add(p8);
-            }
-        }
-        if(!(model.getTiles().get(position.getY()).get(position.getX()).getFiller() instanceof IndestructibleBlockModel)) {
-            remove(position);
-            tmp.add(position);
+            i++;
         }
 
         model.getBomb().getModel().setExplosionList(tmp);

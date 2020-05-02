@@ -8,6 +8,7 @@ import com.googlecode.lanterna.screen.Screen;
 import com.noclue.model.FieldModel;
 
 import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FieldView implements IView{
     private FieldModel model;
@@ -35,8 +36,11 @@ public class FieldView implements IView{
         this.model = model;
     }
 
+    public Screen getScreen() {
+        return screen;
+    }
 
-    public void draw(FieldModel model, TextGraphics textGraphics, Screen screen){
+    public void draw(FieldModel model, TextGraphics textGraphics, Screen screen, CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views){
         screen.clear();
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(model.getWidth(), model.getHeight()), ' ');
@@ -47,10 +51,9 @@ public class FieldView implements IView{
 
 
 
-        for(int i1=0;i1<model.getViews().size();i1++){
-            for(int i2=0;i2<model.getViews().get(i1).size();i2++) {
-                model.getViews().get(i1).get(i2).draw();
-
+        for(int i1=0;i1<views.size();i1++){
+            for(int i2=0;i2<views.get(i1).size();i2++) {
+                views.get(i1).get(i2).draw();
             }
         }
 
@@ -66,6 +69,6 @@ public class FieldView implements IView{
 
     @Override
     public void draw() {
-        draw(model,textGraphics,screen);
+        draw(model,textGraphics,screen,model.getViews());
     }
 }
