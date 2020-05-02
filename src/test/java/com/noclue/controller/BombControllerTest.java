@@ -108,6 +108,6 @@ public class BombControllerTest {
         Mockito.verify(bombModel, Mockito.times(1))
                 .getExplosionListener();
         Mockito.verify(bombView,Mockito.times(6))
-                .draw();
+                .draw(bombView.getTextGraphics(),bombModel);
     }
 }
