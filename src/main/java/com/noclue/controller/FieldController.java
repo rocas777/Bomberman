@@ -226,6 +226,26 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         character.setPosition((Position) position.clone());
     }
 
+    public boolean checkForHero(Position position, Movement movement){
+        //System.out.println(position.getX()+" "+position.getY());
+        if (movement==Movement.left) {
+            return (model.getTiles().get(position.getY()).get(position.getX()-1).getFiller() instanceof HeroModel);
+        }
+        else if (movement==Movement.right) {
+            return (model.getTiles().get(position.getY()).get(position.getX()+1).getFiller() instanceof HeroModel);
+        }
+        else if (movement==Movement.up) {
+            return (model.getTiles().get(position.getY()-1).get(position.getX()).getFiller() instanceof HeroModel);
+        }
+        else if (movement==Movement.down) {
+            return (model.getTiles().get(position.getY()+1).get(position.getX()).getFiller() instanceof HeroModel);
+        }
+        else if (movement==Movement.stay) {
+            return (model.getTiles().get(position.getY()).get(position.getX()).getFiller() instanceof HeroModel);
+        }
+        return false;
+    }
+
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
         if(keyPressed.getCharacter()=='a'){
@@ -269,6 +289,9 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                     MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller();
                     for (Movement m : tmp_monsterModel.nextMove(pos)) {
                         if (model.checkPos(pos, m)) {
+
+                            if(checkForHero(pos, m))
+                                System.exit(0);
                             if (m == Movement.left)
                                 moveLeft(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
                             else if (m == Movement.right)

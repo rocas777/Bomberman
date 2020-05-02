@@ -20,6 +20,6 @@ public class HeroModel implements Character, CanExplode {
 
     @Override
     public boolean isFilled() {
-        return true;
+        return false;
     }
 }
