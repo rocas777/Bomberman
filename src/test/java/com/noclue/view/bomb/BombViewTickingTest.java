@@ -1,4 +1,4 @@
-package com.noclue.view;
+package com.noclue.view.bomb;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -14,11 +14,12 @@ import static org.mockito.Mockito.when;
 
 public class BombViewTickingTest {
     BombViewTicking bombViewTicking;
+    TextGraphics textGraphics;
 
     @Before
     public void setup(){
         BombModel model = Mockito.mock(BombModel.class);
-        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        textGraphics = Mockito.mock(TextGraphics.class);
         Position position = Mockito.mock(Position.class);
 
         when(model.getPosition()).thenReturn(position);

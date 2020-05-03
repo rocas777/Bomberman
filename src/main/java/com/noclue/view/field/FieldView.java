@@ -42,7 +42,7 @@ public class FieldView implements IView {
     }
 
     public void draw(FieldModel model, TextGraphics textGraphics, Screen screen, CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views){
-        //screen.clear();
+        screen.clear();
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(model.getWidth(), model.getHeight()), ' ');
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));

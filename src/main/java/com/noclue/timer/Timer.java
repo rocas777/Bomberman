@@ -5,16 +5,10 @@ import com.googlecode.lanterna.screen.Screen;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Timer implements TimerInterface {
-    Screen screen=null;
     private CopyOnWriteArrayList<TimeListener> timeListeners = new CopyOnWriteArrayList<TimeListener>();
 
     private int mseconds;
     private boolean isOn;
-    public Timer(int mseconds,Screen screen){
-        this.mseconds=mseconds;
-        isOn=false;
-        this.screen=screen;
-    }
 
     public CopyOnWriteArrayList<TimeListener> getTimeListeners() {
         return timeListeners;
@@ -53,7 +47,7 @@ public class Timer implements TimerInterface {
                     if(mseconds<1) {
                         return;
                     }
-                    java.lang.Thread.sleep(20);
+                    java.lang.Thread.sleep(mseconds);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

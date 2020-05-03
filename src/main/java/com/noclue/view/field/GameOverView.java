@@ -32,11 +32,11 @@ public class GameOverView implements IView {
         return screen;
     }
 
-    private int getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    private int getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -53,14 +53,11 @@ public class GameOverView implements IView {
 
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff00ff"));
         textGraphics.putString(46,22,"YOU HAVE LOST!!! I didn't know that was even possible!");
-        System.out.println("OKK");
 
         try {
             screen.refresh();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("OKK");
     }
-
 }

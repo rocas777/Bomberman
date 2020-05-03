@@ -37,11 +37,11 @@ public class WinView implements IView {
         return screen;
     }
 
-    private int getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    private int getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -55,7 +55,7 @@ public class WinView implements IView {
         textGraphics.fillRectangle(new TerminalPosition(getWidth()/2-30, getHeight()/2-10), new TerminalSize(60, 20), ' ');
 
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff00ff"));
-        textGraphics.putString(50,22,"YOU HAVE WON THE GAME!!! That was a thought one!");
+        textGraphics.putString(50,22,"YOU HAVE WON THE GAME!!! That was a tough one!");
 
         try {
             screen.refresh();

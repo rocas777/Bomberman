@@ -27,10 +27,10 @@ public class BombViewFire implements IView {
     public void draw(TextGraphics textGraphics, BombModel model){
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
 
-        for(Position p:model.getExplosionList()) {
+        for(int i=0;i<model.getExplosionList().size();i++) {
             textGraphics.putString(
-                    p.getRealPosition().getX()+2
-                    , p.getRealPosition().getY()+1
+                    model.getExplosionList().get(i).getRealPosition().getX()+2
+                    , model.getExplosionList().get(i).getRealPosition().getY()+1
                     , "++", BOLD
             );
         }
