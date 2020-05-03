@@ -49,6 +49,16 @@
 
 ### 1. Code Architecture
 #### The problem
->On the very first class when we started to plan out the code, one of the main debates we had was on how to structure the code. Initially we just made different classes that would do everything related to them and put them into packages according to their category (for example: we had a class "Monster" that would manipulate and draw himself. It did work but it wasn't very clean, could be hard to read for other people and this way of coding clearly violates the Single Responsibility Principle.
+>On the very first class when we started to plan out the code, one of the main debates we had was on how to structure the code. Initially we just made different classes that would do everything related to them and put them into packages according to their category (for example: we had a class "Monster" that would manipulate and draw itself). It did work but it wasn't very clean, could be hard to read for other people and this way of coding clearly violates the Single Responsibility Principle.
 #### The design
->In order to solve this issue, we adopted the MVC (Model - View - Controller) pattern. Doing so would turn our mess into an organized and easier to read  code. We also benefict from the fact that changing or adding features is very much simpler. The way we implemented this
+>In order to solve this issue and separate responsibilities into different objects we adopted the MVC (Model - View - Controller) pattern. Doing so allowed us to make our code organized, easier to read and overall structured. We also benefict from the fact that changing or adding features is very much simpler. Since we only thought of implementing this design midway it took longer than expected but this is how it turned out...
+#### The Implementation
+>Make a basic uml representing and point to some files
+#### Consequences
+>Following some advantages already stated on "The Design" part like facilitating the change of one component alone the MVC will make simultaneous development easier since each component is technically independent. Another bonus we came across at a chance is the fact that a "model" can have multiple views which will be helpful with the bomb (ticking and fire).
+>Now the code not only respects the Single Responsibility Principle (each component has responsibility over a single part of the application) but also, in a way, the Open-Closed Principle because if some feature is added that requires a new class the amount of pre-existing code that needs changing is relatively small.
+>The only downside we think this pattern has is that the framework will become more complex in a way that even if it is more organized it also is much tiring to navigate.
+
+### 2. Bomb Explosion
+#### The problem
+>While 
