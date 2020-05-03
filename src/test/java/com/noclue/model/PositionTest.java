@@ -58,6 +58,10 @@ public class PositionTest {
         Assert.assertEquals(5,p1.getY());
         p1.setY(40);
         Assert.assertEquals(5,p1.getY());
+        p2.setY(21);
+        Assert.assertEquals(20,p2.getY());
+        p3.setY(20);
+        Assert.assertEquals(20,p3.getY());
     }
 
     @Test
@@ -68,11 +72,15 @@ public class PositionTest {
         Assert.assertEquals(5,p1.getX());
         p1.setX(40);
         Assert.assertEquals(5,p1.getX());
+        p2.setX(11);
+        Assert.assertEquals(10,p2.getX());
+        p3.setX(10);
+        Assert.assertEquals(10,p3.getX());
     }
 
     @Test
     public void getRealPosition() {
-
+        Assert.assertEquals(new Position(10*6+20,20*3+20,p1.getX()*6,p1.getY()*3),p1.getRealPosition());
     }
 
     @Test
