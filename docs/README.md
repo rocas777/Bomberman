@@ -4,7 +4,7 @@
 
 >Our version will try to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players is caught up in his bomb's explosion he will lose a life. And that leads to another difference: lives. The player will have 3 lives that he will lose by exploding himself or getting in contact with the mosnters. There will also be coin random coin drops and may, just maybe some power-ups.
 
->This project is being made by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt).
+>This project is being made by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
 
 ## Implemented Features
 
@@ -28,9 +28,27 @@
 
 >On the contrary, the player will always start on the top left
 
+>There's also a white column on the right. It will be the place where in the future we will draw lives, clock and score.
+
 ### Loose condition
 >If a monster happens to enter contact with the player he will loose.
 
 ### Win Condition
->The door will be hidden underneath one indestructible block at random. If the player founds it after destroying the respective block he will win because, for now, there's only 1 level.
+>The door will be hidden underneath one destructible block at random. If the player founds it after destroying the respective block he will win because, for now, there's only 1 level.
 
+## Planned Features
+>Make so that the player will have 3 lives as well as time to complete the level.
+
+>Add a score system that will benefit from random coin drops after destructible blocks explose and fast clearence of levels.
+
+>More difficulties that maybe change number of monsters, their deployment position and movement.
+
+>If we have time we were also thinking about integrating power-ups like getting an extra life or invulnerability for x amount of time.
+
+## Design
+
+### 1. Code Architecture
+#### The problem
+>On the very first class when we started to plan out the code, one of the main debates we had was on how to structure the code. Initially we just made different classes that would do everything related to them and put them into packages according to their category (for example: we had a class "Monster" that would manipulate and draw himself. It did work but it wasn't very clean, could be hard to read for other people and this way of coding clearly violates the Single Responsibility Principle.
+#### The design
+>In order to solve this issue, we adopted the MVC (Model - View - Controller) pattern. Doing so would turn our mess into an organized and easier to read  code. We also benefict from the fact that changing or adding features is very much simpler. The way we implemented this
