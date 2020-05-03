@@ -9,19 +9,19 @@
 ## Implemented Features
 #### Monster
 >The ones we are supposed to run way
-![alt-text](UML/MVC.png)
+![monsters](screenshots/monster.png)
 
 #### Hero
 >The Hero is the one controlled by the player
-![alt-text](UML/MVC.png)
+![hero](screenshots/hero.png)
 
 #### Removable Blocks
 >The blocks that can be exploded
-![alt-text](UML/MVC.png)
+![block](screenshots/block.png)
 
 #### Door
 >The target Tile, The door to Victory
-![alt-text](UML/MVC.png)
+![door](screenshots/door.png)
 
 ### Movement and collision detection
 >The player moves according to keyboard input (A-left; S-down; D-right; W-up).
@@ -72,7 +72,7 @@
 >In order to solve this issue and separate responsibilities into different objects we adopted the MVC (Model - View - Controller) pattern. Doing so allowed us to make our code organized, easier to read and overall structured. We also benefict from the fact that changing or adding features is very much simpler. Since we only thought of implementing this design midway it took longer than expected but this is how it turned out...
 #### The Implementation
 >The following UML shows how we implemented this design through one example since it is basically the same for every object:
-![alt-text](UML/MVC.png)
+![uml](UML/MVC.png)
 
 >These classes can be found at:
 >
@@ -93,7 +93,7 @@
 >We chose to go with the first option of letting each bomb handle itself and implementing a State Pattern since this was specially easier to do with the above mentioned MVC pattern. What this pattern does is allow us to represent different states of application with different subclasses. This pattern allowed us to address this simple problem because the bomb clearly has two different states: ticking and explosion. When the bomb needs to change from ticking to exploded, it only has to change its view. Since both implement the same interface, the controller does not have the need to keep checking flags and if's when it renders to check the state.  
 #### The Implementation
 >The following UML shows how we mapped this pattern:
-![alt-text](UML/Bomb-Explosion.png)
+![uml](UML/Bomb-Explosion.png)
 
 >These classes/interface can be found at:
 >
@@ -117,7 +117,7 @@
 >To work this problem out we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the application's behaviour slightly according to the difficulty that is being used even though their job is all the same. The Monster only has to call the class that was passed to it, and that class is the responsible for the monster strategy.
 #### The Implementation
 >The following UML shows how we mapped this pattern:
-![alt-text](UML/Difficulty.png)
+![uml](UML/Difficulty.png)
 
 >These classes/interface can be found at:
 >
@@ -145,7 +145,7 @@
 >This way using the concepts of the Observer Pattern, those listeners notify the classes that depend so they can update themselves (TimeListener notifies the Game and FieldController class and KeyboardListener notifies the FieldController. The FieldController has a similiar aproach by notifying the other classes to draw).
 #### The Implementation
 >The following UML shows the time listener and how the main controllers depend on it (the keyboard listener is basically the same so we decided not to put it in the UML to simplify):
-![alt-text](UML/Listeners.png)
+![uml](UML/Listeners.png)
 
 >These classes/interface can be found at:
 >
@@ -169,7 +169,7 @@
 >The need to adapt the code lead us to the Interface Adapter design. This allows to convert the interface of class into another interface that is expected. Even though we are not following the design to the word since we are not really adapting interfaces (just a simple function) we took some principles off of it and choose tho make a generic draw() call that each class will adapt to its own liking.
 #### The Implementation
 >The following UML serves as an example of how we achieved this:
-![alt-text](UML/IVIEW.png)
+![uml](UML/IVIEW.png)
 
 >These classes/interface can be found at:
 >
@@ -208,9 +208,9 @@ We could make so that this class could handle returning other positions next to 
 >To fix some of the said problems we could assign more responsibilities to the other classes instead of relying so heavily on the field and to reduce some bigger methods we could refactor it into more different methods but smaller usign the extract method. We could make two different classes, one handles the static elements as blocks, door and coins, and the other handles the monsters and hero. Both could communicate with a class that would aggregate those classes and manage the Tiles.
 ## Testing
 ### Screenshot of test coverage
-![alt text](screenshots/Test-Coverage.png)
+![test](screenshots/Test-Coverage.png)
 ### Screenshot of mutation testing report
-![alt_text](screenshots/PitTest.png)
+![pit](screenshots/PitTest.png)
 >This report can be found [here](report-mutation).
 ## Notes about warnings
 >After compiling there will appear a warning saying that FieldController.java "uses unchecked or unsafe operations". This probably has to do with the casting of variables but since the program works great and we can't pinpoint what gives off the warning we'll just let it be for now.
