@@ -2,9 +2,9 @@
 
 >Bomberman is a strategic, maze-based video game franchise in which the player holds an unlimited number of bombs and uses them to open his path on the maze and find the door that will lead to the next level, all this while evading bad monsters :(
 
->Our version will try to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players is caught up in his bomb's explosion he will lose a life. And that leads to another difference: lives. The player will have 3 lives that he will lose by exploding himself or getting in contact with the mosnters. There will also be coin random coin drops and may, just maybe some power-ups.
+>Our version will try to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players would be caught up in his bomb's explosion he would lose a life. That leads to another difference: lives. The player will have 3 lives that he will lose by exploding himself or getting in contact with the mosnters. There will also be coin random coin drops and may, just maybe some power-ups.
 
->This project is being made by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
+>This project is being developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
 
 ## Implemented Features
 
@@ -13,25 +13,25 @@
 
 >The monsters also move using a pseudorandom algorythm to generate the next position he will be at.
 
->There's also collision detection. For players if theres is an input that will force the character into a wall it simply won't happen. As for the monsters, if it would happen they'll just choose another position
+>There's also collision detection. For players if there is an input that will force the character into a wall it simply won't happen. As for the monsters, if it would happen they'll just choose another position.
 
 ### Bomb deployment and explosion
->The player can press 'p' to deploy a bomb. It still has some bugs but most of the time it will explode horizontally and vertically in a range of 4 for each side and destroy whatever it can (player, monsters, destructible blocks).
+>The player can press 'p' to deploy a bomb. It still has some bugs, but most of the time it will explode horizontally and vertically in a range of 4 for each side and destroy whatever it can (player, monsters, destructible blocks).
 
->For now the players only has 1 life point so he will immediatly loose if caught in the explosion.
+>For now the player only has 1 life point, so he will immediatly loose if caught in the explosion.
 
 ### Difficulty
 >Only easy implemented. It only affects monster movement each is generated at random (pseudo).
 
 ### Map Design
->Each try to map generated will have all indestructible block in the same place but the destructible will be placed at random and so will the monster.
+>Each try to map generated will have all indestructible block in the same place, but the destructible will be placed at random and so will the monster.
 
 >On the contrary, the player will always start on the top left
 
 >There's also a white column on the right. It will be the place where in the future we will draw lives, clock and score.
 
 ### Loose condition
->If a monster happens to enter contact with the player he will loose.
+>If a monster happens to enter contact with the player he will lose.
 
 ### Win Condition
 >The door will be hidden underneath one destructible block at random. If the player founds it after destroying the respective block he will win because, for now, there's only 1 level.
@@ -49,7 +49,7 @@
 
 ### 1. Code Architecture
 #### The Problem
->On the very first class when we started to plan out the code, one of the main debates we had was on how to structure the code. Initially we just made different classes that would do everything related to them and put them into packages according to their category (for example: we had a class "Monster" that would manipulate and draw itself). It did work but it wasn't very clean, could be hard to read for other people and this way of coding clearly violates the Single Responsibility Principle.
+>On the very first class when we started to plan out the code, one of the main debates we had was on how to structure the code. Initially we just made different classes that would do everything related to them and put them into packages according to their category (for example: we had a class "Monster" that would manipulate and draw itself). It did work, but it wasn't very clean, could be hard to read for other people and this way of coding clearly violates the Single Responsibility Principle.
 #### The Design
 >In order to solve this issue and separate responsibilities into different objects we adopted the MVC (Model - View - Controller) pattern. Doing so allowed us to make our code organized, easier to read and overall structured. We also benefict from the fact that changing or adding features is very much simpler. Since we only thought of implementing this design midway it took longer than expected but this is how it turned out...
 #### The Implementation
@@ -95,12 +95,12 @@
 #### The Implementation
 >uml and stuff
 #### The consequences
->Further encapsulation and code structurization where the listeners have no information about it's observers, just that they exist and the need to notify them when the time is right, nor do they about the listener.
+> - Further encapsulation and code structurization where the listeners have no information about it's observers, just that they exist and the need to notify them when the time is right, nor do they about the listener.
 #### * Note about the class notification: since the FieldModel holds almost every other model it would make sense for the FieldController to also manipulate most of them.
 
 ### 5. Simplify draw calls
 #### The Problem
->This wasn't a major issue with our code but some classes had different arguments for their draw calls and in the midst of development we faced some visual bugs due to not noticing we had passed to wrong arguments to the function. We could just correct the small situation and move one but we chose to make it easier for future draw functions and since the mistake happened once it may as well happen twice.
+>This wasn't a major issue with our code, but some classes had different arguments for their draw calls and in the midst of development we faced some visual bugs due to not noticing we had passed to wrong arguments to the function. We could just correct the small situation and move one but we chose to make it easier for future draw functions and since the mistake happened once it may as well happen twice.
 #### The Design
 >The need to adapt the code lead us to the Interface Adapter design. This allows to convert the interface of class into another interface that is expected. Even though we are not following the design to the word since we are not really adapting interfaces (more like just a simple function) we took some principles off of it and choose tho make a generic draw() call that each class will adapt to its own liking.
 #### The Implementation
@@ -110,10 +110,28 @@
 > - More readability
 
 ## Known Code Smells and Refactoring
-### 1. Bomb Drawing
+### 1. Position Class
 #### Smell
+>The class position is a data class since it only consists of a some private fields, getters and setter for the accessing those fields. It can not operate on its own and its only puporse is to be used by other classes
 #### Refactoring
-
+>We could make so that this class could handle returning other positions next to it (left, right, up, down) instead of the Field.
+### 2. Tile Class
+#### Smell
+>This class can be considered a lazy class since it doesn't do much really. Our main goal developing this class was for it to hold the classes that were in that specific tile in each moment and handle conversions between real cli position and game tile. We sort-of went with the flow and midway throught the project we noticed it only does half it is supossed to do (hold the info about what is in there) and some of its original responsibilities were given to other classes.
+#### Refactor
+>In order to fix this smell we could refactor our code to give it its original functionalities or add others like handling the drawing of what is inside. There's also the alternative of simply deleting this class but we don't think it is the best way to go forward.
+### 3. Field Class
+#### Smell
+>We would first like to say that we intended for the FieldModel to contain many other classes that are related to it. In the game, the hero and monsters for example will be inside a field along with other objects so we coded with that same idea in mind. That being said both the FieldModel and FieldController can be considered large classes specially the last one due to a bigger number o methods, fields and overall length.
+>The controller could also be regarded as feature envy considering it accesses other classes information a lot even though these are its own fields. There's also the fact that some methods of the controller can be seen as relatively large.
+#### Refactoring
+>To fix some of the said problems we could assign more responsibilities to the other classes instead of relying so heavily on the field and to reduce some bigger methods we could refactor it into more different methods but smaller usign the extract method.
 ## Testing
+### Screenshot of test coverage
+![alt text](screenshots/Test-Coverage.png)
+### Screenshot of mutation testing report
 
 ## Self-Evaluation
+>Nuno Oliveira (up201806525@fe.up.pt): 
+
+>Luis Pinto (up201806206@fe.up.pt):
