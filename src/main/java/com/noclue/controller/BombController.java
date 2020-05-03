@@ -11,6 +11,7 @@ public class BombController implements TimeListener {
     private IView viewTicking;
     private IView viewFire;
     private IView view;
+    private int sum=0;
     private TextGraphics textGraphics;
 
     BombController(BombModel model, TextGraphics textGraphics){
@@ -18,6 +19,14 @@ public class BombController implements TimeListener {
         this.viewFire= new BombViewFire(textGraphics,model);
         view=viewTicking;
         this.model=model;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
     }
 
     public TextGraphics getTextGraphics() {
@@ -46,12 +55,12 @@ public class BombController implements TimeListener {
 
     @Override
     public synchronized void updateOnTime() {
-        model.setSum(model.getSum()+1);
-        if (model.getSum()*20>=250+model.getMseconds()) {
+        setSum(getSum()+1);
+        if (getSum()*20>=250+model.getMseconds()) {
             model.getTimerInterface().removeListener(this);
             model.getExplosionListener().fireDone(model.getPosition());
         }
-        else if(model.getSum()*20>=model.getMseconds()) {
+        else if(getSum()*20>=model.getMseconds()) {
             model.getExplosionListener().explode(model.getPosition());
             synchronized (view) {
                 view = viewFire;
