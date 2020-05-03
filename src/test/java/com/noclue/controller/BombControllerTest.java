@@ -117,6 +117,7 @@ public class BombControllerTest {
 
         Mockito.verify(bombModel.getTimerInterface(),Mockito.times(1))
                 .removeListener(bombController);
-        //model.getExplosionListener().fireDone(model.getPosition());
+        Mockito.verify(bombModel.getExplosionListener(),Mockito.times(1))
+                .fireDone(bombModel.getPosition());
     }
 }
