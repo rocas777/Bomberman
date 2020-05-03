@@ -45,3 +45,10 @@
 
 >If we have time we were also thinking about integrating power-ups like getting an extra life or invulnerability for x amount of time.
 
+## Design
+
+### 1. Code Architecture
+#### The problem
+>On the very first class when we started to plan out the code, one of the main debates we had was on how to structure the code. Initially we just made different classes that would do everything related to them and put them into packages according to their category (for example: we had a class "Monster" that would manipulate and draw himself. It did work but it wasn't very clean, could be hard to read for other people and this way of coding clearly violates the Single Responsibility Principle.
+#### The design
+>In order to solve this issue, we adopted the MVC (Model - View - Controller) pattern. Doing so would turn our mess into an organized and easier to read  code. We also benefict from the fact that changing or adding features is very much simpler. The way we implemented this
