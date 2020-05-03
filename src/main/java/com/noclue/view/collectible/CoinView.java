@@ -22,6 +22,14 @@ public class CoinView implements IView {
         textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2,"  00  ",BOLD);
     }
 
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public CoinModel getModel() {
+        return model;
+    }
+
     @Override
     public void draw() {
         draw(textGraphics,model.getPosition());
