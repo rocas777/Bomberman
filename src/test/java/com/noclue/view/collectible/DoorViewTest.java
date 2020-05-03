@@ -97,4 +97,23 @@ public class DoorViewTest {
 
     }
 
+    @Test
+    public void drawI() {
+        doorView.draw();
+
+        Mockito.verify(doorView.getTextGraphics(),Mockito.times(1))
+                .setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
+        Mockito.verify(doorView.getTextGraphics(),Mockito.times(1))
+                .setBackgroundColor(TextColor.Factory.fromString("#ffFF00"));
+        Mockito.verify(doorView.getTextGraphics(),Mockito.times(2))
+                .setForegroundColor(TextColor.Factory.fromString("#ffffff"));
+        Mockito.verify(doorView.getTextGraphics(),Mockito.times(1))
+                .putString(doorView.getModel().getPosition().getRealPosition().getX(),doorView.getModel().getPosition().getRealPosition().getY()," 0000 ",BOLD);
+        Mockito.verify(doorView.getTextGraphics(),Mockito.times(1))
+                .putString(doorView.getModel().getPosition().getRealPosition().getX(),doorView.getModel().getPosition().getRealPosition().getY()+1,"000000",BOLD);
+        Mockito.verify(doorView.getTextGraphics(),Mockito.times(1))
+                .putString(doorView.getModel().getPosition().getRealPosition().getX(),doorView.getModel().getPosition().getRealPosition().getY()+2,"000000",BOLD);
+
+    }
+
 }

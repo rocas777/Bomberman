@@ -89,4 +89,17 @@ public class CoinViewTest {
 
     }
 
+    @Test
+    public void drawI() {
+        coinView.draw();
+
+        Mockito.verify(coinView.getTextGraphics(),Mockito.times(1))
+                .putString(coinView.getModel().getPosition().getRealPosition().getX(),coinView.getModel().getPosition().getRealPosition().getY(),"  00  ",BOLD);
+        Mockito.verify(coinView.getTextGraphics(),Mockito.times(1))
+                .putString(coinView.getModel().getPosition().getRealPosition().getX(),coinView.getModel().getPosition().getRealPosition().getY()+1," 0000 ",BOLD);
+        Mockito.verify(coinView.getTextGraphics(),Mockito.times(1))
+                .putString(coinView.getModel().getPosition().getRealPosition().getX(),coinView.getModel().getPosition().getRealPosition().getY()+2,"  00  ",BOLD);
+
+    }
+
 }
