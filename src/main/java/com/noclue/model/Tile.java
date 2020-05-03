@@ -1,8 +1,6 @@
 package com.noclue.model;
 
 
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.noclue.Filler;
 import com.noclue.model.collectible.Collectible;
 
 public class Tile {

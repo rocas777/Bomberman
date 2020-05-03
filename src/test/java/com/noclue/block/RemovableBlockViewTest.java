@@ -1,15 +1,14 @@
-package com.noclue.view.block;
+package com.noclue.block;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.noclue.controller.TimeListener;
-import com.noclue.controller.TimerInterface;
 import com.noclue.model.FieldModel;
 import com.noclue.model.Position;
-import com.noclue.model.block.IndestructibleBlockModel;
-import com.noclue.model.block.RemovableBlockModel;
-import com.noclue.view.IView;
-import junit.framework.TestCase;
+import com.noclue.model.RemovableBlockModel;
+import com.noclue.IView;
+import com.noclue.timer.TimeListener;
+import com.noclue.timer.TimerInterface;
+import com.noclue.view.block.RemovableBlockView;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -95,4 +94,22 @@ public class RemovableBlockViewTest  {
 
     }
 
+    @Test
+    public void drawI() {
+        removableBlockView.draw();
+
+        Mockito.verify(removableBlockView.getTextGraphics(),Mockito.times(1))
+                .setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
+        Mockito.verify(removableBlockView.getTextGraphics(),Mockito.times(1))
+                .setBackgroundColor(TextColor.Factory.fromString("#000000"));
+        Mockito.verify(removableBlockView.getTextGraphics(),Mockito.times(2))
+                .setForegroundColor(TextColor.Factory.fromString("#ffffff"));
+        Mockito.verify(removableBlockView.getTextGraphics(),Mockito.times(1))
+                .putString(removableBlockView.getModel().getPosition().getRealPosition().getX(),removableBlockView.getModel().getPosition().getRealPosition().getY(),"######",BOLD);
+        Mockito.verify(removableBlockView.getTextGraphics(),Mockito.times(1))
+                .putString(removableBlockView.getModel().getPosition().getRealPosition().getX(),removableBlockView.getModel().getPosition().getRealPosition().getY()+1,"######",BOLD);
+        Mockito.verify(removableBlockView.getTextGraphics(),Mockito.times(1))
+                .putString(removableBlockView.getModel().getPosition().getRealPosition().getX(),removableBlockView.getModel().getPosition().getRealPosition().getY()+2,"######",BOLD);
+
+    }
 }

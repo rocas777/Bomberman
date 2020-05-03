@@ -5,11 +5,11 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.noclue.controller.BombController;
-import com.noclue.model.BombModel;
+import com.noclue.IView;
+import com.noclue.controller.bomb.BombController;
 import com.noclue.model.FieldModel;
-import com.noclue.view.character.MonsterView;
+import com.noclue.view.field.FieldView;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -17,20 +17,24 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 public class FieldViewTest {
     FieldView fieldView;
     CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> iViews;
+    FieldView fmv;
+    FieldModel model;
+    TextGraphics textGraphics;
+    Screen screen;
     @Before
     public void setup(){
-        FieldModel model = Mockito.mock(FieldModel.class);
+        model = Mockito.mock(FieldModel.class);
         BombController bombModel = Mockito.mock(BombController.class);
-        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
-        Screen screen = Mockito.mock(Screen.class);
+        textGraphics = Mockito.mock(TextGraphics.class);
+        screen = Mockito.mock(Screen.class);
         fieldView = new FieldView(screen,textGraphics,model);
         when(model.getBomb()).thenReturn(bombModel);
+        when(model.getViews()).thenReturn(iViews);
 
         when(model.getWidth()).thenReturn(200);
         when(model.getHeight()).thenReturn(200);
@@ -38,6 +42,8 @@ public class FieldViewTest {
         iViews = new CopyOnWriteArrayList<>();
         iViews.add(new CopyOnWriteArrayList<IView>());
         iViews.get(0).add(noView);
+        fmv = Mockito.spy(fieldView);
+
     }
 
     @Test
@@ -74,6 +80,30 @@ public class FieldViewTest {
         Mockito.verify(fieldView.getModel().getBomb(),Mockito.times(1))
                 .draw();
 
+
+    }
+
+    @Test
+    public void drawI() {
+
+
+
+    }
+
+    @Test
+    public void setTextGraphics(){
+        TextGraphics tmp = Mockito.mock(TextGraphics.class);
+        Assert.assertEquals(textGraphics,fieldView.getTextGraphics());
+        fieldView.setTextGraphics(tmp);
+        Assert.assertEquals(tmp,fieldView.getTextGraphics());
+    }
+
+    @Test
+    public void setModel(){
+        FieldModel tmp = Mockito.mock(FieldModel.class);
+        Assert.assertEquals(model,fieldView.getModel());
+        fieldView.setModel(tmp);
+        Assert.assertEquals(tmp,fieldView.getModel());
 
     }
 }

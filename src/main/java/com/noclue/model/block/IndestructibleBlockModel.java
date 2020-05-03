@@ -1,7 +1,7 @@
 package com.noclue.model.block;
 
-import com.noclue.model.Position;
 
+import com.noclue.model.Position;
 
 public class IndestructibleBlockModel implements Block {
     Position position;

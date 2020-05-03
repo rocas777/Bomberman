@@ -1,17 +1,14 @@
-package com.noclue.view.collectible;
+package com.noclue.collectible;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.noclue.controller.TimeListener;
-import com.noclue.controller.TimerInterface;
+import com.noclue.model.collectible.DoorModel;
 import com.noclue.model.FieldModel;
 import com.noclue.model.Position;
-import com.noclue.model.block.RemovableBlockModel;
-import com.noclue.model.collectible.DoorModel;
-import com.noclue.view.IView;
-import com.noclue.view.block.RemovableBlockView;
-import com.noclue.view.block.RemovableBlockViewTest;
-import junit.framework.TestCase;
+import com.noclue.timer.TimeListener;
+import com.noclue.timer.TimerInterface;
+import com.noclue.view.collectible.DoorView;
+import com.noclue.IView;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

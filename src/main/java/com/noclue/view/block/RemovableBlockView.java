@@ -3,9 +3,8 @@ package com.noclue.view.block;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.Position;
-import com.noclue.model.block.RemovableBlockModel;
-import com.noclue.controller.TimeListener;
-import com.noclue.view.IView;
+import com.noclue.model.RemovableBlockModel;
+import com.noclue.IView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 

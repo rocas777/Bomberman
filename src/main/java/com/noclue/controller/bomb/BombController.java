@@ -1,12 +1,13 @@
-package com.noclue.controller;
+package com.noclue.controller.bomb;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.noclue.IBombInterface;
 import com.noclue.model.BombModel;
-import com.noclue.view.BombViewFire;
-import com.noclue.view.BombViewTicking;
-import com.noclue.view.IView;
+import com.noclue.IView;
+import com.noclue.view.bomb.BombViewFire;
+import com.noclue.view.bomb.BombViewTicking;
 
-public class BombController implements TimeListener {
+public class BombController implements IBombInterface {
     private BombModel model;
     private IView viewTicking;
     private IView viewFire;
@@ -14,7 +15,7 @@ public class BombController implements TimeListener {
     private int sum=0;
     private TextGraphics textGraphics;
 
-    BombController(BombModel model, TextGraphics textGraphics){
+    public BombController(BombModel model, TextGraphics textGraphics){
         this.viewTicking=new BombViewTicking(textGraphics,model);
         this.viewFire= new BombViewFire(textGraphics,model);
         view=viewTicking;

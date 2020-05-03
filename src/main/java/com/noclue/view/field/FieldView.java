@@ -1,4 +1,4 @@
-package com.noclue.view;
+package com.noclue.view.field;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -6,11 +6,12 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 import com.noclue.model.FieldModel;
+import com.noclue.IView;
 
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class FieldView implements IView{
+public class FieldView implements IView {
     private FieldModel model;
     private TextGraphics textGraphics;
     private Screen screen;
@@ -41,7 +42,7 @@ public class FieldView implements IView{
     }
 
     public void draw(FieldModel model, TextGraphics textGraphics, Screen screen, CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views){
-        screen.clear();
+        //screen.clear();
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(model.getWidth(), model.getHeight()), ' ');
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));

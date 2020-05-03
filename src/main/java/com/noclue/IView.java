@@ -1,4 +1,4 @@
-package com.noclue.view;
+package com.noclue;
 
 public interface IView {
     void draw();

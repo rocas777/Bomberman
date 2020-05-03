@@ -1,8 +1,7 @@
 package com.noclue.model;
 
 import com.noclue.ExplosionListener;
-import com.noclue.controller.Timer;
-import com.noclue.controller.TimerInterface;
+import com.noclue.timer.TimerInterface;
 
 import java.util.ArrayList;
 

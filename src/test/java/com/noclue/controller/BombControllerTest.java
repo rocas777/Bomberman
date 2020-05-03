@@ -1,10 +1,13 @@
 package com.noclue.controller;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.noclue.controller.bomb.BombController;
 import com.noclue.model.BombModel;
 import com.noclue.model.Position;
-import com.noclue.view.BombViewTicking;
-import com.noclue.view.IView;
+import com.noclue.timer.TimeListener;
+import com.noclue.timer.TimerInterface;
+import com.noclue.view.bomb.BombViewTicking;
+import com.noclue.IView;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static org.mockito.Mockito.*;
 
 public class BombControllerTest {
-    private class mockTimer implements TimerInterface{
+    private class mockTimer implements TimerInterface {
         CopyOnWriteArrayList<TimeListener> timeListeners=new CopyOnWriteArrayList<TimeListener>();
 
         @Override

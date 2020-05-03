@@ -1,15 +1,14 @@
-package com.noclue.view.character;
+package com.noclue.character;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.noclue.controller.TimeListener;
-import com.noclue.controller.TimerInterface;
 import com.noclue.model.FieldModel;
-import com.noclue.model.Position;
 import com.noclue.model.character.HeroModel;
-import com.noclue.model.character.MonsterModel;
-import com.noclue.view.IView;
-import junit.framework.TestCase;
+import com.noclue.model.Position;
+import com.noclue.timer.TimeListener;
+import com.noclue.timer.TimerInterface;
+import com.noclue.view.character.HeroView;
+import com.noclue.IView;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -80,6 +79,24 @@ public class HeroViewTest {
     @Test
     public void draw() {
         heroView.draw(heroView.getTextGraphics(),heroView.getModel().getPosition());
+
+        Mockito.verify(heroView.getTextGraphics(),Mockito.times(1))
+                .setBackgroundColor(TextColor.Factory.fromString("#0000ff"));
+        Mockito.verify(heroView.getTextGraphics(),Mockito.times(2))
+                .setForegroundColor(TextColor.Factory.fromString("#ffffff"));
+        Mockito.verify(heroView.getTextGraphics(),Mockito.times(1))
+                .putString(heroView.getModel().getPosition().getRealPosition().getX(),heroView.getModel().getPosition().getRealPosition().getY(),"  ()  ",BOLD);
+        Mockito.verify(heroView.getTextGraphics(),Mockito.times(1))
+                .putString(heroView.getModel().getPosition().getRealPosition().getX(),heroView.getModel().getPosition().getRealPosition().getY()+1,"0=||=0",BOLD);
+        Mockito.verify(heroView.getTextGraphics(),Mockito.times(1))
+                .putString(heroView.getModel().getPosition().getRealPosition().getX(),heroView.getModel().getPosition().getRealPosition().getY()+2,"0=||=0",BOLD);
+        Mockito.verify(heroView.getTextGraphics(),Mockito.times(1))
+                .setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
+    }
+
+    @Test
+    public void drawI() {
+        heroView.draw();
 
         Mockito.verify(heroView.getTextGraphics(),Mockito.times(1))
                 .setBackgroundColor(TextColor.Factory.fromString("#0000ff"));

@@ -1,9 +1,8 @@
-package com.noclue.model.block;
+package com.noclue.model;
 
-import com.noclue.CanExplode;
-import com.noclue.model.Position;
+import com.noclue.model.block.Block;
 
-public class RemovableBlockModel implements Block, CanExplode {
+public class RemovableBlockModel implements Block {
     Position position;
     public RemovableBlockModel(Position position){
         this.position=position;

@@ -1,14 +1,14 @@
-package com.noclue.view;
+package com.noclue.view.bomb;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.BombModel;
 import com.noclue.model.Position;
-import com.noclue.model.block.IndestructibleBlockModel;
+import com.noclue.IView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
-public class BombViewFire implements IView{
+public class BombViewFire implements IView {
     TextGraphics textGraphics;
     BombModel model;
     public BombViewFire(TextGraphics textGraphics, BombModel bombModel){

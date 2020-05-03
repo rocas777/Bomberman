@@ -1,8 +1,7 @@
-package com.noclue.controller;
+package com.noclue.timer;
 
 import com.googlecode.lanterna.screen.Screen;
 
-import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Timer implements TimerInterface {

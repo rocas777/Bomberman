@@ -1,13 +1,12 @@
 package com.noclue.model.character;
 
-import com.noclue.CanExplode;
 import com.noclue.Movement;
 import com.noclue.model.Position;
 import com.noclue.model.difficulty.Difficulty;
 
 import java.util.ArrayList;
 
-public class MonsterModel implements Character, CanExplode {
+public class MonsterModel implements Character {
     final private Difficulty difficulty;
     Position position;
 

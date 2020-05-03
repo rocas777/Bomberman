@@ -1,17 +1,14 @@
-package com.noclue.view.block;
+package com.noclue.block;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.noclue.controller.TimeListener;
-import com.noclue.controller.TimerInterface;
 import com.noclue.model.FieldModel;
-import com.noclue.model.Position;
 import com.noclue.model.block.IndestructibleBlockModel;
-import com.noclue.model.character.HeroModel;
-import com.noclue.view.IView;
-import com.noclue.view.character.HeroView;
-import com.noclue.view.character.HeroViewTest;
-import junit.framework.TestCase;
+import com.noclue.IView;
+import com.noclue.model.Position;
+import com.noclue.timer.TimeListener;
+import com.noclue.timer.TimerInterface;
+import com.noclue.view.block.IndestructibleBlockView;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -81,6 +78,23 @@ public class IndestructibleBlockViewTest  {
     @Test
     public void draw() {
         indestructibleBlockView.draw(indestructibleBlockView.getTextGraphics(),indestructibleBlockView.getModel().getPosition());
+
+        Mockito.verify(indestructibleBlockView.getTextGraphics(),Mockito.times(1))
+                .setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
+        Mockito.verify(indestructibleBlockView.getTextGraphics(),Mockito.times(1))
+                .setForegroundColor(TextColor.Factory.fromString("#ffffff"));
+        Mockito.verify(indestructibleBlockView.getTextGraphics(),Mockito.times(1))
+                .putString(indestructibleBlockView.getModel().getPosition().getRealPosition().getX(),indestructibleBlockView.getModel().getPosition().getRealPosition().getY(),"+----+",BOLD);
+        Mockito.verify(indestructibleBlockView.getTextGraphics(),Mockito.times(1))
+                .putString(indestructibleBlockView.getModel().getPosition().getRealPosition().getX(),indestructibleBlockView.getModel().getPosition().getRealPosition().getY()+1,"|XXXX|",BOLD);
+        Mockito.verify(indestructibleBlockView.getTextGraphics(),Mockito.times(1))
+                .putString(indestructibleBlockView.getModel().getPosition().getRealPosition().getX(),indestructibleBlockView.getModel().getPosition().getRealPosition().getY()+2,"+----+",BOLD);
+
+    }
+
+    @Test
+    public void drawI() {
+        indestructibleBlockView.draw();
 
         Mockito.verify(indestructibleBlockView.getTextGraphics(),Mockito.times(1))
                 .setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));

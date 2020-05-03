@@ -1,5 +1,6 @@
 package com.noclue.controller;
 
+import com.noclue.timer.Timer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.doThrow;
 
 public class TimerTest {
