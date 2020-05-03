@@ -21,14 +21,12 @@ public class Position implements Cloneable{
             this.y=y;
         else {
             this.y = y_max;
-            System.out.println(y+" "+this.y);
         }
 
         if(x<=x_max && x>=0)
             this.x=x;
         else {
             this.x = x_max;
-            System.out.println(x+" "+this.x);
         }
     }
 

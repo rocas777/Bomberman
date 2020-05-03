@@ -1,13 +1,13 @@
 package com.noclue.model;
 
-import com.noclue.*;
-import com.noclue.controller.BombController;
-import com.noclue.controller.KeyBoard;
-import com.noclue.controller.TimeListener;
-import com.noclue.controller.Timer;
-import com.noclue.view.IView;
+import com.noclue.IBombInterface;
+import com.noclue.IView;
+import com.noclue.Movement;
+import com.noclue.keyboard.KeyBoard;
+import com.noclue.model.Position;
+import com.noclue.model.Tile;
+import com.noclue.timer.Timer;
 
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FieldModel  {
@@ -16,7 +16,7 @@ public class FieldModel  {
     final private CopyOnWriteArrayList<CopyOnWriteArrayList<Tile>> tiles;
     private Position hero_pos;
     private CopyOnWriteArrayList<Position> monsters=new CopyOnWriteArrayList<>();
-    BombController bombController =null;
+    IBombInterface bombController =null;
     KeyBoard kServer;
     Timer tServer;
     CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views = new CopyOnWriteArrayList<>();
@@ -63,7 +63,7 @@ public class FieldModel  {
         return monsters;
     }
 
-    public BombController getBomb() {
+    public IBombInterface getBomb() {
         return bombController;
     }
 
@@ -83,7 +83,7 @@ public class FieldModel  {
         this.hero_pos = hero_pos;
     }
 
-    public void setBombModel(BombController bombController) {
+    public void setBombModel(IBombInterface bombController) {
         this.bombController = bombController;
     }
 

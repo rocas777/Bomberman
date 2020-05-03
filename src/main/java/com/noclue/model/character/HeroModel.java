@@ -1,9 +1,8 @@
 package com.noclue.model.character;
 
-import com.noclue.CanExplode;
 import com.noclue.model.Position;
 
-public class HeroModel implements Character, CanExplode {
+public class HeroModel implements Character {
     Position position;
     public HeroModel(Position position){
         this.position=position;

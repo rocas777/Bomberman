@@ -1,14 +1,11 @@
 package com.noclue.model;
 
-import com.noclue.Filler;
-import com.noclue.controller.Timer;
 import com.noclue.model.collectible.Collectible;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 public class TileTest {

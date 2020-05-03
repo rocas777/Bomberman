@@ -1,13 +1,10 @@
 package com.noclue.model.character;
 
 import com.noclue.model.Position;
-import com.noclue.model.block.IndestructibleBlockModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import static org.junit.Assert.*;
 
 public class HeroModelTest {
     HeroModel h1;

@@ -9,11 +9,13 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.noclue.controller.FieldController;
-import com.noclue.controller.KeyBoard;
-import com.noclue.controller.KeyboardListener;
-import com.noclue.controller.Timer;
+import com.noclue.keyboard.KeyBoard;
+import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.FieldModel;
-import com.noclue.view.FieldView;
+import com.noclue.timer.Timer;
+import com.noclue.view.field.FieldView;
+import com.noclue.view.field.GameOverView;
+import com.noclue.view.field.WinView;
 
 import java.io.IOException;
 
@@ -54,7 +56,7 @@ public class Game implements KeyboardListener {
     }
 
     public void run(){
-        new FieldController(fieldModel,new FieldView(screen,textGraphics,fieldModel),textGraphics).setup();
+        new FieldController(fieldModel,new FieldView(screen,textGraphics,fieldModel),new GameOverView(screen,textGraphics),new WinView(screen,textGraphics),textGraphics).setup();
     }
 
 

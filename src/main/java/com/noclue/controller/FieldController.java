@@ -3,27 +3,26 @@ package com.noclue.controller;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.noclue.ExplosionListener;
-import com.noclue.Movement;
-import com.noclue.model.BombModel;
+import com.noclue.IView;
 import com.noclue.model.FieldModel;
-import com.noclue.model.Position;
-import com.noclue.model.Tile;
+import com.noclue.Movement;
+import com.noclue.controller.bomb.BombController;
+import com.noclue.keyboard.KeyboardListener;
+import com.noclue.model.*;
 import com.noclue.model.block.IndestructibleBlockModel;
 import com.noclue.model.block.NoBlockModel;
-import com.noclue.model.block.RemovableBlockModel;
+import com.noclue.model.block.NoCollectibleModel;
 import com.noclue.model.character.Character;
 import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
 import com.noclue.model.collectible.CoinModel;
 import com.noclue.model.collectible.DoorModel;
-import com.noclue.model.collectible.NoCollectibleModel;
 import com.noclue.model.difficulty.Easy;
-import com.noclue.view.BombViewFire;
-import com.noclue.view.BombViewTicking;
-import com.noclue.view.FieldView;
+import com.noclue.timer.TimeListener;
 import com.noclue.view.NoView;
 import com.noclue.view.block.IndestructibleBlockView;
 import com.noclue.view.block.RemovableBlockView;
+import com.noclue.view.bomb.BombViewFire;
 import com.noclue.view.character.HeroView;
 import com.noclue.view.character.MonsterView;
 import com.noclue.view.collectible.CoinView;
@@ -36,12 +35,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class FieldController implements KeyboardListener, TimeListener, ExplosionListener {
     int timerSum=0;
     FieldModel model;
-    FieldView view;
+    IView view;
+    IView gameView;
+    IView gamoverView;
+    IView winView;
     TextGraphics textGraphics;
+    boolean ended=false;
 
-    public FieldController(FieldModel model, FieldView view, TextGraphics textGraphics){
+    public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics){
         this.model=model;
-        this.view=view;
+        this.view = gameView;
+        this.gamoverView = gameoverView;
+        this.winView = winView;
+        this.gameView = gameView;
         this.textGraphics=textGraphics;
 
         model.gettServer().addListener(this);
@@ -248,35 +254,39 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
-        if(keyPressed.getCharacter()=='a'){
-            if(model.checkPos(model.getHero_pos(), Movement.left)) {
-                moveLeft(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
+        if(!ended) {
+            if (keyPressed.getCharacter() == 'a') {
+                if (model.checkPos(model.getHero_pos(), Movement.left)) {
+                    moveLeft(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
+                }
+            } else if (keyPressed.getCharacter() == 'd') {
+                if (model.checkPos(model.getHero_pos(), Movement.right)) {
+                    moveRight(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
+                }
+            } else if (keyPressed.getCharacter() == 'w') {
+                if (model.checkPos(model.getHero_pos(), Movement.up)) {
+                    moveUp(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
+                }
+            } else if (keyPressed.getCharacter() == 's') {
+                if (model.checkPos(model.getHero_pos(), Movement.down)) {
+                    moveDown(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
+                }
             }
         }
-        else if(keyPressed.getCharacter()=='d'){
-            if(model.checkPos(model.getHero_pos(),Movement.right)) {
-                moveRight(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
-            }
-        }
-        else if(keyPressed.getCharacter()=='w'){
-            if(model.checkPos(model.getHero_pos(),Movement.up)) {
-                moveUp(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
-            }
-        }
-        else if(keyPressed.getCharacter()=='s'){
-            if(model.checkPos(model.getHero_pos(),Movement.down)) {
-                moveDown(model.getHero_pos(), (Character) model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getFiller());
-            }
-        }
-        else if(keyPressed.getCharacter()=='p' && model.getBomb()==null){
+        if(keyPressed.getCharacter()=='p' && model.getBomb()==null){
             //System.out.println("ENTER");
             BombModel bombModel = new BombModel(750,this, (Position) model.getHero_pos().clone(),model.gettServer());
             BombViewFire viewFire = new BombViewFire(textGraphics,bombModel);
             model.setBombModel(new BombController(bombModel,textGraphics));
             model.gettServer().addListener(model.getBomb());
         }
-        if(model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getCollectible() instanceof DoorModel)
-            System.exit(0);
+        if(model.getTiles().get(model.getHero_pos().getY()).get(model.getHero_pos().getX()).getCollectible() instanceof DoorModel) {
+            model.gettServer().removeListener(this);
+            view.draw();
+            view = winView;
+            view.draw();
+            ended=true;
+        }
     }
 
 
@@ -290,8 +300,14 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                     for (Movement m : tmp_monsterModel.nextMove(pos)) {
                         if (model.checkPos(pos, m)) {
 
-                            if(checkForHero(pos, m))
-                                System.exit(0);
+                            if(checkForHero(pos, m)) {
+                                model.gettServer().removeListener(this);
+                                view.draw();
+                                view = gamoverView;
+                                view.draw();
+                                ended=true;
+                                return;
+                            }
                             if (m == Movement.left)
                                 moveLeft(pos, (MonsterModel) model.getTiles().get(pos.getY()).get(pos.getX()).getFiller());
                             else if (m == Movement.right)
@@ -377,8 +393,13 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     private void remove(Position position){
         if(model.getTiles().get(position.getY()).get(position.getX()).getFiller() instanceof MonsterModel)
             model.getMonsters().remove(model.getTiles().get(position.getY()).get(position.getX()).getFiller());
-        else if(model.getTiles().get(position.getY()).get(position.getX()).getFiller() instanceof HeroModel)
-            System.exit(0);
+        else if(model.getTiles().get(position.getY()).get(position.getX()).getFiller() instanceof HeroModel) {
+            model.gettServer().removeListener(this);
+            view.draw();
+            view = gamoverView;
+            view.draw();
+            ended=true;
+        }
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
         System.out.println(position.getY()+" "+position.getX());
         System.out.println(model.getViews().get(position.getY()).get(position.getX()).getClass());

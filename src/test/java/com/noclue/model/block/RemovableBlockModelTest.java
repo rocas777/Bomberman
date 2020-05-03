@@ -1,13 +1,11 @@
 package com.noclue.model.block;
 
 import com.noclue.model.Position;
+import com.noclue.model.RemovableBlockModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
 public class RemovableBlockModelTest {
     RemovableBlockModel r1;

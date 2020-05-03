@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.BombModel;
 import com.noclue.model.Position;
+import com.noclue.view.bomb.BombViewTicking;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
