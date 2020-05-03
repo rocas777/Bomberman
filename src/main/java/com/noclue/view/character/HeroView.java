@@ -16,6 +16,15 @@ public class HeroView implements IView {
         this.model=model;
         this.textGraphics=textGraphics;
     }
+
+    public HeroModel getModel() {
+        return model;
+    }
+
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
     public void draw(TextGraphics textGraphics, Position position) {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0000FF"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));

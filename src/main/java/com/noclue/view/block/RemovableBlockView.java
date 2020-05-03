@@ -26,6 +26,14 @@ public class RemovableBlockView implements IView {
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
     }
 
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public RemovableBlockModel getModel() {
+        return model;
+    }
+
     @Override
     public void draw() {
         draw(textGraphics,model.getPosition());

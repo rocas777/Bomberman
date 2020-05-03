@@ -24,6 +24,14 @@ public class IndestructibleBlockView implements IView {
         textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2,"+----+",BOLD);
     }
 
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public IndestructibleBlockModel getModel() {
+        return model;
+    }
+
     @Override
     public void draw() {
         draw(textGraphics,model.getPosition());
