@@ -193,6 +193,7 @@ We could make so that this class could handle returning other positions next to 
 ![alt text](screenshots/Test-Coverage.png)
 ### Screenshot of mutation testing report
 ![alt_text](screenshots/PitTest.png)
+>This report can be found [here](report-mutation).
 ## Notes about warnings
 >After compiling there will appear a warning saying that FieldController.java "uses unchecked or unsafe operations". This probably has to do with the casting of variables but since the program works great and we can't pinpoint what gives off the warning we'll just let it be for now.
 ## Self-Evaluation
