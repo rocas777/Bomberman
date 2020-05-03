@@ -55,9 +55,9 @@ public class PositionTest {
         p1.setY(5);
         Assert.assertEquals(5,p1.getY());
         p1.setY(-20);
-        Assert.assertEquals(10,p1.getY());
+        Assert.assertEquals(5,p1.getY());
         p1.setY(40);
-        Assert.assertEquals(10,p1.getY());
+        Assert.assertEquals(5,p1.getY());
     }
 
     @Test
