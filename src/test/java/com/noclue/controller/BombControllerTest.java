@@ -12,8 +12,7 @@ import org.mockito.Mockito;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class BombControllerTest {
     private class mockTimer implements TimerInterface{
@@ -119,5 +118,14 @@ public class BombControllerTest {
                 .removeListener(bombController);
         Mockito.verify(bombModel.getExplosionListener(),Mockito.times(1))
                 .fireDone(bombModel.getPosition());
+    }
+
+    @Test
+    public void draw(){
+        bombController.setView(bombViewTicking);
+        bombController.draw();
+
+        Mockito.verify(bombController.getView(),times(1))
+                .draw();
     }
 }
