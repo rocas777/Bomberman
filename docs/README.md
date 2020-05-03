@@ -30,7 +30,7 @@
 
 >There's also a white column on the right. It will be the place where in the future we will draw lives, clock and score.
 
-### Loose condition
+### Lose condition
 >If a monster happens to enter contact with the player he will lose.
 
 ### Win Condition
@@ -53,7 +53,16 @@
 #### The Design
 >In order to solve this issue and separate responsibilities into different objects we adopted the MVC (Model - View - Controller) pattern. Doing so allowed us to make our code organized, easier to read and overall structured. We also benefict from the fact that changing or adding features is very much simpler. Since we only thought of implementing this design midway it took longer than expected but this is how it turned out...
 #### The Implementation
->Make a basic uml representing and point to some files
+>The following UML shows how we implemented this design through one example since it is basically the same for every object:
+![alt-text](UML/MVC.png)
+
+>These classes can be found at:
+>
+> [FieldController](../src/main/java/com/noclue/controller/FieldController.java)
+>
+> [FieldView](../src/main/java/com/noclue/view/field/FieldView.java)
+>
+> [FieldModel](../src/main/java/com/noclue/model/FieldModel.java)
 #### The Consequences
 > - Following some advantages already stated on "The Design" part like facilitating the change of one component alone the MVC will make simultaneous development easier since each component is technically independent. Another bonus we came across at a chance is the fact that a "model" can have multiple views which will be helpful with the bomb (ticking and fire).
 > - Now the code not only respects the Single Responsibility Principle (each component has responsibility over a single part of the application) but also, in a way, the Open-Closed Principle because if some feature is added that requires a new class the amount of pre-existing code that needs changing is relatively small.
@@ -65,7 +74,18 @@
 #### The Design
 >We chose to go with the first option of letting each bomb handle itself and implementing a State Pattern since this was specially easier to do with the above mentioned MVC pattern. What this pattern does is allow us to represent different states of application with different subclasses. This pattern allowed us to address this simple problem because the bomb clearly has two different states: ticking and explosion. When the bomb needs to change from ticking to exploded, it only has to change its view. Since both implement the same interface, the controller does not have the need to keep checking flags and if's when it renders to check the state.  
 #### The Implementation
->add uml and stuff
+>The following UML shows how we mapped this pattern:
+![alt-text](UML/Bomb-Explosion.png)
+
+>These classes/interface can be found at:
+>
+> [BombController](../src/main/java/com/noclue/controller/bomb/BombController.java)
+>
+> [IView](../src/main/java/com/noclue/IView.java)
+>
+> [BombViewFire](../src/main/java/com/noclue/view/bomb/BombViewFire.java)
+>
+> [BombViewTicking](../src/main/java/com/noclue/view/bomb/BombViewTicking.java)
 #### The Consequences
 > - The state changing is less complicated and doesn't rely on a bunch of different flags
 > - It will make adding more states (like an actual ticking animation) undemanding
@@ -78,7 +98,20 @@
 #### The Design
 >To work this problem out we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the application's behaviour slightly according to the difficulty that is being used even though their job is all the same. The Monster only has to call the class that was passed to it, and that class is the responsible for the monster strategy.
 #### The Implementation
->uml &  stuff
+>The following UML shows how we mapped this pattern:
+![alt-text](UML/Difficulty.png)
+
+>These classes/interface can be found at:
+>
+> [Monster](../src/main/java/com/noclue/model/character/MonsterModel.java)
+>
+> [Difficulty](../src/main/java/com/noclue/model/difficulty/Difficulty.java)
+>
+> [Easy](../src/main/java/com/noclue/model/difficulty/Easy.java)
+>
+> [Medium](../src/main/java/com/noclue/model/difficulty/Medium.java)
+>
+> [Hard](../src/main/java/com/noclue/model/difficulty/Hard.java)
 #### The Consequences
 > - Eliminates a lot of complex conditional statements
 > - Makes adding and changing difficulties effortless
@@ -93,9 +126,22 @@
 >We rapidly decided to adopt the Observer Pattern for this situation. This design defines a one-to-many dependency between objects so that when one object updates its dependents, they are notified and updated automatically. Applying this to our project, the "status change" would be the instant there's a new frame to draw or when keyboard interrupt is received and both of them have its own "Listener" class that does exactly that, simulate a framerate and listen to keyboard input.
 >This way using the concepts of the Observer Pattern, those listeners notify the classes that depend so they can update themselves (TimeListener notifies the Game and FieldController class and KeyboardListener notifies the FieldController. The FieldController has a similiar aproach by notifying the other classes to draw).
 #### The Implementation
->uml and stuff
+>The following UML shows the time listener and how the main controllers depend on it (the keyboard listener is basically the same so we decided not to put it in the UML to simplify):
+![alt-text](UML/Listeners.png)
+
+>These classes/interface can be found at:
+>
+> [Timer](../src/main/java/com/noclue/timer/TimeListener.java)
+>
+> [ITimer](../src/main/java/com/noclue/timer/Timer.java)
+>
+> [TimerListener](../src/main/java/com/noclue/timer/TimerInterface.java)
+>
+> [FieldController](../src/main/java/com/noclue/controller/FieldController.java)
+>
+> [BombController](../src/main/java/com/noclue/controller/bomb/BombController.java)
 #### The consequences
-> - Further encapsulation and code structurization where the listeners have no information about it's observers, just that they exist and the need to notify them when the time is right, nor do they about the listener.
+> - Further encapsulation and code structurization where the listeners have no information about their observers, just that they exist and the need to notify them when the time is right, nor do they about the listener.
 #### * Note about the class notification: since the FieldModel holds almost every other model it would make sense for the FieldController to also manipulate most of them.
 
 ### 5. Simplify draw calls
@@ -104,7 +150,20 @@
 #### The Design
 >The need to adapt the code lead us to the Interface Adapter design. This allows to convert the interface of class into another interface that is expected. Even though we are not following the design to the word since we are not really adapting interfaces (just a simple function) we took some principles off of it and choose tho make a generic draw() call that each class will adapt to its own liking.
 #### The Implementation
->uml satusadsage
+>The following UML serves as an example of how we achieved this:
+![alt-text](UML/IVIEW.png)
+
+>These classes/interface can be found at:
+>
+> [FieldController](../src/main/java/com/noclue/controller/FieldController.java)
+>
+> [IView](../src/main/java/com/noclue/IView.java)
+>
+> [MonsterView](../src/main/java/com/noclue/view/character/MonsterView.java)
+>
+> [HeroView](../src/main/java/com/noclue/view/character/HeroView.java)
+>
+> [RemovableBlockView](../src/main/java/com/noclue/view/block/RemovableBlockView.java)
 #### The Consequences
 > - Code less prone to mistakes
 > - More readability
@@ -113,14 +172,14 @@
 ## Known Code Smells and Refactoring
 ### 1. Position Class
 #### Smell
->The class [position](src/main/java/com/noclue/model/Position.java) is a data class since it only consists in some private fields, getters and setter for accessing those fields. It can not operate on its own and its only puporse is to be used by other classes.
+>The class [position](../src/main/java/com/noclue/model/Position.java) is a data class since it only consists in some private fields, getters and setter for accessing those fields. It can not operate on its own and its only puporse is to be used by other classes.
 #### Refactoring
 >We could follow two paths. One is to remove this class as it could be considered disposable. Other path is to add other functionalities to it, other than the CRUD ones.
 Removing this class would make other classes more crowded so it might not be the better aproach.
 We could make so that this class could handle returning other positions next to it (left, right, up, down),checking if they are inside of the screen, instead of letting the [FieldContoller](src/main/java/com/noclue/controller/FieldController.java) class handle it.
 ### 2. Tile Class
 #### Smell
->This ([Tile](src/main/java/com/noclue/model/Tile.java)) class can be considered a lazy class since it doesn't do much really. Our main goal developing this class was for it to hold the classes that were in that specific tile in each moment and handle conversions between real cli position and game tile. We sort-of went with the flow and midway throught the project we noticed it only does half of what it was supossed to do (hold the info about what is in there) and some of its original responsibilities were given to other classes(mainly field).
+>This ([Tile](../src/main/java/com/noclue/model/Tile.java)) class can be considered a lazy class since it doesn't do much really. Our main goal developing this class was for it to hold the classes that were in that specific tile in each moment and handle conversions between real cli position and game tile. We sort-of went with the flow and midway throught the project we noticed it only does half of what it was supossed to do (hold the info about what is in there) and some of its original responsibilities were given to other classes(mainly field).
 #### Refactor
 >In order to fix this smell we could refactor our code to give it its original functionalities or add others like handling the drawing of what is inside. There's also the alternative of simply deleting this class but we don't think it is the best way to go forward. Right now the field is responsible for reseting the tile and copying its information to other tile. Those tasks can be given to Tile class, it would turn Tile into a useful class, while removing complexity and adding readability to the field class;  
 ### 3. Field Class
@@ -133,7 +192,9 @@ We could make so that this class could handle returning other positions next to 
 ### Screenshot of test coverage
 ![alt text](screenshots/Test-Coverage.png)
 ### Screenshot of mutation testing report
-
+![alt_text](screenshots/PitTest.png)
+## Notes about warnings
+>After compiling there will appear a warning saying that FieldController.java "uses unchecked or unsafe operations". This probably has to do with the casting of variables but since the program works great and we can't pinpoint what gives off the warning we'll just let it be for now.
 ## Self-Evaluation
 >Nuno Oliveira (up201806525@fe.up.pt): 
 
