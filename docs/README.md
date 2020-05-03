@@ -87,6 +87,33 @@
 
 ### 4. How to update every object
 #### The Problem
+>In order for the game to feel fluid we needed have the monsters move independent to the player contrary to what happened on the hero project where the monsters only moved when the player did so. So we made a timer class that was called on another and would simulate a framerate on which the monster would move.
+>The issue was on how to notify each monster when to move. There was a different but similar situation with our hero, where he needed to wait for an input that wasn't his to receive. How should we go about this?
 #### The Design
+>We rapidly decided adopt the Observer Pattern for this situation. This design defines a one-to-many dependency between objects so that when one object changes status all its dependents are notified and updated automatically. Applying this to our project the "status change" would be the instant there's new frame to draw or when keyboard interrupt is received and both of them have its own "Listener" class that does exactly that, simulate a framerate and listen to keyboard input.
+>This way using the concepts of the Observer Pattern, those listeners notify the classes that depend so they can update themselves (TimeListener notifies the Game and FieldController class and KeyboardListener notifies the FieldController which they in turn notify their observers if need be*).
 #### The Implementation
+>uml and stuff
 #### The consequences
+>Further encapsulation and code structurization where the listeners have no information about it's observers, just that they exist and the need to notify them when the time is right, nor do they about the listener.
+#### * Note about the class notification: since the FieldModel holds almost every other model it would make sense for the FieldController to also manipulate most of them.
+
+### 5. Simplify draw calls
+#### The Problem
+>This wasn't a major issue with our code but some classes had different arguments for their draw calls and in the midst of development we faced some visual bugs due to not noticing we had passed to wrong arguments to the function. We could just correct the small situation and move one but we chose to make it easier for future draw functions and since the mistake happened once it may as well happen twice.
+#### The Design
+>The need to adapt the code lead us to the Interface Adapter design. This allows to convert the interface of class into another interface that is expected. Even though we are not following the design to the word since we are not really adapting interfaces (more like just a simple function) we took some principles off of it and choose tho make a generic draw() call that each class will adapt to its own liking.
+#### The Implementation
+>uml satusadsage
+#### The Consequences
+> - Code less prone to mistakes
+> - More readability
+
+## Known Code Smells and Refactoring
+### 1. Bomb Drawing
+#### Smell
+#### Refactoring
+
+## Testing
+
+## Self-Evaluation
