@@ -32,5 +32,5 @@
 >If a monster happens to enter contact with the player he will loose.
 
 ### Win Condition
->The door will be hidden underneath one indestructible block at random. If the player founds it after destroying the respective block he will win because, for now, there's only 1 level.
+>The door will be hidden underneath one removable block at random. If the player founds it after destroying the respective block he will win because, for now, there's only 1 level.
 
