@@ -71,5 +71,22 @@
 > - It will make adding more states (like an actual ticking animation) undemanding
 > - Saves us the trouble of using big if statements
 
-### 3. Difficulties
-#### The problem
+### 3. Difficulties *
+#### The Problem
+>Even though this is a simple project we wanted our game to be enjoyable for both casuals and tryhard gamers (and something in between). In order to go about this we choose to make our game have different difficulties. They main focus was for each to influence monster movement in a different way.
+>There can also be some other changes like number of monsters and their initial placemente as well as number of destructible blocks, bomb explosion range, number of lives or even clock time to successfully complete a level but these are all still ideas (will only be implemented if we have the time).
+#### The Design
+>To work out this problem we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the application's behaviour slightly according to the difficulty that is being used even though their job is all the same.
+#### The Implementation
+>uml &  stuff
+#### The Consequences
+> - Eliminates a lot of complex conditional statements
+> - Makes adding and changing difficulties effortless
+> - Requires the classes that are influenced by each difficulty to know what it is
+#### * Note about difficulties: for now we only have one (easy) but we plan on adding more following this design pattern
+
+### 4. How to update every object
+#### The Problem
+#### The Design
+#### The Implementation
+#### The consequences
