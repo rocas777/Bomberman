@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
@@ -24,15 +25,19 @@ public class TimerTest {
 
         timer = new Timer(20);
         Assert.assertEquals(20,timer.getMSeconds());
+        timer.setOn(false);
 
         timer = new Timer(10);
         Assert.assertEquals(10,timer.getMSeconds());
+        timer.setOn(false);
 
         timer = new Timer(0);
         Assert.assertEquals(1,timer.getMSeconds());
+        timer.setOn(false);
 
         timer = new Timer(-20);
         Assert.assertEquals(1,timer.getMSeconds());
+        timer.setOn(false);
     }
 
     @Test
@@ -65,6 +70,7 @@ public class TimerTest {
         tmp.add(f1);
 
         Assert.assertNotEquals(tmp,timer.getTimeListeners());
+        timer.setOn(false);
     }
 
     @Test
@@ -88,6 +94,7 @@ public class TimerTest {
         timer.removeListener(f3);
 
         Assert.assertNotEquals(tmp,timer.getTimeListeners());
+        timer.setOn(false);
     }
 
     @Test
@@ -117,14 +124,21 @@ public class TimerTest {
         }
 
         Assert.assertEquals(u,5);
-    }
-
-    @Test
-    public void stop() {
+        Assert.assertEquals(t.isOn(),true);
+        timer.setOn(false);
+        t.setOn(false);
     }
 
     @Test
     public void updateListeners() {
-
+        Timer timerSpy = Mockito.spy(timer);
+    }
+    @Test
+    public void constructor(){
+        Timer timer = new Timer(0);
+        Assert.assertEquals(timer.getMSeconds(),1);
+        timer = new Timer(-3);
+        Assert.assertEquals(timer.getMSeconds(),1);
+        timer.setOn(false);
     }
 }

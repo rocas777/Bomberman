@@ -1,4 +1,4 @@
-package com.noclue.character;
+package com.noclue.view.character;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -28,19 +28,12 @@ public class HeroViewTest {
         }
 
         @Override
-        public boolean addListener(TimeListener timeListener) {
+        public void addListener(TimeListener timeListener) {
             this.timeListener = timeListener;
-            return true;
         }
 
         @Override
-        public boolean removeListener(TimeListener timeListener) {
-            return false;
-        }
-
-        @Override
-        public void stop() {
-
+        public void removeListener(TimeListener timeListener) {
         }
 
         @Override

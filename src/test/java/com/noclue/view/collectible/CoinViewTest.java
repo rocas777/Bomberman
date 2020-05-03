@@ -1,4 +1,4 @@
-package com.noclue.collectible;
+package com.noclue.view.collectible;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.collectible.CoinModel;
@@ -26,19 +26,12 @@ public class CoinViewTest {
         }
 
         @Override
-        public boolean addListener(TimeListener timeListener) {
+        public void addListener(TimeListener timeListener) {
             this.timeListener = timeListener;
-            return true;
         }
 
         @Override
-        public boolean removeListener(TimeListener timeListener) {
-            return false;
-        }
-
-        @Override
-        public void stop() {
-
+        public void removeListener(TimeListener timeListener) {
         }
 
         @Override

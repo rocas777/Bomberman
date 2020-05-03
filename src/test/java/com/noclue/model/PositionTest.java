@@ -1,5 +1,6 @@
 package com.noclue.model;
 
+import com.noclue.view.NoView;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,7 @@ public class PositionTest {
         Assert.assertEquals(p3.clone(),p3);
         Assert.assertEquals(p4.clone(),p4);
         Assert.assertEquals(p5.clone(),p5);
+        Assert.assertNotEquals(p5.clone(),null);
     }
 
     @Test
@@ -60,6 +62,8 @@ public class PositionTest {
         Assert.assertEquals(20,p2.getY());
         p3.setY(20);
         Assert.assertEquals(20,p3.getY());
+        p3.setY(0);
+        Assert.assertEquals(20,p3.getY());
     }
 
     @Test
@@ -74,15 +78,24 @@ public class PositionTest {
         Assert.assertEquals(10,p2.getX());
         p3.setX(10);
         Assert.assertEquals(10,p3.getX());
+        p3.setX(0);
+        Assert.assertEquals(10,p3.getX());
     }
 
     @Test
     public void getRealPosition() {
         Assert.assertEquals(new Position(10*6+20,20*3+20,p1.getX()*6,p1.getY()*3),p1.getRealPosition());
+        Assert.assertEquals(
+                new Position(10*6+20,20*3+20,p1.getX()*6,p1.getY()*3).equals(p1.getRealPosition()),
+                true);
+        Assert.assertNotEquals(null,p1.getRealPosition());
     }
 
     @Test
-    public void testEquals() {
-        Assert.assertEquals(p1,new Position(10,20,10,10));
+    public void testEquals()
+    {
+        Assert.assertEquals(p1.equals(new Position(10,20,10,10)),true);
+        Assert.assertEquals(p1.equals(p1),true);
+        Assert.assertEquals(p1.equals(new NoView()),false);
     }
 }

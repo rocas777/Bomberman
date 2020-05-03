@@ -1,7 +1,5 @@
 package com.noclue.timer;
 
-import com.googlecode.lanterna.screen.Screen;
-
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Timer implements TimerInterface {
@@ -15,7 +13,7 @@ public class Timer implements TimerInterface {
     }
 
     public Timer(int mseconds){
-        if(mseconds<1)
+        if(mseconds<=0)
             this.mseconds=1;
         else
             this.mseconds=mseconds;
@@ -26,16 +24,14 @@ public class Timer implements TimerInterface {
         return mseconds;
     }
 
-    public boolean addListener(TimeListener timeListener){
+    public void addListener(TimeListener timeListener){
             timeListeners.add(timeListener);
-            return true;
     }
 
 
 
-    public boolean removeListener(TimeListener timeListener){
+    public void removeListener(TimeListener timeListener){
             timeListeners.remove(timeListener);
-            return true;
     }
 
     public void start(){
@@ -55,8 +51,12 @@ public class Timer implements TimerInterface {
         }).start();
     }
 
-    public void stop(){
-        isOn=false;
+    public void setOn(boolean on) {
+        isOn = on;
+    }
+
+    public boolean isOn() {
+        return isOn;
     }
 
     @Override

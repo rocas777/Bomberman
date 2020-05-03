@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Easy implements Difficulty {
 
-    private ArrayList<Movement> randomizeArray(ArrayList<Movement> movements){
+    public ArrayList<Movement> randomizeArray(ArrayList<Movement> movements){
         Random rand=new Random();
         for (int i = 0; i < movements.size(); i++) {
             int randomIndexToSwap = rand.nextInt(movements.size());

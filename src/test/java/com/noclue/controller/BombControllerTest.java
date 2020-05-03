@@ -33,21 +33,15 @@ public class BombControllerTest {
         }
 
         @Override
-        public boolean addListener(TimeListener timeListener) {
+        public void addListener(TimeListener timeListener) {
             timeListeners.add(timeListener);
-            return false;
         }
 
         @Override
-        public boolean removeListener(TimeListener timeListener) {
+        public void removeListener(TimeListener timeListener) {
             timeListeners.remove(timeListener);
-            return false;
         }
 
-        @Override
-        public void stop() {
-
-        }
 
         @Override
         public void start() {

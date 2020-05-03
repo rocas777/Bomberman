@@ -55,7 +55,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         //setup();
     }
 
-    private void setRemovableBlocks(Position door, Position hero, int numberBlocks){
+    public void setRemovableBlocks(Position door, Position hero, int numberBlocks){
         Random random=new Random();
         for(int i=0;i<numberBlocks;i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
@@ -82,7 +82,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
     }
 
-    private void setIndestructibleBlocks(){
+    public void setIndestructibleBlocks(){
         for(int y=0;y<15;y++){
             model.getTiles().add(new CopyOnWriteArrayList<>());
             model.getViews().add(new CopyOnWriteArrayList<>());
@@ -113,7 +113,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
     }
 
-    private void setMonsters(Position door,Position hero,int numberOfMonsters){
+    public void setMonsters(Position door,Position hero,int numberOfMonsters){
         Random random=new Random();
         for(int i=0;i<numberOfMonsters;i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
@@ -130,7 +130,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
     }
 
-    private Position setHeroPos(){
+    public Position setHeroPos(){
         Random random=new Random();
         Position hero=new Position(23,15,1,1);
         while (hero.getX()%2==0 && hero.getY()%2==0) {
@@ -139,7 +139,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         return hero;
     }
 
-    private Position setDoorPos(Position hero){
+    public Position setDoorPos(Position hero){
         Random random=new Random();
         Position door=new Position(23,15,(random.nextInt(12)+10),(random.nextInt(6)+6));
         while ((door.getX()%2==0 && door.getY()%2==0) || door.equals(hero)){
@@ -150,7 +150,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
 
-    private void setHero(Position position){
+    public void setHero(Position position){
         HeroModel tmp_hero = new HeroModel((Position) position.clone());
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(tmp_hero);
         model.getTiles().get(position.getY()).get(position.getX()).setCollectible(new NoCollectibleModel());
@@ -160,7 +160,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         model.setHero_pos(position);
     }
 
-    private void setDoor(Position position){
+    public void setDoor(Position position){
         model.getTiles().get(position.getY()).set(position.getX(),new Tile(position, new DoorModel((Position) position.clone()),new RemovableBlockModel(position)));
         model.getViews().get(position.getY()).set(position.getX(),new RemovableBlockView((RemovableBlockModel) model.getTiles().get(position.getY()).get(position.getX()).getFiller(),textGraphics));
     }
@@ -179,7 +179,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         setDoor(door);
     }
 
-    private void moveLeft(Position position, Character character){
+    public void moveLeft(Position position, Character character){
         model.getTiles().get(position.getY()).get(position.getX()-1).setFiller(character);
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
 
@@ -193,7 +193,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     }
 
-    private void moveRight(Position position, Character character){
+    public void moveRight(Position position, Character character){
         model.getTiles().get(position.getY()).get(position.getX()+1).setFiller(character);
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
 
@@ -206,7 +206,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         character.setPosition((Position) position.clone());
     }
 
-    private void moveUp(Position position, Character character){
+    public void moveUp(Position position, Character character){
         model.getTiles().get(position.getY()-1).get(position.getX()).setFiller(character);
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
 
@@ -219,7 +219,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         character.setPosition((Position) position.clone());
     }
 
-    private void moveDown(Position position, Character character){
+    public void moveDown(Position position, Character character){
         model.getTiles().get(position.getY()+1).get(position.getX()).setFiller(character);
         model.getTiles().get(position.getY()).get(position.getX()).setFiller(new NoBlockModel());
 

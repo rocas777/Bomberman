@@ -55,6 +55,14 @@ public class Game implements KeyboardListener {
 
     }
 
+    public Screen getScreen() {
+        return screen;
+    }
+
+    public void setScreen(Screen screen) {
+        Game.screen = screen;
+    }
+
     public void run(){
         new FieldController(fieldModel,new FieldView(screen,textGraphics,fieldModel),new GameOverView(screen,textGraphics),new WinView(screen,textGraphics),textGraphics).setup();
     }

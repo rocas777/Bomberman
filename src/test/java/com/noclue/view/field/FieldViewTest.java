@@ -1,4 +1,4 @@
-package com.noclue.view;
+package com.noclue.view.field;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -8,6 +8,7 @@ import com.googlecode.lanterna.screen.Screen;
 import com.noclue.IView;
 import com.noclue.controller.bomb.BombController;
 import com.noclue.model.FieldModel;
+import com.noclue.view.NoView;
 import com.noclue.view.field.FieldView;
 import org.junit.Assert;
 import org.junit.Before;

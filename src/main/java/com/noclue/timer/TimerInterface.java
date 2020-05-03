@@ -4,9 +4,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public interface TimerInterface {
     void updateListeners(CopyOnWriteArrayList<TimeListener> timeListeners);
-    boolean addListener(TimeListener timeListener);
-    boolean removeListener(TimeListener timeListener);
-    void stop();
+    void addListener(TimeListener timeListener);
+    void removeListener(TimeListener timeListener);
+
     void start();
     int getMSeconds();
 }

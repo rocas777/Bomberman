@@ -20,6 +20,10 @@ public class KeyBoard {
         keyboardListeners.add(keyboardListener);
     }
 
+    public ArrayList<KeyboardListener> getKeyboardListeners() {
+        return keyboardListeners;
+    }
+
     public void start(){
         isOn=true;
         new Thread(() -> {
