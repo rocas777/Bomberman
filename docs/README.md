@@ -31,7 +31,8 @@
 >There's also a white column on the right. It will be the place where in the future we will draw lives, clock and score.
 
 ### Lose condition
->If a monster happens to enter contact with the player he will lose.
+>If a monster happens to enter contact with the player he will lose. At this moment, the Easy movements is random, so, sometimes the monster is in the tile close to the player but won't move in that direction. 
+>If the player enters the zone of thhe explosion, the player dies.
 
 ### Win Condition
 >The door will be hidden underneath one destructible block at random. If the player founds it after destroying the respective block he will win because, for now, there's only 1 level.
