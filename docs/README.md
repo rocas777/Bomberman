@@ -198,6 +198,6 @@ We could make so that this class could handle returning other positions next to 
 ## Notes about warnings
 >After compiling there will appear a warning saying that FieldController.java "uses unchecked or unsafe operations". This probably has to do with the casting of variables but since the program works great and we can't pinpoint what gives off the warning we'll just let it be for now.
 ## Self-Evaluation
->Nuno Oliveira (up201806525@fe.up.pt): 
+>Nuno Oliveira (up201806525@fe.up.pt): 50
 
->Luis Pinto (up201806206@fe.up.pt):
+>Luis Pinto (up201806206@fe.up.pt): 50
