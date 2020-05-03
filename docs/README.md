@@ -7,6 +7,21 @@
 >This project is being developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
 
 ## Implemented Features
+#### Monster
+>The ones we are supposed to run way
+![alt-text](UML/MVC.png)
+
+#### Hero
+>The Hero is the one controlled by the player
+![alt-text](UML/MVC.png)
+
+#### Removable Blocks
+>The blocks that can be exploded
+![alt-text](UML/MVC.png)
+
+#### Door
+>The target Tile, The door to Victory
+![alt-text](UML/MVC.png)
 
 ### Movement and collision detection
 >The player moves according to keyboard input (A-left; S-down; D-right; W-up).
@@ -16,7 +31,7 @@
 >There's also collision detection. For players if there is an input that will force the character into a wall it simply won't happen. As for the monsters, if it would happen they'll just choose another position.
 
 ### Bomb deployment and explosion
->The player can press 'p' to deploy a bomb. It still has some bugs, but most of the time it will explode horizontally and vertically in a range of 4 for each side and destroy whatever it can (player, monsters, destructible blocks).
+>The player can press 'p' to deploy a bomb. The bomb will explode horizontally and vertically in a range of 4 for each side and destroy whatever it can (player, monsters, destructible blocks).
 
 >For now the player only has 1 life point, so he will immediatly loose if caught in the explosion.
 
@@ -32,10 +47,12 @@
 
 ### Lose condition
 >If a monster happens to enter contact with the player he will lose. At this moment, the Easy movements is random, so, sometimes the monster is in the tile close to the player but won't move in that direction. 
+
 >If the player enters the zone of thhe explosion, the player dies.
 
 ### Win Condition
 >The door will be hidden underneath one destructible block at random. If the player founds it after destroying the respective block he will win because, for now, there's only 1 level.
+
 
 ## Planned Features
 >Make so that the player will have 3 lives as well as time to complete the level.
