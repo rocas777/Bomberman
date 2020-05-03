@@ -73,7 +73,7 @@
 
 ### 3. Difficulties *
 #### The Problem
->Even though this is a simple project we wanted our game to be enjoyable for both casuals and tryhard gamers (and something in between). In order to achieve this, we chose to make our game have different difficulties. Depending on the difficulty, the monster has a different behaviour.
+>Even though this is a simple project we wanted our game to be enjoyable for both casuals and tryhard gamers (and something in between). In order to achieve this, we chose to make our game have different difficulties. Depending on the difficulty, the monster has a different behaviour. We could make different functions, depending on the difficulty, but some function should never be called. Or we could add a bunch of if statements, that would be even worse. 
 >There can also be some other changes like number of monsters and their initial placemente as well as number of destructible blocks, bomb explosion range, number of lives or even clock time to successfully complete a level but these are all still ideas (will only be implemented if we have the time).
 #### The Design
 >To work this problem out we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the application's behaviour slightly according to the difficulty that is being used even though their job is all the same. The Monster only has to call the class that was passed to it, and that class is the responsible for the monster strategy.
