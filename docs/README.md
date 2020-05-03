@@ -128,7 +128,7 @@
 >To fix some of the said problems we could assign more responsibilities to the other classes instead of relying so heavily on the field and to reduce some bigger methods we could refactor it into more different methods but smaller usign the extract method.
 ## Testing
 ### Screenshot of test coverage
-![alt text](https://github.com/FEUP-LPOO/lpoo-2020-g81/tree/master/docs/screenshots/Test-Coverage.png)
+![alt text](screenshots/Test-Coverage.png)
 ### Screenshot of mutation testing report
 
 ## Self-Evaluation
