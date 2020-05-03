@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class BombControllerTest {
@@ -71,6 +72,7 @@ public class BombControllerTest {
         bombViewTicking = Mockito.mock(BombViewTicking.class);
         fieldController = Mockito.mock(FieldController.class);
         position = Mockito.mock(Position.class);
+        TimerInterface ti = mock(TimerInterface.class);
 
         TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
 
@@ -78,6 +80,8 @@ public class BombControllerTest {
         when(bombModel.getExplosionListener()).thenReturn(fieldController);
         when(bombModel.getSum()).thenReturn(i);
         when(bombModel.getPosition()).thenReturn(position);
+        when(bombModel.getTimerInterface()).thenReturn(ti);
+
 
         bombController = new BombController(bombModel,textGraphics);
     }
@@ -85,72 +89,35 @@ public class BombControllerTest {
     @Test
     public void updateOnTime() {
         IView view = bombController.getView();
-
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-        when(bombModel.getSum()).thenReturn(i);
-        timer.updateListeners(timer.getTimeListeners());
-        i++;
-
-        System.out.println(i);
-        System.out.println(bombModel.getSum()*20);
-        when(bombModel.getSum()).thenReturn(i);
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
 
         Mockito.verify(bombModel, Mockito.times(1))
-                .getExplosionListener().explode(bombModel.getPosition());
-        Mockito.verify(bombViewTicking,Mockito.times(6))
-                .draw(bombViewTicking.getTextGraphics(),bombModel);
+                .getExplosionListener();
 
         Assert.assertNotEquals(view,bombController.getView());
+
+
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+        bombController.updateOnTime();
+
+        Mockito.verify(bombModel.getTimerInterface(),Mockito.times(1))
+                .removeListener(bombController);
+        Mockito.verify(bombModel.getExplosionListener(),Mockito.times(1))
+                .fireDone(bombModel.getPosition());
     }
 }
