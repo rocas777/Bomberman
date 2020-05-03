@@ -147,7 +147,7 @@ public class BombControllerTest {
         when(bombModel.getSum()).thenReturn(i);
 
         Mockito.verify(bombModel, Mockito.times(1))
-                .getExplosionListener().explode(position);
+                .getExplosionListener().explode(bombModel.getPosition());
         Mockito.verify(bombViewTicking,Mockito.times(6))
                 .draw(bombViewTicking.getTextGraphics(),bombModel);
 
