@@ -61,9 +61,9 @@
 
 ### 2. Bomb Explosion
 #### The Problem
->While implementing the bomb functionalities we had to decide on how to do the bomb explosion part. On one hand we could make each bomb responsible for handling its how explosion and on the other hand we could pass that duty to the field controller (in the way we designed the app the field model holds almost every other class) since we will have to one way or another to remove blocks in the explosion range. 
+>While implementing the bomb functionalities we had to decide on how to do the bomb explosion part. On one hand we could make each bomb responsible for handling its own explosion rendering, on the other hand we could pass that duty to the field controller (in the way we designed the app the field model holds almost every other class). 
 #### The Design
->We chose to go with the first option of letting each bomb handle itself and implementing a State Pattern since this was specially easier to do with the above mentioned MVC pattern. What this pattern does is allow us to represent different states of application with different subclasses. This pattern allowed us to address this simple problem because the bomb clearly has two different states: ticking and explosion. 
+>We chose to go with the first option of letting each bomb handle itself and implementing a State Pattern since this was specially easier to do with the above mentioned MVC pattern. What this pattern does is allow us to represent different states of application with different subclasses. This pattern allowed us to address this simple problem because the bomb clearly has two different states: ticking and explosion. When the bomb needs to change from ticking to exploded, it only has to change its view. Since both implement the same interface, the controller does not have the need to keep checking flags and if's when it renders to check the state.  
 #### The Implementation
 >add uml and stuff
 #### The Consequences
@@ -73,10 +73,10 @@
 
 ### 3. Difficulties *
 #### The Problem
->Even though this is a simple project we wanted our game to be enjoyable for both casuals and tryhard gamers (and something in between). In order to go about this we choose to make our game have different difficulties. They main focus was for each to influence monster movement in a different way.
+>Even though this is a simple project we wanted our game to be enjoyable for both casuals and tryhard gamers (and something in between). In order to achieve this, we chose to make our game have different difficulties. Depending on the difficulty, the monster has a different behaviour.
 >There can also be some other changes like number of monsters and their initial placemente as well as number of destructible blocks, bomb explosion range, number of lives or even clock time to successfully complete a level but these are all still ideas (will only be implemented if we have the time).
 #### The Design
->To work out this problem we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the application's behaviour slightly according to the difficulty that is being used even though their job is all the same.
+>To work this problem out we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the application's behaviour slightly according to the difficulty that is being used even though their job is all the same. The Monster only has to call the class that was passed to it, and that class is the responsible for the monster strategy.
 #### The Implementation
 >uml &  stuff
 #### The Consequences
@@ -87,11 +87,11 @@
 
 ### 4. How to update every object
 #### The Problem
->In order for the game to feel fluid we needed have the monsters move independent to the player contrary to what happened on the hero project where the monsters only moved when the player did so. So we made a timer class that was called on another and would simulate a framerate on which the monster would move.
->The issue was on how to notify each monster when to move. There was a different but similar situation with our hero, where he needed to wait for an input that wasn't his to receive. How should we go about this?
+>In order for the game to feel fluid, the monster have to beindependent from player, contrary to what happened on the hero project where the monsters only moved when the player did so. So we made a timer class that would simultate a clock for both image printing and monster movement;
+>The issue was on how to notify each monster to move. There was a different but similar situation with our hero, where he needed to wait for an input that wasn't his to receive. How should we go about this? The hero situation represented an even bigger setback because the keyboard input is asynchronous.
 #### The Design
->We rapidly decided adopt the Observer Pattern for this situation. This design defines a one-to-many dependency between objects so that when one object changes status all its dependents are notified and updated automatically. Applying this to our project the "status change" would be the instant there's new frame to draw or when keyboard interrupt is received and both of them have its own "Listener" class that does exactly that, simulate a framerate and listen to keyboard input.
->This way using the concepts of the Observer Pattern, those listeners notify the classes that depend so they can update themselves (TimeListener notifies the Game and FieldController class and KeyboardListener notifies the FieldController which they in turn notify their observers if need be*).
+>We rapidly decided to adopt the Observer Pattern for this situation. This design defines a one-to-many dependency between objects so that when one object updates its dependents, they are notified and updated automatically. Applying this to our project, the "status change" would be the instant there's a new frame to draw or when keyboard interrupt is received and both of them have its own "Listener" class that does exactly that, simulate a framerate and listen to keyboard input.
+>This way using the concepts of the Observer Pattern, those listeners notify the classes that depend so they can update themselves (TimeListener notifies the Game and FieldController class and KeyboardListener notifies the FieldController. The FieldController has a similiar aproach by notifying the other classes to draw).
 #### The Implementation
 >uml and stuff
 #### The consequences
@@ -100,32 +100,35 @@
 
 ### 5. Simplify draw calls
 #### The Problem
->This wasn't a major issue with our code, but some classes had different arguments for their draw calls and in the midst of development we faced some visual bugs due to not noticing we had passed to wrong arguments to the function. We could just correct the small situation and move one but we chose to make it easier for future draw functions and since the mistake happened once it may as well happen twice.
+>This wasn't a major issue with our code, but some classes had different arguments for their draw calls and in the midst of development we faced some visual bugs due to not noticing we had passed to wrong arguments to the function. We could just correct the small situation and move one but we chose to make it easier for future draw functions and since the mistake happened once it may as well happen twice. 
 #### The Design
->The need to adapt the code lead us to the Interface Adapter design. This allows to convert the interface of class into another interface that is expected. Even though we are not following the design to the word since we are not really adapting interfaces (more like just a simple function) we took some principles off of it and choose tho make a generic draw() call that each class will adapt to its own liking.
+>The need to adapt the code lead us to the Interface Adapter design. This allows to convert the interface of class into another interface that is expected. Even though we are not following the design to the word since we are not really adapting interfaces (just a simple function) we took some principles off of it and choose tho make a generic draw() call that each class will adapt to its own liking.
 #### The Implementation
 >uml satusadsage
 #### The Consequences
 > - Code less prone to mistakes
 > - More readability
+> - The caller does not have to know the class objects and functions parameters 
 
 ## Known Code Smells and Refactoring
 ### 1. Position Class
 #### Smell
->The class position is a data class since it only consists of a some private fields, getters and setter for the accessing those fields. It can not operate on its own and its only puporse is to be used by other classes
+>The class [position](src/main/java/com/noclue/model/Position.java) is a data class since it only consists in some private fields, getters and setter for accessing those fields. It can not operate on its own and its only puporse is to be used by other classes.
 #### Refactoring
->We could make so that this class could handle returning other positions next to it (left, right, up, down) instead of the Field.
+>We could follow two paths. One is to remove this class as it could be considered disposable. Other path is to add other functionalities to it, other than the CRUD ones.
+Removing this class would make other classes more crowded so it might not be the better aproach.
+We could make so that this class could handle returning other positions next to it (left, right, up, down),checking if they are inside of the screen, instead of letting the [FieldContoller](src/main/java/com/noclue/controller/FieldController.java) class handle it.
 ### 2. Tile Class
 #### Smell
->This class can be considered a lazy class since it doesn't do much really. Our main goal developing this class was for it to hold the classes that were in that specific tile in each moment and handle conversions between real cli position and game tile. We sort-of went with the flow and midway throught the project we noticed it only does half it is supossed to do (hold the info about what is in there) and some of its original responsibilities were given to other classes.
+>This ([Tile](src/main/java/com/noclue/model/Tile.java)) class can be considered a lazy class since it doesn't do much really. Our main goal developing this class was for it to hold the classes that were in that specific tile in each moment and handle conversions between real cli position and game tile. We sort-of went with the flow and midway throught the project we noticed it only does half of what it was supossed to do (hold the info about what is in there) and some of its original responsibilities were given to other classes(mainly field).
 #### Refactor
->In order to fix this smell we could refactor our code to give it its original functionalities or add others like handling the drawing of what is inside. There's also the alternative of simply deleting this class but we don't think it is the best way to go forward.
+>In order to fix this smell we could refactor our code to give it its original functionalities or add others like handling the drawing of what is inside. There's also the alternative of simply deleting this class but we don't think it is the best way to go forward. Right now the field is responsible for reseting the tile and copying its information to other tile. Those tasks can be given to Tile class, it would turn Tile into a useful class, while removing complexity and adding readability to the field class;  
 ### 3. Field Class
 #### Smell
 >We would first like to say that we intended for the FieldModel to contain many other classes that are related to it. In the game, the hero and monsters for example will be inside a field along with other objects so we coded with that same idea in mind. That being said both the FieldModel and FieldController can be considered large classes specially the last one due to a bigger number o methods, fields and overall length.
->The controller could also be regarded as feature envy considering it accesses other classes information a lot even though these are its own fields. There's also the fact that some methods of the controller can be seen as relatively large.
+>The controller could also be regarded as feature envy considering it accesses other classes information a lot even though these are its own fields. There's also the fact that some methods of the controller can be seen as relatively large and difficult to test. 
 #### Refactoring
->To fix some of the said problems we could assign more responsibilities to the other classes instead of relying so heavily on the field and to reduce some bigger methods we could refactor it into more different methods but smaller usign the extract method.
+>To fix some of the said problems we could assign more responsibilities to the other classes instead of relying so heavily on the field and to reduce some bigger methods we could refactor it into more different methods but smaller usign the extract method. We could make two different classes, one handles the static elements as blocks, door and coins, and the other handles the monsters and hero. Both could communicate with a class that would aggregate those classes and manage the Tiles.
 ## Testing
 ### Screenshot of test coverage
 ![alt text](screenshots/Test-Coverage.png)
