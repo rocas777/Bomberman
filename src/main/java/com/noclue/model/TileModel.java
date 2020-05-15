@@ -1,6 +1,8 @@
 package com.noclue.model;
 
 
+import com.noclue.model.block.NoBlockModel;
+import com.noclue.model.block.NoCollectibleModel;
 import com.noclue.model.collectible.Collectible;
 
 public class Tile {
@@ -33,4 +35,6 @@ public class Tile {
     public boolean isFilled(){
         return filler.isFilled();
     }
+
+
 }
