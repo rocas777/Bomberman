@@ -1,5 +1,5 @@
 package com.noclue.model;
 
-public interface Filler {
+public interface Filler extends Cloneable{
     boolean isFilled();
 }

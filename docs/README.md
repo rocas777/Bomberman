@@ -46,7 +46,7 @@
 >There's also a white column on the right. It will be the place where in the future we will draw lives, clock and score.
 
 ### Lose condition
->If a monster happens to enter contact with the player he will lose. At this moment, the Easy movements is random, so, sometimes the monster is in the tile close to the player but won't move in that direction. 
+>If a monster happens to enter contact with the player he will lose. At this moment, the Easy movements is random, so, sometimes the monster is in the tileModel close to the player but won't move in that direction. 
 
 >If the player enters the zone of thhe explosion, the player dies.
 
@@ -197,9 +197,9 @@ Removing this class would make other classes more crowded so it might not be the
 We could make so that this class could handle returning other positions next to it (left, right, up, down),checking if they are inside of the screen, instead of letting the [FieldContoller](src/main/java/com/noclue/controller/FieldController.java) class handle it.
 ### 2. Tile Class
 #### Smell
->This ([Tile](../src/main/java/com/noclue/model/Tile.java)) class can be considered a lazy class since it doesn't do much really. Our main goal developing this class was for it to hold the classes that were in that specific tile in each moment and handle conversions between real cli position and game tile. We sort-of went with the flow and midway throught the project we noticed it only does half of what it was supossed to do (hold the info about what is in there) and some of its original responsibilities were given to other classes(mainly field).
+>This ([Tile](../src/main/java/com/noclue/model/Tile.java)) class can be considered a lazy class since it doesn't do much really. Our main goal developing this class was for it to hold the classes that were in that specific tileModel in each moment and handle conversions between real cli position and game tileModel. We sort-of went with the flow and midway throught the project we noticed it only does half of what it was supossed to do (hold the info about what is in there) and some of its original responsibilities were given to other classes(mainly field).
 #### Refactor
->In order to fix this smell we could refactor our code to give it its original functionalities or add others like handling the drawing of what is inside. There's also the alternative of simply deleting this class but we don't think it is the best way to go forward. Right now the field is responsible for reseting the tile and copying its information to other tile. Those tasks can be given to Tile class, it would turn Tile into a useful class, while removing complexity and adding readability to the field class;  
+>In order to fix this smell we could refactor our code to give it its original functionalities or add others like handling the drawing of what is inside. There's also the alternative of simply deleting this class but we don't think it is the best way to go forward. Right now the field is responsible for reseting the tileModel and copying its information to other tileModel. Those tasks can be given to Tile class, it would turn Tile into a useful class, while removing complexity and adding readability to the field class;  
 ### 3. Field Class
 #### Smell
 >We would first like to say that we intended for the FieldModel to contain many other classes that are related to it. In the game, the hero and monsters for example will be inside a field along with other objects so we coded with that same idea in mind. That being said both the FieldModel and FieldController can be considered large classes specially the last one due to a bigger number o methods, fields and overall length.
