@@ -8,8 +8,8 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.when;
 
-public class TileTest {
-    Tile tile;
+public class TileModelTest {
+    TileModel tileModel;
     Position position;
     Filler filler;
     Filler f2;
@@ -22,38 +22,38 @@ public class TileTest {
         f2 = Mockito.mock(Filler.class);
         collectible = Mockito.mock(Collectible.class);
         c2 =  Mockito.mock(Collectible.class);
-        tile = new Tile(position,collectible,filler);
+        tileModel = new TileModel(position,collectible,filler);
         when(filler.isFilled()).thenReturn(true);
     }
 
     @Test
     public void getFiller() {
-        Assert.assertEquals(tile.getFiller(),filler);
+        Assert.assertEquals(tileModel.getFiller(),filler);
     }
 
     @Test
     public void getCollectible() {
-        Assert.assertEquals(tile.getCollectible(),collectible);
+        Assert.assertEquals(tileModel.getCollectible(),collectible);
     }
 
     @Test
     public void setCollectible() {
-        tile.setCollectible(c2);
-        Assert.assertEquals(tile.getCollectible(),c2);
-        tile.setCollectible(null);
-        Assert.assertEquals(tile.getCollectible(),null);
+        tileModel.setCollectible(c2);
+        Assert.assertEquals(tileModel.getCollectible(),c2);
+        tileModel.setCollectible(null);
+        Assert.assertEquals(tileModel.getCollectible(),null);
     }
 
     @Test
     public void setFiller() {
-        tile.setFiller(f2);
-        Assert.assertEquals(tile.getFiller(),f2);
-        tile.setFiller(null);
-        Assert.assertEquals(tile.getFiller(),null);
+        tileModel.setFiller(f2);
+        Assert.assertEquals(tileModel.getFiller(),f2);
+        tileModel.setFiller(null);
+        Assert.assertEquals(tileModel.getFiller(),null);
     }
 
     @Test
     public void isFilled() {
-        Assert.assertEquals(true,tile.isFilled());
+        Assert.assertEquals(true, tileModel.isFilled());
     }
 }

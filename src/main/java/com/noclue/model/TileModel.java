@@ -3,12 +3,12 @@ package com.noclue.model;
 
 import com.noclue.model.collectible.Collectible;
 
-public class Tile {
+public class TileModel {
     Filler filler;
     Collectible collectible;
     final Position position;
 
-    public Tile(Position position, Collectible collectible, Filler filler){
+    public TileModel(Position position, Collectible collectible, Filler filler){
         this.collectible=collectible;
         this.filler=filler;
         this.position=position;
@@ -33,4 +33,6 @@ public class Tile {
     public boolean isFilled(){
         return filler.isFilled();
     }
+
+
 }

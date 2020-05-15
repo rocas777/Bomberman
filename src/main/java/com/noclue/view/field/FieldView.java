@@ -5,11 +5,11 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
-import com.noclue.model.FieldModel;
 import com.noclue.IView;
+import com.noclue.model.FieldModel;
+import com.noclue.model.Grid;
 
 import java.io.IOException;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FieldView implements IView {
     private FieldModel model;
@@ -41,7 +41,7 @@ public class FieldView implements IView {
         return screen;
     }
 
-    public void draw(FieldModel model, TextGraphics textGraphics, Screen screen, CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views){
+    public void draw(FieldModel model, TextGraphics textGraphics, Screen screen, Grid views){
         screen.clear();
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(model.getWidth(), model.getHeight()), ' ');
@@ -51,12 +51,12 @@ public class FieldView implements IView {
         textGraphics.fillRectangle(new TerminalPosition(6, 3), new TerminalSize(model.getWidth()-20, model.getHeight()-6), ' ');
 
 
-
-        for(int i1=0;i1<views.size();i1++){
-            for(int i2=0;i2<views.get(i1).size();i2++) {
-                views.get(i1).get(i2).draw();
+        if(views!= null && views.getTiles()!=null)
+            for(int i1=0;i1<views.getTiles().size();i1++){
+                for(int i2=0;i2<views.getTiles().get(i1).size();i2++) {
+                    views.getTiles().get(i1).get(i2).draw();
+                }
             }
-        }
 
         if(model.getBomb()!=null)
             model.getBomb().draw();
@@ -70,6 +70,6 @@ public class FieldView implements IView {
 
     @Override
     public void draw() {
-        draw(model,textGraphics,screen,model.getViews());
+        draw(model,textGraphics,screen,model.getTiles());
     }
 }

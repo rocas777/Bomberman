@@ -2,9 +2,9 @@ package com.noclue.view.collectible;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.noclue.IView;
 import com.noclue.model.Position;
 import com.noclue.model.collectible.DoorModel;
-import com.noclue.IView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 

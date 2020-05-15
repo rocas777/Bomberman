@@ -2,8 +2,8 @@ package com.noclue.controller.bomb;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.IBombInterface;
-import com.noclue.model.BombModel;
 import com.noclue.IView;
+import com.noclue.model.BombModel;
 import com.noclue.view.bomb.BombViewFire;
 import com.noclue.view.bomb.BombViewTicking;
 

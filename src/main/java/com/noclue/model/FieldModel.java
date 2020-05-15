@@ -1,11 +1,9 @@
 package com.noclue.model;
 
 import com.noclue.IBombInterface;
-import com.noclue.IView;
 import com.noclue.Movement;
+import com.noclue.controller.TileController;
 import com.noclue.keyboard.KeyBoard;
-import com.noclue.model.Position;
-import com.noclue.model.Tile;
 import com.noclue.timer.Timer;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -13,30 +11,33 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class FieldModel  {
     private final int width;
     private final int height;
-    final private CopyOnWriteArrayList<CopyOnWriteArrayList<Tile>> tiles;
+    private Grid tiles;
     private Position hero_pos;
     private CopyOnWriteArrayList<Position> monsters=new CopyOnWriteArrayList<>();
     IBombInterface bombController =null;
     KeyBoard kServer;
     Timer tServer;
-    CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views = new CopyOnWriteArrayList<>();
+    Integer points=0;
 
-    public CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> getViews() {
-        return views;
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+    public void addPoint() {
+        this.points++;
     }
 
     public void setMonsters(CopyOnWriteArrayList<Position> monsters) {
         this.monsters = monsters;
     }
 
-    public void setViews(CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views) {
-        this.views = views;
-    }
-
     public FieldModel(int width, int height) {
         this.height = height;
         this.width = width;
-        tiles=new CopyOnWriteArrayList<>();
+        tiles=new Grid();
     }
 
     public void setkServer(KeyBoard kServer) {
@@ -55,7 +56,7 @@ public class FieldModel  {
         return width;
     }
 
-    public CopyOnWriteArrayList<CopyOnWriteArrayList<Tile>> getTiles() {
+    public Grid getTiles() {
         return tiles;
     }
 
@@ -89,20 +90,30 @@ public class FieldModel  {
 
     public boolean checkPos(Position position, Movement movement){
         //System.out.println(position.getX()+" "+position.getY());
+        /*for(CopyOnWriteArrayList<TileController> lt:getTiles().getTiles()) {
+            for (TileController t : lt) {
+                if(t.isFilled())
+                    System.out.print(1+" ");
+                else
+                    System.out.print(0+" ");
+            }
+            System.out.println();
+        }
+        System.out.println();*/
         if (movement==Movement.left) {
-            return !(tiles.get(position.getY()).get(position.getX()-1).isFilled());
+            return !(tiles.getTile(position.getLeft()).isFilled());
         }
         else if (movement==Movement.right) {
-            return !(tiles.get(position.getY()).get(position.getX()+1).isFilled());
+            return !(tiles.getTile(position.getRight()).isFilled());
         }
         else if (movement==Movement.up) {
-            return !(tiles.get(position.getY()-1).get(position.getX()).isFilled());
+            return !(tiles.getTile(position.getUp()).isFilled());
         }
         else if (movement==Movement.down) {
-            return !(tiles.get(position.getY()+1).get(position.getX()).isFilled());
+            return !(tiles.getTile(position.getDown()).isFilled());
         }
         else if (movement==Movement.stay) {
-            return !(tiles.get(position.getY()).get(position.getX()).isFilled());
+            return !(tiles.getTile(position).isFilled());
         }
         return false;
     }

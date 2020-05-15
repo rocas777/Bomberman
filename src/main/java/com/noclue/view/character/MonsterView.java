@@ -2,9 +2,9 @@ package com.noclue.view.character;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.noclue.IView;
 import com.noclue.model.Position;
 import com.noclue.model.character.MonsterModel;
-import com.noclue.IView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 

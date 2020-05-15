@@ -21,4 +21,6 @@ public class HeroModel implements Character {
     public boolean isFilled() {
         return false;
     }
+
+
 }
