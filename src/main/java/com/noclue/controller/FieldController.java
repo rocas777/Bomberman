@@ -299,7 +299,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             model.addPoint();
             model.getTiles().getTile(model.getHero_pos()).blankCollectible();
         }
-        System.out.println(model.getPoints());
     }
 
 
@@ -308,28 +307,30 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         timerSum=timerSum+1;
         if(timerSum==25) {
             for (Position pos : model.getMonsters()) {
-                MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos).getFiller();
-                for (Movement m : tmp_monsterModel.nextMove(pos)) {
-                    if (model.checkPos(pos, m)) {
-                        if(checkForHero(pos, m)) {
-                            model.gettServer().removeListener(this);
-                            view.draw();
-                            view = gamoverView;
-                            view.draw();
-                            ended=true;
-                            return;
+                //if (model.getTiles().getTile(pos).getFiller() instanceof MonsterModel) {
+                    MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos).getFiller();
+                    for (Movement m : tmp_monsterModel.nextMove(pos)) {
+                        if (model.checkPos(pos, m)) {
+                            if (checkForHero(pos, m)) {
+                                model.gettServer().removeListener(this);
+                                view.draw();
+                                view = gamoverView;
+                                view.draw();
+                                ended = true;
+                                return;
+                            }
+                            if (m == Movement.left)
+                                moveLeft(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
+                            else if (m == Movement.right)
+                                moveRight(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
+                            else if (m == Movement.up)
+                                moveUp(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
+                            else if (m == Movement.down)
+                                moveDown(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
+                            break;
                         }
-                        if (m == Movement.left)
-                            moveLeft(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                        else if (m == Movement.right)
-                            moveRight(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                        else if (m == Movement.up)
-                            moveUp(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                        else if (m == Movement.down)
-                            moveDown(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                        break;
                     }
-                }
+                //}
             }
             timerSum=0;
         }
@@ -370,8 +371,9 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     private void remove(Position position){
-        if(model.getTiles().getTile(position).getFiller() instanceof MonsterModel)
-            model.getMonsters().remove(model.getTiles().getTile(position).getFiller());
+        if(model.getTiles().getTile(position).getFiller() instanceof MonsterModel) {
+            model.getMonsters().remove(((MonsterModel) model.getTiles().getTile(position).getFiller()).getPosition());
+        }
         else if(model.getTiles().getTile(position).getFiller() instanceof HeroModel) {
             model.gettServer().removeListener(this);
             view.draw();
