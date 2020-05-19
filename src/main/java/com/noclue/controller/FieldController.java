@@ -288,7 +288,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     @Override
     public void updateOnTime() {
-        purge();
         timerSum=timerSum+1;
         if((timerSum%25)==0) {  //monstros
             for (MonsterModel pos : model.getMonsters()) {
@@ -316,7 +315,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                     }
                 }
             }
-
         }
         if(timerSum==50){   //relogio
             timeLeft.minusSecond();
@@ -330,6 +328,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             }
             timerSum=0;
         }
+        purge();
         view.draw();
     }
 

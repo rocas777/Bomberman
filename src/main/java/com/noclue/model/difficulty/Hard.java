@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Hard implements Difficulty {
 
     @Override
-    public ArrayList<Movement> nextMove(Position position) {
+    public ArrayList<Movement> nextMove(Position monster, Position hero) {
         return null;
     }
 }
