@@ -1,11 +1,9 @@
 package com.noclue.controller;
 
-import com.noclue.Movement;
 import com.noclue.model.Filler;
-import com.noclue.model.Position;
 import com.noclue.model.TileModel;
 import com.noclue.model.block.NoBlockModel;
-import com.noclue.model.block.NoCollectibleModel;
+import com.noclue.model.collectible.NoCollectibleModel;
 import com.noclue.model.collectible.Collectible;
 import com.noclue.view.NoView;
 import com.noclue.view.TileView;

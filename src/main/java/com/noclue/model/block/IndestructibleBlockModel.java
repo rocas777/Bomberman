@@ -1,9 +1,10 @@
 package com.noclue.model.block;
 
 
+import com.noclue.model.Filler;
 import com.noclue.model.Position;
 
-public class IndestructibleBlockModel implements Block {
+public class IndestructibleBlockModel extends Filler {
     Position position;
     public IndestructibleBlockModel(Position position){
         this.position=position;
@@ -20,5 +21,10 @@ public class IndestructibleBlockModel implements Block {
     @Override
     public boolean isFilled() {
         return true;
+    }
+
+    @Override
+    public boolean deactivate() {
+        return false;
     }
 }

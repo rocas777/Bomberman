@@ -2,9 +2,11 @@ package com.noclue.model;
 
 import com.noclue.IBombInterface;
 import com.noclue.Movement;
-import com.noclue.controller.TileController;
 import com.noclue.keyboard.KeyBoard;
+import com.noclue.model.character.HeroModel;
+import com.noclue.model.character.MonsterModel;
 import com.noclue.timer.Timer;
+import com.sun.tools.javac.code.Types;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -12,8 +14,8 @@ public class FieldModel  {
     private final int width;
     private final int height;
     private Grid tiles;
-    private Position hero_pos;
-    private CopyOnWriteArrayList<Position> monsters=new CopyOnWriteArrayList<>();
+    private HeroModel hero;
+    private CopyOnWriteArrayList<MonsterModel> monsters=new CopyOnWriteArrayList<>();
     IBombInterface bombController =null;
     KeyBoard kServer;
     Timer tServer;
@@ -30,7 +32,7 @@ public class FieldModel  {
         this.points++;
     }
 
-    public void setMonsters(CopyOnWriteArrayList<Position> monsters) {
+    public void setMonsters(CopyOnWriteArrayList<MonsterModel> monsters) {
         this.monsters = monsters;
     }
 
@@ -60,7 +62,7 @@ public class FieldModel  {
         return tiles;
     }
 
-    public CopyOnWriteArrayList<Position> getMonsters() {
+    public CopyOnWriteArrayList<MonsterModel> getMonsters() {
         return monsters;
     }
 
@@ -72,16 +74,16 @@ public class FieldModel  {
         return kServer;
     }
 
-    public Position getHero_pos() {
-        return hero_pos;
+    public HeroModel getHero() {
+        return hero;
     }
 
     public Timer gettServer() {
         return tServer;
     }
 
-    public void setHero_pos(Position hero_pos) {
-        this.hero_pos = hero_pos;
+    public void setHero(HeroModel hero) {
+        this.hero = hero;
     }
 
     public void setBombModel(IBombInterface bombController) {

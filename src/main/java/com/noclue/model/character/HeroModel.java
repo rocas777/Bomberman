@@ -1,8 +1,9 @@
 package com.noclue.model.character;
 
+import com.noclue.model.Filler;
 import com.noclue.model.Position;
 
-public class HeroModel implements Character {
+public class HeroModel extends Filler implements Character {
     Position position;
     public HeroModel(Position position){
         this.position=position;
@@ -18,8 +19,19 @@ public class HeroModel implements Character {
     }
 
     @Override
+    public boolean isTouching(Filler filler) {
+        return false;
+    }
+
+    @Override
     public boolean isFilled() {
         return false;
+    }
+
+    @Override
+    public boolean deactivate() {
+        isActive = false;
+        return true;
     }
 
 

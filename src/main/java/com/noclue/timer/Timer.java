@@ -47,7 +47,6 @@ public class Timer implements TimerInterface {
                         return;
                     }
                     long wait = mseconds+timeMilli2-System.currentTimeMillis();
-                    System.out.println(timeMilli2-System.currentTimeMillis());
                     if(wait>0)
                         java.lang.Thread.sleep(wait);
                     else

@@ -1,4 +1,4 @@
-package com.noclue.model.block;
+package com.noclue.model.collectible;
 
 import com.noclue.model.collectible.Collectible;
 

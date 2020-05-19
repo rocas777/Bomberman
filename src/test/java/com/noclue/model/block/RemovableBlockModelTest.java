@@ -1,7 +1,6 @@
 package com.noclue.model.block;
 
 import com.noclue.model.Position;
-import com.noclue.model.RemovableBlockModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

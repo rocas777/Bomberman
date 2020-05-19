@@ -3,15 +3,12 @@ package com.noclue.model;
 import com.noclue.IBombInterface;
 import com.noclue.IView;
 import com.noclue.model.character.MonsterModel;
-import com.noclue.view.character.MonsterView;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import static org.junit.Assert.*;
 
 public class FieldModelTest {
     CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> views = new CopyOnWriteArrayList<>();
@@ -92,8 +89,8 @@ public class FieldModelTest {
 
     @Test
     public void getHero_pos() {
-        fieldModel.setHero_pos(position);
-        Assert.assertEquals(fieldModel.getHero_pos(),position);
+        fieldModel.setHero(position);
+        Assert.assertEquals(fieldModel.getHero(),position);
     }
 
     @Test
@@ -102,8 +99,8 @@ public class FieldModelTest {
 
     @Test
     public void setHero_pos() {
-        fieldModel.setHero_pos(position);
-        Assert.assertEquals(fieldModel.getHero_pos(),position);
+        fieldModel.setHero(position);
+        Assert.assertEquals(fieldModel.getHero(),position);
     }
 
     @Test

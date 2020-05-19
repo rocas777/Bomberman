@@ -2,7 +2,9 @@ package com.noclue;
 
 import com.noclue.model.Position;
 
+import java.util.ArrayList;
+
 public interface ExplosionListener {
-    void explode(Position position);
-    void fireDone(Position position);
+    void explode(ArrayList<Position> positions);
+    void fireDone();
 }
