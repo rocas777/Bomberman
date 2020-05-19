@@ -42,14 +42,16 @@ public class Timer implements TimerInterface {
             while (isOn) {
                 try {
                     timeMilli2 = System.currentTimeMillis();
-                    System.out.println("Time in milliseconds using Calendar: " + timeMilli2);
                     updateListeners(timeListeners);
                     if(mseconds<1) {
                         return;
                     }
                     long wait = mseconds+timeMilli2-System.currentTimeMillis();
+                    System.out.println(timeMilli2-System.currentTimeMillis());
                     if(wait>0)
                         java.lang.Thread.sleep(wait);
+                    else
+                        java.lang.Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
