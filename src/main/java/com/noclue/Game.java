@@ -71,11 +71,9 @@ public class Game implements KeyboardListener {
 
     public void run(){
         FieldView fieldView = new FieldView(screen,textGraphics,fieldModel);
-        LivesModel livesModel = new LivesModel(3,new Position(146,45,138,2));
-        fieldView.setLivesView(new LivesView(livesModel,textGraphics));
         TimeLeft timeLeft = new TimeLeft(120, new Position(146,45,138,30));
         fieldView.setTimeLeftView(new TimeLeftView(timeLeft,textGraphics));
-        new FieldController(fieldModel,fieldView,new GameOverView(screen,textGraphics),new WinView(screen,textGraphics),textGraphics,livesModel, timeLeft).setup();
+        new FieldController(fieldModel,fieldView,new GameOverView(screen,textGraphics),new WinView(screen,textGraphics),textGraphics, timeLeft).setup();
     }
 
 

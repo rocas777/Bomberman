@@ -5,15 +5,19 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.IView;
 import com.noclue.model.Position;
 import com.noclue.model.character.HeroModel;
+import com.noclue.view.LivesView;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class HeroView implements IView {
     HeroModel model;
     TextGraphics textGraphics;
+    LivesView livesView;
+
     public HeroView(HeroModel model, TextGraphics textGraphics){
         this.model=model;
         this.textGraphics=textGraphics;
+        livesView= new LivesView(model.getLivesModel(),textGraphics);
     }
 
     public HeroModel getModel() {
@@ -32,6 +36,8 @@ public class HeroView implements IView {
         textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2,"0=||=0",BOLD);
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
+
+        livesView.draw();
     }
 
     @Override

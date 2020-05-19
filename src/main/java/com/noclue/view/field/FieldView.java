@@ -21,7 +21,6 @@ public class FieldView implements IView {
     private FieldModel model;
     private TextGraphics textGraphics;
     private Screen screen;
-    private LivesView livesView;
     private TimeLeftView timeLeftView;
 
     public FieldView(Screen screen,TextGraphics textGraphics, FieldModel model){
@@ -48,10 +47,6 @@ public class FieldView implements IView {
 
     public Screen getScreen() {
         return screen;
-    }
-
-    public void setLivesView(LivesView livesView) {
-        this.livesView = livesView;
     }
 
     public void setTimeLeftView(TimeLeftView timeLeftView) {
@@ -85,9 +80,6 @@ public class FieldView implements IView {
             drawScore(textGraphics,new Position(146,45,138,35));
         }
 
-        if(livesView!=null){
-            livesView.draw();
-        }
         if(timeLeftView!=null){
             timeLeftView.draw();
         }
