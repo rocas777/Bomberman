@@ -6,5 +6,5 @@ import com.noclue.model.Position;
 import java.util.ArrayList;
 
 public interface Difficulty {
-    ArrayList<Movement> nextMove(Position position);
+    ArrayList<Movement> nextMove(Position monster,Position hero);
 }
