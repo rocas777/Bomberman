@@ -12,12 +12,16 @@ import com.noclue.controller.FieldController;
 import com.noclue.keyboard.KeyBoard;
 import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.FieldModel;
+import com.noclue.model.LivesModel;
+import com.noclue.model.Position;
 import com.noclue.timer.Timer;
+import com.noclue.view.LivesView;
 import com.noclue.view.field.FieldView;
 import com.noclue.view.field.GameOverView;
 import com.noclue.view.field.WinView;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 public class Game implements KeyboardListener {
     private static Screen screen;
@@ -64,7 +68,10 @@ public class Game implements KeyboardListener {
     }
 
     public void run(){
-        new FieldController(fieldModel,new FieldView(screen,textGraphics,fieldModel),new GameOverView(screen,textGraphics),new WinView(screen,textGraphics),textGraphics).setup();
+        FieldView fieldView = new FieldView(screen,textGraphics,fieldModel);
+        LivesModel livesModel = new LivesModel(3,new Position(146,45,138,2));
+        fieldView.setLivesView(new LivesView(livesModel,textGraphics));
+        new FieldController(fieldModel,fieldView,new GameOverView(screen,textGraphics),new WinView(screen,textGraphics),textGraphics,livesModel).setup();
     }
 
 

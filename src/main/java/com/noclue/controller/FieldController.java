@@ -18,6 +18,7 @@ import com.noclue.model.collectible.CoinModel;
 import com.noclue.model.collectible.DoorModel;
 import com.noclue.model.difficulty.Easy;
 import com.noclue.timer.TimeListener;
+import com.noclue.view.LivesView;
 import com.noclue.view.NoView;
 import com.noclue.view.TileView;
 import com.noclue.view.block.IndestructibleBlockView;
@@ -40,15 +41,17 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     IView gamoverView;
     IView winView;
     TextGraphics textGraphics;
+    LivesModel livesModel;
     boolean ended=false;
 
-    public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics){
+    public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics, LivesModel livesModel){
         this.model=model;
         this.view = gameView;
         this.gamoverView = gameoverView;
         this.winView = winView;
         this.gameView = gameView;
         this.textGraphics=textGraphics;
+        this.livesModel = livesModel;
 
         model.gettServer().addListener(this);
         model.getkServer().addListener(this);
@@ -66,6 +69,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         setHero(hero);
         setDoor(door);
     }
+
 
     public void setRemovableBlocks(Position door, Position hero, int numberBlocks){
         Random random=new Random();
@@ -304,32 +308,27 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         timerSum=timerSum+1;
         if(timerSum==25) {
             for (Position pos : model.getMonsters()) {
-                try {
-                    MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos).getFiller();
-                    for (Movement m : tmp_monsterModel.nextMove(pos)) {
-                        if (model.checkPos(pos, m)) {
-                            if(checkForHero(pos, m)) {
-                                model.gettServer().removeListener(this);
-                                view.draw();
-                                view = gamoverView;
-                                view.draw();
-                                ended=true;
-                                return;
-                            }
-                            if (m == Movement.left)
-                                moveLeft(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                            else if (m == Movement.right)
-                                moveRight(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                            else if (m == Movement.up)
-                                moveUp(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                            else if (m == Movement.down)
-                                moveDown(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                            break;
+                MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos).getFiller();
+                for (Movement m : tmp_monsterModel.nextMove(pos)) {
+                    if (model.checkPos(pos, m)) {
+                        if(checkForHero(pos, m)) {
+                            model.gettServer().removeListener(this);
+                            view.draw();
+                            view = gamoverView;
+                            view.draw();
+                            ended=true;
+                            return;
                         }
+                        if (m == Movement.left)
+                            moveLeft(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
+                        else if (m == Movement.right)
+                            moveRight(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
+                        else if (m == Movement.up)
+                            moveUp(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
+                        else if (m == Movement.down)
+                            moveDown(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
+                        break;
                     }
-                }
-                catch (Exception e){
-
                 }
             }
             timerSum=0;

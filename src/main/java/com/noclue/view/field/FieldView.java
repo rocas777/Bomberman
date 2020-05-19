@@ -8,6 +8,8 @@ import com.googlecode.lanterna.screen.Screen;
 import com.noclue.IView;
 import com.noclue.model.FieldModel;
 import com.noclue.model.Grid;
+import com.noclue.model.LivesModel;
+import com.noclue.view.LivesView;
 
 import java.io.IOException;
 
@@ -15,6 +17,8 @@ public class FieldView implements IView {
     private FieldModel model;
     private TextGraphics textGraphics;
     private Screen screen;
+    private LivesView livesView;
+
     public FieldView(Screen screen,TextGraphics textGraphics, FieldModel model){
         this.model=model;
         this.textGraphics=textGraphics;
@@ -41,6 +45,10 @@ public class FieldView implements IView {
         return screen;
     }
 
+    public void setLivesView(LivesView livesView) {
+        this.livesView = livesView;
+    }
+
     public void draw(FieldModel model, TextGraphics textGraphics, Screen screen, Grid views){
         screen.clear();
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
@@ -58,6 +66,9 @@ public class FieldView implements IView {
                 }
             }
 
+        if(livesView!=null){
+            livesView.draw();
+        }
         if(model.getBomb()!=null)
             model.getBomb().draw();
         try {
