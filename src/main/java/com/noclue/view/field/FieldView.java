@@ -10,6 +10,7 @@ import com.noclue.model.FieldModel;
 import com.noclue.model.Grid;
 import com.noclue.model.LivesModel;
 import com.noclue.view.LivesView;
+import com.noclue.view.TimeLeftView;
 
 import java.io.IOException;
 
@@ -18,6 +19,7 @@ public class FieldView implements IView {
     private TextGraphics textGraphics;
     private Screen screen;
     private LivesView livesView;
+    private TimeLeftView timeLeftView;
 
     public FieldView(Screen screen,TextGraphics textGraphics, FieldModel model){
         this.model=model;
@@ -49,6 +51,10 @@ public class FieldView implements IView {
         this.livesView = livesView;
     }
 
+    public void setTimeLeftView(TimeLeftView timeLeftView) {
+        this.timeLeftView = timeLeftView;
+    }
+
     public void draw(FieldModel model, TextGraphics textGraphics, Screen screen, Grid views){
         screen.clear();
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
@@ -68,6 +74,9 @@ public class FieldView implements IView {
 
         if(livesView!=null){
             livesView.draw();
+        }
+        if(timeLeftView!=null){
+            timeLeftView.draw();
         }
         if(model.getBomb()!=null)
             model.getBomb().draw();

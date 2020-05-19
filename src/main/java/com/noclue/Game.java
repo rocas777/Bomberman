@@ -14,8 +14,10 @@ import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.FieldModel;
 import com.noclue.model.LivesModel;
 import com.noclue.model.Position;
+import com.noclue.model.TimeLeft;
 import com.noclue.timer.Timer;
 import com.noclue.view.LivesView;
+import com.noclue.view.TimeLeftView;
 import com.noclue.view.field.FieldView;
 import com.noclue.view.field.GameOverView;
 import com.noclue.view.field.WinView;
@@ -71,7 +73,9 @@ public class Game implements KeyboardListener {
         FieldView fieldView = new FieldView(screen,textGraphics,fieldModel);
         LivesModel livesModel = new LivesModel(3,new Position(146,45,138,2));
         fieldView.setLivesView(new LivesView(livesModel,textGraphics));
-        new FieldController(fieldModel,fieldView,new GameOverView(screen,textGraphics),new WinView(screen,textGraphics),textGraphics,livesModel).setup();
+        TimeLeft timeLeft = new TimeLeft(120, new Position(146,45,138,30));
+        fieldView.setTimeLeftView(new TimeLeftView(timeLeft,textGraphics));
+        new FieldController(fieldModel,fieldView,new GameOverView(screen,textGraphics),new WinView(screen,textGraphics),textGraphics,livesModel, timeLeft).setup();
     }
 
 
