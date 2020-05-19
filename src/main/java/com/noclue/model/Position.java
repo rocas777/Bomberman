@@ -1,5 +1,7 @@
 package com.noclue.model;
 
+import com.noclue.Movement;
+
 public class Position implements Cloneable{
     private int x,y;
     private int x_max=1,y_max=1;
@@ -40,7 +42,23 @@ public class Position implements Cloneable{
         return null;
     }
 
-
+    public Position getPositionByMovement(Movement movement){
+        if(movement==Movement.left){
+            return getLeft();
+        }
+        else if(movement==Movement.right){
+            return getRight();
+        }
+        else if(movement==Movement.down){
+            return getDown();
+        }
+        else if(movement==Movement.up){
+            return getUp();
+        }
+        else{
+            return this;
+        }
+    }
 
     public int getY() {
         return y;

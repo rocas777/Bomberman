@@ -29,7 +29,12 @@ public class HeroView implements IView {
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0000FF"));
+        if(model.getState()==model.getInvincible()){
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#b200ff"));
+        }
+        else{
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0000FF"));
+        }
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
         textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY(),"  ()  ",BOLD);
         textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+1,"0=||=0",BOLD);

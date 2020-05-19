@@ -2,7 +2,10 @@ package com.noclue;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.model.BombModel;
+import com.noclue.model.Position;
 import com.noclue.timer.TimeListener;
+
+import java.util.ArrayList;
 
 public interface IBombInterface extends TimeListener {
     int getSum();
@@ -24,4 +27,6 @@ public interface IBombInterface extends TimeListener {
     void updateOnTime();
 
     void draw();
+
+    public ArrayList<Position> getExplosionList();
 }

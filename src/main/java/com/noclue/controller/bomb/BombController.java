@@ -16,6 +16,7 @@ public class BombController implements IBombInterface {
     private IView viewFire;
     private IView view;
     private int sum=0;
+    private ArrayList<Position> explosionList = new ArrayList();
     private TextGraphics textGraphics;
 
     public BombController(BombModel model, TextGraphics textGraphics){
@@ -23,10 +24,25 @@ public class BombController implements IBombInterface {
         this.viewFire= new BombViewFire(textGraphics,model);
         view=viewTicking;
         this.model=model;
+
+        explosionList.add(model.getPosition().getRight());
+        explosionList.add(model.getPosition().getRight().getRight());
+        explosionList.add(model.getPosition().getLeft());
+        explosionList.add(model.getPosition().getLeft().getLeft());
+        explosionList.add(model.getPosition().getDown());
+        explosionList.add(model.getPosition().getDown().getDown());
+        explosionList.add(model.getPosition().getUp());
+        explosionList.add(model.getPosition().getUp().getUp());
+        explosionList.add(model.getPosition());
     }
 
     public int getSum() {
         return sum;
+    }
+
+
+    public ArrayList<Position> getExplosionList() {
+        return explosionList;
     }
 
     public void setSum(int sum) {
@@ -65,17 +81,7 @@ public class BombController implements IBombInterface {
             model.getExplosionListener().fireDone();
         }
         else if(getSum()*20>=model.getMseconds()) {
-            ArrayList<Position> arrayList = new ArrayList();
-            arrayList.add(model.getPosition().getRight());
-            arrayList.add(model.getPosition().getRight().getRight());
-            arrayList.add(model.getPosition().getLeft());
-            arrayList.add(model.getPosition().getLeft().getLeft());
-            arrayList.add(model.getPosition().getDown());
-            arrayList.add(model.getPosition().getDown().getDown());
-            arrayList.add(model.getPosition().getUp());
-            arrayList.add(model.getPosition().getUp().getUp());
-            arrayList.add(model.getPosition());
-            model.getExplosionListener().explode(arrayList);
+            model.getExplosionListener().explode(explosionList);
             synchronized (view) {
                 view = viewFire;
             }

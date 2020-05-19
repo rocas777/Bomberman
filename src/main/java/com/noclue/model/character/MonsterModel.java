@@ -27,8 +27,8 @@ public class MonsterModel extends Filler implements Character {
         this.difficulty=difficulty;
     }
 
-    public ArrayList<Movement> nextMove(Position position){
-        return difficulty.nextMove(this.position,position);
+    public ArrayList<Movement> nextMove(Position position, ArrayList<Position> bomb){
+        return difficulty.nextMove(this.position,position,bomb);
     }
 
     @Override

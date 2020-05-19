@@ -18,6 +18,18 @@ public class HeroModel extends Filler implements Character, TimeListener {
     Invincible invincible;
     Integer timerCount=0;
 
+    public State getState() {
+        return state;
+    }
+
+    public Normal getNormal() {
+        return normal;
+    }
+
+    public Invincible getInvincible() {
+        return invincible;
+    }
+
     public HeroModel(Position position){
         normal = new Normal();
         invincible = new Invincible();

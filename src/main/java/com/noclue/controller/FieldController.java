@@ -18,6 +18,7 @@ import com.noclue.model.character.MonsterModel;
 import com.noclue.model.collectible.CoinModel;
 import com.noclue.model.collectible.DoorModel;
 import com.noclue.model.difficulty.Easy;
+import com.noclue.model.difficulty.Hard;
 import com.noclue.model.difficulty.Medium;
 import com.noclue.timer.TimeListener;
 import com.noclue.view.LivesView;
@@ -162,7 +163,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0) || block.equals(door)) {
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             }
-            MonsterModel tmp_monster = new MonsterModel(new Medium(), (Position) block.clone());
+            MonsterModel tmp_monster = new MonsterModel(new Hard(), (Position) block.clone());
             TileModel tmp_model = new TileModel(block,new NoCollectibleModel(),tmp_monster);
             TileView tmp_view = new TileView(tmp_model);
             tmp_view.setFiller(new MonsterView(tmp_monster,textGraphics));
@@ -294,7 +295,11 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         if((timerSum%25)==0) {  //monstros
             for (MonsterModel pos : model.getMonsters()) {
                 MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller();
-                for (Movement m : tmp_monsterModel.nextMove(model.getHero().getPosition())) {
+                ArrayList<Position> bomb = null;
+                if(model.getBomb()!=null){
+                    bomb=model.getBomb().getExplosionList();
+                }
+                for (Movement m : tmp_monsterModel.nextMove(model.getHero().getPosition(),bomb)) {
                     if (model.checkPos(pos.getPosition(), m)) {
                         Position tmp =pos.getPosition();
                         if (m == Movement.left && !model.getTiles().getTile(tmp.getLeft()).isFilled()) {
