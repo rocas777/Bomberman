@@ -57,11 +57,11 @@ public class BombController implements IBombInterface {
     @Override
     public synchronized void updateOnTime() {
         setSum(getSum()+1);
-        if (getSum()*20>=250+model.getMseconds()) {
+        if (getSum()*100>=250+model.getMseconds()) {
             model.getTimerInterface().removeListener(this);
             model.getExplosionListener().fireDone(model.getPosition());
         }
-        else if(getSum()*20>=model.getMseconds()) {
+        else if(getSum()*100>=model.getMseconds()) {
             model.getExplosionListener().explode(model.getPosition());
             synchronized (view) {
                 view = viewFire;

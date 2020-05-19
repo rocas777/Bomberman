@@ -286,7 +286,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
         if(keyPressed.getCharacter()=='p' && model.getBomb()==null){
             //System.out.println("ENTER");
-            BombModel bombModel = new BombModel(750,this, (Position) model.getHero_pos().clone(),model.gettServer());
+            BombModel bombModel = new BombModel(1250,this, (Position) model.getHero_pos().clone(),model.gettServer());
             BombViewFire viewFire = new BombViewFire(textGraphics,bombModel);
             model.setBombModel(new BombController(bombModel,textGraphics));
             model.gettServer().addListener(model.getBomb());
@@ -308,7 +308,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     @Override
     public void updateOnTime() {
         timerSum=timerSum+1;
-        if((timerSum%25)==0) {  //monstros
+        if((timerSum%5)==0) {  //monstros
             for (Position pos : model.getMonsters()) {
                 //if (model.getTiles().getTile(pos).getFiller() instanceof MonsterModel) {
                     MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos).getFiller();
@@ -337,7 +337,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             }
 
         }
-        if(timerSum==50){   //relogio
+        if(timerSum==10){   //relogio
             timeLeft.minusSecond();
             if(timeLeft.getSeconds()==0){
                 model.gettServer().removeListener(this);

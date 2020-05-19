@@ -49,7 +49,7 @@ public class Game implements KeyboardListener {
         fieldModel =new FieldModel(width,height);
         running=true;
 
-        Timer t=new Timer(20);
+        Timer t=new Timer(100);
         t.start();
 
         KeyBoard k= new KeyBoard((TerminalScreen) screen);

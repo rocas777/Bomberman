@@ -1,5 +1,6 @@
 package com.noclue.timer;
 
+import java.util.Calendar;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Timer implements TimerInterface {
@@ -37,13 +38,18 @@ public class Timer implements TimerInterface {
     public void start(){
         isOn=true;
         new Thread(() -> {
+            long timeMilli2;
             while (isOn) {
                 try {
+                    timeMilli2 = System.currentTimeMillis();
+                    System.out.println("Time in milliseconds using Calendar: " + timeMilli2);
                     updateListeners(timeListeners);
                     if(mseconds<1) {
                         return;
                     }
-                    java.lang.Thread.sleep(mseconds);
+                    long wait = mseconds+timeMilli2-System.currentTimeMillis();
+                    if(wait>0)
+                        java.lang.Thread.sleep(wait);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
