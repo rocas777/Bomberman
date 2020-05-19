@@ -8,6 +8,7 @@ public class Timer implements TimerInterface {
 
     private int mseconds;
     private boolean isOn;
+    Thread thread;
 
     public CopyOnWriteArrayList<TimeListener> getTimeListeners() {
         return timeListeners;
@@ -64,6 +65,14 @@ public class Timer implements TimerInterface {
 
     public boolean isOn() {
         return isOn;
+    }
+
+    public void stop(){
+        isOn = false;
+    }
+
+    public void resume(){
+        isOn = true;
     }
 
     @Override
