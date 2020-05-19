@@ -59,21 +59,26 @@ public class HeroModel extends Filler implements Character, TimeListener {
         if(timerCount==40){
             timer.removeListener(this);
             timerCount=0;
-            state=normal;
+            synchronized (state) {
+                state = normal;
+            }
         }
     }
 
     @Override
     public boolean deactivate() {
-        state.deactivate(livesModel);
+        if(state.equals(normal)){
+            timer.addListener(this);
+        }
         if(livesModel.getLives()==0){
             isActive = false;
         }
         else{
-            state=invincible;
-            timer.addListener(this);
+            synchronized (state) {
+                state.deactivate(livesModel);
+                state = invincible;
+            }
         }
-
         return true;
     }
 
