@@ -41,10 +41,11 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     IView gamoverView;
     IView winView;
     TextGraphics textGraphics;
+    TimeLeft timeLeft;
     LivesModel livesModel;
     boolean ended=false;
 
-    public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics, LivesModel livesModel){
+    public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics, LivesModel livesModel, TimeLeft timeLeft){
         this.model=model;
         this.view = gameView;
         this.gamoverView = gameoverView;
@@ -52,6 +53,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         this.gameView = gameView;
         this.textGraphics=textGraphics;
         this.livesModel = livesModel;
+        this.timeLeft = timeLeft;
+
 
         model.gettServer().addListener(this);
         model.getkServer().addListener(this);
@@ -305,7 +308,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     @Override
     public void updateOnTime() {
         timerSum=timerSum+1;
-        if(timerSum==25) {
+        if((timerSum%25)==0) {  //monstros
             for (Position pos : model.getMonsters()) {
                 //if (model.getTiles().getTile(pos).getFiller() instanceof MonsterModel) {
                     MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos).getFiller();
@@ -331,6 +334,18 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                         }
                     }
                 //}
+            }
+
+        }
+        if(timerSum==50){   //relogio
+            timeLeft.minusSecond();
+            if(timeLeft.getSeconds()==0){
+                model.gettServer().removeListener(this);
+                view.draw();
+                view = gamoverView;
+                view.draw();
+                ended=true;
+                return;
             }
             timerSum=0;
         }
