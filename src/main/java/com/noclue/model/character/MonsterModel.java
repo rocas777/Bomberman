@@ -1,17 +1,24 @@
 package com.noclue.model.character;
 
 import com.noclue.Movement;
+import com.noclue.model.Filler;
 import com.noclue.model.Position;
 import com.noclue.model.difficulty.Difficulty;
 
 import java.util.ArrayList;
 
-public class MonsterModel implements Character {
+public class MonsterModel extends Filler implements Character {
     final private Difficulty difficulty;
     Position position;
 
     @Override
     public boolean isFilled() {
+        return true;
+    }
+
+    @Override
+    public boolean deactivate() {
+        isActive = false;
         return true;
     }
 
@@ -32,5 +39,14 @@ public class MonsterModel implements Character {
     @Override
     public void setPosition(Position position) {
         this.position=position;
+    }
+
+    @Override
+    public boolean isTouching(Filler filler) {
+        if(filler.isFilled())
+            return false;
+        else
+            filler.deactivate();
+        return true;
     }
 }

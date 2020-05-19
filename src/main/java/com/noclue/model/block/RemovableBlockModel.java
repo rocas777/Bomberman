@@ -1,8 +1,9 @@
-package com.noclue.model;
+package com.noclue.model.block;
 
-import com.noclue.model.block.Block;
+import com.noclue.model.Filler;
+import com.noclue.model.Position;
 
-public class RemovableBlockModel implements Block {
+public class RemovableBlockModel extends Filler {
     Position position;
     public RemovableBlockModel(Position position){
         this.position=position;
@@ -18,6 +19,12 @@ public class RemovableBlockModel implements Block {
 
     @Override
     public boolean isFilled() {
+        return true;
+    }
+
+    @Override
+    public boolean deactivate() {
+        isActive = false;
         return true;
     }
 }

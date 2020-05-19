@@ -10,7 +10,8 @@ import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.*;
 import com.noclue.model.block.IndestructibleBlockModel;
 import com.noclue.model.block.NoBlockModel;
-import com.noclue.model.block.NoCollectibleModel;
+import com.noclue.model.collectible.NoCollectibleModel;
+import com.noclue.model.block.RemovableBlockModel;
 import com.noclue.model.character.Character;
 import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
@@ -18,7 +19,6 @@ import com.noclue.model.collectible.CoinModel;
 import com.noclue.model.collectible.DoorModel;
 import com.noclue.model.difficulty.Easy;
 import com.noclue.timer.TimeListener;
-import com.noclue.view.LivesView;
 import com.noclue.view.NoView;
 import com.noclue.view.TileView;
 import com.noclue.view.block.IndestructibleBlockView;
@@ -170,7 +170,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             TileController tileController= new TileController(tmp_model,tmp_view);
             model.getTiles().setTiles(tileController,block);
 
-            model.getMonsters().add((Position) block.clone());
+            model.getMonsters().add(tmp_monster);
         }
     }
 
@@ -189,8 +189,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         while ((door.getX()%2==0 && door.getY()%2==0) || door.equals(hero)){
             door=new Position(23,15,(random.nextInt(23)),(random.nextInt(13)));
         }
-        door.setX(3);
-        door.setY(3);
         System.out.println(door.getX()+" "+door.getY());
         return door;
     }
@@ -205,7 +203,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         TileController tileController= new TileController(tmp_model,tmp_view);
         model.getTiles().setTiles(tileController,position);
 
-        model.setHero_pos(position);
+        model.setHero(tmp_hero);
     }
 
     public void setDoor(Position position){
@@ -244,96 +242,77 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         position.setDown();
     }
 
-    public boolean checkForHero(Position position, Movement movement){
-        if (movement==Movement.left) {
-            return (model.getTiles().getTile(position.getLeft()).getFiller() instanceof HeroModel);
-        }
-        else if (movement==Movement.right) {
-            return (model.getTiles().getTile(position.getRight()).getFiller() instanceof HeroModel);
-        }
-        else if (movement==Movement.up) {
-            return (model.getTiles().getTile(position.getUp()).getFiller() instanceof HeroModel);
-        }
-        else if (movement==Movement.down) {
-            return (model.getTiles().getTile(position.getDown()).getFiller() instanceof HeroModel);
-        }
-        else if (movement==Movement.stay) {
-            return (model.getTiles().getTile(position).getFiller() instanceof HeroModel);
-        }
-        return false;
-    }
-
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
         if(!ended) {
             if (keyPressed.getCharacter() == 'a') {
-                if (model.checkPos(model.getHero_pos(), Movement.left)) {
-                    moveLeft(model.getHero_pos(), (Character) model.getTiles().getTile(model.getHero_pos()).getFiller());
+                if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
+                    moveLeft(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
                 }
             } else if (keyPressed.getCharacter() == 'd') {
-                if (model.checkPos(model.getHero_pos(), Movement.right)) {
-                    moveRight(model.getHero_pos(), (Character) model.getTiles().getTile(model.getHero_pos()).getFiller());
+                if (model.checkPos(model.getHero().getPosition(), Movement.right)) {
+                    moveRight(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
                 }
             } else if (keyPressed.getCharacter() == 'w') {
-                if (model.checkPos(model.getHero_pos(), Movement.up)) {
-                    moveUp(model.getHero_pos(), (Character) model.getTiles().getTile(model.getHero_pos()).getFiller());
+                if (model.checkPos(model.getHero().getPosition(), Movement.up)) {
+                    moveUp(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
                 }
             } else if (keyPressed.getCharacter() == 's') {
-                if (model.checkPos(model.getHero_pos(), Movement.down)) {
-                    moveDown(model.getHero_pos(), (Character) model.getTiles().getTile(model.getHero_pos()).getFiller());
+                if (model.checkPos(model.getHero().getPosition(), Movement.down)) {
+                    moveDown(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
                 }
             }
         }
         if(keyPressed.getCharacter()=='p' && model.getBomb()==null){
             //System.out.println("ENTER");
-            BombModel bombModel = new BombModel(750,this, (Position) model.getHero_pos().clone(),model.gettServer());
+            BombModel bombModel = new BombModel(1000,this, (Position) model.getHero().getPosition().clone(),model.gettServer());
             BombViewFire viewFire = new BombViewFire(textGraphics,bombModel);
             model.setBombModel(new BombController(bombModel,textGraphics));
             model.gettServer().addListener(model.getBomb());
         }
-        if(model.getTiles().getTile(model.getHero_pos()).getCollectible() instanceof DoorModel) {
+        if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof DoorModel) {
             model.gettServer().removeListener(this);
             view.draw();
             view = winView;
             view.draw();
             ended=true;
         }
-        if(model.getTiles().getTile(model.getHero_pos()).getCollectible() instanceof CoinModel) {
+        if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof CoinModel) {
             model.addPoint();
-            model.getTiles().getTile(model.getHero_pos()).blankCollectible();
+            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
         }
     }
 
 
     @Override
     public void updateOnTime() {
+        purge();
         timerSum=timerSum+1;
         if((timerSum%25)==0) {  //monstros
-            for (Position pos : model.getMonsters()) {
-                //if (model.getTiles().getTile(pos).getFiller() instanceof MonsterModel) {
-                    MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos).getFiller();
-                    for (Movement m : tmp_monsterModel.nextMove(pos)) {
-                        if (model.checkPos(pos, m)) {
-                            if (checkForHero(pos, m)) {
-                                model.gettServer().removeListener(this);
-                                view.draw();
-                                view = gamoverView;
-                                view.draw();
-                                ended = true;
-                                return;
-                            }
-                            if (m == Movement.left)
-                                moveLeft(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                            else if (m == Movement.right)
-                                moveRight(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                            else if (m == Movement.up)
-                                moveUp(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                            else if (m == Movement.down)
-                                moveDown(pos, (MonsterModel) model.getTiles().getTile(pos).getFiller());
-                            break;
+            for (MonsterModel pos : model.getMonsters()) {
+                MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller();
+                for (Movement m : tmp_monsterModel.nextMove(pos.getPosition())) {
+                    if (model.checkPos(pos.getPosition(), m)) {
+                        Position tmp =pos.getPosition();
+                        if (m == Movement.left && !model.getTiles().getTile(tmp.getLeft()).isFilled()) {
+                            model.getTiles().getTile(tmp.getLeft()).getFiller().deactivate();
+                            moveLeft(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
                         }
+                        else if (m == Movement.right && !model.getTiles().getTile(tmp.getRight()).isFilled()) {
+                            model.getTiles().getTile(tmp.getRight()).getFiller().deactivate();
+                            moveRight(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                        }
+                        else if (m == Movement.up && !model.getTiles().getTile(tmp.getUp()).isFilled()) {
+                            model.getTiles().getTile(tmp.getUp()).getFiller().deactivate();
+                            moveUp(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                        }
+                        else if (m == Movement.down && !model.getTiles().getTile(tmp.getDown()).isFilled()) {
+                            model.getTiles().getTile(tmp.getDown()).getFiller().deactivate();
+                            moveDown(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                        }
+                        break;
                     }
-                //}
+                }
             }
 
         }
@@ -367,11 +346,9 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         arrayList.add(position);
 
         for (int i = 0;i<arrayList.size();i++){
-            if(!(model.getTiles().getTile(arrayList.get(i)).getFiller() instanceof IndestructibleBlockModel)) {
-                remove(arrayList.get(i));
+            if((model.getTiles().getTile(arrayList.get(i)).getFiller().deactivate())){
                 tmp.add(arrayList.get(i));
-                if (i+1<arrayList.size() && !(model.getTiles().getTile(arrayList.get(i+1)).getFiller() instanceof IndestructibleBlockModel)) {
-                    remove(arrayList.get(i+1));
+                if (i+1<arrayList.size() && model.getTiles().getTile(arrayList.get(i+1)).getFiller().deactivate()) {
                     tmp.add(arrayList.get(i+1));
                 }
             }
@@ -380,22 +357,31 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         model.getBomb().getModel().setExplosionList(tmp);
     }
 
-    @Override
-    public void fireDone(Position position) {
-        model.setBombModel(null);
-    }
-
-    private void remove(Position position){
-        if(model.getTiles().getTile(position).getFiller() instanceof MonsterModel) {
-            model.getMonsters().remove(((MonsterModel) model.getTiles().getTile(position).getFiller()).getPosition());
+    void purge(){
+        for(CopyOnWriteArrayList<TileController> at:model.getTiles().getTiles()){
+            for(TileController t:at){
+                if(!t.getFiller().isActive()){
+                    t.blankTile();
+                }
+            }
         }
-        else if(model.getTiles().getTile(position).getFiller() instanceof HeroModel) {
+        CopyOnWriteArrayList<MonsterModel> tmp = new CopyOnWriteArrayList<>();
+        for(MonsterModel m:model.getMonsters()){
+            if (m.isActive())
+                tmp.add(m);
+        }
+        model.setMonsters(tmp);
+        if(model.getHero() != null && !model.getHero().isActive()) {
             model.gettServer().removeListener(this);
             view.draw();
             view = gamoverView;
             view.draw();
-            ended=true;
+            ended = true;
         }
-        model.getTiles().getTile(position).blankTile();
+    }
+
+    @Override
+    public void fireDone(Position position) {
+        model.setBombModel(null);
     }
 }
