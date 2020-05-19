@@ -18,8 +18,9 @@ public class Easy implements Difficulty {
         }
         return movements;
     }
+
     @Override
-    public ArrayList<Movement> nextMove(Position position) {
+    public ArrayList<Movement> nextMove(Position monster, Position hero) {
         Movement _1 = Movement.left;
         Movement _2 = Movement.right;
         Movement _3 = Movement.up;
