@@ -245,21 +245,23 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
         if(!ended) {
-            if (keyPressed.getCharacter() == 'a') {
-                if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
-                    moveLeft(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
-                }
-            } else if (keyPressed.getCharacter() == 'd') {
-                if (model.checkPos(model.getHero().getPosition(), Movement.right)) {
-                    moveRight(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
-                }
-            } else if (keyPressed.getCharacter() == 'w') {
-                if (model.checkPos(model.getHero().getPosition(), Movement.up)) {
-                    moveUp(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
-                }
-            } else if (keyPressed.getCharacter() == 's') {
-                if (model.checkPos(model.getHero().getPosition(), Movement.down)) {
-                    moveDown(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+            if(model.getHero().isActive()) {
+                if (keyPressed.getCharacter() == 'a') {
+                    if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
+                        moveLeft(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+                    }
+                } else if (keyPressed.getCharacter() == 'd') {
+                    if (model.checkPos(model.getHero().getPosition(), Movement.right)) {
+                        moveRight(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+                    }
+                } else if (keyPressed.getCharacter() == 'w') {
+                    if (model.checkPos(model.getHero().getPosition(), Movement.up)) {
+                        moveUp(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+                    }
+                } else if (keyPressed.getCharacter() == 's') {
+                    if (model.checkPos(model.getHero().getPosition(), Movement.down)) {
+                        moveDown(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+                    }
                 }
             }
         }
@@ -332,24 +334,13 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     @Override
-    public void explode(Position position) {
-        ArrayList<Position> tmp = new ArrayList<>();
-        ArrayList<Position> arrayList = new ArrayList();
-        arrayList.add(position.getRight());
-        arrayList.add(position.getRight().getRight());
-        arrayList.add(position.getLeft());
-        arrayList.add(position.getLeft().getLeft());
-        arrayList.add(position.getDown());
-        arrayList.add(position.getDown().getDown());
-        arrayList.add(position.getUp());
-        arrayList.add(position.getUp().getUp());
-        arrayList.add(position);
-
-        for (int i = 0;i<arrayList.size();i++){
-            if((model.getTiles().getTile(arrayList.get(i)).getFiller().deactivate())){
-                tmp.add(arrayList.get(i));
-                if (i+1<arrayList.size() && model.getTiles().getTile(arrayList.get(i+1)).getFiller().deactivate()) {
-                    tmp.add(arrayList.get(i+1));
+    public void explode(ArrayList<Position> positions) {
+        ArrayList<Position> tmp = new ArrayList();
+        for (int i = 0;i<positions.size();i++){
+            if((model.getTiles().getTile(positions.get(i)).getFiller().deactivate())){
+                tmp.add(positions.get(i));
+                if (i+1<positions.size() && model.getTiles().getTile(positions.get(i+1)).getFiller().deactivate()) {
+                    tmp.add(positions.get(i+1));
                 }
             }
             i++;
@@ -381,7 +372,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     @Override
-    public void fireDone(Position position) {
+    public void fireDone() {
         model.setBombModel(null);
     }
 }

@@ -4,8 +4,11 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.IBombInterface;
 import com.noclue.IView;
 import com.noclue.model.BombModel;
+import com.noclue.model.Position;
 import com.noclue.view.bomb.BombViewFire;
 import com.noclue.view.bomb.BombViewTicking;
+
+import java.util.ArrayList;
 
 public class BombController implements IBombInterface {
     private BombModel model;
@@ -59,10 +62,20 @@ public class BombController implements IBombInterface {
         setSum(getSum()+1);
         if (getSum()*20>=250+model.getMseconds()) {
             model.getTimerInterface().removeListener(this);
-            model.getExplosionListener().fireDone(model.getPosition());
+            model.getExplosionListener().fireDone();
         }
         else if(getSum()*20>=model.getMseconds()) {
-            model.getExplosionListener().explode(model.getPosition());
+            ArrayList<Position> arrayList = new ArrayList();
+            arrayList.add(model.getPosition().getRight());
+            arrayList.add(model.getPosition().getRight().getRight());
+            arrayList.add(model.getPosition().getLeft());
+            arrayList.add(model.getPosition().getLeft().getLeft());
+            arrayList.add(model.getPosition().getDown());
+            arrayList.add(model.getPosition().getDown().getDown());
+            arrayList.add(model.getPosition().getUp());
+            arrayList.add(model.getPosition().getUp().getUp());
+            arrayList.add(model.getPosition());
+            model.getExplosionListener().explode(arrayList);
             synchronized (view) {
                 view = viewFire;
             }
