@@ -60,7 +60,7 @@ public class IndestructibleBlockViewTest  {
         CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> iViews = new CopyOnWriteArrayList<>();
         iViews.add(new CopyOnWriteArrayList<IView>());
         iViews.get(0).add(indestructibleBlockView);
-        when(fieldModel.getViews()).thenReturn(iViews);
+        //when(fieldModel.getViews()).thenReturn(iViews);
         when(indestructibleBlockModel.getPosition()).thenReturn(position);
         when(position.getRealPosition()).thenReturn(position);
         when(position.getRealPosition().getX()).thenReturn(20);

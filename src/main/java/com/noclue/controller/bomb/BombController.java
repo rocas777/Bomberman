@@ -5,6 +5,7 @@ import com.noclue.IBombInterface;
 import com.noclue.IView;
 import com.noclue.model.BombModel;
 import com.noclue.model.Position;
+import com.noclue.timer.Timer;
 import com.noclue.view.bomb.BombViewFire;
 import com.noclue.view.bomb.BombViewTicking;
 
@@ -76,11 +77,11 @@ public class BombController implements IBombInterface {
     @Override
     public synchronized void updateOnTime() {
         setSum(getSum()+1);
-        if (getSum()*20>=250+model.getMseconds()) {
+        if (getSum()* Timer.getSeconds() >=250+model.getMseconds()) {
             model.getTimerInterface().removeListener(this);
             model.getExplosionListener().fireDone();
         }
-        else if(getSum()*20>=model.getMseconds()) {
+        else if(getSum()*Timer.getSeconds()>=model.getMseconds()) {
             model.getExplosionListener().explode(explosionList);
             synchronized (view) {
                 view = viewFire;

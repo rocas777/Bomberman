@@ -9,4 +9,8 @@ public interface TimerInterface {
 
     void start();
     int getMSeconds();
+
+    static int getSeconds() {
+        return 0;
+    }
 }

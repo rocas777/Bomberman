@@ -21,6 +21,7 @@ import com.noclue.model.difficulty.Easy;
 import com.noclue.model.difficulty.Hard;
 import com.noclue.model.difficulty.Medium;
 import com.noclue.timer.TimeListener;
+import com.noclue.timer.Timer;
 import com.noclue.view.LivesView;
 import com.noclue.view.NoView;
 import com.noclue.view.TileView;
@@ -45,6 +46,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     IView winView;
     TextGraphics textGraphics;
     TimeLeft timeLeft;
+    CopyOnWriteArrayList<KeyStroke> keyStrokes = new CopyOnWriteArrayList<>();
     boolean ended=false;
 
     public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics, TimeLeft timeLeft){
@@ -247,6 +249,23 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
+        if(keyPressed.getCharacter()=='p' && model.getBomb()==null){
+            //System.out.println("ENTER");
+            BombModel bombModel = new BombModel(1000,this, (Position) model.getHero().getPosition().clone(),model.gettServer());
+            BombViewFire viewFire = new BombViewFire(textGraphics,bombModel);
+            model.setBombModel(new BombController(bombModel,textGraphics));
+            model.gettServer().addListener(model.getBomb());
+        }
+        else if(!ended){
+            keyStrokes.add(keyPressed);
+        }
+
+
+    }
+
+    private void handleKeyboad(){
+        KeyStroke keyPressed = keyStrokes.get(keyStrokes.size()-1);
+        keyStrokes.clear();
         if(!ended) {
             if(model.getHero().isActive()) {
                 if (keyPressed.getCharacter() == 'a') {
@@ -268,13 +287,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 }
             }
         }
-        if(keyPressed.getCharacter()=='p' && model.getBomb()==null){
-            //System.out.println("ENTER");
-            BombModel bombModel = new BombModel(1000,this, (Position) model.getHero().getPosition().clone(),model.gettServer());
-            BombViewFire viewFire = new BombViewFire(textGraphics,bombModel);
-            model.setBombModel(new BombController(bombModel,textGraphics));
-            model.gettServer().addListener(model.getBomb());
-        }
         if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof DoorModel) {
             model.gettServer().removeListener(this);
             view.draw();
@@ -288,11 +300,12 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
     }
 
-
     @Override
     public void updateOnTime() {
         timerSum=timerSum+1;
-        if((timerSum%25)==0) {  //monstros
+        if(keyStrokes.size()>0)
+            handleKeyboad();
+        if((timerSum%(500.0/Timer.getSeconds()))==0) {  //monstros
             for (MonsterModel pos : model.getMonsters()) {
                 MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller();
                 ArrayList<Position> bomb = null;
@@ -305,29 +318,29 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                         if (m == Movement.left && !model.getTiles().getTile(tmp.getLeft()).isFilled()) {
                             model.getTiles().getTile(tmp.getLeft()).getFiller().deactivate();
                             if(!(model.getTiles().getTile(tmp.getLeft()).getFiller() instanceof HeroModel))
-                            moveLeft(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                                moveLeft(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
                         }
                         else if (m == Movement.right && !model.getTiles().getTile(tmp.getRight()).isFilled()) {
                             model.getTiles().getTile(tmp.getRight()).getFiller().deactivate();
                             if(!(model.getTiles().getTile(tmp.getRight()).getFiller() instanceof HeroModel))
-                            moveRight(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                                moveRight(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
                         }
                         else if (m == Movement.up && !model.getTiles().getTile(tmp.getUp()).isFilled()) {
                             model.getTiles().getTile(tmp.getUp()).getFiller().deactivate();
                             if(!(model.getTiles().getTile(tmp.getUp()).getFiller() instanceof HeroModel))
-                            moveUp(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                                moveUp(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
                         }
                         else if (m == Movement.down && !model.getTiles().getTile(tmp.getDown()).isFilled()) {
                             model.getTiles().getTile(tmp.getDown()).getFiller().deactivate();
                             if(!(model.getTiles().getTile(tmp.getDown()).getFiller() instanceof HeroModel))
-                            moveDown(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                                moveDown(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
                         }
                         break;
                     }
                 }
             }
         }
-        if(timerSum==50){   //relogio
+        if(timerSum==1000.0/Timer.getSeconds()){   //relogio
             timeLeft.minusSecond();
             if(timeLeft.getSeconds()==0){
                 model.gettServer().removeListener(this);

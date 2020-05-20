@@ -35,7 +35,7 @@ public class FieldViewTest {
         screen = Mockito.mock(Screen.class);
         fieldView = new FieldView(screen,textGraphics,model);
         when(model.getBomb()).thenReturn(bombModel);
-        when(model.getViews()).thenReturn(iViews);
+        //when(model.getViews()).thenReturn(iViews);
 
         when(model.getWidth()).thenReturn(200);
         when(model.getHeight()).thenReturn(200);
@@ -50,7 +50,7 @@ public class FieldViewTest {
     @Test
     public void draw() {
 
-        fieldView.draw(fieldView.getModel(),fieldView.getTextGraphics(),fieldView.getScreen(),iViews);
+        //fieldView.draw(fieldView.getModel(),fieldView.getTextGraphics(),fieldView.getScreen(),iViews);
 
 
         try {

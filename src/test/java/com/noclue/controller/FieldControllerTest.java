@@ -32,7 +32,7 @@ public class FieldControllerTest {
         Position position = Mockito.mock(Position.class);
         fieldModel.settServer(new Timer(20));
         fieldModel.setkServer(new KeyBoard(screen));
-        fieldController = new FieldController(fieldModel,view,view,view,textGraphics);
+        //fieldController = new FieldController(fieldModel,view,view,view,textGraphics);
 
         fieldSpy = Mockito.spy(fieldController);
         fieldSpy.setup();

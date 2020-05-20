@@ -59,7 +59,7 @@ public class RemovableBlockViewTest  {
         CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> iViews = new CopyOnWriteArrayList<>();
         iViews.add(new CopyOnWriteArrayList<IView>());
         iViews.get(0).add(removableBlockView);
-        when(fieldModel.getViews()).thenReturn(iViews);
+        //when(fieldModel.getViews()).thenReturn(iViews);
         when(removableBlockModel.getPosition()).thenReturn(position);
         when(position.getRealPosition()).thenReturn(position);
         when(position.getRealPosition().getX()).thenReturn(20);

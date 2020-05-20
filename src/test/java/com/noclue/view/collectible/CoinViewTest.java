@@ -59,7 +59,7 @@ public class CoinViewTest {
         CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> iViews = new CopyOnWriteArrayList<>();
         iViews.add(new CopyOnWriteArrayList<IView>());
         iViews.get(0).add(coinView);
-        when(fieldModel.getViews()).thenReturn(iViews);
+        //when(fieldModel.getViews()).thenReturn(iViews);
         when(coinModel.getPosition()).thenReturn(position);
         when(position.getRealPosition()).thenReturn(position);
         when(position.getRealPosition().getX()).thenReturn(20);

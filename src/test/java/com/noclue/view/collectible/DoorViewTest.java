@@ -60,7 +60,7 @@ public class DoorViewTest {
         CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> iViews = new CopyOnWriteArrayList<>();
         iViews.add(new CopyOnWriteArrayList<IView>());
         iViews.get(0).add(doorView);
-        when(fieldModel.getViews()).thenReturn(iViews);
+        //when(fieldModel.getViews()).thenReturn(iViews);
         when(doorModel.getPosition()).thenReturn(position);
         when(position.getRealPosition()).thenReturn(position);
         when(position.getRealPosition().getX()).thenReturn(20);

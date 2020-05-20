@@ -60,7 +60,7 @@ public class MonsterViewTest {
         CopyOnWriteArrayList<CopyOnWriteArrayList<IView>> iViews = new CopyOnWriteArrayList<>();
         iViews.add(new CopyOnWriteArrayList<IView>());
         iViews.get(0).add(monsterView);
-        when(fieldModel.getViews()).thenReturn(iViews);
+        //when(fieldModel.getViews()).thenReturn(iViews);
         when(monsterModel.getPosition()).thenReturn(position);
         when(position.getRealPosition()).thenReturn(position);
         when(position.getRealPosition().getX()).thenReturn(20);

@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Timer implements TimerInterface {
     private CopyOnWriteArrayList<TimeListener> timeListeners = new CopyOnWriteArrayList<TimeListener>();
 
-    private int mseconds;
+    private static int mseconds;
     private boolean isOn;
     Thread thread;
 
@@ -23,6 +23,10 @@ public class Timer implements TimerInterface {
     }
 
     public int getMSeconds(){
+        return mseconds;
+    }
+
+    public static  int getSeconds(){
         return mseconds;
     }
 
