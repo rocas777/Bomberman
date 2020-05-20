@@ -25,13 +25,34 @@ public class MonsterView implements IView {
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
-        textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
-        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY(),"*(OO)*",BOLD);
-        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+1,"X=VV=X",BOLD);
-        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2,"X=VV=X",BOLD);
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
-        textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
+        /*
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#FF0000"));
+        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+1," ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+5,position.getRealPosition().getY()+1," ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
+
+
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+        textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+1,"    ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+2," ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+4,position.getRealPosition().getY()+2," ",BOLD);
+         */
+
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#FF0000"));
+        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+1,"  ",BOLD);
+
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
+        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()," ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+5,position.getRealPosition().getY()," ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+1," ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+4,position.getRealPosition().getY()+1," ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2," ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+5,position.getRealPosition().getY()+2," ",BOLD);
+
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+2,"  ",BOLD);
+
     }
 
     @Override

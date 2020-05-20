@@ -59,10 +59,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         this.gameView = gameView;
         this.textGraphics=textGraphics;
         this.timeLeft = timeLeft;
-
-
-        model.gettServer().addListener(this);
-        model.getkServer().addListener(this);
     }
 
     public void setup() {
@@ -216,7 +212,11 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         model.setHero(tmp_hero);
     }
 
-    public void setDoor(Position position){
+    public void setDoor(Position position) {
+        if (true){
+            position.setY(2);
+            position.setX(2);
+        }
         RemovableBlockModel tmp_hero = new RemovableBlockModel((Position) position.clone());
         DoorModel doorModel = new DoorModel((Position) position.clone());
         TileModel tmp_model = new TileModel(position,new DoorModel((Position) position.clone()),tmp_hero);
@@ -273,22 +273,27 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         keyStrokes.clear();
         if(!ended) {
             if(model.getHero().isActive()) {
-                if (keyPressed.getCharacter() == 'a') {
-                    if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
-                        moveLeft(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+                try {
+                    if (keyPressed.getCharacter() == 'a') {
+                        if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
+                            moveLeft(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+                        }
+                    } else if (keyPressed.getCharacter() == 'd') {
+                        if (model.checkPos(model.getHero().getPosition(), Movement.right)) {
+                            moveRight(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+                        }
+                    } else if (keyPressed.getCharacter() == 'w') {
+                        if (model.checkPos(model.getHero().getPosition(), Movement.up)) {
+                            moveUp(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+                        }
+                    } else if (keyPressed.getCharacter() == 's') {
+                        if (model.checkPos(model.getHero().getPosition(), Movement.down)) {
+                            moveDown(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
+                        }
                     }
-                } else if (keyPressed.getCharacter() == 'd') {
-                    if (model.checkPos(model.getHero().getPosition(), Movement.right)) {
-                        moveRight(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
-                    }
-                } else if (keyPressed.getCharacter() == 'w') {
-                    if (model.checkPos(model.getHero().getPosition(), Movement.up)) {
-                        moveUp(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
-                    }
-                } else if (keyPressed.getCharacter() == 's') {
-                    if (model.checkPos(model.getHero().getPosition(), Movement.down)) {
-                        moveDown(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
-                    }
+                }
+                catch (Exception e){
+
                 }
             }
         }
@@ -317,36 +322,38 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
         if((timerSum%(int)(wait/Timer.getSeconds()))==0) {  //monstros
             for (MonsterModel pos : model.getMonsters()) {
-                MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller();
-                ArrayList<Position> bomb = null;
-                if(model.getBomb()!=null){
-                    bomb=model.getBomb().getExplosionList();
-                }
-                for (Movement m : tmp_monsterModel.nextMove(model.getHero().getPosition(),bomb)) {
-                    if (model.checkPos(pos.getPosition(), m)) {
-                        Position tmp =pos.getPosition();
-                        if (m == Movement.left && !model.getTiles().getTile(tmp.getLeft()).isFilled()) {
-                            model.getTiles().getTile(tmp.getLeft()).getFiller().deactivate();
-                            if(!(model.getTiles().getTile(tmp.getLeft()).getFiller() instanceof HeroModel))
-                                moveLeft(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
-                        }
-                        else if (m == Movement.right && !model.getTiles().getTile(tmp.getRight()).isFilled()) {
-                            model.getTiles().getTile(tmp.getRight()).getFiller().deactivate();
-                            if(!(model.getTiles().getTile(tmp.getRight()).getFiller() instanceof HeroModel))
-                                moveRight(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
-                        }
-                        else if (m == Movement.up && !model.getTiles().getTile(tmp.getUp()).isFilled()) {
-                            model.getTiles().getTile(tmp.getUp()).getFiller().deactivate();
-                            if(!(model.getTiles().getTile(tmp.getUp()).getFiller() instanceof HeroModel))
-                                moveUp(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
-                        }
-                        else if (m == Movement.down && !model.getTiles().getTile(tmp.getDown()).isFilled()) {
-                            model.getTiles().getTile(tmp.getDown()).getFiller().deactivate();
-                            if(!(model.getTiles().getTile(tmp.getDown()).getFiller() instanceof HeroModel))
-                                moveDown(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
-                        }
-                        break;
+                try {
+                    MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller();
+                    ArrayList<Position> bomb = null;
+                    if (model.getBomb() != null) {
+                        bomb = model.getBomb().getExplosionList();
                     }
+                    for (Movement m : tmp_monsterModel.nextMove(model.getHero().getPosition(), bomb)) {
+                        if (model.checkPos(pos.getPosition(), m)) {
+                            Position tmp = pos.getPosition();
+                            if (m == Movement.left && !model.getTiles().getTile(tmp.getLeft()).isFilled()) {
+                                model.getTiles().getTile(tmp.getLeft()).getFiller().deactivate();
+                                if (!(model.getTiles().getTile(tmp.getLeft()).getFiller() instanceof HeroModel))
+                                    moveLeft(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                            } else if (m == Movement.right && !model.getTiles().getTile(tmp.getRight()).isFilled()) {
+                                model.getTiles().getTile(tmp.getRight()).getFiller().deactivate();
+                                if (!(model.getTiles().getTile(tmp.getRight()).getFiller() instanceof HeroModel))
+                                    moveRight(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                            } else if (m == Movement.up && !model.getTiles().getTile(tmp.getUp()).isFilled()) {
+                                model.getTiles().getTile(tmp.getUp()).getFiller().deactivate();
+                                if (!(model.getTiles().getTile(tmp.getUp()).getFiller() instanceof HeroModel))
+                                    moveUp(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                            } else if (m == Movement.down && !model.getTiles().getTile(tmp.getDown()).isFilled()) {
+                                model.getTiles().getTile(tmp.getDown()).getFiller().deactivate();
+                                if (!(model.getTiles().getTile(tmp.getDown()).getFiller() instanceof HeroModel))
+                                    moveDown(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
+                            }
+                            break;
+                        }
+                    }
+                }
+                catch (Exception e){
+
                 }
             }
         }

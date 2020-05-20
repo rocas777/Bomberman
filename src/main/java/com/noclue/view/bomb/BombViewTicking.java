@@ -10,6 +10,7 @@ import static com.googlecode.lanterna.SGR.BOLD;
 public class BombViewTicking implements IView {
     TextGraphics textGraphics;
     BombModel model;
+    int counter=0;
     public BombViewTicking(TextGraphics textGraphics, BombModel bombModel){
         this.textGraphics = textGraphics;
         this.model = bombModel;
@@ -24,11 +25,21 @@ public class BombViewTicking implements IView {
     }
 
     public void draw(TextGraphics textGraphics, BombModel model){
-        textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-        textGraphics.putString(model.getPosition().getRealPosition().getX()+2
-                ,model.getPosition().getRealPosition().getY()+1
-                ,"++",BOLD
-        );
+        counter++;
+        if(counter%5<2) {
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
+            textGraphics.putString(model.getPosition().getRealPosition().getX() + 2
+                    , model.getPosition().getRealPosition().getY() + 1
+                    , "  ", BOLD
+            );
+        }
+        else {
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+            textGraphics.putString(model.getPosition().getRealPosition().getX() + 2
+                    , model.getPosition().getRealPosition().getY() + 1
+                    , "  ", BOLD
+            );
+        }
     }
 
 

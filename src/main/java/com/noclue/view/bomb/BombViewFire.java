@@ -24,13 +24,13 @@ public class BombViewFire implements IView {
     }
 
     public void draw(TextGraphics textGraphics, BombModel model){
-        textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
 
         for(int i=0;i<model.getExplosionList().size();i++) {
             textGraphics.putString(
                     model.getExplosionList().get(i).getRealPosition().getX()+2
                     , model.getExplosionList().get(i).getRealPosition().getY()+1
-                    , "++", BOLD
+                    , "  ", BOLD
             );
         }
 
