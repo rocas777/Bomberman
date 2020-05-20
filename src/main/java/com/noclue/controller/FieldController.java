@@ -315,8 +315,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         if(model.getBomb()!=null){
             wait = (float) 500;
         }
-        if(timerSum*Timer.getSeconds()>=wait) {  //monstros
-            timerSum = 0;
+        if((timerSum%(int)(wait/Timer.getSeconds()))==0) {  //monstros
             for (MonsterModel pos : model.getMonsters()) {
                 MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller();
                 ArrayList<Position> bomb = null;
@@ -351,7 +350,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 }
             }
         }
-        if(timerSum==1000.0/Timer.getSeconds()){   //relogio
+        if(timerSum>=1000.0/Timer.getSeconds()){   //relogio
             timeLeft.minusSecond();
             if(timeLeft.getSeconds()==0){
                 model.gettServer().removeListener(this);
