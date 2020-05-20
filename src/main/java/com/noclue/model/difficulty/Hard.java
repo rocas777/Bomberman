@@ -56,25 +56,44 @@ public class Hard implements Difficulty {
         });
 
         ArrayList<Movement> out = new ArrayList();
+        boolean inExplosionList = checkIsInExplosionList(bomb,monster);
+
+        populateArray(out,list,bomb,monster,true);
+
+        if(inExplosionList){
+            populateArray(out,list,bomb,monster,false);
+        }
+
+        return out;
+    }
+
+    private boolean checkIsInExplosionList(ArrayList<Position> bomb, Position monster){
+        if(bomb!=null) {
+            for (Position p : bomb) {
+                if (monster.equals(p)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void populateArray(ArrayList<Movement> out,ArrayList<Par> list, ArrayList<Position> bomb, Position monster, boolean addCond){
         for(Hard.Par m:list){
             if(bomb!=null){
                 boolean add = true;
                 for(Position i:bomb){
                     if(monster.getPositionByMovement(m.movement).equals(i)){
-                       add=false;
-                       break;
+                        add=false;
                     }
                 }
-                if(add){
+                if(add == addCond){
                     out.add(m.movement);
                 }
             }
             else{
                 out.add(m.movement);
             }
-
         }
-
-        return out;
     }
 }

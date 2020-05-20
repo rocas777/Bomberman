@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static java.lang.Math.abs;
+
 public class FieldController implements KeyboardListener, TimeListener, ExplosionListener {
     int timerSum=0;
     FieldModel model;
@@ -70,7 +72,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
         setIndestructibleBlocks();
         setRemovableBlocks(door,hero,150);
-        setMonsters(door,hero,6);
+        setMonsters(door,hero,10);
 
         setHero(hero);
         setDoor(door);
@@ -162,8 +164,11 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         for(int i=0;i<numberOfMonsters;i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
 
-            while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0) || block.equals(door)) {
+            float distToHero = abs(hero.getX()-block.getX()) + abs(hero.getY()-block.getY());
+
+            while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0) || block.equals(door) || distToHero<4) {
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
+                distToHero = abs(hero.getX()-block.getX()) + abs(hero.getY()-block.getY());
             }
             MonsterModel tmp_monster = new MonsterModel(new Hard(), (Position) block.clone());
             TileModel tmp_model = new TileModel(block,new NoCollectibleModel(),tmp_monster);
@@ -189,7 +194,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     public Position setDoorPos(Position hero){
         Random random=new Random();
         Position door=new Position(23,15,(random.nextInt(12)+10),(random.nextInt(6)+6));
-        while ((door.getX()%2==0 && door.getY()%2==0) || door.equals(hero)){
+        while ((door.getX()%2==0 && door.getY()%2==0) || door.equals(hero) || door.getX()==0 || door.getY() == 0 || door.getX()==22 || door.getY() == 14){
             door=new Position(23,15,(random.nextInt(23)),(random.nextInt(13)));
         }
         System.out.println(door.getX()+" "+door.getY());
@@ -305,7 +310,13 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         timerSum=timerSum+1;
         if(keyStrokes.size()>0)
             handleKeyboad();
-        if((timerSum%(500.0/Timer.getSeconds()))==0) {  //monstros
+
+        float wait = (float) 500.0;
+        if(model.getBomb()!=null){
+            wait = (float) 500;
+        }
+        if(timerSum*Timer.getSeconds()>=wait) {  //monstros
+            timerSum = 0;
             for (MonsterModel pos : model.getMonsters()) {
                 MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller();
                 ArrayList<Position> bomb = null;
