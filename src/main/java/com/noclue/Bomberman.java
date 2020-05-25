@@ -12,14 +12,13 @@ public class Bomberman {
         //Game game = new Game(146,45);
         //game.run();
 
-        MenuModel menuModel = new MenuModel(1);
+        MenuModel menuModel = new MenuModel(1,1);
         MenuController menuController = null;
         try{
             menuController = new MenuController(menuModel,new MenuView(menuModel));
+            menuController.run();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        if(menuController!=null)    menuController.run();
     }
 }

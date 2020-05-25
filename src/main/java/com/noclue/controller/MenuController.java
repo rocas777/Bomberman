@@ -38,10 +38,9 @@ public class MenuController {
         this.menuModel = menuModel;
         this.menuView = menuView;
 
-        Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(146, 45)).createTerminal();
+
+        Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(160, 50)).createTerminal();
         MenuModel.setScreen(new TerminalScreen(terminal));
-
-
         MenuModel.getScreen().setCursorPosition(null);   // we don't need a cursor
         MenuModel.getScreen().startScreen();             // screens must be started
         MenuModel.getScreen().doResizeIfNecessary();     // resize screen if necessary
@@ -52,8 +51,10 @@ public class MenuController {
     public void run(){
         KeyStroke key;
         while(true){
+            menuView.draw();
             try {
                 key = MenuModel.getScreen().readInput();
+                System.out.println(key.getCharacter().charValue());
                 if(key!=null) {
                     if (key.getCharacter() == 'w') {
                         menuModel.optUp();
@@ -61,15 +62,13 @@ public class MenuController {
                         menuModel.optDown();
                     } else if (key.getKeyType() == KeyType.Enter) {
                         if (menuModel.getOption() == 3) {
-                            break;
+                            System.exit(0);
                         }
-
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            menuView.draw();
         }
 
     }
