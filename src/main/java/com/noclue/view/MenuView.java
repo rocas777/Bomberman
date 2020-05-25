@@ -21,6 +21,9 @@ public class MenuView implements IView {
     public void draw(TextGraphics textGraphics){
         MenuModel.getScreen().clear();
 
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+        textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
+
         if(menuModel.getOption()==1){
             textGraphics.putString(70,20,"Start Game",BOLD);
         }

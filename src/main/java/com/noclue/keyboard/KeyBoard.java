@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class KeyBoard {
     private ArrayList<KeyboardListener> keyboardListeners=new ArrayList<>();
-    boolean isOn;
+    Boolean isOn;
     private TerminalScreen screen;
     public KeyBoard(TerminalScreen screen){
         isOn=false;
@@ -43,5 +43,9 @@ public class KeyBoard {
     }
     public void stop(){
         isOn=false;
+    }
+
+    public void removeListeners(){
+        keyboardListeners = null;
     }
 }

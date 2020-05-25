@@ -10,6 +10,7 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.noclue.Game;
 import com.noclue.keyboard.KeyBoard;
+import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.FieldModel;
 import com.noclue.model.MenuModel;
 import com.noclue.model.Position;
@@ -28,7 +29,7 @@ import com.noclue.view.field.WinView;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MenuController {
+public class MenuController implements KeyboardListener {
     MenuModel menuModel;
     MenuView menuView;
     FieldModel fieldModel;
@@ -63,11 +64,6 @@ public class MenuController {
         MenuModel.getScreen().doResizeIfNecessary();     // resize screen if necessary
 
         menuModel.setTextGraphics(MenuModel.getScreen().newTextGraphics());
-
-
-        difficulties.add(new Easy());
-        difficulties.add(new Medium());
-        difficulties.add(new Hard());
     }
 
     public void run(){
@@ -120,6 +116,7 @@ public class MenuController {
         t.start();
 
         KeyBoard k= new KeyBoard((TerminalScreen) MenuModel.getScreen());
+        k.addListener(this);
         k.start();
 
         fieldModel.setkServer(k);
@@ -131,10 +128,41 @@ public class MenuController {
         FieldController fieldController= new FieldController(fieldModel,fieldView,new GameOverView(MenuModel.getScreen(),menuModel.getTextGraphics()),new WinView(MenuModel.getScreen(),menuModel.getTextGraphics()),menuModel.getTextGraphics(), timeLeft);
 
 
+
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Medium());
+        difficulties.add(new Hard());
+
+        fieldController.setDifficulty(difficulties);
+
         fieldController.setup();
         fieldModel.gettServer().addListener(fieldController);
         fieldModel.getkServer().addListener(fieldController);
+    }
 
-        fieldController.setDifficulty(difficulties.get(menuModel.getSubOption()));
+    @Override
+    public void updateOnKeyboard(KeyStroke keyPressed) {
+        if(keyPressed.getCharacter() == 'q'){
+            fieldModel.gettServer().removeListeners();
+            fieldModel.getkServer().removeListeners();
+            fieldModel.getkServer().stop();
+            fieldModel.gettServer().stop();
+            fieldModel.setkServer(null);
+            fieldModel.settServer(null);
+            fieldModel = null;
+            difficulties = new ArrayList<>();
+            run();
+        }
+
     }
 }

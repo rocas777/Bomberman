@@ -51,14 +51,10 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     TimeLeft timeLeft;
     CopyOnWriteArrayList<KeyStroke> keyStrokes = new CopyOnWriteArrayList<>();
     boolean ended=false;
-    Difficulty difficulty;
 
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
 
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
+    public void setDifficulty(ArrayList<Difficulty> difficulties) {
+        this.model.setDifficulties(difficulties);
     }
 
     public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics, TimeLeft timeLeft){
@@ -167,7 +163,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     public void setMonsters(Position door,Position hero,int numberOfMonsters){
         Random random=new Random();
-        for(int i=0;i<numberOfMonsters;i++){
+        Medium di= new Medium();
+        for(int i=0;i<model.getDifficulties().size();i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
 
             float distToHero = abs(hero.getX()-block.getX()) + abs(hero.getY()-block.getY());
@@ -176,7 +173,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
                 distToHero = abs(hero.getX()-block.getX()) + abs(hero.getY()-block.getY());
             }
-            MonsterModel tmp_monster = new MonsterModel(difficulty, (Position) block.clone());
+            MonsterModel tmp_monster = new MonsterModel(model.getDifficulties().get(i), (Position) block.clone());
             TileModel tmp_model = new TileModel(block,new NoCollectibleModel(),tmp_monster);
             TileView tmp_view = new TileView(tmp_model);
             tmp_view.setFiller(new MonsterView(tmp_monster,textGraphics));

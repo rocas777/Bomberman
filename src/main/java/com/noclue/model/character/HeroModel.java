@@ -93,6 +93,4 @@ public class HeroModel extends Filler implements Character, TimeListener {
         }
         return true;
     }
-
-
 }
