@@ -9,8 +9,6 @@ import java.io.IOException;
 
 public class Bomberman {
     public static void main(String[] args) {
-        //Game game = new Game(146,45);
-        //game.run();
 
         MenuModel menuModel = new MenuModel(1,1);
         MenuController menuController = null;

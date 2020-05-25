@@ -6,6 +6,7 @@ import com.googlecode.lanterna.screen.Screen;
 public class MenuModel {
     int option;
     int subOption;
+    boolean onSubMenu;
     static Screen screen;
     TextGraphics textGraphics;
 
@@ -64,7 +65,24 @@ public class MenuModel {
     public MenuModel(int option,int subOption) {
         this.option = option;
         this.subOption = subOption;
+        onSubMenu=false;
 
+    }
+
+    public int getSubOption() {
+        return subOption;
+    }
+
+    public void setSubOption(int subOption) {
+        this.subOption = subOption;
+    }
+
+    public boolean getOnSubMenu() {
+        return onSubMenu;
+    }
+
+    public void setOnSubMenu(boolean onSubMenu) {
+        this.onSubMenu = onSubMenu;
     }
 
     public int getOption() {

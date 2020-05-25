@@ -17,6 +17,7 @@ import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
 import com.noclue.model.collectible.CoinModel;
 import com.noclue.model.collectible.DoorModel;
+import com.noclue.model.difficulty.Difficulty;
 import com.noclue.model.difficulty.Easy;
 import com.noclue.model.difficulty.Hard;
 import com.noclue.model.difficulty.Medium;
@@ -50,6 +51,15 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     TimeLeft timeLeft;
     CopyOnWriteArrayList<KeyStroke> keyStrokes = new CopyOnWriteArrayList<>();
     boolean ended=false;
+    Difficulty difficulty;
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
 
     public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics, TimeLeft timeLeft){
         this.model=model;
@@ -166,7 +176,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
                 distToHero = abs(hero.getX()-block.getX()) + abs(hero.getY()-block.getY());
             }
-            MonsterModel tmp_monster = new MonsterModel(new Hard(), (Position) block.clone());
+            MonsterModel tmp_monster = new MonsterModel(difficulty, (Position) block.clone());
             TileModel tmp_model = new TileModel(block,new NoCollectibleModel(),tmp_monster);
             TileView tmp_view = new TileView(tmp_model);
             tmp_view.setFiller(new MonsterView(tmp_monster,textGraphics));

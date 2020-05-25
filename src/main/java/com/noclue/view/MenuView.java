@@ -29,6 +29,26 @@ public class MenuView implements IView {
         }
         if(menuModel.getOption()==2){
             textGraphics.putString(70,22,"Choose Difficulty",BOLD);
+            if(menuModel.getOnSubMenu()){
+                if(menuModel.getSubOption()==1){
+                    textGraphics.putString(90,20,"Easy",BOLD);
+                }
+                else{
+                    textGraphics.putString(90,20,"Easy");
+                }
+                if(menuModel.getSubOption()==2){
+                    textGraphics.putString(90,22,"Medium",BOLD);
+                }
+                else{
+                    textGraphics.putString(90,22,"Medium");
+                }
+                if(menuModel.getSubOption()==3){
+                    textGraphics.putString(90,24,"Hard",BOLD);
+                }
+                else{
+                    textGraphics.putString(90,24,"Hard");
+                }
+            }
         }
         else{
             textGraphics.putString(70,22,"Choose Difficulty");
