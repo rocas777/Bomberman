@@ -29,7 +29,7 @@ public class HeroView implements IView {
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
-        if(model.getState()==model.getInvincible()){
+        if(model.getDeactivateState()==model.getInvincibleDeactivate()){
             textGraphics.setForegroundColor(TextColor.Factory.fromString("#b200ff"));
         }
         else{
