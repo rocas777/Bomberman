@@ -213,10 +213,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     public void setDoor(Position position) {
-        if (true){
-            position.setY(2);
-            position.setX(2);
-        }
+
         RemovableBlockModel tmp_hero = new RemovableBlockModel((Position) position.clone());
         DoorModel doorModel = new DoorModel((Position) position.clone());
         TileModel tmp_model = new TileModel(position,new DoorModel((Position) position.clone()),tmp_hero);
