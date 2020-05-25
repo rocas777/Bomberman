@@ -7,7 +7,7 @@ public class Timer implements TimerInterface {
     private CopyOnWriteArrayList<TimeListener> timeListeners = new CopyOnWriteArrayList<TimeListener>();
 
     private static int mseconds;
-    private boolean isOn;
+    Boolean isOn;
     Thread thread;
 
     public CopyOnWriteArrayList<TimeListener> getTimeListeners() {
@@ -34,15 +34,13 @@ public class Timer implements TimerInterface {
             timeListeners.add(timeListener);
     }
 
-
-
     public void removeListener(TimeListener timeListener){
             timeListeners.remove(timeListener);
     }
 
     public void start(){
         isOn=true;
-        new Thread(() -> {
+        thread = new Thread(() -> {
             long timeMilli2;
             while (isOn) {
                 try {
@@ -60,7 +58,8 @@ public class Timer implements TimerInterface {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        });
+        thread.start();
     }
 
     public void setOn(boolean on) {
@@ -83,5 +82,9 @@ public class Timer implements TimerInterface {
     public void updateListeners(CopyOnWriteArrayList<TimeListener> timeListeners) {
         for (TimeListener t : timeListeners)
             t.updateOnTime();
+    }
+
+    public void removeListeners(){
+        timeListeners = new CopyOnWriteArrayList<>();
     }
 }

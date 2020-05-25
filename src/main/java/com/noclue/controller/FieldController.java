@@ -10,13 +10,12 @@ import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.*;
 import com.noclue.model.block.IndestructibleBlockModel;
 import com.noclue.model.block.NoBlockModel;
-import com.noclue.model.collectible.NoCollectibleModel;
+import com.noclue.model.collectible.*;
 import com.noclue.model.block.RemovableBlockModel;
 import com.noclue.model.character.Character;
 import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
-import com.noclue.model.collectible.CoinModel;
-import com.noclue.model.collectible.DoorModel;
+import com.noclue.model.difficulty.Difficulty;
 import com.noclue.model.difficulty.Easy;
 import com.noclue.model.difficulty.Hard;
 import com.noclue.model.difficulty.Medium;
@@ -30,8 +29,7 @@ import com.noclue.view.block.RemovableBlockView;
 import com.noclue.view.bomb.BombViewFire;
 import com.noclue.view.character.HeroView;
 import com.noclue.view.character.MonsterView;
-import com.noclue.view.collectible.CoinView;
-import com.noclue.view.collectible.DoorView;
+import com.noclue.view.collectible.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -50,6 +48,11 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     TimeLeft timeLeft;
     CopyOnWriteArrayList<KeyStroke> keyStrokes = new CopyOnWriteArrayList<>();
     boolean ended=false;
+
+
+    public void setDifficulty(ArrayList<Difficulty> difficulties) {
+        this.model.setDifficulties(difficulties);
+    }
 
     public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics, TimeLeft timeLeft){
         this.model=model;
@@ -83,10 +86,39 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0) ||(block.getX()<4 && block.getY()<4)) {
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             }
-
-            boolean coin=random.nextBoolean();
             RemovableBlockModel tmp_rm = new RemovableBlockModel((Position) block.clone());
-            if(coin) {
+            int drop=random.nextInt(40);
+            if(drop >0){
+                Invencible tmp_life = new Invencible((Position) block.clone());
+                TileModel tmp_model = new TileModel(block,tmp_life,tmp_rm);
+                TileView tmp_view = new TileView(tmp_model);
+                tmp_view.setCollectible(new InvencibleView(tmp_life,textGraphics));
+                tmp_view.setFiller(new RemovableBlockView(tmp_rm,textGraphics));
+
+                TileController tileController= new TileController(tmp_model,tmp_view);
+                model.getTiles().setTiles(tileController,block);
+            }
+            else if(drop==19){
+                AddLife tmp_life = new AddLife((Position) block.clone());
+                TileModel tmp_model = new TileModel(block,tmp_life,tmp_rm);
+                TileView tmp_view = new TileView(tmp_model);
+                tmp_view.setCollectible(new AddLifeView(tmp_life,textGraphics));
+                tmp_view.setFiller(new RemovableBlockView(tmp_rm,textGraphics));
+
+                TileController tileController= new TileController(tmp_model,tmp_view);
+                model.getTiles().setTiles(tileController,block);
+            }
+            else if(drop==18){
+                AddTime tmp_time = new AddTime((Position) block.clone());
+                TileModel tmp_model = new TileModel(block,tmp_time,tmp_rm);
+                TileView tmp_view = new TileView(tmp_model);
+                tmp_view.setCollectible(new AddTimeView(tmp_time,textGraphics));
+                tmp_view.setFiller(new RemovableBlockView(tmp_rm,textGraphics));
+
+                TileController tileController= new TileController(tmp_model,tmp_view);
+                model.getTiles().setTiles(tileController,block);
+            }
+            else if(drop>=4){
                 CoinModel tmp_coin = new CoinModel((Position) block.clone());
                 TileModel tmp_model = new TileModel(block,tmp_coin,tmp_rm);
                 TileView tmp_view = new TileView(tmp_model);
@@ -157,7 +189,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     public void setMonsters(Position door,Position hero,int numberOfMonsters){
         Random random=new Random();
-        for(int i=0;i<numberOfMonsters;i++){
+        Medium di= new Medium();
+        for(int i=0;i<model.getDifficulties().size();i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
 
             float distToHero = abs(hero.getX()-block.getX()) + abs(hero.getY()-block.getY());
@@ -166,7 +199,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
                 distToHero = abs(hero.getX()-block.getX()) + abs(hero.getY()-block.getY());
             }
-            MonsterModel tmp_monster = new MonsterModel(new Hard(), (Position) block.clone());
+            MonsterModel tmp_monster = new MonsterModel(model.getDifficulties().get(i), (Position) block.clone());
             TileModel tmp_model = new TileModel(block,new NoCollectibleModel(),tmp_monster);
             TileView tmp_view = new TileView(tmp_model);
             tmp_view.setFiller(new MonsterView(tmp_monster,textGraphics));
@@ -213,10 +246,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     public void setDoor(Position position) {
-        if (true){
-            position.setY(2);
-            position.setX(2);
-        }
+
         RemovableBlockModel tmp_hero = new RemovableBlockModel((Position) position.clone());
         DoorModel doorModel = new DoorModel((Position) position.clone());
         TileModel tmp_model = new TileModel(position,new DoorModel((Position) position.clone()),tmp_hero);
@@ -306,6 +336,18 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
         if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof CoinModel) {
             model.addPoint();
+            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
+        }
+        if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof AddTime) {
+            timeLeft.addTime();
+            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
+        }
+        if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof AddLife) {
+            model.getHero().addLife();
+            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
+        }
+        if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof Invencible) {
+            model.getHero().ActivateInvencible();
             model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
         }
     }

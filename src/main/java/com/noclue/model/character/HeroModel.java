@@ -3,9 +3,7 @@ package com.noclue.model.character;
 import com.noclue.model.Filler;
 import com.noclue.model.LivesModel;
 import com.noclue.model.Position;
-import com.noclue.model.State.Invincible;
-import com.noclue.model.State.Normal;
-import com.noclue.model.State.State;
+import com.noclue.model.State.*;
 import com.noclue.timer.TimeListener;
 import com.noclue.timer.Timer;
 
@@ -13,27 +11,40 @@ public class HeroModel extends Filler implements Character, TimeListener {
     Position position;
     LivesModel livesModel;
     Timer timer = new Timer(50);
-    State state;
-    Normal normal;
-    Invincible invincible;
+    DeactivateState deactivateState;
+
+    NormalDeactivate normalDeactivate;
+    InvincibleDeactivate invincibleDeactivate;
+
+    IsTouchingHimselfState isTouchingHimselfState;
+
+    NormalIsTouching normalIsTouching;
+    InvencibleIsTouching invencibleIsTouching;
+
     Integer timerCount=0;
 
-    public State getState() {
-        return state;
+    public DeactivateState getDeactivateState() {
+        return deactivateState;
     }
 
-    public Normal getNormal() {
-        return normal;
+    public NormalDeactivate getNormal() {
+        return normalDeactivate;
     }
 
-    public Invincible getInvincible() {
-        return invincible;
+    public InvincibleDeactivate getInvincibleDeactivate() {
+        return invincibleDeactivate;
     }
 
     public HeroModel(Position position){
-        normal = new Normal();
-        invincible = new Invincible();
-        state=normal;
+        normalDeactivate = new NormalDeactivate();
+        invincibleDeactivate = new InvincibleDeactivate();
+
+        invencibleIsTouching = new InvencibleIsTouching();
+        normalIsTouching = new NormalIsTouching();
+
+        deactivateState = normalDeactivate;
+        isTouchingHimselfState = normalIsTouching;
+
         this.position=position;
         timer.start();
     }
@@ -44,6 +55,12 @@ public class HeroModel extends Filler implements Character, TimeListener {
 
     public void setLivesModel(LivesModel livesModel) {
         this.livesModel = livesModel;
+    }
+
+    public void addLife(){
+        if(livesModel.getLives()<5){
+            livesModel.setLives(livesModel.getLives()+1);
+        }
     }
 
     @Override
@@ -57,7 +74,17 @@ public class HeroModel extends Filler implements Character, TimeListener {
 
     @Override
     public boolean isTouching(Filler filler) {
-        return false;
+        return isTouchingHimselfState.isTouching(filler);
+    }
+
+    public void ActivateInvencible(){
+        if(isTouchingHimselfState.equals(normalIsTouching)){
+            timer.addListener(this);
+        }
+
+        synchronized (isTouchingHimselfState) {
+            isTouchingHimselfState = invencibleIsTouching;
+        }
     }
 
     @Override
@@ -71,28 +98,27 @@ public class HeroModel extends Filler implements Character, TimeListener {
         if(timerCount==40){
             timer.removeListener(this);
             timerCount=0;
-            synchronized (state) {
-                state = normal;
+            synchronized (deactivateState) {
+                deactivateState = normalDeactivate;
+                isTouchingHimselfState = normalIsTouching;
             }
         }
     }
 
     @Override
     public boolean deactivate() {
-        if(state.equals(normal)){
+        if(deactivateState.equals(normalDeactivate)){
             timer.addListener(this);
         }
         if(livesModel.getLives()==0){
             isActive = false;
         }
         else{
-            synchronized (state) {
-                state.deactivate(livesModel);
-                state = invincible;
+            synchronized (deactivateState) {
+                deactivateState.deactivate(livesModel);
+                deactivateState = invincibleDeactivate;
             }
         }
         return true;
     }
-
-
 }

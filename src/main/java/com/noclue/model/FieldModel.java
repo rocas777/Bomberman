@@ -5,9 +5,11 @@ import com.noclue.Movement;
 import com.noclue.keyboard.KeyBoard;
 import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
+import com.noclue.model.difficulty.Difficulty;
 import com.noclue.timer.Timer;
 import com.sun.tools.javac.code.Types;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FieldModel  {
@@ -20,6 +22,15 @@ public class FieldModel  {
     KeyBoard kServer;
     Timer tServer;
     Integer points=0;
+    ArrayList<Difficulty> difficulties = new ArrayList<>();
+
+    public ArrayList<Difficulty> getDifficulties() {
+        return difficulties;
+    }
+
+    public void setDifficulties(ArrayList<Difficulty> difficulties) {
+        this.difficulties = difficulties;
+    }
 
     public Integer getPoints() {
         return points;

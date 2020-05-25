@@ -28,4 +28,6 @@ public class TimeLeft {
     public void minusSecond(){
         this.seconds--;
     }
+
+    public void addTime(){this.seconds+=15;}
 }
