@@ -29,10 +29,7 @@ import com.noclue.view.block.RemovableBlockView;
 import com.noclue.view.bomb.BombViewFire;
 import com.noclue.view.character.HeroView;
 import com.noclue.view.character.MonsterView;
-import com.noclue.view.collectible.AddLifeView;
-import com.noclue.view.collectible.AddTimeView;
-import com.noclue.view.collectible.CoinView;
-import com.noclue.view.collectible.DoorView;
+import com.noclue.view.collectible.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -90,9 +87,18 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             }
             RemovableBlockModel tmp_rm = new RemovableBlockModel((Position) block.clone());
-            int drop=random.nextInt(20);
-            if(drop==19){
-                System.out.println("Vida");
+            int drop=random.nextInt(40);
+            if(drop >0){
+                Invencible tmp_life = new Invencible((Position) block.clone());
+                TileModel tmp_model = new TileModel(block,tmp_life,tmp_rm);
+                TileView tmp_view = new TileView(tmp_model);
+                tmp_view.setCollectible(new InvencibleView(tmp_life,textGraphics));
+                tmp_view.setFiller(new RemovableBlockView(tmp_rm,textGraphics));
+
+                TileController tileController= new TileController(tmp_model,tmp_view);
+                model.getTiles().setTiles(tileController,block);
+            }
+            else if(drop==19){
                 AddLife tmp_life = new AddLife((Position) block.clone());
                 TileModel tmp_model = new TileModel(block,tmp_life,tmp_rm);
                 TileView tmp_view = new TileView(tmp_model);
@@ -103,7 +109,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 model.getTiles().setTiles(tileController,block);
             }
             else if(drop==18){
-                System.out.println("Tempo");
                 AddTime tmp_time = new AddTime((Position) block.clone());
                 TileModel tmp_model = new TileModel(block,tmp_time,tmp_rm);
                 TileView tmp_view = new TileView(tmp_model);
@@ -339,6 +344,10 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
         if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof AddLife) {
             model.getHero().addLife();
+            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
+        }
+        if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof Invencible) {
+            model.getHero().ActivateInvencible();
             model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
         }
     }
