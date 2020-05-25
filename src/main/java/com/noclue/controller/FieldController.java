@@ -10,13 +10,11 @@ import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.*;
 import com.noclue.model.block.IndestructibleBlockModel;
 import com.noclue.model.block.NoBlockModel;
-import com.noclue.model.collectible.NoCollectibleModel;
+import com.noclue.model.collectible.*;
 import com.noclue.model.block.RemovableBlockModel;
 import com.noclue.model.character.Character;
 import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
-import com.noclue.model.collectible.CoinModel;
-import com.noclue.model.collectible.DoorModel;
 import com.noclue.model.difficulty.Difficulty;
 import com.noclue.model.difficulty.Easy;
 import com.noclue.model.difficulty.Hard;
@@ -31,6 +29,8 @@ import com.noclue.view.block.RemovableBlockView;
 import com.noclue.view.bomb.BombViewFire;
 import com.noclue.view.character.HeroView;
 import com.noclue.view.character.MonsterView;
+import com.noclue.view.collectible.AddLifeView;
+import com.noclue.view.collectible.AddTimeView;
 import com.noclue.view.collectible.CoinView;
 import com.noclue.view.collectible.DoorView;
 
@@ -89,10 +89,31 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             while(block.equals(hero)|| block.equals(door) || (block.getY()%2==0 && block.getX()%2==0) ||(block.getX()<4 && block.getY()<4)) {
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             }
-
-            boolean coin=random.nextBoolean();
             RemovableBlockModel tmp_rm = new RemovableBlockModel((Position) block.clone());
-            if(coin) {
+            int drop=random.nextInt(20);
+            if(drop==19){
+                System.out.println("Vida");
+                AddLife tmp_life = new AddLife((Position) block.clone());
+                TileModel tmp_model = new TileModel(block,tmp_life,tmp_rm);
+                TileView tmp_view = new TileView(tmp_model);
+                tmp_view.setCollectible(new AddLifeView(tmp_life,textGraphics));
+                tmp_view.setFiller(new RemovableBlockView(tmp_rm,textGraphics));
+
+                TileController tileController= new TileController(tmp_model,tmp_view);
+                model.getTiles().setTiles(tileController,block);
+            }
+            else if(drop==18){
+                System.out.println("Tempo");
+                AddTime tmp_time = new AddTime((Position) block.clone());
+                TileModel tmp_model = new TileModel(block,tmp_time,tmp_rm);
+                TileView tmp_view = new TileView(tmp_model);
+                tmp_view.setCollectible(new AddTimeView(tmp_time,textGraphics));
+                tmp_view.setFiller(new RemovableBlockView(tmp_rm,textGraphics));
+
+                TileController tileController= new TileController(tmp_model,tmp_view);
+                model.getTiles().setTiles(tileController,block);
+            }
+            else if(drop>=4){
                 CoinModel tmp_coin = new CoinModel((Position) block.clone());
                 TileModel tmp_model = new TileModel(block,tmp_coin,tmp_rm);
                 TileView tmp_view = new TileView(tmp_model);
@@ -310,6 +331,14 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
         if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof CoinModel) {
             model.addPoint();
+            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
+        }
+        if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof AddTime) {
+            timeLeft.addTime();
+            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
+        }
+        if(model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof AddLife) {
+            model.getHero().addLife();
             model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
         }
     }

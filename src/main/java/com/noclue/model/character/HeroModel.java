@@ -46,6 +46,12 @@ public class HeroModel extends Filler implements Character, TimeListener {
         this.livesModel = livesModel;
     }
 
+    public void addLife(){
+        if(livesModel.getLives()<5){
+            livesModel.setLives(livesModel.getLives()+1);
+        }
+    }
+
     @Override
     public Position getPosition() {
         return position;
