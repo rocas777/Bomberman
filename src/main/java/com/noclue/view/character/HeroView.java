@@ -30,17 +30,24 @@ public class HeroView implements IView {
 
     public void draw(TextGraphics textGraphics, Position position) {
         if(model.getState()==model.getInvincible()){
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#b200ff"));
+            textGraphics.setForegroundColor(TextColor.Factory.fromString("#b200ff"));
         }
         else{
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0000FF"));
+            textGraphics.setForegroundColor(TextColor.Factory.fromString("#0000FF"));
         }
-        textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
-        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY(),"  ()  ",BOLD);
-        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+1,"0=||=0",BOLD);
-        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2,"0=||=0",BOLD);
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
-        textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
+        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+1," ",BOLD);
+        textGraphics.putString(position.getRealPosition().getX()+4,position.getRealPosition().getY()+1," ",BOLD);
+
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#3B5998"));
+        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+1,"  ",BOLD);
+
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+2,"  ",BOLD);
+
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#005555"));
+
 
         livesView.draw();
     }
