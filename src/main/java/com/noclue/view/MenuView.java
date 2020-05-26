@@ -209,12 +209,13 @@ public class MenuView implements IView {
         textGraphics.putString(112,7," ",BOLD);
         textGraphics.putString(112,8," ",BOLD);
 
-
+        //versão fixe
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#c5c5c5"));
+        textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
+        textGraphics.putString(95,11,"Versão Fixe :)",BOLD);
 
 
         //DRAW MENU
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#c5c5c5"));
-        textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
 
 
         if(menuModel.getOption()==1){

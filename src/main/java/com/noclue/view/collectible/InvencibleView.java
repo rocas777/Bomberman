@@ -19,7 +19,7 @@ public class InvencibleView implements IView {
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#006400"));
         textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
         textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+1,"      ",BOLD);
         textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+2,"  ",BOLD);
