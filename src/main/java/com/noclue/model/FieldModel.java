@@ -25,6 +25,15 @@ public class FieldModel  {
     Timer tServer;
     Integer points=0;
     ArrayList<Difficulty> difficulties = new ArrayList<>();
+    boolean won = false;
+
+    public boolean isWon() {
+        return won;
+    }
+
+    public void setWon(boolean won) {
+        this.won = won;
+    }
 
     public ArrayList<Difficulty> getDifficulties() {
         return difficulties;

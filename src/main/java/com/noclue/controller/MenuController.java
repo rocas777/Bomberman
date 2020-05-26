@@ -26,8 +26,10 @@ import com.noclue.view.field.FieldView;
 import com.noclue.view.field.GameOverView;
 import com.noclue.view.field.WinView;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MenuController implements KeyboardListener {
     MenuModel menuModel;
@@ -56,7 +58,7 @@ public class MenuController implements KeyboardListener {
         this.menuModel = menuModel;
         this.menuView = menuView;
 
-
+        menuModel.setDifficultiesA(readDifficulties(menuModel));
         Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(146, 45)).createTerminal();
         MenuModel.setScreen(new TerminalScreen(terminal));
         MenuModel.getScreen().setCursorPosition(null);   // we don't need a cursor
@@ -64,6 +66,8 @@ public class MenuController implements KeyboardListener {
         MenuModel.getScreen().doResizeIfNecessary();     // resize screen if necessary
 
         menuModel.setTextGraphics(MenuModel.getScreen().newTextGraphics());
+
+
     }
 
     public void run(){
@@ -80,6 +84,15 @@ public class MenuController implements KeyboardListener {
                             menuModel.optDown();
                         } else if (key.getKeyType() == KeyType.Enter) {
                             if (menuModel.getOption() == 3) {
+                                URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
+                                System.out.println(resource.getPath());
+                                BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
+                                System.out.println();
+                                System.out.println(menuModel.getLevel());
+                                System.out.println(menuModel.getLevels());
+                                bw.write(String.valueOf(menuModel.getLevel())+"\n");
+                                bw.write(menuModel.getLevels());
+                                bw.close();
                                 System.exit(0);
                             }
                             else if(menuModel.getOption()==2){
@@ -95,6 +108,11 @@ public class MenuController implements KeyboardListener {
                                 else if(menuModel.getSubOption()==3){
                                     setHard();
                                 }
+                                startNewGame();
+                                break;
+                            }
+                            else if(menuModel.getOption() == 4){
+                                difficulties = menuModel.getDifficultiesA().get(menuModel.getLevel()-1);
                                 startNewGame();
                                 break;
                             }
@@ -153,6 +171,9 @@ public class MenuController implements KeyboardListener {
             fieldModel.gettServer().stop();
             fieldModel.setkServer(null);
             fieldModel.settServer(null);
+            if(fieldModel.isWon())
+                menuModel.setLevel(menuModel.getLevel()+1);
+            System.out.println("Nivel"+String.valueOf(menuModel.getLevel()));
             fieldModel = null;
             difficulties = new ArrayList<>();
             try {
@@ -193,5 +214,56 @@ public class MenuController implements KeyboardListener {
         difficulties.add(new Easy());
         difficulties.add(new Easy());
         difficulties.add(new Easy());
+    }
+
+    private static ArrayList<ArrayList<Difficulty>> readDifficulties(MenuModel model){
+        ArrayList<ArrayList<Difficulty>> diffi = new ArrayList<>();
+        URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
+        System.out.println(resource);
+        ArrayList<String> lines = new ArrayList<>();
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(resource.getFile()));
+        }
+        catch (FileNotFoundException f){
+            System.out.println(f);
+        }
+        try {
+            for (String line; (line = br.readLine()) != null; )
+                lines.add(line);
+        }
+        catch (IOException i){
+            System.out.println(i);
+        }
+        model.setLevels("");
+        model.setLevel(Integer.parseInt(lines.get(0)));
+        for (int li=1;li<lines.size();li++){
+            diffi.add( new ArrayList<>());
+            String l = lines.get(li);
+            model.setLevels(model.getLevels() + l +"\n");
+            for(int i=0;i<l.length();i++){
+                if(l.charAt(i)==' '){
+
+                }
+                else if(l.charAt(i)=='e'){
+                    diffi.get(diffi.size()-1).add(new Easy());
+                }
+                else if(l.charAt(i)=='m'){
+                    diffi.get(diffi.size()-1).add(new Medium());
+                }
+                else if(l.charAt(i)=='h'){
+                    diffi.get(diffi.size()-1).add(new Hard());
+                }
+                else {
+                    diffi.get(diffi.size()-1).add(new Hard());
+                }
+            }
+        }
+        try {
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return diffi;
     }
 }
