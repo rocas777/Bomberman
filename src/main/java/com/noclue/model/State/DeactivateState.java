@@ -3,5 +3,5 @@ package com.noclue.model.State;
 import com.noclue.model.LivesModel;
 
 public abstract class DeactivateState {
-    public abstract void deactivate(LivesModel livesModel);
+    public abstract boolean deactivate(LivesModel livesModel);
 }

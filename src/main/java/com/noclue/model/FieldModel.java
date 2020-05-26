@@ -2,6 +2,7 @@ package com.noclue.model;
 
 import com.noclue.IBombInterface;
 import com.noclue.Movement;
+import com.noclue.controller.HeroController;
 import com.noclue.keyboard.KeyBoard;
 import com.noclue.model.block.IndestructibleBlockModel;
 import com.noclue.model.character.HeroModel;
@@ -17,7 +18,7 @@ public class FieldModel  {
     private final int width;
     private final int height;
     private Grid tiles;
-    private HeroModel hero;
+    private HeroController hero;
     private CopyOnWriteArrayList<MonsterModel> monsters=new CopyOnWriteArrayList<>();
     IBombInterface bombController =null;
     KeyBoard kServer;
@@ -86,7 +87,7 @@ public class FieldModel  {
         return kServer;
     }
 
-    public HeroModel getHero() {
+    public HeroController getHero() {
         return hero;
     }
 
@@ -94,7 +95,7 @@ public class FieldModel  {
         return tServer;
     }
 
-    public void setHero(HeroModel hero) {
+    public void setHero(HeroController hero) {
         this.hero = hero;
     }
 
