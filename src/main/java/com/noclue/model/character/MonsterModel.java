@@ -11,6 +11,10 @@ public class MonsterModel extends Filler implements Character {
     final private Difficulty difficulty;
     Position position;
 
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
     @Override
     public boolean isFilled() {
         return true;
