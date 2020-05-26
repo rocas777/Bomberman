@@ -71,7 +71,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
         setIndestructibleBlocks();
         setRemovableBlocks(door,hero,150);
-        setMonsters(door,hero,10);
+        setMonsters(door,hero);
 
         setHero(hero);
         setDoor(door);
@@ -187,9 +187,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
     }
 
-    public void setMonsters(Position door,Position hero,int numberOfMonsters){
+    public void setMonsters(Position door,Position hero){
         Random random=new Random();
-        Medium di= new Medium();
         for(int i=0;i<model.getDifficulties().size();i++){
             Position block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
 
@@ -248,10 +247,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     public void setDoor(Position position) {
-
-        position.setX(3);
-        position.setY(3);
-
         RemovableBlockModel tmp_hero = new RemovableBlockModel((Position) position.clone());
         DoorModel doorModel = new DoorModel((Position) position.clone());
         TileModel tmp_model = new TileModel(position,new DoorModel((Position) position.clone()),tmp_hero);
