@@ -7,67 +7,67 @@ import com.noclue.model.State.*;
 import com.noclue.timer.TimeListener;
 import com.noclue.timer.Timer;
 
-public class HeroModel extends Filler implements Character, TimeListener {
+public class HeroModel {
     Position position;
     LivesModel livesModel;
     Timer timer = new Timer(50);
     DeactivateState deactivateState;
-
-    NormalDeactivate normalDeactivate;
-    InvincibleDeactivate invincibleDeactivate;
-
-    public IsTouchingHimselfState getIsTouchingHimselfState() {
-        return isTouchingHimselfState;
-    }
-
-    public InvencibleIsTouching getInvencibleIsTouching() {
-        return invencibleIsTouching;
-    }
-
-    public void setInvencibleIsTouching(InvencibleIsTouching invencibleIsTouching) {
-        this.invencibleIsTouching = invencibleIsTouching;
-    }
-
-    public void setInvincibleDeactivate(InvincibleDeactivate invincibleDeactivate) {
-        this.invincibleDeactivate = invincibleDeactivate;
-    }
-
-    public void setIsTouchingHimselfState(IsTouchingHimselfState isTouchingHimselfState) {
-        this.isTouchingHimselfState = isTouchingHimselfState;
-    }
-
-    IsTouchingHimselfState isTouchingHimselfState;
-
-    NormalIsTouching normalIsTouching;
-    InvencibleIsTouching invencibleIsTouching;
-
-    Integer timerCount=0;
+    int timerCount = 0;
+    boolean isActive =true;
     int touchCounter = -1;
+
+    public int getTouchCounter() {
+        return touchCounter;
+    }
+
+    public void setTouchCounter(int touchCounter) {
+        this.touchCounter = touchCounter;
+    }
+
+    DeactivateState normalDeactivate;
+    DeactivateState invincibleDeactivate;
+
+
+    IsTouchingState isTouchingState;
+
+    IsTouchingState normalIsTouching;
+    IsTouchingState invencibleIsTouching;
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public int getTimerCount() {
+        return timerCount;
+    }
+
+    public void setTimerCount(int timerCount) {
+        this.timerCount = timerCount;
+    }
 
     public DeactivateState getDeactivateState() {
         return deactivateState;
     }
 
-    public NormalDeactivate getNormal() {
-        return normalDeactivate;
-    }
-
-    public InvincibleDeactivate getInvincibleDeactivate() {
+    public DeactivateState getInvincibleDeactivate() {
         return invincibleDeactivate;
     }
 
     public HeroModel(Position position){
-        normalDeactivate = new NormalDeactivate();
-        invincibleDeactivate = new InvincibleDeactivate();
-
-        invencibleIsTouching = new InvencibleIsTouching();
-        normalIsTouching = new NormalIsTouching();
-
-        deactivateState = normalDeactivate;
-        isTouchingHimselfState = normalIsTouching;
-
         this.position=position;
         timer.start();
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public LivesModel getLivesModel() {
@@ -78,74 +78,51 @@ public class HeroModel extends Filler implements Character, TimeListener {
         this.livesModel = livesModel;
     }
 
-    public void addLife(){
-        if(livesModel.getLives()<5){
-            livesModel.setLives(livesModel.getLives()+1);
-        }
+    public Timer getTimer() {
+        return timer;
     }
 
-    @Override
-    public Position getPosition() {
-        return position;
+    public void setTimer(Timer timer) {
+        this.timer = timer;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setDeactivateState(DeactivateState deactivateState) {
+        this.deactivateState = deactivateState;
     }
 
-    @Override
-    public boolean isTouching(Filler filler) {
-        if (touchCounter==0) {
-            isTouchingHimselfState = normalIsTouching;
-            deactivateState = normalDeactivate;
-        }
-        touchCounter -=1;
-        return isTouchingHimselfState.isTouching(filler);
+    public DeactivateState getNormalDeactivate() {
+        return normalDeactivate;
     }
 
-    public void ActivateInvencible(){
-        if(touchCounter<=0) {
-            touchCounter = 10;
-            synchronized (isTouchingHimselfState) {
-                isTouchingHimselfState = invencibleIsTouching;
-                deactivateState = invincibleDeactivate;
-            }
-        }
+    public void setNormalDeactivate(NormalDeactivate normalDeactivate) {
+        this.normalDeactivate = normalDeactivate;
     }
 
-    @Override
-    public boolean isFilled() {
-        return false;
+    public void setInvincibleDeactivate(InvincibleDeactivate invincibleDeactivate) {
+        this.invincibleDeactivate = invincibleDeactivate;
     }
 
-    @Override
-    public void updateOnTime() {
-        System.out.println(deactivateState.equals(invincibleDeactivate));
-        System.out.println(deactivateState.equals(normalIsTouching));
-        System.out.println(timerCount);
-        System.out.println();
-        timerCount++;
-        if(timerCount>=40){
-            timer.removeListener(this);
-            timerCount=0;
-            synchronized (deactivateState) {
-                deactivateState = normalDeactivate;
-            }
-        }
+    public IsTouchingState getIsTouchingState() {
+        return isTouchingState;
     }
 
-    @Override
-    public boolean deactivate() {
-        if(deactivateState.equals(normalDeactivate)){
-            timer.addListener(this);
-        }
-        synchronized (deactivateState) {
-            deactivateState.deactivate(livesModel);
-            deactivateState = invincibleDeactivate;
-        }
-        if(livesModel.getLives()==0){
-            isActive = false;
-        }
-        return true;
+    public void setIsTouchingState(IsTouchingState isTouchingState) {
+        this.isTouchingState = isTouchingState;
+    }
+
+    public IsTouchingState getNormalIsTouching() {
+        return normalIsTouching;
+    }
+
+    public void setNormalIsTouching(NormalIsTouching normalIsTouching) {
+        this.normalIsTouching = normalIsTouching;
+    }
+
+    public IsTouchingState getInvencibleIsTouching() {
+        return invencibleIsTouching;
+    }
+
+    public void setInvencibleIsTouching(IsTouchingState invencibleIsTouching) {
+        this.invencibleIsTouching = invencibleIsTouching;
     }
 }
