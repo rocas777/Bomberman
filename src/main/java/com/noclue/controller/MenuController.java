@@ -155,6 +155,12 @@ public class MenuController implements KeyboardListener {
             fieldModel.settServer(null);
             fieldModel = null;
             difficulties = new ArrayList<>();
+            try {
+                MenuModel.getScreen().refresh();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             run();
         }
     }
