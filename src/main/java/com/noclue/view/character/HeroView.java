@@ -13,6 +13,7 @@ public class HeroView implements IView {
     HeroModel model;
     TextGraphics textGraphics;
     LivesView livesView;
+    int i=0;
 
     public HeroView(HeroModel model, TextGraphics textGraphics){
         this.model=model;
@@ -29,7 +30,22 @@ public class HeroView implements IView {
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
-        if(model.getDeactivateState()==model.getInvincibleDeactivate()){
+        i++;
+        if(model.getDeactivateState()==model.getInvincibleDeactivate() && i%10<=4){
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
+            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+1," ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX()+4,position.getRealPosition().getY()+1," ",BOLD);
+
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffff00"));
+            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+1,"  ",BOLD);
+
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+2,"  ",BOLD);
+
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#005555"));
+        }
+        else if(model.getDeactivateState()==model.getInvincibleDeactivate()){
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
             textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
             textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+1," ",BOLD);

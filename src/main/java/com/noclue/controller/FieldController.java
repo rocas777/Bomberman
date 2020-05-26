@@ -87,8 +87,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             }
             RemovableBlockModel tmp_rm = new RemovableBlockModel((Position) block.clone());
-            int drop=random.nextInt(24);
-            if(drop >0){
+            int drop=random.nextInt(21);
+            if(drop >19){
                 Invencible tmp_life = new Invencible((Position) block.clone());
                 TileModel tmp_model = new TileModel(block,tmp_life,tmp_rm);
                 TileView tmp_view = new TileView(tmp_model);
