@@ -2,6 +2,9 @@ package com.noclue.model;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
+import com.noclue.model.difficulty.Difficulty;
+
+import java.util.ArrayList;
 
 public class MenuModel {
     int option;
@@ -9,18 +12,47 @@ public class MenuModel {
     boolean onSubMenu;
     static Screen screen;
     TextGraphics textGraphics;
+    ArrayList<ArrayList<Difficulty>> difficultiesA;
+    String levels;
+
+    public String getLevels() {
+        return levels;
+    }
+
+    public void setLevels(String levels) {
+        this.levels = levels;
+    }
+
+    public ArrayList<ArrayList<Difficulty>> getDifficultiesA() {
+        return difficultiesA;
+    }
+
+    public void setDifficultiesA(ArrayList<ArrayList<Difficulty>> difficultiesA) {
+        this.difficultiesA = difficultiesA;
+    }
+
+    int level;
+
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
     public void optUp(){
         if(option!=1){
             option--;
         }
         else{
-            option=3;
+            option=4;
         }
     }
 
     public void optDown(){
-        if(option!=3){
+        if(option!=4){
             option++;
         }
         else{
@@ -33,12 +65,12 @@ public class MenuModel {
             subOption--;
         }
         else{
-            subOption=3;
+            subOption=4;
         }
     }
 
     public void subOptDown(){
-        if(subOption!=3){
+        if(subOption!=4){
             subOption++;
         }
         else{
