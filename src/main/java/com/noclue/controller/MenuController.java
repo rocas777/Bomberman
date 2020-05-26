@@ -160,7 +160,6 @@ public class MenuController implements KeyboardListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             run();
         }
     }

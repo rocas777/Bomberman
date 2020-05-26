@@ -232,12 +232,14 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
 
     public void setHero(Position position){
-        HeroModel tmp_hero = new HeroModel((Position) position.clone());
+        HeroModel modelh = new HeroModel((Position) position.clone());
+        HeroView viewh = new HeroView(modelh,textGraphics);
+        HeroController tmp_hero = new HeroController(modelh,viewh);
         TileModel tmp_model = new TileModel(position,new NoCollectibleModel(),tmp_hero);
         TileView tmp_view = new TileView(tmp_model);
         LivesModel livesModel = new LivesModel(3,new Position(146,45,138,2));
         tmp_hero.setLivesModel(livesModel);
-        tmp_view.setFiller(new HeroView(tmp_hero,textGraphics));
+        tmp_view.setFiller(new HeroView(modelh,textGraphics));
 
         TileController tileController= new TileController(tmp_model,tmp_view);
         model.getTiles().setTiles(tileController,position);
@@ -379,19 +381,19 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                             Position tmp = pos.getPosition();
                             if (m == Movement.left && !model.getTiles().getTile(tmp.getLeft()).isFilled()) {
                                 model.getTiles().getTile(tmp.getLeft()).getFiller().deactivate();
-                                if (!(model.getTiles().getTile(tmp.getLeft()).getFiller() instanceof HeroModel))
+                                if (!model.getHero().getPosition().equals(tmp.getLeft()))
                                     moveLeft(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
                             } else if (m == Movement.right && !model.getTiles().getTile(tmp.getRight()).isFilled()) {
                                 model.getTiles().getTile(tmp.getRight()).getFiller().deactivate();
-                                if (!(model.getTiles().getTile(tmp.getRight()).getFiller() instanceof HeroModel))
+                                if (!model.getHero().getPosition().equals(tmp.getRight()))
                                     moveRight(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
                             } else if (m == Movement.up && !model.getTiles().getTile(tmp.getUp()).isFilled()) {
                                 model.getTiles().getTile(tmp.getUp()).getFiller().deactivate();
-                                if (!(model.getTiles().getTile(tmp.getUp()).getFiller() instanceof HeroModel))
+                                if (!model.getHero().getPosition().equals(tmp.getUp()))
                                     moveUp(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
                             } else if (m == Movement.down && !model.getTiles().getTile(tmp.getDown()).isFilled()) {
                                 model.getTiles().getTile(tmp.getDown()).getFiller().deactivate();
-                                if (!(model.getTiles().getTile(tmp.getDown()).getFiller() instanceof HeroModel))
+                                if (!model.getHero().getPosition().equals(tmp.getDown()))
                                     moveDown(pos.getPosition(), (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller());
                             }
                             break;
