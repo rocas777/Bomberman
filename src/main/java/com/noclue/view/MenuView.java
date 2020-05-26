@@ -24,14 +24,16 @@ public class MenuView implements IView {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ffffff"));
 
+        textGraphics.putString(68,10,"BOMBERMAN",BOLD);
+
         if(menuModel.getOption()==1){
-            textGraphics.putString(70,20,"Start Game",BOLD);
+            textGraphics.putString(68,20,"Start Game",BOLD);
         }
         else{
-            textGraphics.putString(70,20,"Start Game");
+            textGraphics.putString(68,20,"Start Game");
         }
         if(menuModel.getOption()==2){
-            textGraphics.putString(70,22,"Choose Difficulty",BOLD);
+            textGraphics.putString(65,22,"Choose Difficulty",BOLD);
             if(menuModel.getOnSubMenu()){
                 if(menuModel.getSubOption()==1){
                     textGraphics.putString(90,20,"Easy",BOLD);
@@ -54,13 +56,25 @@ public class MenuView implements IView {
             }
         }
         else{
-            textGraphics.putString(70,22,"Choose Difficulty");
+            textGraphics.putString(65,22,"Choose Difficulty");
         }
         if(menuModel.getOption()==3){
-            textGraphics.putString(70,24,"Exit",BOLD);
+            textGraphics.putString(71,24,"Exit",BOLD);
         }
         else{
-            textGraphics.putString(70,24,"Exit");
+            textGraphics.putString(71,24,"Exit");
+        }
+        if(menuModel.getOption()==4){
+             if(menuModel.getLevel()==1)
+                textGraphics.putString(66,18,"Start Campaign",BOLD);
+             else
+                 textGraphics.putString(64,18,"Continue Campaign",BOLD);
+        }
+        else{
+            if(menuModel.getLevel()==1)
+                textGraphics.putString(66,18,"Start Campaign");
+            else
+                textGraphics.putString(64,18,"Continue Campaign");
         }
         try {
             MenuModel.getScreen().refresh();
