@@ -16,12 +16,33 @@ public class HeroModel extends Filler implements Character, TimeListener {
     NormalDeactivate normalDeactivate;
     InvincibleDeactivate invincibleDeactivate;
 
+    public IsTouchingHimselfState getIsTouchingHimselfState() {
+        return isTouchingHimselfState;
+    }
+
+    public InvencibleIsTouching getInvencibleIsTouching() {
+        return invencibleIsTouching;
+    }
+
+    public void setInvencibleIsTouching(InvencibleIsTouching invencibleIsTouching) {
+        this.invencibleIsTouching = invencibleIsTouching;
+    }
+
+    public void setInvincibleDeactivate(InvincibleDeactivate invincibleDeactivate) {
+        this.invincibleDeactivate = invincibleDeactivate;
+    }
+
+    public void setIsTouchingHimselfState(IsTouchingHimselfState isTouchingHimselfState) {
+        this.isTouchingHimselfState = isTouchingHimselfState;
+    }
+
     IsTouchingHimselfState isTouchingHimselfState;
 
     NormalIsTouching normalIsTouching;
     InvencibleIsTouching invencibleIsTouching;
 
     Integer timerCount=0;
+    int touchCounter = -1;
 
     public DeactivateState getDeactivateState() {
         return deactivateState;
@@ -74,16 +95,21 @@ public class HeroModel extends Filler implements Character, TimeListener {
 
     @Override
     public boolean isTouching(Filler filler) {
+        if (touchCounter==0) {
+            isTouchingHimselfState = normalIsTouching;
+            deactivateState = normalDeactivate;
+        }
+        touchCounter -=1;
         return isTouchingHimselfState.isTouching(filler);
     }
 
     public void ActivateInvencible(){
-        if(isTouchingHimselfState.equals(normalIsTouching)){
-            timer.addListener(this);
-        }
-
-        synchronized (isTouchingHimselfState) {
-            isTouchingHimselfState = invencibleIsTouching;
+        if(touchCounter<=0) {
+            touchCounter = 10;
+            synchronized (isTouchingHimselfState) {
+                isTouchingHimselfState = invencibleIsTouching;
+                deactivateState = invincibleDeactivate;
+            }
         }
     }
 
@@ -94,13 +120,16 @@ public class HeroModel extends Filler implements Character, TimeListener {
 
     @Override
     public void updateOnTime() {
+        System.out.println(deactivateState.equals(invincibleDeactivate));
+        System.out.println(deactivateState.equals(normalIsTouching));
+        System.out.println(timerCount);
+        System.out.println();
         timerCount++;
-        if(timerCount==40){
+        if(timerCount>=40){
             timer.removeListener(this);
             timerCount=0;
             synchronized (deactivateState) {
                 deactivateState = normalDeactivate;
-                isTouchingHimselfState = normalIsTouching;
             }
         }
     }
@@ -110,14 +139,12 @@ public class HeroModel extends Filler implements Character, TimeListener {
         if(deactivateState.equals(normalDeactivate)){
             timer.addListener(this);
         }
+        synchronized (deactivateState) {
+            deactivateState.deactivate(livesModel);
+            deactivateState = invincibleDeactivate;
+        }
         if(livesModel.getLives()==0){
             isActive = false;
-        }
-        else{
-            synchronized (deactivateState) {
-                deactivateState.deactivate(livesModel);
-                deactivateState = invincibleDeactivate;
-            }
         }
         return true;
     }
