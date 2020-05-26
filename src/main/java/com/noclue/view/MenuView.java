@@ -78,23 +78,35 @@ public class MenuView implements IView {
         textGraphics.putString(56,6," ",BOLD);
         textGraphics.putString(56,7," ",BOLD);
         textGraphics.putString(56,8," ",BOLD);
+        textGraphics.putString(57,4," ",BOLD);
         textGraphics.putString(57,5," ",BOLD);
-        textGraphics.putString(59,5," ",BOLD);
-        textGraphics.putString(58,6," ",BOLD);
-        textGraphics.putString(60,4," ",BOLD);
+        textGraphics.putString(57,6," ",BOLD);
+        textGraphics.putString(57,7," ",BOLD);
+        textGraphics.putString(57,8," ",BOLD);
+
+        textGraphics.putString(58,5," ",BOLD);
+        textGraphics.putString(59,6," ",BOLD);
         textGraphics.putString(60,5," ",BOLD);
-        textGraphics.putString(60,6," ",BOLD);
-        textGraphics.putString(60,7," ",BOLD);
-        textGraphics.putString(60,8," ",BOLD);
+
+        textGraphics.putString(61,4," ",BOLD);
+        textGraphics.putString(61,5," ",BOLD);
+        textGraphics.putString(61,6," ",BOLD);
+        textGraphics.putString(61,7," ",BOLD);
+        textGraphics.putString(61,8," ",BOLD);
+        textGraphics.putString(62,4," ",BOLD);
+        textGraphics.putString(62,5," ",BOLD);
+        textGraphics.putString(62,6," ",BOLD);
+        textGraphics.putString(62,7," ",BOLD);
+        textGraphics.putString(62,8," ",BOLD);
 
         //B
-        textGraphics.putString(64,4,"    ",BOLD);
-        textGraphics.putString(64,5,"  ",BOLD);
-        textGraphics.putString(64,6,"    ",BOLD);
-        textGraphics.putString(64,7,"  ",BOLD);
-        textGraphics.putString(64,8,"    ",BOLD);
-        textGraphics.putString(67,5,"  ",BOLD);
-        textGraphics.putString(67,7,"  ",BOLD);
+        textGraphics.putString(65,4,"    ",BOLD);
+        textGraphics.putString(65,5,"  ",BOLD);
+        textGraphics.putString(65,6,"    ",BOLD);
+        textGraphics.putString(65,7,"  ",BOLD);
+        textGraphics.putString(65,8,"    ",BOLD);
+        textGraphics.putString(68,5,"  ",BOLD);
+        textGraphics.putString(68,7,"  ",BOLD);
 
         //E
         textGraphics.putString(72,4,"     ",BOLD);
@@ -115,19 +127,88 @@ public class MenuView implements IView {
         textGraphics.putString(83,8,"  ",BOLD);
 
         //M
+        textGraphics.putString(87,4," ",BOLD);
+        textGraphics.putString(87,5," ",BOLD);
+        textGraphics.putString(87,6," ",BOLD);
+        textGraphics.putString(87,7," ",BOLD);
+        textGraphics.putString(87,8," ",BOLD);
         textGraphics.putString(88,4," ",BOLD);
         textGraphics.putString(88,5," ",BOLD);
         textGraphics.putString(88,6," ",BOLD);
         textGraphics.putString(88,7," ",BOLD);
         textGraphics.putString(88,8," ",BOLD);
+
         textGraphics.putString(89,5," ",BOLD);
-        textGraphics.putString(91,5," ",BOLD);
         textGraphics.putString(90,6," ",BOLD);
+        textGraphics.putString(91,5," ",BOLD);
+
         textGraphics.putString(92,4," ",BOLD);
         textGraphics.putString(92,5," ",BOLD);
         textGraphics.putString(92,6," ",BOLD);
         textGraphics.putString(92,7," ",BOLD);
         textGraphics.putString(92,8," ",BOLD);
+        textGraphics.putString(93,4," ",BOLD);
+        textGraphics.putString(93,5," ",BOLD);
+        textGraphics.putString(93,6," ",BOLD);
+        textGraphics.putString(93,7," ",BOLD);
+        textGraphics.putString(93,8," ",BOLD);
+
+        //A
+        textGraphics.putString(97,6," ",BOLD);
+        textGraphics.putString(97,7," ",BOLD);
+        textGraphics.putString(97,8," ",BOLD);
+        textGraphics.putString(98,6," ",BOLD);
+        textGraphics.putString(98,7," ",BOLD);
+        textGraphics.putString(98,8," ",BOLD);
+
+        textGraphics.putString(98,5," ",BOLD);
+
+        textGraphics.putString(99,5," ",BOLD);
+        textGraphics.putString(99,4," ",BOLD);
+        textGraphics.putString(100,4," ",BOLD);
+        textGraphics.putString(101,4," ",BOLD);
+        textGraphics.putString(101,5," ",BOLD);
+
+        textGraphics.putString(99,7," ",BOLD);
+        textGraphics.putString(100,7," ",BOLD);
+        textGraphics.putString(101,7," ",BOLD);
+
+        textGraphics.putString(102,5," ",BOLD);
+
+        textGraphics.putString(102,6," ",BOLD);
+        textGraphics.putString(102,7," ",BOLD);
+        textGraphics.putString(102,8," ",BOLD);
+        textGraphics.putString(103,6," ",BOLD);
+        textGraphics.putString(103,7," ",BOLD);
+        textGraphics.putString(103,8," ",BOLD);
+
+        //N
+        textGraphics.putString(107,4," ",BOLD);
+        textGraphics.putString(107,5," ",BOLD);
+        textGraphics.putString(107,6," ",BOLD);
+        textGraphics.putString(107,7," ",BOLD);
+        textGraphics.putString(107,8," ",BOLD);
+        textGraphics.putString(108,4," ",BOLD);
+        textGraphics.putString(108,5," ",BOLD);
+        textGraphics.putString(108,6," ",BOLD);
+        textGraphics.putString(108,7," ",BOLD);
+        textGraphics.putString(108,8," ",BOLD);
+
+        textGraphics.putString(109,5," ",BOLD);
+        textGraphics.putString(110,6," ",BOLD);
+        textGraphics.putString(111,7," ",BOLD);
+
+        textGraphics.putString(111,4," ",BOLD);
+        textGraphics.putString(111,5," ",BOLD);
+        textGraphics.putString(111,6," ",BOLD);
+        textGraphics.putString(111,7," ",BOLD);
+        textGraphics.putString(111,8," ",BOLD);
+        textGraphics.putString(112,4," ",BOLD);
+        textGraphics.putString(112,5," ",BOLD);
+        textGraphics.putString(112,6," ",BOLD);
+        textGraphics.putString(112,7," ",BOLD);
+        textGraphics.putString(112,8," ",BOLD);
+
 
 
 
@@ -191,14 +272,14 @@ public class MenuView implements IView {
              if(menuModel.getLevel()==1)
                 textGraphics.putString(66,18,"Start Campaign",BOLD);
              else
-                 textGraphics.putString(64,18,"Continue Campaign",BOLD);
+                 textGraphics.putString(65,18,"Continue Campaign",BOLD);
             textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         }
         else{
             if(menuModel.getLevel()==1)
                 textGraphics.putString(66,18,"Start Campaign");
             else
-                textGraphics.putString(64,18,"Continue Campaign");
+                textGraphics.putString(65,18,"Continue Campaign");
         }
         try {
             MenuModel.getScreen().refresh();
