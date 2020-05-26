@@ -86,6 +86,15 @@ public class MenuController implements KeyboardListener {
                                 menuModel.setOnSubMenu(true);
                             }
                             else if(menuModel.getOption()==1){
+                                if(menuModel.getSubOption()==1){
+                                    setEasy();
+                                }
+                                else if(menuModel.getSubOption()==2){
+                                    setMedium();
+                                }
+                                else if(menuModel.getSubOption()==3){
+                                    setHard();
+                                }
                                 startNewGame();
                                 break;
                             }
@@ -128,21 +137,6 @@ public class MenuController implements KeyboardListener {
         FieldController fieldController= new FieldController(fieldModel,fieldView,new GameOverView(MenuModel.getScreen(),menuModel.getTextGraphics()),new WinView(MenuModel.getScreen(),menuModel.getTextGraphics()),menuModel.getTextGraphics(), timeLeft);
 
 
-
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Medium());
-        difficulties.add(new Hard());
-
         fieldController.setDifficulty(difficulties);
 
         fieldController.setup();
@@ -163,6 +157,36 @@ public class MenuController implements KeyboardListener {
             difficulties = new ArrayList<>();
             run();
         }
+    }
 
+    private void setHard(){
+        difficulties.clear();
+        difficulties.add(new Hard());
+        difficulties.add(new Hard());
+        difficulties.add(new Hard());
+        difficulties.add(new Hard());
+        difficulties.add(new Hard());
+        difficulties.add(new Hard());
+        difficulties.add(new Hard());
+        difficulties.add(new Hard());
+
+    }private void setMedium(){
+        difficulties.clear();
+        difficulties.add(new Medium());
+        difficulties.add(new Medium());
+        difficulties.add(new Medium());
+        difficulties.add(new Medium());
+        difficulties.add(new Medium());
+        difficulties.add(new Medium());
+        difficulties.add(new Medium());
+
+    }private void setEasy(){
+        difficulties.clear();
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
+        difficulties.add(new Easy());
     }
 }

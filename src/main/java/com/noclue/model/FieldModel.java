@@ -3,6 +3,7 @@ package com.noclue.model;
 import com.noclue.IBombInterface;
 import com.noclue.Movement;
 import com.noclue.keyboard.KeyBoard;
+import com.noclue.model.block.IndestructibleBlockModel;
 import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
 import com.noclue.model.difficulty.Difficulty;
@@ -113,20 +114,21 @@ public class FieldModel  {
             System.out.println();
         }
         System.out.println();*/
+
         if (movement==Movement.left) {
-            return !(tiles.getTile(position.getLeft()).isFilled());
+            return !(tiles.getTile(position.getLeft()).isFilled()) || !tiles.getTile(position.getLeft()).getFiller().isActive;
         }
         else if (movement==Movement.right) {
-            return !(tiles.getTile(position.getRight()).isFilled());
+            return !(tiles.getTile(position.getRight()).isFilled()) || !tiles.getTile(position.getRight()).getFiller().isActive;
         }
         else if (movement==Movement.up) {
-            return !(tiles.getTile(position.getUp()).isFilled());
+            return !(tiles.getTile(position.getUp()).isFilled()) || !tiles.getTile(position.getUp()).getFiller().isActive;
         }
         else if (movement==Movement.down) {
-            return !(tiles.getTile(position.getDown()).isFilled());
+            return !(tiles.getTile(position.getDown()).isFilled()) || !tiles.getTile(position.getDown()).getFiller().isActive;
         }
         else if (movement==Movement.stay) {
-            return !(tiles.getTile(position).isFilled());
+            return !(tiles.getTile(position).isFilled()) || !tiles.getTile(position).getFiller().isActive;
         }
         return false;
     }

@@ -87,7 +87,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 block=new Position(23,15,random.nextInt(21)+1,random.nextInt(13)+1);
             }
             RemovableBlockModel tmp_rm = new RemovableBlockModel((Position) block.clone());
-            int drop=random.nextInt(40);
+            int drop=random.nextInt(24);
             if(drop >0){
                 Invencible tmp_life = new Invencible((Position) block.clone());
                 TileModel tmp_model = new TileModel(block,tmp_life,tmp_rm);
@@ -305,18 +305,22 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             if(model.getHero().isActive()) {
                 try {
                     if (keyPressed.getCharacter() == 'a') {
+                        model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getLeft()).getFiller());
                         if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
                             moveLeft(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
                         }
                     } else if (keyPressed.getCharacter() == 'd') {
+                        model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getRight()).getFiller());
                         if (model.checkPos(model.getHero().getPosition(), Movement.right)) {
                             moveRight(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
                         }
                     } else if (keyPressed.getCharacter() == 'w') {
+                        model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getUp()).getFiller());
                         if (model.checkPos(model.getHero().getPosition(), Movement.up)) {
                             moveUp(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
                         }
                     } else if (keyPressed.getCharacter() == 's') {
+                        model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getDown()).getFiller());
                         if (model.checkPos(model.getHero().getPosition(), Movement.down)) {
                             moveDown(model.getHero().getPosition(), (Character) model.getTiles().getTile(model.getHero().getPosition()).getFiller());
                         }
