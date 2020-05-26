@@ -5,6 +5,9 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.IView;
 import com.noclue.model.Position;
 import com.noclue.model.character.MonsterModel;
+import com.noclue.model.difficulty.Easy;
+import com.noclue.model.difficulty.Hard;
+import com.noclue.model.difficulty.Medium;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
@@ -25,20 +28,17 @@ public class MonsterView implements IView {
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
-        /*
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#FF0000"));
-        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+1," ",BOLD);
-        textGraphics.putString(position.getRealPosition().getX()+5,position.getRealPosition().getY()+1," ",BOLD);
-        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
 
+        if(monsterModel.getDifficulty() instanceof Medium)
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffff00"));
 
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-        textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+1,"    ",BOLD);
-        textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+2," ",BOLD);
-        textGraphics.putString(position.getRealPosition().getX()+4,position.getRealPosition().getY()+2," ",BOLD);
-         */
+        else if(monsterModel.getDifficulty() instanceof Easy) {
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#10ff44"));
 
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#FF0000"));
+        }
+        else if(monsterModel.getDifficulty() instanceof Hard){
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#FF1010"));
+        }
         textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+1,"  ",BOLD);
 
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
@@ -52,6 +52,8 @@ public class MonsterView implements IView {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
         textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+2,"  ",BOLD);
+
+
 
     }
 
