@@ -85,11 +85,7 @@ public class MenuController implements KeyboardListener {
                         } else if (key.getKeyType() == KeyType.Enter) {
                             if (menuModel.getOption() == 3) {
                                 URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
-                                System.out.println(resource.getPath());
                                 BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
-                                System.out.println();
-                                System.out.println(menuModel.getLevel());
-                                System.out.println(menuModel.getLevels());
                                 bw.write(String.valueOf(menuModel.getLevel())+"\n");
                                 bw.write(menuModel.getLevels());
                                 bw.close();
@@ -138,6 +134,7 @@ public class MenuController implements KeyboardListener {
 
     public void startNewGame(){
         fieldModel = new FieldModel(146,45);
+        fieldModel.setPoints(menuModel.getScore());
 
         Timer t=new Timer(40);
         t.start();
@@ -171,8 +168,12 @@ public class MenuController implements KeyboardListener {
             fieldModel.gettServer().stop();
             fieldModel.setkServer(null);
             fieldModel.settServer(null);
-            if(fieldModel.isWon())
+            if(fieldModel.isWon()){
                 menuModel.setLevel(menuModel.getLevel()+1);
+                menuModel.setScore(fieldModel.getPoints());
+            }
+
+
             System.out.println("Nivel"+String.valueOf(menuModel.getLevel()));
             fieldModel = null;
             difficulties = new ArrayList<>();

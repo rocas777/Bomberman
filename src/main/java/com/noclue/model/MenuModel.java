@@ -10,6 +10,16 @@ public class MenuModel {
     int option;
     int subOption;
     boolean onSubMenu;
+    int score=0;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     static Screen screen;
     TextGraphics textGraphics;
     ArrayList<ArrayList<Difficulty>> difficultiesA;
