@@ -48,6 +48,10 @@ public class HeroController extends Filler implements Character {
         }
     }
 
+    public HeroModel getModel() {
+        return model;
+    }
+
     @Override
     public Position getPosition() {
         return model.getPosition();

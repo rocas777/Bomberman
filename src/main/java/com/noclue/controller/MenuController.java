@@ -1,14 +1,11 @@
 package com.noclue.controller;
 
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-import com.noclue.Game;
 import com.noclue.keyboard.KeyBoard;
 import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.FieldModel;
@@ -29,7 +26,6 @@ import com.noclue.view.field.WinView;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MenuController implements KeyboardListener {
     MenuModel menuModel;
@@ -133,7 +129,7 @@ public class MenuController implements KeyboardListener {
     }
 
     public void startNewGame(){
-        fieldModel = new FieldModel(146,45);
+        fieldModel = new FieldModel(146,45,menuModel.getLevel());
         fieldModel.setPoints(menuModel.getScore());
 
         Timer t=new Timer(40);

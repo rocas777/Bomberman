@@ -61,6 +61,28 @@ public class FieldView implements IView {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
     }
 
+    public void drawLevel(TextGraphics textGraphics, Position position){
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));
+        textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
+        textGraphics.putString(position.getX(),position.getY()," Level: ",BOLD);
+        textGraphics.putString(position.getX(),position.getY()+1,"  "+Integer.toString(model.getLevel())+"/21",BOLD);
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
+    }
+
+    public void drawSteps(TextGraphics textGraphics, Position position){
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));
+        textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
+        textGraphics.putString(position.getX(),position.getY()," Steps: ",BOLD);
+        if(model.getHero().getModel().getTouchCounter()<=0){
+            textGraphics.putString(position.getX(),position.getY()+1,"   0",BOLD);
+        }
+        else{
+            textGraphics.putString(position.getX(),position.getY()+1,"   "+Integer.toString(model.getHero().getModel().getTouchCounter()),BOLD);
+        }
+
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
+    }
+
     public void draw(FieldModel model, TextGraphics textGraphics, Screen screen, Grid views){
         screen.clear();
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
@@ -77,12 +99,15 @@ public class FieldView implements IView {
                     views.getTiles().get(i1).get(i2).draw();
                 }
             }
-            drawScore(textGraphics,new Position(146,45,138,35));
+            drawScore(textGraphics,new Position(146,45,138,33));
+            drawSteps(textGraphics,new Position(146,45,138,36));
+            drawLevel(textGraphics,new Position(146,45,138,39));
         }
 
         if(timeLeftView!=null){
             timeLeftView.draw();
         }
+
         if(model.getBomb()!=null)
             model.getBomb().draw();
         try {

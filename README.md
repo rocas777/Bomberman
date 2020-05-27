@@ -27,4 +27,8 @@ Para além disso existirão moedas (que podem ou não estar escondidas como a po
 	- registar todas as ações como comandos.
 
 ## To do (maybe, se tivermos tempo):
-1. Power-ups (acrescentando o design pattern "state")
+1. Instance of
+1. Fechar o jogo on 'X'
+
+
+

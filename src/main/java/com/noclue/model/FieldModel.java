@@ -25,6 +25,7 @@ public class FieldModel  {
     Timer tServer;
     Integer points=0;
     ArrayList<Difficulty> difficulties = new ArrayList<>();
+    int level;
     boolean won = false;
 
     public boolean isWon() {
@@ -58,10 +59,19 @@ public class FieldModel  {
         this.monsters = monsters;
     }
 
-    public FieldModel(int width, int height) {
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public FieldModel(int width, int height, int level) {
         this.height = height;
         this.width = width;
         tiles=new Grid();
+        this.level=level;
     }
 
     public void setkServer(KeyBoard kServer) {
