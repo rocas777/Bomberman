@@ -6,23 +6,28 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Grid {
     private CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles = new CopyOnWriteArrayList<>();
-    Grid(){
+
+    Grid() {
 
     }
-    public void add_collumn(){
+
+    public void add_collumn() {
         tiles.add(new CopyOnWriteArrayList<>());
     }
-    public void addTile(TileController tileController){
-        tiles.get(tiles.size()-1).add(tileController);
-    }
-    public TileController getTile(Position position){
-        return  tiles.get(position.getY()).get(position.getX());
+
+    public void addTile(TileController tileController) {
+        tiles.get(tiles.size() - 1).add(tileController);
     }
 
-    public void setTiles(TileController tiles,Position position) {
-        this.tiles.get(position.getY()).set(position.getX(),tiles);
+    public TileController getTile(Position position) {
+        return tiles.get(position.getY()).get(position.getX());
     }
-    public void addTile(TileController tiles,Position position) {
+
+    public void setTiles(TileController tiles, Position position) {
+        this.tiles.get(position.getY()).set(position.getX(), tiles);
+    }
+
+    public void addTile(TileController tiles, Position position) {
         this.tiles.get(position.getY()).add(tiles);
     }
 

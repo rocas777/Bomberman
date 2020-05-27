@@ -18,17 +18,17 @@ public class TimeLeftView implements IView {
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
-        String string = "  "+Integer.toString(timeLeft.getSeconds()/60) + ":" + Integer.toString(timeLeft.getSeconds()%60);
+        String string = "  " + timeLeft.getSeconds() / 60 + ":" + timeLeft.getSeconds() % 60;
 
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-        textGraphics.putString(position.getX(),position.getY(),"TimeLeft",BOLD);
-        textGraphics.putString(position.getX(),position.getY()+1,string,BOLD);
+        textGraphics.putString(position.getX(), position.getY(), "TimeLeft", BOLD);
+        textGraphics.putString(position.getX(), position.getY() + 1, string, BOLD);
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
     }
 
     @Override
     public void draw() {
-        draw(textGraphics,timeLeft.getPosition());
+        draw(textGraphics, timeLeft.getPosition());
     }
 }

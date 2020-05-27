@@ -5,7 +5,8 @@ import com.noclue.model.character.HeroModel;
 
 public class NormalIsTouching extends IsTouchingState {
     HeroModel model;
-    public NormalIsTouching(HeroModel model){
+
+    public NormalIsTouching(HeroModel model) {
         this.model = model;
     }
 
@@ -16,7 +17,7 @@ public class NormalIsTouching extends IsTouchingState {
 
     @Override
     public void Activate() {
-        if(model.getTouchCounter()<=0) {
+        if (model.getTouchCounter() <= 0) {
             model.setTouchCounter(10);
             synchronized (model.getIsTouchingState()) {
                 synchronized (model.getDeactivateState()) {

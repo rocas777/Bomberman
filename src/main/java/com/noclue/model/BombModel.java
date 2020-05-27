@@ -13,25 +13,25 @@ public class BombModel {
     private TimerInterface timerInterface;
     private ArrayList<Position> explosionList;
 
-    public TimerInterface getTimerInterface() {
-        return timerInterface;
+    public BombModel(int mseconds, ExplosionListener explosionListener, Position position, TimerInterface timer) {
+        synchronized (explosionListener) {
+            this.explosionListener = explosionListener;
+        }
+        this.mseconds = mseconds;
+        this.position = position;
+        timerInterface = timer;
     }
 
-    public void setExplosionList(ArrayList<Position> explosionList) {
-        this.explosionList = explosionList;
+    public TimerInterface getTimerInterface() {
+        return timerInterface;
     }
 
     public ArrayList<Position> getExplosionList() {
         return explosionList;
     }
 
-    public BombModel(int mseconds, ExplosionListener explosionListener, Position position, TimerInterface timer){
-        synchronized (explosionListener) {
-            this.explosionListener = explosionListener;
-        }
-        this.mseconds=mseconds;
-        this.position=position;
-        timerInterface=timer;
+    public void setExplosionList(ArrayList<Position> explosionList) {
+        this.explosionList = explosionList;
     }
 
     public int getSum() {

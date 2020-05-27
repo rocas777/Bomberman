@@ -5,8 +5,9 @@ import com.noclue.model.Position;
 
 public class RemovableBlockModel extends Filler {
     Position position;
-    public RemovableBlockModel(Position position){
-        this.position=position;
+
+    public RemovableBlockModel(Position position) {
+        this.position = position;
     }
 
     public Position getPosition() {

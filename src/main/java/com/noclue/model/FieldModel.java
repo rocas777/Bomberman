@@ -4,29 +4,31 @@ import com.noclue.IBombInterface;
 import com.noclue.Movement;
 import com.noclue.controller.HeroController;
 import com.noclue.keyboard.KeyBoard;
-import com.noclue.model.block.IndestructibleBlockModel;
-import com.noclue.model.character.HeroModel;
 import com.noclue.model.character.MonsterModel;
 import com.noclue.model.difficulty.Difficulty;
 import com.noclue.timer.Timer;
-import com.sun.tools.javac.code.Types;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class FieldModel  {
+public class FieldModel {
     private final int width;
     private final int height;
-    private Grid tiles;
-    private HeroController hero;
-    private CopyOnWriteArrayList<MonsterModel> monsters=new CopyOnWriteArrayList<>();
-    IBombInterface bombController =null;
+    IBombInterface bombController = null;
     KeyBoard kServer;
     Timer tServer;
-    Integer points=0;
+    Integer points = 0;
     ArrayList<Difficulty> difficulties = new ArrayList<>();
-    int level;
     boolean won = false;
+    private Grid tiles;
+    private HeroController hero;
+    private CopyOnWriteArrayList<MonsterModel> monsters = new CopyOnWriteArrayList<>();
+
+    public FieldModel(int width, int height) {
+        this.height = height;
+        this.width = width;
+        tiles = new Grid();
+    }
 
     public boolean isWon() {
         return won;
@@ -51,35 +53,9 @@ public class FieldModel  {
     public void setPoints(Integer points) {
         this.points = points;
     }
+
     public void addPoint() {
         this.points++;
-    }
-
-    public void setMonsters(CopyOnWriteArrayList<MonsterModel> monsters) {
-        this.monsters = monsters;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public FieldModel(int width, int height, int level) {
-        this.height = height;
-        this.width = width;
-        tiles=new Grid();
-        this.level=level;
-    }
-
-    public void setkServer(KeyBoard kServer) {
-        this.kServer = kServer;
-    }
-
-    public void settServer(Timer tServer) {
-        this.tServer = tServer;
     }
 
     public int getHeight() {
@@ -98,6 +74,10 @@ public class FieldModel  {
         return monsters;
     }
 
+    public void setMonsters(CopyOnWriteArrayList<MonsterModel> monsters) {
+        this.monsters = monsters;
+    }
+
     public IBombInterface getBomb() {
         return bombController;
     }
@@ -106,23 +86,31 @@ public class FieldModel  {
         return kServer;
     }
 
-    public HeroController getHero() {
-        return hero;
+    public void setkServer(KeyBoard kServer) {
+        this.kServer = kServer;
     }
 
-    public Timer gettServer() {
-        return tServer;
+    public HeroController getHero() {
+        return hero;
     }
 
     public void setHero(HeroController hero) {
         this.hero = hero;
     }
 
+    public Timer gettServer() {
+        return tServer;
+    }
+
+    public void settServer(Timer tServer) {
+        this.tServer = tServer;
+    }
+
     public void setBombModel(IBombInterface bombController) {
         this.bombController = bombController;
     }
 
-    public boolean checkPos(Position position, Movement movement){
+    public boolean checkPos(Position position, Movement movement) {
         //System.out.println(position.getX()+" "+position.getY());
         /*for(CopyOnWriteArrayList<TileController> lt:getTiles().getTiles()) {
             for (TileController t : lt) {
@@ -135,24 +123,19 @@ public class FieldModel  {
         }
         System.out.println();*/
 
-        if (movement==Movement.left) {
+        if (movement == Movement.left) {
             return !(tiles.getTile(position.getLeft()).isFilled()) || !tiles.getTile(position.getLeft()).getFiller().isActive;
-        }
-        else if (movement==Movement.right) {
+        } else if (movement == Movement.right) {
             return !(tiles.getTile(position.getRight()).isFilled()) || !tiles.getTile(position.getRight()).getFiller().isActive;
-        }
-        else if (movement==Movement.up) {
+        } else if (movement == Movement.up) {
             return !(tiles.getTile(position.getUp()).isFilled()) || !tiles.getTile(position.getUp()).getFiller().isActive;
-        }
-        else if (movement==Movement.down) {
+        } else if (movement == Movement.down) {
             return !(tiles.getTile(position.getDown()).isFilled()) || !tiles.getTile(position.getDown()).getFiller().isActive;
-        }
-        else if (movement==Movement.stay) {
+        } else if (movement == Movement.stay) {
             return !(tiles.getTile(position).isFilled()) || !tiles.getTile(position).getFiller().isActive;
         }
         return false;
     }
-
 
 
 }

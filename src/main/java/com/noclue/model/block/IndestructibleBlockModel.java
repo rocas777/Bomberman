@@ -6,8 +6,9 @@ import com.noclue.model.Position;
 
 public class IndestructibleBlockModel extends Filler {
     Position position;
-    public IndestructibleBlockModel(Position position){
-        this.position=position;
+
+    public IndestructibleBlockModel(Position position) {
+        this.position = position;
     }
 
     public Position getPosition() {

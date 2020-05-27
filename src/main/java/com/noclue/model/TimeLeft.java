@@ -25,9 +25,11 @@ public class TimeLeft {
         this.position = position;
     }
 
-    public void minusSecond(){
+    public void minusSecond() {
         this.seconds--;
     }
 
-    public void addTime(){this.seconds+=15;}
+    public void addTime() {
+        this.seconds += 15;
+    }
 }

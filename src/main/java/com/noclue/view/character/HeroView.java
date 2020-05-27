@@ -13,12 +13,12 @@ public class HeroView implements IView {
     HeroModel model;
     TextGraphics textGraphics;
     LivesView livesView;
-    int i=0;
+    int i = 0;
 
-    public HeroView(HeroModel model, TextGraphics textGraphics){
-        this.model=model;
-        this.textGraphics=textGraphics;
-        livesView= new LivesView(model.getLivesModel(),textGraphics);
+    public HeroView(HeroModel model, TextGraphics textGraphics) {
+        this.model = model;
+        this.textGraphics = textGraphics;
+        livesView = new LivesView(model.getLivesModel(), textGraphics);
     }
 
     public HeroModel getModel() {
@@ -31,45 +31,43 @@ public class HeroView implements IView {
 
     public void draw(TextGraphics textGraphics, Position position) {
         i++;
-        if(model.getDeactivateState()==model.getInvincibleDeactivate() && i%10<=4){
+        if (model.getDeactivateState() == model.getInvincibleDeactivate() && i % 10 <= 4) {
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
-            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
-            textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+1," ",BOLD);
-            textGraphics.putString(position.getRealPosition().getX()+4,position.getRealPosition().getY()+1," ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY(), "  ", BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 1, " ", BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 4, position.getRealPosition().getY() + 1, " ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffff00"));
-            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+1,"  ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 1, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+2,"  ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 2, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#005555"));
-        }
-        else if(model.getDeactivateState()==model.getInvincibleDeactivate()){
+        } else if (model.getDeactivateState() == model.getInvincibleDeactivate()) {
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
-            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
-            textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+1," ",BOLD);
-            textGraphics.putString(position.getRealPosition().getX()+4,position.getRealPosition().getY()+1," ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY(), "  ", BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 1, " ", BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 4, position.getRealPosition().getY() + 1, " ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
-            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+1,"  ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 1, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+2,"  ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 2, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#005555"));
-        }
-        else{
+        } else {
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
-            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY(),"  ",BOLD);
-            textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY()+1," ",BOLD);
-            textGraphics.putString(position.getRealPosition().getX()+4,position.getRealPosition().getY()+1," ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY(), "  ", BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 1, " ", BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 4, position.getRealPosition().getY() + 1, " ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#3B5998"));
-            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+1,"  ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 1, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-            textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+2,"  ",BOLD);
+            textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 2, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#005555"));
         }
@@ -80,6 +78,6 @@ public class HeroView implements IView {
 
     @Override
     public void draw() {
-        draw(textGraphics,model.getPosition());
+        draw(textGraphics, model.getPosition());
     }
 }

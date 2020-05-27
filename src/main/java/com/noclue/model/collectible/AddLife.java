@@ -2,7 +2,7 @@ package com.noclue.model.collectible;
 
 import com.noclue.model.Position;
 
-public class AddLife implements Collectible{
+public class AddLife implements Collectible {
     Position position;
 
     public AddLife(Position position) {

@@ -16,15 +16,15 @@ public class BombController implements IBombInterface {
     private IView viewTicking;
     private IView viewFire;
     private IView view;
-    private int sum=0;
+    private int sum = 0;
     private ArrayList<Position> explosionList = new ArrayList();
     private TextGraphics textGraphics;
 
-    public BombController(BombModel model, TextGraphics textGraphics){
-        this.viewTicking=new BombViewTicking(textGraphics,model);
-        this.viewFire= new BombViewFire(textGraphics,model);
-        view=viewTicking;
-        this.model=model;
+    public BombController(BombModel model, TextGraphics textGraphics) {
+        this.viewTicking = new BombViewTicking(textGraphics, model);
+        this.viewFire = new BombViewFire(textGraphics, model);
+        view = viewTicking;
+        this.model = model;
 
         explosionList.add(model.getPosition().getRight());
         explosionList.add(model.getPosition().getRight().getRight());
@@ -41,13 +41,12 @@ public class BombController implements IBombInterface {
         return sum;
     }
 
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
 
     public ArrayList<Position> getExplosionList() {
         return explosionList;
-    }
-
-    public void setSum(int sum) {
-        this.sum = sum;
     }
 
     public TextGraphics getTextGraphics() {
@@ -62,12 +61,12 @@ public class BombController implements IBombInterface {
         return view;
     }
 
-    public void setViewFire(IView viewFire) {
-        this.viewFire = viewFire;
-    }
-
     public void setView(IView view) {
         this.view = view;
+    }
+
+    public void setViewFire(IView viewFire) {
+        this.viewFire = viewFire;
     }
 
     public void setViewTicking(IView viewTicking) {
@@ -76,12 +75,11 @@ public class BombController implements IBombInterface {
 
     @Override
     public synchronized void updateOnTime() {
-        setSum(getSum()+1);
-        if (getSum()* Timer.getSeconds() >=250+model.getMseconds()) {
+        setSum(getSum() + 1);
+        if (getSum() * Timer.getSeconds() >= 250 + model.getMseconds()) {
             model.getTimerInterface().removeListener(this);
             model.getExplosionListener().fireDone();
-        }
-        else if(getSum()*Timer.getSeconds()>=model.getMseconds()) {
+        } else if (getSum() * Timer.getSeconds() >= model.getMseconds()) {
             model.getExplosionListener().explode(explosionList);
             synchronized (view) {
                 view = viewFire;
@@ -89,7 +87,7 @@ public class BombController implements IBombInterface {
         }
     }
 
-    public synchronized void draw(){
+    public synchronized void draw() {
         synchronized (view) {
             view.draw();
         }
