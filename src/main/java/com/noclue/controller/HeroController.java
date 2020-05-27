@@ -1,6 +1,7 @@
 package com.noclue.controller;
 
 import com.noclue.model.Filler;
+import com.noclue.model.Grid;
 import com.noclue.model.LivesModel;
 import com.noclue.model.Position;
 import com.noclue.model.State.InvencibleIsTouching;
@@ -42,9 +43,9 @@ public class HeroController extends Filler implements Character {
         model.setLivesModel(livesModel);
     }
 
-    public void addLife(){
-        if(model.getLivesModel().getLives()<5){
-            model.getLivesModel().setLives(model.getLivesModel().getLives()+1);
+    public void addLife() {
+        if (model.getLivesModel().getLives() < 5) {
+            model.getLivesModel().setLives(model.getLivesModel().getLives() + 1);
         }
     }
 
@@ -62,7 +63,7 @@ public class HeroController extends Filler implements Character {
         return model.getIsTouchingState().isTouching(filler);
     }
 
-    public void ActivateInvencible(){
+    public void ActivateInvencible() {
         model.getIsTouchingState().Activate();
     }
 
@@ -72,7 +73,27 @@ public class HeroController extends Filler implements Character {
     }
 
     @Override
-    public boolean isActive(){
-        return  model.isActive();
+    public boolean isActive() {
+        return model.isActive();
+    }
+
+    public void moveLeft(Grid grid) {
+        grid.getTile(model.getPosition()).moveTile(grid.getTile(model.getPosition().getLeft()));
+        model.getPosition().setLeft();
+    }
+
+    public void moveRight(Grid grid) {
+        grid.getTile(model.getPosition()).moveTile(grid.getTile(model.getPosition().getRight()));
+        model.getPosition().setRight();
+    }
+
+    public void moveUp(Grid grid) {
+        grid.getTile(model.getPosition()).moveTile(grid.getTile(model.getPosition().getUp()));
+        model.getPosition().setUp();
+    }
+
+    public void moveDown(Grid grid) {
+        grid.getTile(model.getPosition()).moveTile(grid.getTile(model.getPosition().getDown()));
+        model.getPosition().setDown();
     }
 }

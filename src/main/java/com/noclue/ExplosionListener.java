@@ -6,5 +6,6 @@ import java.util.ArrayList;
 
 public interface ExplosionListener {
     void explode(ArrayList<Position> positions);
+
     void fireDone();
 }

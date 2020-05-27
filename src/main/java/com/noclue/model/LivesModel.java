@@ -11,7 +11,7 @@ public class LivesModel {
 
     public LivesModel(Position position) {
         this.position = position;
-        lives=3;
+        lives = 3;
     }
 
     public int getLives() {

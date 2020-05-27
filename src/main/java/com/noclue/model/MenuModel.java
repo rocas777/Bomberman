@@ -7,10 +7,29 @@ import com.noclue.model.difficulty.Difficulty;
 import java.util.ArrayList;
 
 public class MenuModel {
+    static Screen screen;
     int option;
     int subOption;
     boolean onSubMenu;
-    int score=0;
+    int score = 0;
+    TextGraphics textGraphics;
+    ArrayList<ArrayList<Difficulty>> difficultiesA;
+    String levels;
+    int level;
+    public MenuModel(int option, int subOption) {
+        this.option = option;
+        this.subOption = subOption;
+        onSubMenu = false;
+
+    }
+
+    public static Screen getScreen() {
+        return screen;
+    }
+
+    public static void setScreen(Screen screen) {
+        MenuModel.screen = screen;
+    }
 
     public int getScore() {
         return score;
@@ -19,11 +38,6 @@ public class MenuModel {
     public void setScore(int score) {
         this.score = score;
     }
-
-    static Screen screen;
-    TextGraphics textGraphics;
-    ArrayList<ArrayList<Difficulty>> difficultiesA;
-    String levels;
 
     public String getLevels() {
         return levels;
@@ -41,9 +55,6 @@ public class MenuModel {
         this.difficultiesA = difficultiesA;
     }
 
-    int level;
-
-
     public int getLevel() {
         return level;
     }
@@ -52,48 +63,36 @@ public class MenuModel {
         this.level = level;
     }
 
-    public void optUp(){
-        if(option!=1){
+    public void optUp() {
+        if (option != 1) {
             option--;
-        }
-        else{
-            option=4;
+        } else {
+            option = 4;
         }
     }
 
-    public void optDown(){
-        if(option!=4){
+    public void optDown() {
+        if (option != 4) {
             option++;
-        }
-        else{
-            option=1;
+        } else {
+            option = 1;
         }
     }
 
-    public void subOptUp(){
-        if(subOption!=1){
+    public void subOptUp() {
+        if (subOption != 1) {
             subOption--;
-        }
-        else{
-            subOption=4;
+        } else {
+            subOption = 4;
         }
     }
 
-    public void subOptDown(){
-        if(subOption!=4){
+    public void subOptDown() {
+        if (subOption != 4) {
             subOption++;
+        } else {
+            subOption = 1;
         }
-        else{
-            subOption=1;
-        }
-    }
-
-    public static Screen getScreen() {
-        return screen;
-    }
-
-    public static void setScreen(Screen screen) {
-        MenuModel.screen = screen;
     }
 
     public TextGraphics getTextGraphics() {
@@ -102,13 +101,6 @@ public class MenuModel {
 
     public void setTextGraphics(TextGraphics textGraphics) {
         this.textGraphics = textGraphics;
-    }
-
-    public MenuModel(int option,int subOption) {
-        this.option = option;
-        this.subOption = subOption;
-        onSubMenu=false;
-
     }
 
     public int getSubOption() {

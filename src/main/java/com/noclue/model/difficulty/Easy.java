@@ -8,25 +8,25 @@ import java.util.Random;
 
 public class Easy implements Difficulty {
 
-    public ArrayList<Movement> randomizeArray(ArrayList<Movement> movements){
-        Random rand=new Random();
+    public ArrayList<Movement> randomizeArray(ArrayList<Movement> movements) {
+        Random rand = new Random();
         for (int i = 0; i < movements.size(); i++) {
             int randomIndexToSwap = rand.nextInt(movements.size());
             Movement temp = movements.get(randomIndexToSwap);
-            movements.set(randomIndexToSwap,movements.get(i));
-            movements.set(i,temp);
+            movements.set(randomIndexToSwap, movements.get(i));
+            movements.set(i, temp);
         }
         return movements;
     }
 
     @Override
-    public ArrayList<Movement> nextMove(Position monster,Position hero, ArrayList<Position> bomb) {
+    public ArrayList<Movement> nextMove(Position monster, Position hero, ArrayList<Position> bomb) {
         Movement _1 = Movement.left;
         Movement _2 = Movement.right;
         Movement _3 = Movement.up;
         Movement _4 = Movement.down;
 
-        ArrayList<Movement> out=new ArrayList<com.noclue.Movement>(){
+        ArrayList<Movement> out = new ArrayList<com.noclue.Movement>() {
             {
                 add(_1);
                 add(_2);

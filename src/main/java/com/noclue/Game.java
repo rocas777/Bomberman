@@ -12,45 +12,41 @@ import com.noclue.controller.FieldController;
 import com.noclue.keyboard.KeyBoard;
 import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.FieldModel;
-import com.noclue.model.LivesModel;
 import com.noclue.model.Position;
 import com.noclue.model.TimeLeft;
 import com.noclue.timer.Timer;
-import com.noclue.view.LivesView;
 import com.noclue.view.TimeLeftView;
 import com.noclue.view.field.FieldView;
 import com.noclue.view.field.GameOverView;
 import com.noclue.view.field.WinView;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 public class Game implements KeyboardListener {
     private static Screen screen;
-    private FieldModel fieldModel;
     boolean running;
+    private FieldModel fieldModel;
     private TextGraphics textGraphics;
 
-    public Game(int width, int height){
-        try{
+    public Game(int width, int height) {
+        try {
             Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(width, height)).createTerminal();
             screen = new TerminalScreen(terminal);
             screen.setCursorPosition(null);   // we don't need a cursor
             screen.startScreen();             // screens must be started
             screen.doResizeIfNecessary();     // resize screen if necessary
 
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        textGraphics=screen.newTextGraphics();
-        fieldModel =new FieldModel(width,height);
-        running=true;
+        textGraphics = screen.newTextGraphics();
+        fieldModel = new FieldModel(width, height);
+        running = true;
 
-        Timer t=new Timer(40);
+        Timer t = new Timer(40);
         t.start();
 
-        KeyBoard k= new KeyBoard((TerminalScreen) screen);
+        KeyBoard k = new KeyBoard((TerminalScreen) screen);
         k.addListener(this);
         k.start();
 
@@ -67,11 +63,11 @@ public class Game implements KeyboardListener {
         Game.screen = screen;
     }
 
-    public void run(){
-        FieldView fieldView = new FieldView(screen,textGraphics,fieldModel);
-        TimeLeft timeLeft = new TimeLeft(120, new Position(146,45,138,30));
-        fieldView.setTimeLeftView(new TimeLeftView(timeLeft,textGraphics));
-        FieldController fieldController= new FieldController(fieldModel,fieldView,new GameOverView(screen,textGraphics),new WinView(screen,textGraphics),textGraphics, timeLeft);
+    public void run() {
+        FieldView fieldView = new FieldView(screen, textGraphics, fieldModel);
+        TimeLeft timeLeft = new TimeLeft(120, new Position(146, 45, 138, 30));
+        fieldView.setTimeLeftView(new TimeLeftView(timeLeft, textGraphics));
+        FieldController fieldController = new FieldController(fieldModel, fieldView, new GameOverView(screen, textGraphics), new WinView(screen, textGraphics), textGraphics, timeLeft);
 
 
         fieldController.setup();

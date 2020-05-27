@@ -12,12 +12,12 @@ import java.io.IOException;
 public class WinView implements IView {
     private TextGraphics textGraphics;
     private Screen screen;
-    public WinView(Screen screen,TextGraphics textGraphics){
-        this.textGraphics=textGraphics;
-        this.screen=screen;
+    private int width = 146;
+    private int height = 45;
+    public WinView(Screen screen, TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+        this.screen = screen;
     }
-    private  int width =146;
-    private  int height = 45;
 
     public TextGraphics getTextGraphics() {
         return textGraphics;
@@ -43,13 +43,13 @@ public class WinView implements IView {
     public void draw() {
 
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-        textGraphics.fillRectangle(new TerminalPosition(getWidth()/2-34, getHeight()/2-12), new TerminalSize(68, 24), ' ');
+        textGraphics.fillRectangle(new TerminalPosition(getWidth() / 2 - 34, getHeight() / 2 - 12), new TerminalSize(68, 24), ' ');
 
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));
-        textGraphics.fillRectangle(new TerminalPosition(getWidth()/2-30, getHeight()/2-10), new TerminalSize(60, 20), ' ');
+        textGraphics.fillRectangle(new TerminalPosition(getWidth() / 2 - 30, getHeight() / 2 - 10), new TerminalSize(60, 20), ' ');
 
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff00ff"));
-        textGraphics.putString(50,22,"YOU HAVE WON THE GAME!!! That was a tough one!");
+        textGraphics.putString(50, 22, "YOU HAVE WON THE GAME!!! That was a tough one!");
 
         try {
             screen.refresh();

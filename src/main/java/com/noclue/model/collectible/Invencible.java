@@ -2,8 +2,9 @@ package com.noclue.model.collectible;
 
 import com.noclue.model.Position;
 
-public class Invencible implements Collectible{
+public class Invencible implements Collectible {
     Position position;
+
     public Invencible(Position position) {
         this.position = position;
     }

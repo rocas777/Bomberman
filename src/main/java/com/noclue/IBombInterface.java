@@ -18,9 +18,9 @@ public interface IBombInterface extends TimeListener {
 
     IView getView();
 
-    void setViewFire(IView viewFire);
-
     void setView(IView view);
+
+    void setViewFire(IView viewFire);
 
     void setViewTicking(IView viewTicking);
 
@@ -28,5 +28,5 @@ public interface IBombInterface extends TimeListener {
 
     void draw();
 
-    public ArrayList<Position> getExplosionList();
+    ArrayList<Position> getExplosionList();
 }
