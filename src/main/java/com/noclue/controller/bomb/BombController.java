@@ -12,12 +12,12 @@ import com.noclue.view.bomb.BombViewTicking;
 import java.util.ArrayList;
 
 public class BombController implements IBombInterface {
-    private BombModel model;
+    private final BombModel model;
     private IView viewTicking;
     private IView viewFire;
     private IView view;
     private int sum = 0;
-    private ArrayList<Position> explosionList = new ArrayList();
+    private final ArrayList<Position> explosionList = new ArrayList();
     private TextGraphics textGraphics;
 
     public BombController(BombModel model, TextGraphics textGraphics) {

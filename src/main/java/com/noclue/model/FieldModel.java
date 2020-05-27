@@ -21,7 +21,7 @@ public class FieldModel {
     ArrayList<Difficulty> difficulties = new ArrayList<>();
     boolean won = false;
     int level;
-    private Grid tiles;
+    private final Grid tiles;
     private HeroController hero;
     private CopyOnWriteArrayList<MonsterModel> monsters = new CopyOnWriteArrayList<>();
 

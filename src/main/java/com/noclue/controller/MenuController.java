@@ -117,6 +117,14 @@ public class MenuController implements KeyboardListener {
             menuView.draw();
             try {
                 key = MenuModel.getScreen().readInput();
+                if(key.getKeyType()==KeyType.EOF) {
+                    URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
+                    bw.write(menuModel.getLevel() + "\n");
+                    bw.write(menuModel.getLevels());
+                    bw.close();
+                    System.exit(0);
+                }
                 if (key != null && (key.getKeyType() == KeyType.Character || key.getKeyType() == KeyType.Enter)) {
                     if (!menuModel.getOnSubMenu()) {
                         if (key.getCharacter() == 'w') {
@@ -127,7 +135,7 @@ public class MenuController implements KeyboardListener {
                             if (menuModel.getOption() == 3) {
                                 URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
                                 BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
-                                bw.write(String.valueOf(menuModel.getLevel()) + "\n");
+                                bw.write(menuModel.getLevel() + "\n");
                                 bw.write(menuModel.getLevels());
                                 bw.close();
                                 System.exit(0);
@@ -196,6 +204,19 @@ public class MenuController implements KeyboardListener {
 
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
+        if(keyPressed.getKeyType()==KeyType.EOF) {
+            URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
+            BufferedWriter bw = null;
+            try {
+                bw = new BufferedWriter(new FileWriter(resource.getFile()));
+                bw.write(menuModel.getLevel() + "\n");
+                bw.write(menuModel.getLevels());
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+        }
         if (keyPressed.getCharacter() == 'q') {
             fieldModel.gettServer().removeListeners();
             fieldModel.getkServer().removeListeners();
@@ -209,7 +230,7 @@ public class MenuController implements KeyboardListener {
             }
 
 
-            System.out.println("Nivel" + String.valueOf(menuModel.getLevel()));
+            System.out.println("Nivel" + menuModel.getLevel());
             fieldModel = null;
             difficulties = new ArrayList<>();
             try {

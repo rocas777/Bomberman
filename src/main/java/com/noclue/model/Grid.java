@@ -5,7 +5,7 @@ import com.noclue.controller.TileController;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Grid {
-    private CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles = new CopyOnWriteArrayList<>();
 
     Grid() {
 

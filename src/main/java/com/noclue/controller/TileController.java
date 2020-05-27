@@ -9,8 +9,8 @@ import com.noclue.view.NoView;
 import com.noclue.view.TileView;
 
 public class TileController implements Cloneable {
-    private TileModel model;
-    private TileView view;
+    private final TileModel model;
+    private final TileView view;
 
     TileController(TileModel model, TileView view) {
         this.model = model;

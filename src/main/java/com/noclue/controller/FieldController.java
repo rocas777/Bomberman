@@ -2,6 +2,7 @@ package com.noclue.controller;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.noclue.ExplosionListener;
 import com.noclue.IView;
 import com.noclue.Movement;
@@ -57,6 +58,50 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     public void setDifficulty(ArrayList<Difficulty> difficulties) {
         this.model.setDifficulties(difficulties);
+    }
+
+    public int getTimerSum() {
+        return timerSum;
+    }
+
+    public void setTimerSum(int timerSum) {
+        this.timerSum = timerSum;
+    }
+
+    public FieldModel getModel() {
+        return model;
+    }
+
+    public void setModel(FieldModel model) {
+        this.model = model;
+    }
+
+    public IView getView() {
+        return view;
+    }
+
+    public void setView(IView view) {
+        this.view = view;
+    }
+
+    public IView getWinView() {
+        return winView;
+    }
+
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+    }
+
+    public TimeLeft getTimeLeft() {
+        return timeLeft;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
     }
 
     public void setup() {
@@ -289,34 +334,11 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                         }
                     }
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         }
-        if (model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof DoorModel) {
-            model.setWon(true);
-            model.gettServer().removeListener(this);
-            view.draw();
-            view = winView;
-            view.draw();
-            ended = true;
-        }
-        if (model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof CoinModel) {
-            model.addPoint();
-            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
-        }
-        if (model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof AddTime) {
-            timeLeft.addTime();
-            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
-        }
-        if (model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof AddLife) {
-            model.getHero().addLife();
-            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
-        }
-        if (model.getTiles().getTile(model.getHero().getPosition()).getCollectible() instanceof Invencible) {
-            model.getHero().ActivateInvencible();
-            model.getTiles().getTile(model.getHero().getPosition()).blankCollectible();
-        }
+        model.getTiles().getTile(model.getHero().getPosition()).getCollectible().visit(this);
     }
 
     @Override
@@ -361,7 +383,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                         }
                     }
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         }

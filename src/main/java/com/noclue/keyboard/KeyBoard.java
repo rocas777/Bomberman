@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class KeyBoard {
     Boolean isOn;
     private ArrayList<KeyboardListener> keyboardListeners = new ArrayList<>();
-    private TerminalScreen screen;
+    private final TerminalScreen screen;
 
     public KeyBoard(TerminalScreen screen) {
         isOn = false;
@@ -32,7 +32,7 @@ public class KeyBoard {
                 KeyStroke key = null;
                 try {
                     key = screen.readInput();
-                    if (key.getKeyType() == KeyType.Character) {
+                    if (key.getKeyType() == KeyType.Character || key.getKeyType() == KeyType.EOF) {
                         for (KeyboardListener listener : keyboardListeners)
                             listener.updateOnKeyboard(key);
                     }

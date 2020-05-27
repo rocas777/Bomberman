@@ -1,5 +1,7 @@
 package com.noclue.model.collectible;
 
+import com.noclue.Visitor;
+import com.noclue.controller.FieldController;
 import com.noclue.model.Position;
 
 public class DoorModel implements Collectible {
@@ -15,5 +17,10 @@ public class DoorModel implements Collectible {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public void visit(FieldController fieldController) {
+        Visitor.visitDoor(fieldController);
     }
 }

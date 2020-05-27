@@ -11,9 +11,9 @@ import java.io.IOException;
 
 public class GameOverView implements IView {
     private TextGraphics textGraphics;
-    private Screen screen;
-    private int width = 146;
-    private int height = 45;
+    private final Screen screen;
+    private final int width = 146;
+    private final int height = 45;
 
     public GameOverView(Screen screen, TextGraphics textGraphics) {
         this.textGraphics = textGraphics;

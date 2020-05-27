@@ -18,7 +18,7 @@ import static com.googlecode.lanterna.SGR.BOLD;
 public class FieldView implements IView {
     private FieldModel model;
     private TextGraphics textGraphics;
-    private Screen screen;
+    private final Screen screen;
     private TimeLeftView timeLeftView;
 
     public FieldView(Screen screen, TextGraphics textGraphics, FieldModel model) {
@@ -55,7 +55,7 @@ public class FieldView implements IView {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.putString(position.getX(), position.getY(), " Score: ", BOLD);
-        textGraphics.putString(position.getX(), position.getY() + 1, "   " + Integer.toString(model.getPoints()), BOLD);
+        textGraphics.putString(position.getX(), position.getY() + 1, "   " + model.getPoints(), BOLD);
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
     }
 
@@ -63,7 +63,7 @@ public class FieldView implements IView {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.putString(position.getX(), position.getY(), " Level: ", BOLD);
-        textGraphics.putString(position.getX(), position.getY() + 1, "  " + Integer.toString(model.getLevel()) + "/21", BOLD);
+        textGraphics.putString(position.getX(), position.getY() + 1, "  " + model.getLevel() + "/21", BOLD);
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
     }
 
@@ -71,10 +71,10 @@ public class FieldView implements IView {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         textGraphics.putString(position.getX(), position.getY(), " Steps: ", BOLD);
-        if (model.getHero().getModel().getTouchCounter() <= 0) {
+        if (model.getHero().getModel().getTouchCounter() < 0) {
             textGraphics.putString(position.getX(), position.getY() + 1, "   0", BOLD);
         } else {
-            textGraphics.putString(position.getX(), position.getY() + 1, "   " + Integer.toString(model.getHero().getModel().getTouchCounter()), BOLD);
+            textGraphics.putString(position.getX(), position.getY() + 1, "   " + (model.getHero().getModel().getTouchCounter()+1), BOLD);
         }
 
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));
