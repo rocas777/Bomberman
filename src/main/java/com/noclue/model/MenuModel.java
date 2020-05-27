@@ -11,6 +11,11 @@ public class MenuModel {
     int subOption;
     boolean onSubMenu;
     int score=0;
+    static Screen screen;
+    TextGraphics textGraphics;
+    ArrayList<ArrayList<Difficulty>> difficultiesA;
+    String levels;
+    int level;
 
     public int getScore() {
         return score;
@@ -19,11 +24,6 @@ public class MenuModel {
     public void setScore(int score) {
         this.score = score;
     }
-
-    static Screen screen;
-    TextGraphics textGraphics;
-    ArrayList<ArrayList<Difficulty>> difficultiesA;
-    String levels;
 
     public String getLevels() {
         return levels;
@@ -40,9 +40,6 @@ public class MenuModel {
     public void setDifficultiesA(ArrayList<ArrayList<Difficulty>> difficultiesA) {
         this.difficultiesA = difficultiesA;
     }
-
-    int level;
-
 
     public int getLevel() {
         return level;
