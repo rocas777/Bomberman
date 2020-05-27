@@ -14,6 +14,7 @@ public class WinView implements IView {
     private Screen screen;
     private int width = 146;
     private int height = 45;
+
     public WinView(Screen screen, TextGraphics textGraphics) {
         this.textGraphics = textGraphics;
         this.screen = screen;

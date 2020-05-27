@@ -20,14 +20,24 @@ public class FieldModel {
     Integer points = 0;
     ArrayList<Difficulty> difficulties = new ArrayList<>();
     boolean won = false;
+    int level;
     private Grid tiles;
     private HeroController hero;
     private CopyOnWriteArrayList<MonsterModel> monsters = new CopyOnWriteArrayList<>();
 
-    public FieldModel(int width, int height) {
+    public FieldModel(int width, int height, int level) {
         this.height = height;
         this.width = width;
+        this.level = level;
         tiles = new Grid();
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public boolean isWon() {

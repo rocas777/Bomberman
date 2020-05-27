@@ -325,7 +325,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         if (keyStrokes.size() > 0)
             handleKeyboad();
 
-        float wait = (float) 200.0;
+        float wait = (float) 500.0;
         if (model.getBomb() != null) {
             wait = (float) 500;
         }

@@ -93,7 +93,7 @@ public class Hard implements Difficulty {
 
         @Override
         public int compare(Object o, Object t1) {
-            return ((int)o - (int)t1);
+            return ((int) o - (int) t1);
         }
     }
 }
