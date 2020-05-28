@@ -235,7 +235,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
         if (keyPressed.getCharacter() == 'p' && model.getBomb() == null) {
-            //System.out.println("ENTER");
             BombModel bombModel = new BombModel(1000, this, (Position) model.getHero().getPosition().clone(), model.gettServer());
             BombViewFire viewFire = new BombViewFire(textGraphics, bombModel);
             model.setBombModel(new BombController(bombModel, textGraphics));
@@ -247,32 +246,37 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     }
 
-    private void handleKeyboad() {
+    private void handleKeyboard() {
         KeyStroke keyPressed = keyStrokes.get(keyStrokes.size() - 1);
         keyStrokes.clear();
         if (!ended) {
             if (model.getHero().isActive()) {
                 try {
-                    if (keyPressed.getCharacter() == 'a') {
-                        model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getLeft()).getFiller());
-                        if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
-                            model.getHero().moveLeft(model.getTiles());
-                        }
-                    } else if (keyPressed.getCharacter() == 'd') {
-                        model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getRight()).getFiller());
-                        if (model.checkPos(model.getHero().getPosition(), Movement.right)) {
-                            model.getHero().moveRight(model.getTiles());
-                        }
-                    } else if (keyPressed.getCharacter() == 'w') {
-                        model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getUp()).getFiller());
-                        if (model.checkPos(model.getHero().getPosition(), Movement.up)) {
-                            model.getHero().moveUp(model.getTiles());
-                        }
-                    } else if (keyPressed.getCharacter() == 's') {
-                        model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getDown()).getFiller());
-                        if (model.checkPos(model.getHero().getPosition(), Movement.down)) {
-                            model.getHero().moveDown(model.getTiles());
-                        }
+                    switch (keyPressed.getCharacter()){
+                        case 'a':
+                            model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getLeft()).getFiller());
+                            if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
+                                model.getHero().moveLeft(model.getTiles());
+                            }
+                            break;
+                        case 'd':
+                            model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getRight()).getFiller());
+                            if (model.checkPos(model.getHero().getPosition(), Movement.right)) {
+                                model.getHero().moveRight(model.getTiles());
+                            }
+                            break;
+                        case 'w':
+                            model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getUp()).getFiller());
+                            if (model.checkPos(model.getHero().getPosition(), Movement.up)) {
+                                model.getHero().moveUp(model.getTiles());
+                            }
+                            break;
+                        case 's':
+                            model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getDown()).getFiller());
+                            if (model.checkPos(model.getHero().getPosition(), Movement.down)) {
+                                model.getHero().moveDown(model.getTiles());
+                            }
+                            break;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -286,40 +290,38 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     public void updateOnTime() {
         timerSum = timerSum + 1;
         if (keyStrokes.size() > 0)
-            handleKeyboad();
+            handleKeyboard();
 
         float wait = (float) 500.0;
         if (model.getBomb() != null) {
             wait = (float) 500;
         }
         if ((timerSum % (int) (wait / Timer.getSeconds())) == 0) {  //monstros
-            for (MonsterModel pos : model.getMonsters()) {
+            for (MonsterModel monster : model.getMonsters()) {
                 try {
-                    MonsterModel tmp_monsterModel = (MonsterModel) model.getTiles().getTile(pos.getPosition()).getFiller();
                     ArrayList<Position> bomb = null;
                     if (model.getBomb() != null) {
                         bomb = model.getBomb().getExplosionList();
                     }
-                    for (Movement m : tmp_monsterModel.nextMove(model.getHero().getPosition(), bomb)) {
-                        if (model.checkPos(pos.getPosition(), m)) {
-                            Position tmp = pos.getPosition();
-                            if (m == Movement.left && !model.getTiles().getTile(tmp.getLeft()).isFilled()) {
-                                model.getTiles().getTile(tmp.getLeft()).getFiller().deactivate();
-                                if (!model.getHero().getPosition().equals(tmp.getLeft()))
-                                    tmp_monsterModel.moveLeft(model.getTiles());
-                            } else if (m == Movement.right && !model.getTiles().getTile(tmp.getRight()).isFilled()) {
-                                model.getTiles().getTile(tmp.getRight()).getFiller().deactivate();
-                                if (!model.getHero().getPosition().equals(tmp.getRight()))
-                                    tmp_monsterModel.moveRight(model.getTiles());
-                            } else if (m == Movement.up && !model.getTiles().getTile(tmp.getUp()).isFilled()) {
-                                model.getTiles().getTile(tmp.getUp()).getFiller().deactivate();
-                                if (!model.getHero().getPosition().equals(tmp.getUp()))
-                                    tmp_monsterModel.moveUp(model.getTiles());
-                            } else if (m == Movement.down && !model.getTiles().getTile(tmp.getDown()).isFilled()) {
-                                model.getTiles().getTile(tmp.getDown()).getFiller().deactivate();
-                                if (!model.getHero().getPosition().equals(tmp.getDown()))
-                                    tmp_monsterModel.moveDown(model.getTiles());
-                            }
+                    for (Movement m : monster.nextMove(model.getHero().getPosition(), bomb)) {
+                        if (model.checkPos(monster.getPosition(), m)) {
+                            Position tmp = monster.getPosition().getPositionByMovement(m);
+                            model.getTiles().getTile(tmp).getFiller().deactivate();
+                            if(!model.getHero().getPosition().equals(tmp))
+                                switch (m){
+                                    case up:
+                                        monster.moveUp(model.getTiles());
+                                        break;
+                                    case down:
+                                        monster.moveDown(model.getTiles());
+                                        break;
+                                    case right:
+                                        monster.moveRight(model.getTiles());
+                                        break;
+                                    case left:
+                                        monster.moveLeft(model.getTiles());
+                                        break;
+                                }
                             break;
                         }
                     }
