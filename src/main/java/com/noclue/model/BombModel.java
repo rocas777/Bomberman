@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class BombModel {
     private final int mseconds;
-    private int sum = 0;
     private final ExplosionListener explosionListener;
     private final Position position;
     private final TimerInterface timerInterface;
+    private int sum = 0;
     private ArrayList<Position> explosionList;
 
     public BombModel(int mseconds, ExplosionListener explosionListener, Position position, TimerInterface timer) {

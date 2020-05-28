@@ -4,12 +4,12 @@ import com.noclue.model.Filler;
 import com.noclue.model.Grid;
 import com.noclue.model.LivesModel;
 import com.noclue.model.Position;
-import com.noclue.model.State.InvencibleIsTouching;
-import com.noclue.model.State.InvincibleDeactivate;
-import com.noclue.model.State.NormalDeactivate;
-import com.noclue.model.State.NormalIsTouching;
 import com.noclue.model.character.Character;
 import com.noclue.model.character.HeroModel;
+import com.noclue.model.state.InvencibleIsTouching;
+import com.noclue.model.state.InvincibleDeactivate;
+import com.noclue.model.state.NormalDeactivate;
+import com.noclue.model.state.NormalIsTouching;
 import com.noclue.view.character.HeroView;
 
 public class HeroController extends Filler implements Character {

@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class KeyBoard {
+    private final TerminalScreen screen;
     Boolean isOn;
     private ArrayList<KeyboardListener> keyboardListeners = new ArrayList<>();
-    private final TerminalScreen screen;
 
     public KeyBoard(TerminalScreen screen) {
         isOn = false;

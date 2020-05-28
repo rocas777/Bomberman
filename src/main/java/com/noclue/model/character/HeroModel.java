@@ -2,7 +2,7 @@ package com.noclue.model.character;
 
 import com.noclue.model.LivesModel;
 import com.noclue.model.Position;
-import com.noclue.model.State.*;
+import com.noclue.model.state.*;
 import com.noclue.timer.Timer;
 
 public class HeroModel {

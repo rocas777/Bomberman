@@ -10,10 +10,10 @@ import com.noclue.IView;
 import java.io.IOException;
 
 public class WinView implements IView {
-    private TextGraphics textGraphics;
     private final Screen screen;
     private final int width = 146;
     private final int height = 45;
+    private TextGraphics textGraphics;
 
     public WinView(Screen screen, TextGraphics textGraphics) {
         this.textGraphics = textGraphics;
