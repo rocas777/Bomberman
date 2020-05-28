@@ -1,7 +1,9 @@
 package com.noclue.controller;
 
 import com.noclue.model.Filler;
+import com.noclue.model.Grid;
 import com.noclue.model.LivesModel;
+import com.noclue.model.Position;
 import com.noclue.model.character.HeroModel;
 import com.noclue.model.state.DeactivateState;
 import com.noclue.model.state.IsTouchingState;
@@ -20,10 +22,10 @@ public class HeroControllerTest {
     LivesModel livesModel = Mockito.mock(LivesModel.class);
     DeactivateState deactivateState = Mockito.mock(DeactivateState.class);
     IsTouchingState isTouchingState = Mockito.mock(IsTouchingState.class);
+    HeroModel heroModel = Mockito.mock(HeroModel.class);
 
     @Before
     public void setup(){
-        HeroModel heroModel = Mockito.mock(HeroModel.class);
         HeroView heroView = Mockito.mock(HeroView.class);
         heroController = new HeroController(heroModel,heroView);
         heroModel.setLivesModel(livesModel);
@@ -96,19 +98,67 @@ public class HeroControllerTest {
                 .isTouching(filler);
     }
 
+    Grid grid = Mockito.mock(Grid.class);
+    Position position = Mockito.mock(Position.class);
+    TileController tileController = Mockito.mock(TileController.class);
+
     @Test
     public void moveLeft() {
+        when(heroModel.getPosition()).thenReturn(position);
+        when(grid.getTile(position)).thenReturn(tileController);
+
+        heroController.moveLeft(grid);
+
+        verify(tileController,times(1))
+                .moveTile(any());
+        verify(tileController,times(1))
+                .moveTile(grid.getTile(heroController.model.getPosition().getLeft()));
+
+        verify(position,times(1)).setLeft();
     }
 
     @Test
     public void moveRight() {
+        when(heroModel.getPosition()).thenReturn(position);
+        when(grid.getTile(position)).thenReturn(tileController);
+
+        heroController.moveRight(grid);
+
+        verify(tileController,times(1))
+                .moveTile(any());
+        verify(tileController,times(1))
+                .moveTile(grid.getTile(heroController.model.getPosition().getRight()));
+
+        verify(position,times(1)).setRight();
     }
 
     @Test
     public void moveUp() {
+        when(heroModel.getPosition()).thenReturn(position);
+        when(grid.getTile(position)).thenReturn(tileController);
+
+        heroController.moveUp(grid);
+
+        verify(tileController,times(1))
+                .moveTile(any());
+        verify(tileController,times(1))
+                .moveTile(grid.getTile(heroController.model.getPosition().getUp()));
+
+        verify(position,times(1)).setUp();
     }
 
     @Test
     public void moveDown() {
+        when(heroModel.getPosition()).thenReturn(position);
+        when(grid.getTile(position)).thenReturn(tileController);
+
+        heroController.moveDown(grid);
+
+        verify(tileController,times(1))
+                .moveTile(any());
+        verify(tileController,times(1))
+                .moveTile(grid.getTile(heroController.model.getPosition().getDown()));
+
+        verify(position,times(1)).setDown();
     }
 }

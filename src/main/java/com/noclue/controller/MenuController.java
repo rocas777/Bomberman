@@ -210,7 +210,7 @@ public class MenuController implements KeyboardListener {
             fieldModel.setkServer(null);
             fieldModel.settServer(null);
             if (fieldModel.isWon()) {
-                menuModel.setLevel(menuModel.getLevel() + 1);
+                menuModel.setLevel((menuModel.getLevel() + 1)%menuModel.getDifficultiesA().size());
                 menuModel.setScore(fieldModel.getPoints());
             }
 
