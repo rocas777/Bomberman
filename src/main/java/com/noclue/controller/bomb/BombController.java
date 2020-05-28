@@ -20,6 +20,14 @@ public class BombController implements IBombInterface {
     private int sum = 0;
     private TextGraphics textGraphics;
 
+    public IView getViewTicking() {
+        return viewTicking;
+    }
+
+    public IView getViewFire() {
+        return viewFire;
+    }
+
     public BombController(BombModel model, TextGraphics textGraphics) {
         this.viewTicking = new BombViewTicking(textGraphics, model);
         this.viewFire = new BombViewFire(textGraphics, model);
@@ -75,11 +83,11 @@ public class BombController implements IBombInterface {
 
     @Override
     public synchronized void updateOnTime() {
-        setSum(getSum() + 1);
-        if (getSum() * Timer.getSeconds() >= 250 + model.getMseconds()) {
+        sum++;
+        if (sum * Timer.getSeconds() >= 250 + model.getMseconds()) {
             model.getTimerInterface().removeListener(this);
             model.getExplosionListener().fireDone();
-        } else if (getSum() * Timer.getSeconds() >= model.getMseconds()) {
+        } else if (sum * Timer.getSeconds() >= model.getMseconds()) {
             model.getExplosionListener().explode(explosionList);
             synchronized (view) {
                 view = viewFire;
