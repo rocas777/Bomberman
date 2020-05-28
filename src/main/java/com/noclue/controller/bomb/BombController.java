@@ -13,11 +13,11 @@ import java.util.ArrayList;
 
 public class BombController implements IBombInterface {
     private final BombModel model;
+    private final ArrayList<Position> explosionList = new ArrayList();
     private IView viewTicking;
     private IView viewFire;
     private IView view;
     private int sum = 0;
-    private final ArrayList<Position> explosionList = new ArrayList();
     private TextGraphics textGraphics;
 
     public BombController(BombModel model, TextGraphics textGraphics) {

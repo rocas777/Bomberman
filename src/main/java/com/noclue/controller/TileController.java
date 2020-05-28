@@ -63,4 +63,5 @@ public class TileController implements Cloneable {
     public void setCollectible(Collectible collectible) {
         model.setCollectible(collectible);
     }
+
 }

@@ -117,7 +117,7 @@ public class MenuController implements KeyboardListener {
             menuView.draw();
             try {
                 key = MenuModel.getScreen().readInput();
-                if(key.getKeyType()==KeyType.EOF) {
+                if (key.getKeyType() == KeyType.EOF) {
                     URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
                     BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
                     bw.write(menuModel.getLevel() + "\n");
@@ -204,7 +204,7 @@ public class MenuController implements KeyboardListener {
 
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
-        if(keyPressed.getKeyType()==KeyType.EOF) {
+        if (keyPressed.getKeyType() == KeyType.EOF) {
             URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
             BufferedWriter bw = null;
             try {
