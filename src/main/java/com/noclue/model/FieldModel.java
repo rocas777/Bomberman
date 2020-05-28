@@ -14,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class FieldModel {
     private final int width;
     private final int height;
+    private final Grid tiles;
     IBombInterface bombController = null;
     KeyBoard kServer;
     Timer tServer;
@@ -21,7 +22,6 @@ public class FieldModel {
     ArrayList<Difficulty> difficulties = new ArrayList<>();
     boolean won = false;
     int level;
-    private final Grid tiles;
     private HeroController hero;
     private CopyOnWriteArrayList<MonsterModel> monsters = new CopyOnWriteArrayList<>();
 

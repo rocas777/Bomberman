@@ -16,9 +16,9 @@ import java.io.IOException;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class FieldView implements IView {
+    private final Screen screen;
     private FieldModel model;
     private TextGraphics textGraphics;
-    private final Screen screen;
     private TimeLeftView timeLeftView;
 
     public FieldView(Screen screen, TextGraphics textGraphics, FieldModel model) {
@@ -74,7 +74,7 @@ public class FieldView implements IView {
         if (model.getHero().getModel().getTouchCounter() < 0) {
             textGraphics.putString(position.getX(), position.getY() + 1, "   0", BOLD);
         } else {
-            textGraphics.putString(position.getX(), position.getY() + 1, "   " + (model.getHero().getModel().getTouchCounter()+1), BOLD);
+            textGraphics.putString(position.getX(), position.getY() + 1, "   " + (model.getHero().getModel().getTouchCounter() + 1), BOLD);
         }
 
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#0f7b30"));

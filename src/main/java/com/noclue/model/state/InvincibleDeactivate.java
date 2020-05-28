@@ -1,4 +1,4 @@
-package com.noclue.model.State;
+package com.noclue.model.state;
 
 import com.noclue.model.LivesModel;
 

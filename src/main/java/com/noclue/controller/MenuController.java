@@ -109,7 +109,6 @@ public class MenuController implements KeyboardListener {
             menuView.draw();
             try {
                 key = MenuModel.getScreen().readInput();
-
                 if (key.getKeyType() == KeyType.EOF)
                     killProgram();
                 if (key != null && (key.getKeyType() == KeyType.Character || key.getKeyType() == KeyType.Enter)) {

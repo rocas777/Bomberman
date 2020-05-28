@@ -7,7 +7,7 @@ public class TileModel {
     Filler filler;
     Collectible collectible;
 
-    public TileModel( Collectible collectible, Filler filler) {
+    public TileModel(Collectible collectible, Filler filler) {
         this.collectible = collectible;
         this.filler = filler;
     }

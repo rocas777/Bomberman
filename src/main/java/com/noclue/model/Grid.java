@@ -15,10 +15,6 @@ public class Grid {
         tiles.add(new CopyOnWriteArrayList<>());
     }
 
-    public void addTile(TileController tileController) {
-        tiles.get(tiles.size() - 1).add(tileController);
-    }
-
     public TileController getTile(Position position) {
         return tiles.get(position.getY()).get(position.getX());
     }
@@ -27,8 +23,8 @@ public class Grid {
         this.tiles.get(position.getY()).set(position.getX(), tiles);
     }
 
-    public void addTile() {
-        this.tiles.get(tiles.size()-1).add(null);
+    public void addTile(){
+        tiles.get(tiles.size()-1).add(null);
     }
 
 
