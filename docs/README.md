@@ -234,7 +234,7 @@
 > - More readability
 > - The caller does not have to know the class objects and functions parameters 
 
-### States
+### 6. States
 #### The Problem
 > The implementation of lives was bundled together with a big hurdle. The fact the player wouldn't lose immediatly wasn't, at first, assured just by removing a life since the monster would just kill the player again real fast and as for the bomb, the tiles where it would explode would continue to 'be exploding' for a while and so the player would mostly lose all his lives instantly anyway.
 #### The Design
@@ -248,7 +248,7 @@
 > - Single Responsibility principle: each class has only one job
 > - No need of using a multitude of conditional statements that would make the code harder to read
 
-### Visitor
+### 7. Visitor
 #### The Problem
 > After finishing almost all our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
 #### The Design
