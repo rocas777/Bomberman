@@ -26,18 +26,6 @@ public class DoorView implements IView {
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#422600"));
         textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 1, "    ", BOLD);
         textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 2, "    ", BOLD);
-
-
-        /*
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#964b00"));
-        textGraphics.putString(position.getRealPosition().getX()+1,position.getRealPosition().getY(),"    ",BOLD);
-        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+1,"      ",BOLD);
-        textGraphics.putString(position.getRealPosition().getX(),position.getRealPosition().getY()+2,"      ",BOLD);
-
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#422600"));
-        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+1,"  ",BOLD);
-        textGraphics.putString(position.getRealPosition().getX()+2,position.getRealPosition().getY()+2,"  ",BOLD);
-        */
     }
 
     public TextGraphics getTextGraphics() {

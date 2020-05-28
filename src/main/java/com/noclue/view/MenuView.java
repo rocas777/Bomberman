@@ -1,5 +1,6 @@
 package com.noclue.view;
 
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -8,6 +9,7 @@ import com.noclue.IView;
 import com.noclue.model.MenuModel;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
@@ -18,51 +20,17 @@ public class MenuView implements IView {
         this.menuModel = menuModel;
     }
 
-    public void draw(TextGraphics textGraphics) {
-        MenuModel.getScreen().clear();
+    public void draw_B(int c,int r,TextGraphics textGraphics){
+        textGraphics.putString(c, r, "    ", BOLD);
+        textGraphics.putString(c, r+1, "  ", BOLD);
+        textGraphics.putString(c, r+2, "    ", BOLD);
+        textGraphics.putString(c, r+3, "  ", BOLD);
+        textGraphics.putString(c, r+4, "    ", BOLD);
+        textGraphics.putString(c+3, r+1, "  ", BOLD);
+        textGraphics.putString(c+3, r+3, "  ", BOLD);
+    }
 
-
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#c5c5c5"));
-        textGraphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(146, 45), ' ');
-
-
-        //DRAW BIG HERO
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
-        //HEAD
-        textGraphics.putString(20, 14, "      ", BOLD);
-        textGraphics.putString(20, 15, "      ", BOLD);
-        textGraphics.putString(20, 16, "      ", BOLD);
-        //LEFT ARM
-        textGraphics.putString(17, 17, "   ", BOLD);
-        textGraphics.putString(17, 18, "   ", BOLD);
-        textGraphics.putString(17, 19, "   ", BOLD);
-        //RIGHT ARM
-        textGraphics.putString(26, 17, "   ", BOLD);
-        textGraphics.putString(26, 18, "   ", BOLD);
-        textGraphics.putString(26, 19, "   ", BOLD);
-        //SHIRT
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#3B5998"));
-        textGraphics.putString(20, 17, "      ", BOLD);
-        textGraphics.putString(20, 18, "      ", BOLD);
-        textGraphics.putString(20, 19, "      ", BOLD);
-        //LEGS
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-        textGraphics.putString(20, 20, "      ", BOLD);
-        textGraphics.putString(20, 21, "      ", BOLD);
-        textGraphics.putString(20, 22, "      ", BOLD);
-
-        //DRAW TITLE
-        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-        //B
-        textGraphics.putString(40, 4, "    ", BOLD);
-        textGraphics.putString(40, 5, "  ", BOLD);
-        textGraphics.putString(40, 6, "    ", BOLD);
-        textGraphics.putString(40, 7, "  ", BOLD);
-        textGraphics.putString(40, 8, "    ", BOLD);
-        textGraphics.putString(43, 5, "  ", BOLD);
-        textGraphics.putString(43, 7, "  ", BOLD);
-
-        //O
+    public void draw_O(TextGraphics textGraphics){
         textGraphics.putString(48, 4, "     ", BOLD);
         textGraphics.putString(48, 8, "     ", BOLD);
         textGraphics.putString(48, 5, "  ", BOLD);
@@ -71,52 +39,45 @@ public class MenuView implements IView {
         textGraphics.putString(51, 5, "  ", BOLD);
         textGraphics.putString(51, 6, "  ", BOLD);
         textGraphics.putString(51, 7, "  ", BOLD);
+    }
 
-        //M
-        textGraphics.putString(56, 4, " ", BOLD);
-        textGraphics.putString(56, 5, " ", BOLD);
-        textGraphics.putString(56, 6, " ", BOLD);
-        textGraphics.putString(56, 7, " ", BOLD);
-        textGraphics.putString(56, 8, " ", BOLD);
-        textGraphics.putString(57, 4, " ", BOLD);
-        textGraphics.putString(57, 5, " ", BOLD);
-        textGraphics.putString(57, 6, " ", BOLD);
-        textGraphics.putString(57, 7, " ", BOLD);
-        textGraphics.putString(57, 8, " ", BOLD);
+    public void draw_M(int c,int r,TextGraphics textGraphics){
+        textGraphics.putString(c, r, " ", BOLD);
+        textGraphics.putString(c, r+1, " ", BOLD);
+        textGraphics.putString(c, r+2, " ", BOLD);
+        textGraphics.putString(c, r+3, " ", BOLD);
+        textGraphics.putString(c, r+4, " ", BOLD);
+        textGraphics.putString(c+1, r, " ", BOLD);
+        textGraphics.putString(c+1, r+1, " ", BOLD);
+        textGraphics.putString(c+1, r+2, " ", BOLD);
+        textGraphics.putString(c+1, r+3, " ", BOLD);
+        textGraphics.putString(c+1, r+4, " ", BOLD);
 
-        textGraphics.putString(58, 5, " ", BOLD);
-        textGraphics.putString(59, 6, " ", BOLD);
-        textGraphics.putString(60, 5, " ", BOLD);
+        textGraphics.putString(c+2, r+1, " ", BOLD);
+        textGraphics.putString(c+3, r+2, " ", BOLD);
+        textGraphics.putString(c+4, r+1, " ", BOLD);
 
-        textGraphics.putString(61, 4, " ", BOLD);
-        textGraphics.putString(61, 5, " ", BOLD);
-        textGraphics.putString(61, 6, " ", BOLD);
-        textGraphics.putString(61, 7, " ", BOLD);
-        textGraphics.putString(61, 8, " ", BOLD);
-        textGraphics.putString(62, 4, " ", BOLD);
-        textGraphics.putString(62, 5, " ", BOLD);
-        textGraphics.putString(62, 6, " ", BOLD);
-        textGraphics.putString(62, 7, " ", BOLD);
-        textGraphics.putString(62, 8, " ", BOLD);
+        textGraphics.putString(c+5, r, " ", BOLD);
+        textGraphics.putString(c+5, r+1, " ", BOLD);
+        textGraphics.putString(c+5, r+2, " ", BOLD);
+        textGraphics.putString(c+5, r+3, " ", BOLD);
+        textGraphics.putString(c+5, r+4, " ", BOLD);
+        textGraphics.putString(c+6, r, " ", BOLD);
+        textGraphics.putString(c+6, r+1, " ", BOLD);
+        textGraphics.putString(c+6, r+2, " ", BOLD);
+        textGraphics.putString(c+6, r+3, " ", BOLD);
+        textGraphics.putString(c+6, r+4, " ", BOLD);
+    }
 
-        //B
-        textGraphics.putString(65, 4, "    ", BOLD);
-        textGraphics.putString(65, 5, "  ", BOLD);
-        textGraphics.putString(65, 6, "    ", BOLD);
-        textGraphics.putString(65, 7, "  ", BOLD);
-        textGraphics.putString(65, 8, "    ", BOLD);
-        textGraphics.putString(68, 5, "  ", BOLD);
-        textGraphics.putString(68, 7, "  ", BOLD);
-
-        //E
+    public void draw_E(TextGraphics textGraphics){
         textGraphics.putString(72, 4, "     ", BOLD);
         textGraphics.putString(72, 5, "  ", BOLD);
         textGraphics.putString(72, 6, "     ", BOLD);
         textGraphics.putString(72, 7, "  ", BOLD);
         textGraphics.putString(72, 8, "     ", BOLD);
+    }
 
-
-        //R
+    public void draw_R(TextGraphics textGraphics){
         textGraphics.putString(80, 4, "    ", BOLD);
         textGraphics.putString(80, 5, "  ", BOLD);
         textGraphics.putString(80, 6, "    ", BOLD);
@@ -125,35 +86,9 @@ public class MenuView implements IView {
         textGraphics.putString(83, 5, "  ", BOLD);
         textGraphics.putString(83, 7, " ", BOLD);
         textGraphics.putString(83, 8, "  ", BOLD);
+    }
 
-        //M
-        textGraphics.putString(87, 4, " ", BOLD);
-        textGraphics.putString(87, 5, " ", BOLD);
-        textGraphics.putString(87, 6, " ", BOLD);
-        textGraphics.putString(87, 7, " ", BOLD);
-        textGraphics.putString(87, 8, " ", BOLD);
-        textGraphics.putString(88, 4, " ", BOLD);
-        textGraphics.putString(88, 5, " ", BOLD);
-        textGraphics.putString(88, 6, " ", BOLD);
-        textGraphics.putString(88, 7, " ", BOLD);
-        textGraphics.putString(88, 8, " ", BOLD);
-
-        textGraphics.putString(89, 5, " ", BOLD);
-        textGraphics.putString(90, 6, " ", BOLD);
-        textGraphics.putString(91, 5, " ", BOLD);
-
-        textGraphics.putString(92, 4, " ", BOLD);
-        textGraphics.putString(92, 5, " ", BOLD);
-        textGraphics.putString(92, 6, " ", BOLD);
-        textGraphics.putString(92, 7, " ", BOLD);
-        textGraphics.putString(92, 8, " ", BOLD);
-        textGraphics.putString(93, 4, " ", BOLD);
-        textGraphics.putString(93, 5, " ", BOLD);
-        textGraphics.putString(93, 6, " ", BOLD);
-        textGraphics.putString(93, 7, " ", BOLD);
-        textGraphics.putString(93, 8, " ", BOLD);
-
-        //A
+    public void draw_A(TextGraphics textGraphics){
         textGraphics.putString(97, 6, " ", BOLD);
         textGraphics.putString(97, 7, " ", BOLD);
         textGraphics.putString(97, 8, " ", BOLD);
@@ -181,8 +116,9 @@ public class MenuView implements IView {
         textGraphics.putString(103, 6, " ", BOLD);
         textGraphics.putString(103, 7, " ", BOLD);
         textGraphics.putString(103, 8, " ", BOLD);
+    }
 
-        //N
+    public  void draw_N(TextGraphics textGraphics){
         textGraphics.putString(107, 4, " ", BOLD);
         textGraphics.putString(107, 5, " ", BOLD);
         textGraphics.putString(107, 6, " ", BOLD);
@@ -208,6 +144,29 @@ public class MenuView implements IView {
         textGraphics.putString(112, 6, " ", BOLD);
         textGraphics.putString(112, 7, " ", BOLD);
         textGraphics.putString(112, 8, " ", BOLD);
+    }
+
+    public void draw(TextGraphics textGraphics) {
+        MenuModel.getScreen().clear();
+
+
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#c5c5c5"));
+        textGraphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(146, 45), ' ');
+
+        drawHero(textGraphics);
+
+        //DRAW TITLE
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+
+        draw_B(40,4,textGraphics);
+        draw_O(textGraphics);
+        draw_M(56,4,textGraphics);
+        draw_B(65,4,textGraphics);
+        draw_E(textGraphics);
+        draw_R(textGraphics);
+        draw_M(87,4,textGraphics);
+        draw_A(textGraphics);
+        draw_N(textGraphics);
 
         //versão fixe
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#c5c5c5"));
@@ -216,11 +175,9 @@ public class MenuView implements IView {
 
 
         //DRAW MENU
-
-
         if (menuModel.getOption() == 1) {
             textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-            textGraphics.putString(68, 20, "Start Game", BOLD);
+            textGraphics.putString(68, 20, "Start Game",BOLD);
             textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
         } else {
             textGraphics.putString(68, 20, "Start Game");
@@ -281,6 +238,33 @@ public class MenuView implements IView {
             e.printStackTrace();
         }
 
+    }
+
+    public void drawHero(TextGraphics textGraphics){
+        //DRAW BIG HERO
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
+        //HEAD
+        textGraphics.putString(20, 14, "      ", BOLD);
+        textGraphics.putString(20, 15, "      ", BOLD);
+        textGraphics.putString(20, 16, "      ", BOLD);
+        //LEFT ARM
+        textGraphics.putString(17, 17, "   ", BOLD);
+        textGraphics.putString(17, 18, "   ", BOLD);
+        textGraphics.putString(17, 19, "   ", BOLD);
+        //RIGHT ARM
+        textGraphics.putString(26, 17, "   ", BOLD);
+        textGraphics.putString(26, 18, "   ", BOLD);
+        textGraphics.putString(26, 19, "   ", BOLD);
+        //SHIRT
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#3B5998"));
+        textGraphics.putString(20, 17, "      ", BOLD);
+        textGraphics.putString(20, 18, "      ", BOLD);
+        textGraphics.putString(20, 19, "      ", BOLD);
+        //LEGS
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+        textGraphics.putString(20, 20, "      ", BOLD);
+        textGraphics.putString(20, 21, "      ", BOLD);
+        textGraphics.putString(20, 22, "      ", BOLD);
     }
 
     public void draw() {

@@ -27,8 +27,8 @@ public class Grid {
         this.tiles.get(position.getY()).set(position.getX(), tiles);
     }
 
-    public void addTile(TileController tiles, Position position) {
-        this.tiles.get(position.getY()).add(tiles);
+    public void addTile() {
+        this.tiles.get(tiles.size()-1).add(null);
     }
 
 

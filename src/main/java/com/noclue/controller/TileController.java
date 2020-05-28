@@ -19,15 +19,12 @@ public class TileController implements Cloneable {
 
     public void blankTile() {
         this.model.setFiller(new NoBlockModel());
-        //this.model.setCollectible(new NoCollectibleModel());
         this.view.setFiller(new NoView());
     }
 
     public void moveTile(TileController tileModel) {
         tileModel.setFiller(model.getFiller());
-        //tileModel.setCollectible(model.getCollectible());
         tileModel.view.setFiller(view.getFiller());
-        //tileModel.view.setCollectible(view.getCollectible());
         blankTile();
     }
 

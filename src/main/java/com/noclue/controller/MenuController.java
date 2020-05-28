@@ -56,19 +56,18 @@ public class MenuController implements KeyboardListener {
         System.out.println(resource);
         ArrayList<String> lines = new ArrayList<>();
         BufferedReader br = null;
+
         try {
             br = new BufferedReader(new FileReader(resource.getFile()));
-        } catch (FileNotFoundException f) {
-            System.out.println(f);
-        }
-        try {
             for (String line; (line = br.readLine()) != null; )
                 lines.add(line);
         } catch (IOException i) {
             System.out.println(i);
         }
+
         model.setLevels("");
         model.setLevel(Integer.parseInt(lines.get(0)));
+
         for (int li = 1; li < lines.size(); li++) {
             diffi.add(new ArrayList<>());
             String l = lines.get(li);
@@ -95,20 +94,13 @@ public class MenuController implements KeyboardListener {
         return diffi;
     }
 
-    public MenuModel getMenuModel() {
-        return menuModel;
-    }
-
-    public void setMenuModel(MenuModel menuModel) {
-        this.menuModel = menuModel;
-    }
-
-    public MenuView getMenuView() {
-        return menuView;
-    }
-
-    public void setMenuView(MenuView menuView) {
-        this.menuView = menuView;
+    public void killProgram() throws IOException{
+        URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
+        BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
+        bw.write(menuModel.getLevel() + "\n");
+        bw.write(menuModel.getLevels());
+        bw.close();
+        System.exit(0);
     }
 
     public void run() {
@@ -117,14 +109,9 @@ public class MenuController implements KeyboardListener {
             menuView.draw();
             try {
                 key = MenuModel.getScreen().readInput();
-                if(key.getKeyType()==KeyType.EOF) {
-                    URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
-                    BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
-                    bw.write(menuModel.getLevel() + "\n");
-                    bw.write(menuModel.getLevels());
-                    bw.close();
-                    System.exit(0);
-                }
+
+                if (key.getKeyType() == KeyType.EOF)
+                    killProgram();
                 if (key != null && (key.getKeyType() == KeyType.Character || key.getKeyType() == KeyType.Enter)) {
                     if (!menuModel.getOnSubMenu()) {
                         if (key.getCharacter() == 'w') {
@@ -132,30 +119,8 @@ public class MenuController implements KeyboardListener {
                         } else if (key.getCharacter() == 's') {
                             menuModel.optDown();
                         } else if (key.getKeyType() == KeyType.Enter) {
-                            if (menuModel.getOption() == 3) {
-                                URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
-                                BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
-                                bw.write(menuModel.getLevel() + "\n");
-                                bw.write(menuModel.getLevels());
-                                bw.close();
-                                System.exit(0);
-                            } else if (menuModel.getOption() == 2) {
-                                menuModel.setOnSubMenu(true);
-                            } else if (menuModel.getOption() == 1) {
-                                if (menuModel.getSubOption() == 1) {
-                                    setEasy();
-                                } else if (menuModel.getSubOption() == 2) {
-                                    setMedium();
-                                } else if (menuModel.getSubOption() == 3) {
-                                    setHard();
-                                }
-                                startNewGame();
+                            if(chooseOption())
                                 break;
-                            } else if (menuModel.getOption() == 4) {
-                                difficulties = menuModel.getDifficultiesA().get(menuModel.getLevel() - 1);
-                                startNewGame();
-                                break;
-                            }
                         }
                     } else {
                         if (key.getCharacter() == 'w') {
@@ -173,6 +138,33 @@ public class MenuController implements KeyboardListener {
             }
         }
 
+    }
+
+    public boolean chooseOption(){
+        if (menuModel.getOption() == 1) {
+            if (menuModel.getSubOption() == 1) {
+                setEasy();
+            } else if (menuModel.getSubOption() == 2) {
+                setMedium();
+            } else if (menuModel.getSubOption() == 3) {
+                setHard();
+            }
+            startNewGame();
+            return true;
+        } else if (menuModel.getOption() == 2) {
+            menuModel.setOnSubMenu(true);
+        } else if (menuModel.getOption() == 3) {
+            try {
+                killProgram();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (menuModel.getOption() == 4) {
+            difficulties = menuModel.getDifficultiesA().get(menuModel.getLevel() - 1);
+            startNewGame();
+            return  true;
+        }
+        return false;
     }
 
     public void startNewGame() {
@@ -204,18 +196,12 @@ public class MenuController implements KeyboardListener {
 
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
-        if(keyPressed.getKeyType()==KeyType.EOF) {
-            URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
-            BufferedWriter bw = null;
+        if (keyPressed.getKeyType() == KeyType.EOF) {
             try {
-                bw = new BufferedWriter(new FileWriter(resource.getFile()));
-                bw.write(menuModel.getLevel() + "\n");
-                bw.write(menuModel.getLevels());
-                bw.close();
+                killProgram();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.exit(0);
         }
         if (keyPressed.getCharacter() == 'q') {
             fieldModel.gettServer().removeListeners();
@@ -228,7 +214,6 @@ public class MenuController implements KeyboardListener {
                 menuModel.setLevel(menuModel.getLevel() + 1);
                 menuModel.setScore(fieldModel.getPoints());
             }
-
 
             System.out.println("Nivel" + menuModel.getLevel());
             fieldModel = null;
@@ -244,36 +229,24 @@ public class MenuController implements KeyboardListener {
 
     private void setHard() {
         difficulties.clear();
-        difficulties.add(new Hard());
-        difficulties.add(new Hard());
-        difficulties.add(new Hard());
-        difficulties.add(new Hard());
-        difficulties.add(new Hard());
-        difficulties.add(new Hard());
-        difficulties.add(new Hard());
-        difficulties.add(new Hard());
+        for(int i=0;i<8;i++) {
+            difficulties.add(new Hard());
+        }
 
     }
 
     private void setMedium() {
         difficulties.clear();
-        difficulties.add(new Medium());
-        difficulties.add(new Medium());
-        difficulties.add(new Medium());
-        difficulties.add(new Medium());
-        difficulties.add(new Medium());
-        difficulties.add(new Medium());
-        difficulties.add(new Medium());
+        for(int i=0;i<7;i++) {
+            difficulties.add(new Medium());
+        }
 
     }
 
     private void setEasy() {
         difficulties.clear();
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
-        difficulties.add(new Easy());
+        for(int i=0;i<6;i++) {
+            difficulties.add(new Easy());
+        }
     }
 }
