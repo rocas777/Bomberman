@@ -111,6 +111,7 @@
 > The door will be hidden underneath one destructible block at random. If the player founds it after destroying the respective block he will suceed on completing the level.
 >
 >![Win Screen](screenshots/win_screen.png)
+
 ## Design
 
 ### 1. Code Architecture
@@ -121,7 +122,7 @@
 #### The Implementation
 >The following UML shows how we implemented this design through one example since it is basically the same for every object:
 ![uml](UML/MVC.png)
-
+>
 >These classes can be found at:
 >
 > [FieldController](../src/main/java/com/noclue/controller/FieldController.java)
@@ -142,7 +143,7 @@
 #### The Implementation
 >The following UML shows how we mapped this pattern:
 ![uml](UML/Bomb-Explosion.png)
-
+>
 >These classes/interface can be found at:
 >
 > [BombController](../src/main/java/com/noclue/controller/bomb/BombController.java)
@@ -157,16 +158,15 @@
 > - It will make adding more states (like an actual ticking animation) undemanding
 > - Saves us the trouble of using big if statements
 
-### 3. Difficulties *
+### 3. Difficulties
 #### The Problem
->Even though this is a simple project we wanted our game to be enjoyable for both casuals and tryhard gamers (and something in between). In order to achieve this, we chose to make our game have different difficulties. Depending on the difficulty, the monster has a different behaviour. We could make different functions, depending on the difficulty, but some function should never be called. Or we could add a bunch of if statements, that would be even worse. 
->There can also be some other changes like number of monsters and their initial placemente as well as number of destructible blocks, bomb explosion range, number of lives or even clock time to successfully complete a level but these are all still ideas (will only be implemented if we have the time).
+>Even though this is a simple project we wanted our game to be enjoyable for both casuals and tryhard gamers (and something in between). In order to achieve this, we chose to make our game have different difficulties. Depending on the difficulty, the monster will behave differently. To achieve this we could just add a bunch of if statements, but that wouldn't be a good pratice and could hurt future development and even performance.
 #### The Design
->To work this problem out we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the application's behaviour slightly according to the difficulty that is being used even though their job is all the same. The Monster only has to call the class that was passed to it, and that class is the responsible for the monster strategy.
+>To work this problem out we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the monsters's behaviour slightly according to the difficulty that is assigned even though their job is all the same. The Monster only has to call the class that was passed to it, and that class is responsible for sorting the four possible movement by most preferable according to each difficulty's objetive.
 #### The Implementation
 >The following UML shows how we mapped this pattern:
 ![uml](UML/Difficulty.png)
-
+>
 >These classes/interface can be found at:
 >
 > [Monster](../src/main/java/com/noclue/model/character/MonsterModel.java)
@@ -182,7 +182,6 @@
 > - Eliminates a lot of complex conditional statements
 > - Makes adding and changing difficulties effortless
 > - Requires the classes that are influenced by each difficulty to know what it is
-#### * Note about difficulties: for now we only have one (easy) but we plan on adding more following this design pattern
 
 ### 4. How to update every object
 #### The Problem
@@ -234,6 +233,32 @@
 > - Code less prone to mistakes
 > - More readability
 > - The caller does not have to know the class objects and functions parameters 
+
+### 6. States
+#### The Problem
+> The implementation of lives was bundled together with a big hurdle. The fact the player wouldn't lose immediatly wasn't, at first, assured just by removing a life since the monster would just kill the player again real fast and as for the bomb, the tiles where it would explode would continue to 'be exploding' for a while and so the player would mostly lose all his lives instantly anyway.
+#### The Design
+> To go around this we decided to make the hero have a few seconds of invulnerability after loosing a life so he can reposition and avoid losing all lives in the same instant. The way we chose to do is usign the State pattern which allows us to alter the hero's behaviour according to his current state. To be more precise the invulnerability state (used together with a timer so it can be reverted to the normal state) would just do nothing when the other would decrement lives.
+>
+> Taking advantage of this addition we also implemented a feature where the player could be powered-up for a few steps and although the end result is different, the pattern used is the same.
+#### The Implementation
+> Colocar aqui um UML GOSTOSO <3
+#### The Consequences
+> - Adding states is very simple and doesn't require changing the ones that already exist.
+> - Single Responsibility principle: each class has only one job
+> - No need of using a multitude of conditional statements that would make the code harder to read
+
+### 7. Visitor
+#### The Problem
+> After finishing almost all our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
+#### The Design
+> Suceeding some research and consulting our professor we decided to use the Visitor pattern which consists of creating a new class 'visitor' and placing each different behaviour in a new method. Instead of handling the behaviour directly we would pass all the necessary information to the target object and he in turn would call the approriate method of the 'visitor' since obviously he knows what class he is.
+#### The Implementation
+> Colocar aqui um UML GOSTOSO <3
+#### The Consequences
+> - Open/Closed Principle: ease of adding new visiting behaviours
+> - Single Responsibility Principle: bundle multiple behaviours together
+> - Introduces interdependencies
 
 ## Known Code Smells and Refactoring
 ### 1. Position Class
