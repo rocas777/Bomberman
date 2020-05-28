@@ -2,12 +2,13 @@ package com.noclue.model;
 
 import com.noclue.controller.TileController;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Grid {
-    private final CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles = new CopyOnWriteArrayList<>();
 
-    Grid() {
+    public Grid() {
 
     }
 
@@ -21,6 +22,10 @@ public class Grid {
 
     public void setTiles(TileController tiles, Position position) {
         this.tiles.get(position.getY()).set(position.getX(), tiles);
+    }
+
+    public void setTiles(CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles){
+        this.tiles = tiles;
     }
 
     public void addTile(){

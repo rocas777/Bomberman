@@ -1,0 +1,351 @@
+package com.noclue.controller;
+
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.noclue.IBombInterface;
+import com.noclue.IView;
+import com.noclue.model.*;
+import com.noclue.model.character.MonsterModel;
+import com.noclue.timer.Timer;
+import org.junit.Assert;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+
+public class FieldControllerTest {
+
+    @Test
+    public void getTimeLeft() {
+
+    }
+
+    @Test
+    public void setup() {
+    }
+
+    @Test
+    public void createTile() {
+
+    }
+
+    @Test
+    public void setRemovableBlocks() {
+
+    }
+
+    @Test
+    public void setIndestructibleBlocks() {
+
+    }
+
+    @Test
+    public void setMonsters() {
+
+    }
+
+    @Test
+    public void setHeroPos() {
+
+    }
+
+    @Test
+    public void setDoorPos() {
+
+    }
+
+    @Test
+    public void setHero() {
+
+    }
+
+    @Test
+    public void setDoor() {
+
+    }
+
+    @Test
+    public void updateOnKeyboard() {
+
+    }
+
+    @Test
+    public void updateOnTime() {
+
+    }
+
+    @Test
+    public void updateMonsterPosition() {
+
+    }
+
+    @Test
+    public void timeIsUp() {
+        FieldModel model = Mockito.mock(FieldModel.class);
+        IView iView = Mockito.mock(IView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = new FieldController(model,iView,iView,iView,textGraphics,timeLeft);
+        Timer timer = Mockito.mock(Timer.class);
+        Timer.setSeconds(20);
+        when(model.gettServer()).thenReturn(timer);
+
+        fieldController.setTimerSum(0);
+        Assert.assertFalse(fieldController.timeIsUp());
+        Assert.assertFalse(fieldController.ended);
+
+        fieldController.setEnded(false);
+
+        fieldController.setTimerSum(50);
+        Assert.assertTrue(fieldController.timeIsUp());
+
+        fieldController.setEnded(false);
+
+        fieldController.setTimerSum(51);
+        Assert.assertTrue(fieldController.timeIsUp());
+
+        Mockito.verify(iView,times(4))
+                .draw();
+        Mockito.verify(timer,times(2))
+                .removeListener(fieldController);
+        Assert.assertTrue(fieldController.ended);
+        Mockito.verify(timeLeft,times(2))
+                .minusSecond();
+
+        when(timeLeft.getSeconds()).thenReturn(1);
+        fieldController.timeIsUp();
+        Assert.assertEquals(0,fieldController.timerSum);
+
+    }
+
+    @Test
+    public void explode() {
+        FieldModel fieldModel = new FieldModel(100,100,1);
+        IView iView = Mockito.mock(IView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = new FieldController(fieldModel,iView,iView,iView,textGraphics,timeLeft);
+
+
+        TileController t1 = Mockito.mock(TileController.class);
+        Filler f1 = Mockito.mock(Filler.class);
+        when(t1.getFiller()).thenReturn(f1);
+        when(t1.getFiller().deactivate()).thenReturn(true);
+
+        TileController t2 = Mockito.mock(TileController.class);
+        Filler f2 = Mockito.mock(Filler.class);
+        when(t2.getFiller()).thenReturn(f2);
+        when(t2.getFiller().deactivate()).thenReturn(false);
+
+        TileController t3 = Mockito.mock(TileController.class);
+        Filler f3 = Mockito.mock(Filler.class);
+        when(t3.getFiller()).thenReturn(f3);
+        when(t3.getFiller().deactivate()).thenReturn(true);
+
+        TileController t4 = Mockito.mock(TileController.class);
+        Filler f4 = Mockito.mock(Filler.class);
+        when(t4.getFiller()).thenReturn(f4);
+        when(t4.getFiller().deactivate()).thenReturn(false);
+
+        TileController t5 = Mockito.mock(TileController.class);
+        Filler f5= Mockito.mock(Filler.class);
+        when(t5.getFiller()).thenReturn(f5);
+        when(t5.getFiller().deactivate()).thenReturn(true);
+
+        Position position = new Position(10,10,2,0);
+        ArrayList<Position> positions = new ArrayList<>();
+        Position pl = position.getLeft();
+        Position pll = position.getLeft().getLeft();
+        Position pr = position.getRight();
+        Position prr = position.getRight().getRight();
+        positions.add(pl);
+        positions.add(pll);
+        positions.add(pr);
+        positions.add(prr);
+        positions.add(position);
+
+        CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles = new CopyOnWriteArrayList<>();
+        tiles.add(new CopyOnWriteArrayList<>());
+        tiles.get(tiles.size()-1).add(t1);
+        tiles.get(tiles.size()-1).add(t2);
+        tiles.get(tiles.size()-1).add(t3);
+        tiles.get(tiles.size()-1).add(t4);
+        tiles.get(tiles.size()-1).add(t5);
+        Grid grid = new Grid();
+        grid.setTiles(tiles);
+
+        fieldModel.setTiles(grid);
+        IBombInterface iBombInterface = Mockito.mock(IBombInterface.class);
+        BombModel bombModel = Mockito.mock(BombModel.class);
+        ArrayList a = new ArrayList<Position>();
+        a.add(position);
+        fieldModel.setBombModel(iBombInterface);
+        when(iBombInterface.getModel()).thenReturn(bombModel);
+
+
+
+
+        when(t1.getFiller().deactivate()).thenReturn(true);
+        when(t2.getFiller().deactivate()).thenReturn(false);
+        when(t3.getFiller().deactivate()).thenReturn(true);
+        when(t4.getFiller().deactivate()).thenReturn(true);
+        when(t5.getFiller().deactivate()).thenReturn(true);
+
+        fieldController.explode(positions);
+
+        a.clear();
+        a.add(pr);
+        a.add(prr);
+        a.add(position);
+
+        Mockito.verify(bombModel,times(1))
+                .setExplosionList(a);
+
+        when(t1.getFiller().deactivate()).thenReturn(true);
+        when(t2.getFiller().deactivate()).thenReturn(true);
+        when(t3.getFiller().deactivate()).thenReturn(true);
+        when(t4.getFiller().deactivate()).thenReturn(true);
+        when(t5.getFiller().deactivate()).thenReturn(true);
+
+        fieldController.explode(positions);
+
+        a.clear();
+        a.add(pl);
+        a.add(pll);
+        a.add(pr);
+        a.add(prr);
+        a.add(position);
+
+        Mockito.verify(bombModel,times(1))
+                .setExplosionList(a);
+
+        when(t1.getFiller().deactivate()).thenReturn(false);
+        when(t2.getFiller().deactivate()).thenReturn(false);
+        when(t3.getFiller().deactivate()).thenReturn(false);
+        when(t4.getFiller().deactivate()).thenReturn(false);
+        when(t5.getFiller().deactivate()).thenReturn(false);
+
+        fieldController.explode(positions);
+
+        a.clear();
+
+        Mockito.verify(bombModel,times(1))
+                .setExplosionList(a);
+
+        when(t1.getFiller().deactivate()).thenReturn(true);
+        when(t2.getFiller().deactivate()).thenReturn(false);
+        when(t3.getFiller().deactivate()).thenReturn(false);
+        when(t4.getFiller().deactivate()).thenReturn(false);
+        when(t5.getFiller().deactivate()).thenReturn(true);
+
+        fieldController.explode(positions);
+
+        a.clear();
+
+        Mockito.verify(bombModel,times(2))
+                .setExplosionList(a);
+
+
+    }
+
+    @Test
+    public void purge() {
+        FieldModel fieldModel = new FieldModel(100,100,1);
+        IView iView = Mockito.mock(IView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = new FieldController(fieldModel,iView,iView,iView,textGraphics,timeLeft);
+
+        TileController tileController = Mockito.mock(TileController.class);
+        CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles = new CopyOnWriteArrayList<>();
+        tiles.add(new CopyOnWriteArrayList<>());
+        tiles.get(tiles.size()-1).add(tileController);
+        Filler filler = Mockito.mock(Filler.class);
+
+        CopyOnWriteArrayList<MonsterModel> monsterModels = new CopyOnWriteArrayList();
+        MonsterModel m1 =Mockito.mock(MonsterModel.class);
+        MonsterModel m2 =Mockito.mock(MonsterModel.class);
+        MonsterModel m3 =Mockito.mock(MonsterModel.class);
+        MonsterModel m4 =Mockito.mock(MonsterModel.class);
+        MonsterModel m5 =Mockito.mock(MonsterModel.class);
+        monsterModels.add(m1);
+        monsterModels.add(m2);
+        monsterModels.add(m3);
+        monsterModels.add(m4);
+        monsterModels.add(m5);
+
+        when(tileController.getFiller()).thenReturn(filler);
+        when(filler.isActive()).thenReturn(false);
+        fieldModel.setMonsters(monsterModels);
+        when(m1.isActive()).thenReturn(false);
+        when(m2.isActive()).thenReturn(true);
+        when(m3.isActive()).thenReturn(false);
+        when(m4.isActive()).thenReturn(false);
+        when(m5.isActive()).thenReturn(false);
+
+        Grid grid = Mockito.mock(Grid.class);
+        when(grid.getTiles()).thenReturn(tiles);
+        fieldModel.setTiles(grid);
+
+        fieldController.purge();
+        Assert.assertEquals(1,fieldModel.getMonsters().size());
+        Assert.assertEquals(m2,fieldModel.getMonsters().get(0));
+
+        when(m2.isActive()).thenReturn(false);
+
+        fieldController.purge();
+        Assert.assertEquals(0,fieldModel.getMonsters().size());
+        try {
+            Assert.assertEquals(null,fieldModel.getMonsters().get(0));
+            Assert.fail();
+        }
+        catch (Exception e){
+
+        }
+        Mockito.verify(tileController,times(2))
+                .blankTile();
+
+
+        Timer timer = Mockito.mock(Timer.class);
+        HeroController heroController = Mockito.mock(HeroController.class);
+        when(heroController.isActive()).thenReturn(false);
+        fieldModel.settServer(timer);
+        fieldModel.setHero(heroController);
+        fieldController.purge();
+        Mockito.verify(iView,times(2))
+                .draw();
+        Assert.assertEquals(true,fieldController.ended);
+
+        fieldController.setEnded(false);
+        when(heroController.isActive()).thenReturn(true);
+        fieldModel.settServer(timer);
+        fieldModel.setHero(heroController);
+        fieldController.purge();
+        Mockito.verify(iView,times(2))
+                .draw();
+        Mockito.verify(timer,times(1))
+                .removeListener(fieldController);
+        Assert.assertEquals(false,fieldController.ended);
+    }
+
+    @Test
+    public void fireDone() {
+        FieldModel fieldModel = new FieldModel(100,100,1);
+        IView iView = Mockito.mock(IView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = new FieldController(fieldModel,iView,iView,iView,textGraphics,timeLeft);
+
+        IBombInterface iBombInterface = Mockito.mock(IBombInterface.class);
+        fieldModel.setBombModel(iBombInterface);
+
+        Assert.assertEquals(iBombInterface,fieldModel.getBomb());
+        fieldController.fireDone();
+        Assert.assertEquals(null,fieldModel.getBomb());
+    }
+}

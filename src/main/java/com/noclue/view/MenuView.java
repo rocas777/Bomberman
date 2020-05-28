@@ -1,6 +1,5 @@
 package com.noclue.view;
 
-import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -9,7 +8,6 @@ import com.noclue.IView;
 import com.noclue.model.MenuModel;
 
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 import static com.googlecode.lanterna.SGR.BOLD;
 
