@@ -3,6 +3,7 @@ package com.noclue.controller;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.noclue.IBombInterface;
 import com.noclue.IView;
+import com.noclue.Movement;
 import com.noclue.model.*;
 import com.noclue.model.character.MonsterModel;
 import com.noclue.timer.Timer;
@@ -10,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.verification.VerificationMode;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -81,7 +83,210 @@ public class FieldControllerTest {
 
     @Test
     public void updateMonsterPosition() {
+        HeroController heroController = Mockito.mock(HeroController.class);
+        FieldModel model = Mockito.mock(FieldModel.class);
+        IView iView = Mockito.mock(IView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = new FieldController(model,iView,iView,iView,textGraphics,timeLeft);
+        Position p = new Position(10,10,1,1);
+        Position l = p.getLeft();
+        Position ll = p.getLeft().getLeft();
+        Position r = p.getRight();
+        Position rr = p.getRight().getRight();
 
+        Grid grid = new Grid();
+        CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles = new CopyOnWriteArrayList<>();
+        tiles.add(new CopyOnWriteArrayList<>());
+        tiles.add(new CopyOnWriteArrayList<>());
+        tiles.add(new CopyOnWriteArrayList<>());
+        when(model.getTiles()).thenReturn(grid);
+
+        TileController t00 = Mockito.mock(TileController.class);
+        Filler f00 = Mockito.mock(Filler.class);
+        when(t00.getFiller()).thenReturn(f00);
+        when(f00.deactivate()).thenReturn(false);
+
+        TileController t01 = Mockito.mock(TileController.class);
+        Filler f01 = Mockito.mock(Filler.class);
+        when(t01.getFiller()).thenReturn(f01);
+        when(f01.deactivate()).thenReturn(false);
+
+        TileController t02 = Mockito.mock(TileController.class);
+        Filler f02 = Mockito.mock(Filler.class);
+        when(t02.getFiller()).thenReturn(f02);
+        when(f02.deactivate()).thenReturn(false);
+
+        TileController t10 = Mockito.mock(TileController.class);
+        Filler f10 = Mockito.mock(Filler.class);
+        when(t10.getFiller()).thenReturn(f10);
+        when(f10.deactivate()).thenReturn(false);
+
+        TileController t11 = Mockito.mock(TileController.class);
+        Filler f11 = Mockito.mock(Filler.class);
+        when(t11.getFiller()).thenReturn(f11);
+        when(f11.deactivate()).thenReturn(false);
+
+        TileController t12 = Mockito.mock(TileController.class);
+        Filler f12 = Mockito.mock(Filler.class);
+        when(t12.getFiller()).thenReturn(f12);
+        when(f12.deactivate()).thenReturn(false);
+
+        TileController t20 = Mockito.mock(TileController.class);
+        Filler f20 = Mockito.mock(Filler.class);
+        when(t20.getFiller()).thenReturn(f20);
+        when(f20.deactivate()).thenReturn(false);
+
+        TileController t21 = Mockito.mock(TileController.class);
+        Filler f21 = Mockito.mock(Filler.class);
+        when(t21.getFiller()).thenReturn(f21);
+        when(f21.deactivate()).thenReturn(false);
+
+        TileController t22 = Mockito.mock(TileController.class);
+        Filler f22 = Mockito.mock(Filler.class);
+        when(t22.getFiller()).thenReturn(f22);
+        when(f22.deactivate()).thenReturn(false);
+
+
+        tiles.get(0).add(t00);
+        tiles.get(0).add(t01);
+        tiles.get(0).add(t02);
+
+        tiles.get(1).add(t10);
+        tiles.get(1).add(t11);
+        tiles.get(1).add(t12);
+
+        tiles.get(2).add(t20);
+        tiles.get(2).add(t21);
+        tiles.get(2).add(t22);
+
+        grid.setTiles(tiles);
+
+        Movement ml = Movement.left;
+        Movement mr = Movement.right;
+        Movement mu = Movement.up;
+        Movement md = Movement.down;
+        Movement ms = Movement.stay;
+
+        ArrayList<Movement> movements = new ArrayList<>();
+        movements.add(ml);
+        movements.add(mr);
+        movements.add(md);
+        movements.add(mu);
+
+
+        when(model.getHero()).thenReturn(heroController);
+        when(heroController.getPosition()).thenReturn(new Position(10,10,5,5));
+
+        when(model.checkPos(p,ml)).thenReturn(false);
+        when(model.checkPos(p,mr)).thenReturn(false);
+        when(model.checkPos(p,mu)).thenReturn(false);
+        when(model.checkPos(p,md)).thenReturn(false);
+        when(model.checkPos(p,ms)).thenReturn(false);
+
+        MonsterModel monsterModel = Mockito.mock(MonsterModel.class);
+        when(monsterModel.nextMove(heroController.getPosition(),null)).thenReturn(movements);
+        when(monsterModel.getPosition()).thenReturn(p);
+
+        fieldController.updateMonsterPosition(monsterModel,null);
+
+        Mockito.verify(monsterModel,times(0))
+                .moveLeft(grid);
+        Mockito.verify(monsterModel,times(0))
+                .moveRight(grid);
+        Mockito.verify(monsterModel,times(0))
+                .moveUp(grid);
+        Mockito.verify(monsterModel,times(0))
+                .moveDown(grid);
+
+
+        when(model.checkPos(p,ml)).thenReturn(true);
+        when(model.checkPos(p,mr)).thenReturn(false);
+        when(model.checkPos(p,mu)).thenReturn(false);
+        when(model.checkPos(p,md)).thenReturn(false);
+        when(model.checkPos(p,ms)).thenReturn(false);
+
+        fieldController.updateMonsterPosition(monsterModel,null);
+
+        Mockito.verify(monsterModel, times(1))
+                .moveLeft(grid);
+        Mockito.verify(monsterModel,times(0))
+                .moveRight(grid);
+        Mockito.verify(monsterModel,times(0))
+                .moveUp(grid);
+        Mockito.verify(monsterModel,times(0))
+                .moveDown(grid);
+
+        when(model.checkPos(p,ml)).thenReturn(false);
+        when(model.checkPos(p,mr)).thenReturn(true);
+        when(model.checkPos(p,mu)).thenReturn(false);
+        when(model.checkPos(p,md)).thenReturn(false);
+        when(model.checkPos(p,ms)).thenReturn(false);
+
+        fieldController.updateMonsterPosition(monsterModel,null);
+
+        Mockito.verify(monsterModel, times(1))
+                .moveLeft(grid);
+        Mockito.verify(monsterModel,times(1))
+                .moveRight(grid);
+        Mockito.verify(monsterModel,times(0))
+                .moveUp(grid);
+        Mockito.verify(monsterModel,times(0))
+                .moveDown(grid);
+
+        when(model.checkPos(p,ml)).thenReturn(false);
+        when(model.checkPos(p,mr)).thenReturn(false);
+        when(model.checkPos(p,mu)).thenReturn(true);
+        when(model.checkPos(p,md)).thenReturn(false);
+        when(model.checkPos(p,ms)).thenReturn(false);
+
+        fieldController.updateMonsterPosition(monsterModel,null);
+
+        Mockito.verify(monsterModel, times(1))
+                .moveLeft(grid);
+        Mockito.verify(monsterModel,times(1))
+                .moveRight(grid);
+        Mockito.verify(monsterModel,times(1))
+                .moveUp(grid);
+        Mockito.verify(monsterModel,times(0))
+                .moveDown(grid);
+
+        when(model.checkPos(p,ml)).thenReturn(false);
+        when(model.checkPos(p,mr)).thenReturn(false);
+        when(model.checkPos(p,mu)).thenReturn(false);
+        when(model.checkPos(p,md)).thenReturn(true);
+        when(model.checkPos(p,ms)).thenReturn(false);
+
+        fieldController.updateMonsterPosition(monsterModel,null);
+
+        Mockito.verify(monsterModel, times(1))
+                .moveLeft(grid);
+        Mockito.verify(monsterModel,times(1))
+                .moveRight(grid);
+        Mockito.verify(monsterModel,times(1))
+                .moveUp(grid);
+        Mockito.verify(monsterModel,times(1))
+                .moveDown(grid);
+
+
+        when(heroController.getPosition()).thenReturn(new Position(10,10,1,2));
+
+        when(model.checkPos(p,ml)).thenReturn(false);
+        when(model.checkPos(p,mr)).thenReturn(false);
+        when(model.checkPos(p,mu)).thenReturn(false);
+        when(model.checkPos(p,md)).thenReturn(true);
+        when(model.checkPos(p,ms)).thenReturn(false);
+
+        fieldController.updateMonsterPosition(monsterModel,null);
+
+        Mockito.verify(monsterModel, times(1))
+                .moveLeft(grid);
+        Mockito.verify(monsterModel,times(1))
+                .moveRight(grid);
+        Mockito.verify(monsterModel,times(1))
+                .moveUp(grid);
+        Mockito.verify(monsterModel,times(1))
+                .moveDown(grid);
     }
 
     @Test

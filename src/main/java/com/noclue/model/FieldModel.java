@@ -125,28 +125,17 @@ public class FieldModel {
     }
 
     public boolean checkPos(Position position, Movement movement) {
-        //System.out.println(position.getX()+" "+position.getY());
-        /*for(CopyOnWriteArrayList<TileController> lt:getTiles().getTiles()) {
-            for (TileController t : lt) {
-                if(t.isFilled())
-                    System.out.print(1+" ");
-                else
-                    System.out.print(0+" ");
-            }
-            System.out.println();
-        }
-        System.out.println();*/
-
-        if (movement == Movement.left) {
-            return !(tiles.getTile(position.getLeft()).isFilled()) || !tiles.getTile(position.getLeft()).getFiller().isActive;
-        } else if (movement == Movement.right) {
-            return !(tiles.getTile(position.getRight()).isFilled()) || !tiles.getTile(position.getRight()).getFiller().isActive;
-        } else if (movement == Movement.up) {
-            return !(tiles.getTile(position.getUp()).isFilled()) || !tiles.getTile(position.getUp()).getFiller().isActive;
-        } else if (movement == Movement.down) {
-            return !(tiles.getTile(position.getDown()).isFilled()) || !tiles.getTile(position.getDown()).getFiller().isActive;
-        } else if (movement == Movement.stay) {
-            return !(tiles.getTile(position).isFilled()) || !tiles.getTile(position).getFiller().isActive;
+        switch (movement) {
+            case left:
+                return !tiles.getTile(position.getLeft()).isFilled() || !tiles.getTile(position.getLeft()).getFiller().isActive;
+            case right:
+                return !tiles.getTile(position.getRight()).isFilled() || !tiles.getTile(position.getRight()).getFiller().isActive;
+            case up:
+                return !tiles.getTile(position.getUp()).isFilled() || !tiles.getTile(position.getUp()).getFiller().isActive;
+            case down:
+                return !tiles.getTile(position.getDown()).isFilled() || !tiles.getTile(position.getDown()).getFiller().isActive;
+            case stay:
+                return !tiles.getTile(position).isFilled() || !tiles.getTile(position).getFiller().isActive;
         }
         return false;
     }
