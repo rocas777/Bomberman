@@ -9,11 +9,13 @@
 ## Implemented Features
 
 ### Menu
-> The initial the menu the player will see after running the game:
-![Menu](screenshots/menu.png)
+> The initial the menu the player will see after running the game to be navigated using 'w', 'a' and 'ENTER':
+>
+>![Menu](screenshots/menu.png)
 >
 > A sub menu to choose difficulties:
-![Difficulties](screenshots/difficulty.png)
+>
+>![Difficulties](screenshots/difficulty.png)
 
 ### Gamemodes
 > - Start Campaign - If the campaign mode is chosen the player will need to defeat 21 levels in order to win it. Each level will only differ in the amount and type of monster the hero will have to face besides the random placement of the collectibles and destructible blocks. After completing each level a 'winning screen' will be shown and the player must press 'q' to go back to the menu and continue with the following level.
@@ -59,7 +61,7 @@
 > The score has no real purpose to be fully honest, it is just there for competitive value if you will. Everytime you pick up a coin it will increase by one and while you are doing a campaign it will carry over to each new level (it won't reset to 0).
 
 ### Lives
-> These obviously are very important since if the player were to 'loose' whilst having 2 or more lives, instead he will just loose a life. Also, everytime the hero picks up a life (from a drop) it will only increase the effective number of lives up to 5, so if you already have 5 your best bet would be to let the drop be and pick it up later if you need.
+> These obviously are very important since if the player were to 'loose', instead he will just loose a life. Also, everytime the hero picks up a life (from a drop) it will only increase the effective number of lives up to 5, so if you already have 5 your best bet would be to let the drop be and pick it up later if you need.
 
 ### Time
 > For every level the player will only have 2 minutes to win. Catching time drops will increase time remaining by 15 seconds and there's no upper threshold. If the timer reaches 0 the will hero will fail that level, but he can always try again.
@@ -72,16 +74,16 @@
 ### Movement and collision detection
 >The player moves according to keyboard input (A-left; S-down; D-right; W-up).
 >
->The monsters also move using a pseudorandom algorythm to generate the next position he will be at.
+>The monster's movement will differ according to the difficulty they are assigned (explained in more detail further down on the difficulty part).
 >
 >There's also collision detection. For players if there is an input that will force the character into a wall it simply won't happen. As for the monsters, if it would happen they'll just choose another position if able.
 
 ### Bomb deployment and explosion
->The player can press 'p' to deploy a bomb. The bomb will not explode for the first 250 milliseconds so that the player has time to get to safety. After the safety time expires the bomb will explode horizontally and vertically in a range of 2 for each side and destroy whatever it can (player, monsters, destructible blocks).
+>The player can press 'p' to deploy a bomb. The bomb will not explode for the first second so that the player has time to get to safety. After the safety time expires the bomb will explode horizontally and vertically in a range of 2 for each side and destroy whatever it can (player, monsters, destructible blocks).
 >
 >![Explosion](screenshots/bomb_explosion.png)
 >
->For now the player only has 1 life point, so he will immediatly loose if caught in the explosion.
+> If the player is caught up in the explosion he will lose a life.
 
 ### Difficulty
 > There are 3 distinct difficulties. Each one only changes the way the monster moves. This way a difficulty isn't associated with a specific level (being that they are all fundamentally the same) but instead it is associated to a monster.
@@ -90,7 +92,8 @@
 > - Hard - Similar to Medium the monster will chase the player but on this difficulty it will avoid bombs
 >
 > Pro tip: there's a really simple but hard way (hence the name) to defeat a hard monster. You just need to lure them into a place they cannot escape when you deploy a bomb. Good luck :)
-
+>
+> Small note: Because the Easy monster's movement is random, sometimes it is in a tile next to the player but won't move in that direction so he won't loose a life. 
 ### Map Design
 >Each new playthrough the map generated will have all indestructible block in the same place, basically the same fundamental structure. Contrary to that, the destructible ones will be placed at random and so will the monster.
 >
@@ -101,15 +104,13 @@
 >![Sidebar](screenshots/sidebar.png)
 
 ### Lose condition
->If a monster happens to enter contact with the player while he only has 1 life he will lose. 
+> If the player were to reach 0 lives he will lose. If you're doing the campaign the level will not be reset to 0, you can just try again.
 >
->If the player enters the zone of the explosion while also haveing 1 life, the player dies.
->
-> Small note: The Easy monster movement is random, so, sometimes the monster is in a tile next to the player but won't move in that direction so he won't loose a life. 
-
+>![Lose Screen](screenshots/loose_screen.png)
 ### Win Condition
->The door will be hidden underneath one destructible block at random. If the player founds it after destroying the respective block he will win because, for now, there's only 1 level.
-
+> The door will be hidden underneath one destructible block at random. If the player founds it after destroying the respective block he will suceed on completing the level.
+>
+>![Win Screen](screenshots/win_screen.png)
 ## Design
 
 ### 1. Code Architecture
