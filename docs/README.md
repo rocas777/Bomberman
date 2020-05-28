@@ -193,7 +193,7 @@
 #### The Implementation
 >The following UML shows the time listener and how the main controllers depend on it (the keyboard listener is basically the same so we decided not to put it in the UML to simplify):
 ![uml](UML/Listeners.png)
-
+>
 >These classes/interface can be found at:
 >
 > [Timer](../src/main/java/com/noclue/timer/TimeListener.java)
@@ -217,7 +217,7 @@
 #### The Implementation
 >The following UML serves as an example of how we achieved this:
 ![uml](UML/IVIEW.png)
-
+>
 >These classes/interface can be found at:
 >
 > [FieldController](../src/main/java/com/noclue/controller/FieldController.java)
@@ -236,9 +236,9 @@
 
 ### 6. States
 #### The Problem
-> The implementation of lives was bundled together with a big hurdle. The fact the player wouldn't lose immediatly wasn't, at first, assured just by removing a life since the monster would just kill the player again real fast and as for the bomb, the tiles where it would explode would continue to 'be exploding' for a while and so the player would mostly lose all his lives instantly anyway.
+> The implementation of lives was bundled together with a big hurdle. The fact that the player wouldn't lose immediatly wasn't, at first, assured just by removing a life since the monster would just kill the player again real fast and as for the bomb, the tiles where it would explode would continue to 'be exploding' for a while and so the player would mostly lose all his lives instantly anyway.
 #### The Design
-> To go around this we decided to make the hero have a few seconds of invulnerability after loosing a life so he can reposition and avoid losing all lives in the same instant. The way we chose to do is usign the State pattern which allows us to alter the hero's behaviour according to his current state. To be more precise the invulnerability state (used together with a timer so it can be reverted to the normal state) would just do nothing when the other would decrement lives.
+> To go around this we decided to make the hero have a few seconds of invulnerability after loosing a life so he can reposition and avoid losing all lives in the same instant. The way we chose to do is using the State pattern which allows us to alter the hero's behaviour according to his current state. To be more precise the invulnerability state (used together with a timer so it can be reverted to the normal state) would just do nothing when the other would decrement lives.
 >
 > Taking advantage of this addition we also implemented a feature where the player could be powered-up for a few steps and although the end result is different, the pattern used is the same.
 #### The Implementation
