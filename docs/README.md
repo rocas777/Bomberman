@@ -1,67 +1,114 @@
 # LPOO_T81 - BOMBERMAN COOL VERSION
 
 >Bomberman is a strategic, maze-based video game franchise in which the player holds an unlimited number of bombs and uses them to open his path on the maze and find the door that will lead to the next level, all this while evading bad monsters :(
-
->Our version will try to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players would be caught up in his bomb's explosion he would lose a life. That leads to another difference: lives. The player will have 3 lives that he will lose by exploding himself or getting in contact with the mosnters. There will also be coin random coin drops and may, just maybe some power-ups.
-
->This project is being developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
+>
+>Our version aims to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players would be caught up in his bomb's explosion he would lose a life. That leads to another difference: lives. The player will have 3 lives which he will lose by exploding himself or getting in contact with the mosnters. There are also various drops from exploded blocks that will add time, lives, score and even turn the hero into Hulk for 10 steps.
+>
+>This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
 
 ## Implemented Features
-#### Monster
+
+### Menu
+> The initial the menu the player will see after running the game:
+![Menu](screenshots/menu.png)
+>
+> A sub menu to choose difficulties:
+![Difficulties](screenshots/difficulty.png)
+
+### Gamemodes
+> - Start Campaign - If the campaign mode is chosen the player will need to defeat 21 levels in order to win it. Each level will only differ in the amount and type of monster the hero will have to face besides the random placement of the collectibles and destructible blocks. After completing each level a 'winning screen' will be shown and the player must press 'q' to go back to the menu and continue with the following level.
+>
+> - Start Game - This mode will serve as a kind of practice. It will only consist of 1 level with 6, 7 or 8 monster of easy, medium or hard difficulty respectively and those are pretty much the only differences compared to the campaign.
+
+### Monster
 >The ones we are supposed to run way
-![monsters](screenshots/monster.png)
+![Easy Monster](screenshots/easy_monster.png) ![Medium Monster](screenshots/medium_monster.png) ![Hard Monster](screenshots/hard_monster.png) 
 
-#### Hero
+### Hero
 >The Hero is the one controlled by the player
-![hero](screenshots/hero.png)
+![Hero](screenshots/hero.png)
 
-#### Removable Blocks
+### Blocks
 >The blocks that can be exploded
-![block](screenshots/block.png)
+![Destructible Block](screenshots/destructible.png) 
+>
+>The blocks that can´t be exploded
+![Block](screenshots/block.png)
 
-#### Door
->The target Tile, The door to Victory
-![door](screenshots/door.png)
+### Collectibles
+>Everytime you destroy a block it can drop any of the following items:
+>
+>The target Tile, The door to Victory 
+>![Door](screenshots/door.png)
+>
+>Increases the score by 1 point
+![Door](screenshots/coin.png)
+>
+>Adds 15 seconds to the remaining time
+![Door](screenshots/add_time.png)
+>
+>Gives you one more life (max 5)
+![Door](screenshots/add_life.png)
+>
+>Sets hero in a powerfull state where he can destroy blocks and kill monster just by walking to them for 10 steps
+![Door](screenshots/invincible.png)
+>
+>Obviously the drop rates aren't the same for all of them for the sake of balance
+
+### Score
+> The score has no real purpose to be fully honest, it is just there for competitive value if you will. Everytime you pick up a coin it will increase by one and while you are doing a campaign it will carry over to each new level (it won't reset to 0).
+
+### Lives
+> These obviously are very important since if the player were to 'loose' whilst having 2 or more lives, instead he will just loose a life. Also, everytime the hero picks up a life (from a drop) it will only increase the effective number of lives up to 5, so if you already have 5 your best bet would be to let the drop be and pick it up later if you need.
+
+### Time
+> For every level the player will only have 2 minutes to win. Catching time drops will increase time remaining by 15 seconds and there's no upper threshold. If the timer reaches 0 the will hero will fail that level, but he can always try again.
+
+### States
+> Everytime the player looses a life he will enter a state of invulnerability for 1,6 seconds so that he has time reposition and think about his poor life choices :D. While this is going on the player's colors will tick so you can easily tell when it ends.
+>
+> There's also another state that the player enters after picking it up that we previously described as 'turning into Hulk'. While on this state for the next 10 steps the player can destroy monsters and blocks just by walking into them. Similar to the above state it is to tell if it is on or not due to the player's ticking colors and the fact that the number of steps remaining are tracked on the sidebar.
 
 ### Movement and collision detection
 >The player moves according to keyboard input (A-left; S-down; D-right; W-up).
-
+>
 >The monsters also move using a pseudorandom algorythm to generate the next position he will be at.
-
->There's also collision detection. For players if there is an input that will force the character into a wall it simply won't happen. As for the monsters, if it would happen they'll just choose another position.
+>
+>There's also collision detection. For players if there is an input that will force the character into a wall it simply won't happen. As for the monsters, if it would happen they'll just choose another position if able.
 
 ### Bomb deployment and explosion
->The player can press 'p' to deploy a bomb. The bomb will explode horizontally and vertically in a range of 4 for each side and destroy whatever it can (player, monsters, destructible blocks).
-
+>The player can press 'p' to deploy a bomb. The bomb will not explode for the first 250 milliseconds so that the player has time to get to safety. After the safety time expires the bomb will explode horizontally and vertically in a range of 2 for each side and destroy whatever it can (player, monsters, destructible blocks).
+>
+>![Explosion](screenshots/bomb_explosion.png)
+>
 >For now the player only has 1 life point, so he will immediatly loose if caught in the explosion.
 
 ### Difficulty
->Only easy implemented. It only affects monster movement each is generated at random (pseudo).
+> There are 3 distinct difficulties. Each one only changes the way the monster moves. This way a difficulty isn't associated with a specific level (being that they are all fundamentally the same) but instead it is associated to a monster.
+> - Easy - The next tile the monster will move to is calculated at random
+> - Medium - The monster will move to the tile closest to the hero
+> - Hard - Similar to Medium the monster will chase the player but on this difficulty it will avoid bombs
+>
+> Pro tip: there's a really simple but hard way (hence the name) to defeat a hard monster. You just need to lure them into a place they cannot escape when you deploy a bomb. Good luck :)
 
 ### Map Design
->Each try to map generated will have all indestructible block in the same place, but the destructible will be placed at random and so will the monster.
-
->On the contrary, the player will always start on the top left
-
->There's also a white column on the right. It will be the place where in the future we will draw lives, clock and score.
+>Each new playthrough the map generated will have all indestructible block in the same place, basically the same fundamental structure. Contrary to that, the destructible ones will be placed at random and so will the monster.
+>
+>The player will always start on the top left
+>
+>There's also a white sidebar that cointains a number of hearts equal to the number of lives the hero has, the time remaining, the level you will be playing and the number of steps left on the powered-up state.
+>
+>![Sidebar](screenshots/sidebar.png)
 
 ### Lose condition
->If a monster happens to enter contact with the player he will lose. At this moment, the Easy movements is random, so, sometimes the monster is in the tileModel close to the player but won't move in that direction. 
-
->If the player enters the zone of thhe explosion, the player dies.
+>If a monster happens to enter contact with the player while he only has 1 life he will lose. 
+>
+>If the player enters the zone of the explosion while also haveing 1 life, the player dies.
+>
+> Small note: The Easy monster movement is random, so, sometimes the monster is in a tile next to the player but won't move in that direction so he won't loose a life. 
 
 ### Win Condition
 >The door will be hidden underneath one destructible block at random. If the player founds it after destroying the respective block he will win because, for now, there's only 1 level.
-
-
-## Planned Features
->Make so that the player will have 3 lives as well as time to complete the level.
-
->Add a score system that will benefit from random coin drops after destructible blocks explose and fast clearence of levels.
-
->More difficulties that maybe change number of monsters, their deployment position and movement.
-
->If we have time we were also thinking about integrating power-ups like getting an extra life or invulnerability for x amount of time.
 
 ## Design
 
