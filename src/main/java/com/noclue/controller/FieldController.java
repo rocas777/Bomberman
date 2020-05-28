@@ -31,7 +31,6 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.lang.Math.abs;
-import static java.lang.Thread.sleep;
 
 public class FieldController implements KeyboardListener, TimeListener, ExplosionListener {
     int timerSum = 0;
@@ -215,7 +214,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         HeroModel modelh = new HeroModel((Position) position.clone());
         HeroController tmp_hero = new HeroController(modelh, null);
         tmp_hero.setLivesModel(new LivesModel(3, new Position(146, 45, 138, 2)));
-
         createTile(null,new HeroView(modelh, textGraphics),new TileModel(new NoCollectibleModel(), tmp_hero),position);
         model.setHero(tmp_hero);
     }
