@@ -1,5 +1,7 @@
 package com.noclue.controller;
 
+import com.noclue.IView;
+import com.noclue.model.Filler;
 import com.noclue.model.TileModel;
 import com.noclue.model.block.NoBlockModel;
 import com.noclue.model.collectible.Collectible;
@@ -12,6 +14,7 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 public class TileControllerTest {
     TileController tileController;
@@ -23,6 +26,10 @@ public class TileControllerTest {
         tileModel = Mockito.mock(TileModel.class);
         tileView = Mockito.mock(TileView.class);
         tileController = new TileController(tileModel,tileView);
+        Filler filler = Mockito.mock(Filler.class);
+        IView iView = Mockito.mock(IView.class);
+        when(tileModel.getFiller()).thenReturn(filler);
+        when(tileView.getFiller()).thenReturn(iView);
     }
 
     @Test
@@ -39,17 +46,23 @@ public class TileControllerTest {
         TileModel tm1 = Mockito.mock(TileModel.class);
         TileView tv1 = Mockito.mock(TileView.class);
         TileController t1 = new TileController(tm1,tv1);
+        Filler filler = Mockito.mock(Filler.class);
+        IView view = Mockito.mock(IView.class);
+        when(tm1.getFiller()).thenReturn(filler);
+        when(tv1.getFiller()).thenReturn(view);
 
         tileController.moveTile(t1);
+
+        Mockito.verify(tm1,Mockito.times(1))
+                .setFiller(tileModel.getFiller());
+        Mockito.verify(tv1,Mockito.times(1))
+                .setFiller(tileView.getFiller());
+
 
         Mockito.verify(tileModel,Mockito.times(1))
                 .setFiller(any(NoBlockModel.class));
         Mockito.verify(tileView,Mockito.times(1))
                 .setFiller(any(NoView.class));
-
-
-        Assert.assertEquals(tm1.getFiller(),tileModel.getFiller());
-        Assert.assertEquals(tv1.getFiller(),tileView.getFiller());
     }
 
     @Test
