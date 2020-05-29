@@ -37,16 +37,7 @@ public class MenuController implements KeyboardListener {
     public MenuController(MenuModel menuModel, MenuView menuView) throws IOException {
         this.menuModel = menuModel;
         this.menuView = menuView;
-
         menuModel.setDifficultiesA(readDifficulties(menuModel));
-        Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(146, 45)).createTerminal();
-        MenuModel.setScreen(new TerminalScreen(terminal));
-        MenuModel.getScreen().setCursorPosition(null);   // we don't need a cursor
-        MenuModel.getScreen().startScreen();             // screens must be started
-        MenuModel.getScreen().doResizeIfNecessary();     // resize screen if necessary
-
-        menuModel.setTextGraphics(MenuModel.getScreen().newTextGraphics());
-
 
     }
 
