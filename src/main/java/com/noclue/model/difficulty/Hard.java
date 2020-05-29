@@ -41,11 +41,6 @@ public class Hard implements Difficulty {
             }
         });
 
-        for (Hard.Par m:list){
-            System.out.println(m.f+" "+m.movement.toString());
-        }
-        System.out.println();
-
         ArrayList<Movement> out = new ArrayList();
         boolean inExplosionList = checkIsInExplosionList(bomb, monster);
 
