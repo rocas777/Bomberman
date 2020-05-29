@@ -53,6 +53,7 @@ public class GameOverView implements IView {
 
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff00ff"));
         textGraphics.putString(46, 22, "YOU HAVE LOST!!! I didn't know that was even possible!");
+        textGraphics.putString(63, 23, "Press 'q' to return");
 
         try {
             screen.refresh();
