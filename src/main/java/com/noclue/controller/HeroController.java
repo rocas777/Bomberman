@@ -6,7 +6,7 @@ import com.noclue.model.LivesModel;
 import com.noclue.model.Position;
 import com.noclue.model.character.Character;
 import com.noclue.model.character.HeroModel;
-import com.noclue.model.state.InvencibleIsTouching;
+import com.noclue.model.state.InvincibleIsTouching;
 import com.noclue.model.state.InvincibleDeactivate;
 import com.noclue.model.state.NormalDeactivate;
 import com.noclue.model.state.NormalIsTouching;
@@ -22,7 +22,7 @@ public class HeroController extends Filler implements Character {
         model.setNormalDeactivate(new NormalDeactivate(model));
         model.setInvincibleDeactivate(new InvincibleDeactivate());
 
-        model.setInvencibleIsTouching(new InvencibleIsTouching(model));
+        model.setInvencibleIsTouching(new InvincibleIsTouching(model));
         model.setNormalIsTouching(new NormalIsTouching(model));
 
         model.setDeactivateState(model.getNormalDeactivate());

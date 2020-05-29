@@ -3,10 +3,10 @@ package com.noclue.model.state;
 import com.noclue.model.Filler;
 import com.noclue.model.character.HeroModel;
 
-public class InvencibleIsTouching extends IsTouchingState {
+public class InvincibleIsTouching extends IsTouchingState {
     HeroModel model;
 
-    public InvencibleIsTouching(HeroModel model) {
+    public InvincibleIsTouching(HeroModel model) {
         this.model = model;
     }
 

@@ -50,8 +50,7 @@ public class MonsterModel extends Filler implements Character {
     public boolean isTouching(Filler filler) {
         if (filler.isFilled())
             return false;
-        else
-            filler.deactivate();
+        filler.deactivate();
         return true;
     }
 

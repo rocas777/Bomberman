@@ -125,18 +125,19 @@ public class FieldModel {
     }
 
     public boolean checkPos(Position position, Movement movement) {
-        switch (movement) {
-            case left:
-                return !tiles.getTile(position.getLeft()).isFilled() || !tiles.getTile(position.getLeft()).getFiller().isActive;
-            case right:
-                return !tiles.getTile(position.getRight()).isFilled() || !tiles.getTile(position.getRight()).getFiller().isActive;
-            case up:
-                return !tiles.getTile(position.getUp()).isFilled() || !tiles.getTile(position.getUp()).getFiller().isActive;
-            case down:
-                return !tiles.getTile(position.getDown()).isFilled() || !tiles.getTile(position.getDown()).getFiller().isActive;
-            case stay:
-                return !tiles.getTile(position).isFilled() || !tiles.getTile(position).getFiller().isActive;
-        }
+        if(movement!=null)
+            switch (movement) {
+                case left:
+                    return !tiles.getTile(position.getLeft()).isFilled() || !tiles.getTile(position.getLeft()).getFiller().isActive();
+                case right:
+                    return !tiles.getTile(position.getRight()).isFilled() || !tiles.getTile(position.getRight()).getFiller().isActive();
+                case up:
+                    return !tiles.getTile(position.getUp()).isFilled() || !tiles.getTile(position.getUp()).getFiller().isActive();
+                case down:
+                    return !tiles.getTile(position.getDown()).isFilled() || !tiles.getTile(position.getDown()).getFiller().isActive();
+                case stay:
+                    return !tiles.getTile(position).isFilled() || !tiles.getTile(position).getFiller().isActive();
+            }
         return false;
     }
 

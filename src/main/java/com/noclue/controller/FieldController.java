@@ -157,7 +157,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     public void setIndestructibleBlocks() {
         for (int y = 0; y < 15; y++) {
-            model.getTiles().add_collumn();
+            model.getTiles().add_column();
             for (int x = 0; x < 23; x++) {
                 model.getTiles().addTile();
                 Position p = new Position(23, 15, x, y);

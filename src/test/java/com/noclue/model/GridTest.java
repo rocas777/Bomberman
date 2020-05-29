@@ -1,14 +1,12 @@
 package com.noclue.model;
 
 import com.noclue.controller.TileController;
-import com.noclue.controller.TileControllerTest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 public class GridTest {
@@ -17,9 +15,9 @@ public class GridTest {
     public void add_collumn() {
         Grid grid = new Grid();
         Assert.assertEquals(0,grid.getTiles().size());
-        grid.add_collumn();
+        grid.add_column();
         Assert.assertEquals(1,grid.getTiles().size());
-        grid.add_collumn();
+        grid.add_column();
         Assert.assertEquals(2,grid.getTiles().size());
     }
 

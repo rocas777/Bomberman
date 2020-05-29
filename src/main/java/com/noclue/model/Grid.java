@@ -8,11 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Grid {
     private CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tiles = new CopyOnWriteArrayList<>();
 
-    public Grid() {
-
-    }
-
-    public void add_collumn() {
+    public void add_column() {
         tiles.add(new CopyOnWriteArrayList<>());
     }
 
