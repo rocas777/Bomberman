@@ -9,11 +9,6 @@ public class LivesModel {
         this.position = position;
     }
 
-    public LivesModel(Position position) {
-        this.position = position;
-        lives = 3;
-    }
-
     public int getLives() {
         return lives;
     }
