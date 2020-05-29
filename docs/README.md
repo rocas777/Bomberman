@@ -121,7 +121,8 @@
 >In order to solve this issue and separate responsibilities into different objects we adopted the MVC (Model - View - Controller) pattern. Doing so allowed us to make our code organized, easier to read and overall structured. We also benefict from the fact that changing or adding features is very much simpler. Since we only thought of implementing this design midway it took longer than expected but this is how it turned out...
 #### The Implementation
 >The following UML shows how we implemented this design through one example since it is basically the same for every object:
-![uml](UML/MVC.png)
+>
+>![uml](UML/MVC.png)
 >
 >These classes can be found at:
 >
@@ -142,7 +143,8 @@
 >We chose to go with the first option of letting each bomb handle itself and implementing a State Pattern since this was specially easier to do with the above mentioned MVC pattern. What this pattern does is allow us to represent different states of application with different subclasses. This pattern allowed us to address this simple problem because the bomb clearly has two different states: ticking and explosion. When the bomb needs to change from ticking to exploded, it only has to change its view. Since both implement the same interface, the controller does not have the need to keep checking flags and if's when it renders to check the state.  
 #### The Implementation
 >The following UML shows how we mapped this pattern:
-![uml](UML/Bomb-Explosion.png)
+>
+>![uml](UML/Bomb-Explosion.png)
 >
 >These classes/interface can be found at:
 >
@@ -165,7 +167,8 @@
 >To work this problem out we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the monsters's behaviour slightly according to the difficulty that is assigned even though their job is all the same. The Monster only has to call the class that was passed to it, and that class is responsible for sorting the four possible movement by most preferable according to each difficulty's objetive.
 #### The Implementation
 >The following UML shows how we mapped this pattern:
-![uml](UML/Difficulty.png)
+>
+>![uml](UML/Difficulty.png)
 >
 >These classes/interface can be found at:
 >
@@ -189,10 +192,11 @@
 >The issue was on how to notify each monster to move. There was a different but similar situation with our hero, where he needed to wait for an input that wasn't his to receive. How should we go about this? The hero situation represented an even bigger setback because the keyboard input is asynchronous.
 #### The Design
 >We rapidly decided to adopt the Observer Pattern for this situation. This design defines a one-to-many dependency between objects so that when one object updates its dependents, they are notified and updated automatically. Applying this to our project, the "status change" would be the instant there's a new frame to draw or when keyboard interrupt is received and both of them have its own "Listener" class that does exactly that, simulate a framerate and listen to keyboard input.
->This way using the concepts of the Observer Pattern, those listeners notify the classes that depend so they can update themselves (TimeListener notifies the Game and FieldController class and KeyboardListener notifies the FieldController. The FieldController has a similiar aproach by notifying the other classes to draw).
+>This way using the concepts of the Observer Pattern, those listeners notify the classes that depend so they can update themselves (TimeListener notifies the FieldController, BombController and NormalState if necessary and KeyboardListener notifies the FieldController and the MenuController. The FieldController has a similiar aproach by notifying the other classes to draw.
 #### The Implementation
 >The following UML shows the time listener and how the main controllers depend on it (the keyboard listener is basically the same so we decided not to put it in the UML to simplify):
-![uml](UML/Listeners.png)
+>
+>![uml](UML/Listeners.png)
 >
 >These classes/interface can be found at:
 >
@@ -205,7 +209,9 @@
 > [FieldController](../src/main/java/com/noclue/controller/FieldController.java)
 >
 > [BombController](../src/main/java/com/noclue/controller/bomb/BombController.java)
-#### The consequences
+>
+> [NormalState](../src/main/java/com/noclue/model/state/NormalDeactivate.java)
+#### The Consequences
 > - Further encapsulation and code structurization where the listeners have no information about their observers, just that they exist and the need to notify them when the time is right, nor do they about the listener.
 #### * Note about the class notification: since the FieldModel holds almost every other model it would make sense for the FieldController to also manipulate most of them.
 
@@ -216,7 +222,8 @@
 >The need to adapt the code lead us to the Interface Adapter design. This allows to convert the interface of class into another interface that is expected. Even though we are not following the design to the word since we are not really adapting interfaces (just a simple function) we took some principles off of it and choose tho make a generic draw() call that each class will adapt to its own liking.
 #### The Implementation
 >The following UML serves as an example of how we achieved this:
-![uml](UML/IVIEW.png)
+>
+>![uml](UML/IVIEW.png)
 >
 >These classes/interface can be found at:
 >
@@ -234,21 +241,42 @@
 > - More readability
 > - The caller does not have to know the class objects and functions parameters 
 
-### 6. States
+### 6. Life Handling and Power-Up
 #### The Problem
 > The implementation of lives was bundled together with a big hurdle. The fact that the player wouldn't lose immediatly wasn't, at first, assured just by removing a life since the monster would just kill the player again real fast and as for the bomb, the tiles where it would explode would continue to 'be exploding' for a while and so the player would mostly lose all his lives instantly anyway.
 #### The Design
 > To go around this we decided to make the hero have a few seconds of invulnerability after loosing a life so he can reposition and avoid losing all lives in the same instant. The way we chose to do is using the State pattern which allows us to alter the hero's behaviour according to his current state. To be more precise the invulnerability state (used together with a timer so it can be reverted to the normal state) would just do nothing when the other would decrement lives.
 >
-> Taking advantage of this addition we also implemented a feature where the player could be powered-up for a few steps and although the end result is different, the pattern used is the same.
+> Taking advantage of this addition we also implemented a feature where the player could be powered-up for a few steps and although the end result is different, the pattern used is the same altering the 'isTouching' logic.
 #### The Implementation
-> Colocar aqui um UML GOSTOSO <3
+> The following UML shows how we did this:
+>
+>![UML](UML/States.png)
+>
+> These classes can be found at:
+>
+> [Hero](../src/main/java/com/noclue/model/character/HeroModel.java)
+>
+> [DeactivateState](../src/main/java/com/noclue/model/state/DeactivateState.java)
+>
+> [InvincibleDeactivate](../src/main/java/com/noclue/model/state/InvincibleDeactivate.java)
+>
+> [NormalDeactivate](../src/main/java/com/noclue/model/state/NormalDeactivate.java)
+>
+> [isTouchingState](../src/main/java/com/noclue/model/state/IsTouchingState.java)
+>
+> [NormalIsTouching](../src/main/java/com/noclue/model/state/NormalIsTouching.java)
+>
+> [InvincibleIsTouching](../src/main/java/com/noclue/model/state/InvencibleIsTouching.java)
+>
+> And the one that handles the calling of deactivate and isTouching is [HeroController](../src/main/java/com/noclue/controller/HeroController.java)
+
 #### The Consequences
 > - Adding states is very simple and doesn't require changing the ones that already exist.
 > - Single Responsibility principle: each class has only one job
 > - No need of using a multitude of conditional statements that would make the code harder to read
 
-### 7. Visitor
+### 7. Instanceof
 #### The Problem
 > After finishing almost all our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
 #### The Design

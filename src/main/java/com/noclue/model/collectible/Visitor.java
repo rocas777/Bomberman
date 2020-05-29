@@ -1,4 +1,4 @@
-package com.noclue;
+package com.noclue.model.collectible;
 
 import com.noclue.controller.FieldController;
 

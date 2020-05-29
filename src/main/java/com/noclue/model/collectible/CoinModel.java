@@ -1,8 +1,9 @@
 package com.noclue.model.collectible;
 
-import com.noclue.Visitor;
 import com.noclue.controller.FieldController;
 import com.noclue.model.Position;
+
+import static com.noclue.model.collectible.Visitor.visitCoin;
 
 public class CoinModel implements Collectible {
     Position position;
@@ -21,6 +22,6 @@ public class CoinModel implements Collectible {
 
     @Override
     public void visit(FieldController fieldController) {
-        Visitor.visitCoin(fieldController);
+        visitCoin(fieldController);
     }
 }
