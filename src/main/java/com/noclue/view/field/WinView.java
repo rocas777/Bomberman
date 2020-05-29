@@ -51,6 +51,7 @@ public class WinView implements IView {
 
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff00ff"));
         textGraphics.putString(50, 22, "YOU HAVE WON THE GAME!!! That was a tough one!");
+        textGraphics.putString(63, 23, "Press 'q' to return");
 
         try {
             screen.refresh();
