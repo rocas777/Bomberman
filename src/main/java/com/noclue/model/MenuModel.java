@@ -84,12 +84,12 @@ public class MenuModel {
         if (subOption != 1) {
             subOption--;
         } else {
-            subOption = 4;
+            subOption = 3;
         }
     }
 
     public void subOptDown() {
-        if (subOption != 4) {
+        if (subOption != 3) {
             subOption++;
         } else {
             subOption = 1;

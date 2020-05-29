@@ -1,5 +1,6 @@
 package com.noclue.model;
 
+import com.noclue.Movement;
 import com.noclue.view.NoView;
 import org.junit.Assert;
 import org.junit.Before;
@@ -84,10 +85,10 @@ public class PositionTest {
 
     @Test
     public void getRealPosition() {
-        Assert.assertEquals(new Position(10*6+20,20*3+20,p1.getX()*6,p1.getY()*3),p1.getRealPosition());
+        Assert.assertEquals(p1.getX()*6,p1.getRealPosition().getX());
+        Assert.assertEquals(p1.getY()*3,p1.getRealPosition().getY());
         Assert.assertEquals(
-                new Position(10*6+20,20*3+20,p1.getX()*6,p1.getY()*3).equals(p1.getRealPosition()),
-                true);
+                new Position(10*6+20,20*3+20,p1.getX()*6,p1.getY()*3),p1.getRealPosition());
         Assert.assertNotEquals(null,p1.getRealPosition());
     }
 
@@ -97,5 +98,87 @@ public class PositionTest {
         Assert.assertEquals(p1.equals(new Position(10,20,10,10)),true);
         Assert.assertEquals(p1.equals(p1),true);
         Assert.assertEquals(p1.equals(new NoView()),false);
+    }
+
+    @Test
+    public void getPositionByMovement() {
+        Position p1 = new Position(20,20,5,5);
+        Assert.assertEquals(new Position(20,20,4,5),p1.getPositionByMovement(Movement.left));
+        Position p2 = new Position(20,20,5,5);
+        Assert.assertEquals(new Position(20,20,6,5),p2.getPositionByMovement(Movement.right));
+        Position p3 = new Position(20,20,5,5);
+        Assert.assertEquals(new Position(20,20,5,4),p3.getPositionByMovement(Movement.up));
+        Position p4 = new Position(20,20,5,5);
+        Assert.assertEquals(new Position(20,20,5,6),p4.getPositionByMovement(Movement.down));
+        p4 = new Position(20,20,5,5);
+        Assert.assertEquals(new Position(20,20,5,5),p4.getPositionByMovement(Movement.stay));
+    }
+
+    @Test
+    public void getUp() {
+        Position p3 = new Position(20,20,5,5);
+        Assert.assertEquals(new Position(20,20,5,4),p3.getUp());
+        p3 = new Position(20,20,5,0);
+        Assert.assertEquals(new Position(20,20,5,0),p3.getUp());
+        p3 = new Position(20,20,5,1);
+        Assert.assertEquals(new Position(20,20,5,0),p3.getUp());
+    }
+
+    @Test
+    public void getDown() {
+        Position p3 = new Position(20,20,5,5);
+        Assert.assertEquals(new Position(20,20,5,6),p3.getDown());
+        p3 = new Position(20,20,5,20);
+        Assert.assertEquals(new Position(20,20,5,20),p3.getDown());
+        p3 = new Position(20,20,5,19);
+        Assert.assertEquals(new Position(20,20,5,20),p3.getDown());
+    }
+
+    @Test
+    public void getLeft() {
+        Position p3 = new Position(20,20,5,5);
+        Assert.assertEquals(new Position(20,20,4,5),p3.getLeft());
+        p3 = new Position(20,20,0,5);
+        Assert.assertEquals(new Position(20,20,0,5),p3.getLeft());
+        p3 = new Position(20,20,1,5);
+        Assert.assertEquals(new Position(20,20,0,5),p3.getLeft());
+    }
+
+    @Test
+    public void getRight() {
+        Position p3 = new Position(20,20,5,5);
+        Assert.assertEquals(new Position(20,20,6,5),p3.getRight());
+        p3 = new Position(20,20,20,5);
+        Assert.assertEquals(new Position(20,20,20,5),p3.getRight());
+        p3 = new Position(20,20,19,5);
+        Assert.assertEquals(new Position(20,20,20,5),p3.getRight());
+    }
+
+    @Test
+    public void setUp() {
+        Position p3 = new Position(20,20,5,5);
+        p3.setUp();
+        Assert.assertEquals(new Position(20,20,5,4),p3);
+    }
+
+    @Test
+    public void setDown() {
+        Position p3 = new Position(20,20,5,5);
+        p3.setDown();
+        Assert.assertEquals(new Position(20,20,5,6),p3);
+    }
+
+    @Test
+    public void setLeft() {
+        Position p3 = new Position(20,20,5,5);
+        p3.setLeft();
+        Assert.assertEquals(new Position(20,20,4,5),p3);
+    }
+
+    @Test
+    public void setRight() {
+        Position p3 = new Position(20,20,5,5);
+        p3.setRight();
+        Assert.assertEquals(new Position(20,20,6,5),p3);
     }
 }
