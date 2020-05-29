@@ -280,9 +280,29 @@
 #### The Problem
 > After finishing almost all our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
 #### The Design
-> Suceeding some research and consulting our professor we decided to use the Visitor pattern which consists of creating a new class 'visitor' and placing each different behaviour in a new method. Instead of handling the behaviour directly we would pass all the necessary information to the target object and he in turn would call the approriate method of the 'visitor' since obviously he knows what class he is.
+> Suceeding some research and consulting our professor we decided to use a slightly modified version of the Visitor pattern which consists of creating a new class 'visitor' and placing each different behaviour in a new method. Instead of handling the behaviour directly we would pass all the necessary information to the target object and he in turn would call the approriate method of the 'visitor' since obviously he knows what class he is.
 #### The Implementation
-> Colocar aqui um UML GOSTOSO <3
+> The UML that represents how we implemented this pattern:
+>
+>![UML](UML/Visitor.png)
+>
+>[FieldController](../src/main/java/com/noclue/controller/FieldController.java)
+>
+>[Collectible](../src/main/java/com/noclue/model/collectible/Collectible.java)
+>
+>[Time](../src/main/java/com/noclue/model/collectible/AddTime.java)
+>
+>[Life](../src/main/java/com/noclue/model/collectible/AddLife.java)
+>
+>[Coin](../src/main/java/com/noclue/model/collectible/CoinModel.java)
+>
+>[Invincible](../src/main/java/com/noclue/model/collectible/Invencible.java)
+>
+>[Door](../src/main/java/com/noclue/model/collectible/DoorModel.java)
+>
+>[Null](../src/main/java/com/noclue/model/collectible/NoCollectibleModel.java)
+>
+>[Visitor](../src/main/java/com/noclue/model/collectible/Visitor.java)
 #### The Consequences
 > - Open/Closed Principle: ease of adding new visiting behaviours
 > - Single Responsibility Principle: bundle multiple behaviours together
