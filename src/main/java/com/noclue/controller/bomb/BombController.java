@@ -20,14 +20,6 @@ public class BombController implements IBombInterface {
     private int sum = 0;
     private TextGraphics textGraphics;
 
-    public IView getViewTicking() {
-        return viewTicking;
-    }
-
-    public IView getViewFire() {
-        return viewFire;
-    }
-
     public BombController(BombModel model, TextGraphics textGraphics) {
         this.viewTicking = new BombViewTicking(textGraphics, model);
         this.viewFire = new BombViewFire(textGraphics, model);
@@ -43,6 +35,22 @@ public class BombController implements IBombInterface {
         explosionList.add(model.getPosition().getUp());
         explosionList.add(model.getPosition().getUp().getUp());
         explosionList.add(model.getPosition());
+    }
+
+    public IView getViewTicking() {
+        return viewTicking;
+    }
+
+    public void setViewTicking(IView viewTicking) {
+        this.viewTicking = viewTicking;
+    }
+
+    public IView getViewFire() {
+        return viewFire;
+    }
+
+    public void setViewFire(IView viewFire) {
+        this.viewFire = viewFire;
     }
 
     public int getSum() {
@@ -71,14 +79,6 @@ public class BombController implements IBombInterface {
 
     public void setView(IView view) {
         this.view = view;
-    }
-
-    public void setViewFire(IView viewFire) {
-        this.viewFire = viewFire;
-    }
-
-    public void setViewTicking(IView viewTicking) {
-        this.viewTicking = viewTicking;
     }
 
     @Override

@@ -1,11 +1,8 @@
 package com.noclue.controller;
 
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
 import com.noclue.keyboard.KeyBoard;
 import com.noclue.keyboard.KeyboardListener;
 import com.noclue.model.FieldModel;
@@ -85,7 +82,7 @@ public class MenuController implements KeyboardListener {
         return diffi;
     }
 
-    public void killProgram() throws IOException{
+    public void killProgram() throws IOException {
         URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
         BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
         bw.write(menuModel.getLevel() + "\n");
@@ -109,7 +106,7 @@ public class MenuController implements KeyboardListener {
                         } else if (key.getCharacter() == 's') {
                             menuModel.optDown();
                         } else if (key.getKeyType() == KeyType.Enter) {
-                            if(chooseOption())
+                            if (chooseOption())
                                 break;
                         }
                     } else {
@@ -130,7 +127,7 @@ public class MenuController implements KeyboardListener {
 
     }
 
-    public boolean chooseOption(){
+    public boolean chooseOption() {
         if (menuModel.getOption() == 1) {
             if (menuModel.getSubOption() == 1) {
                 setEasy();
@@ -152,7 +149,7 @@ public class MenuController implements KeyboardListener {
         } else if (menuModel.getOption() == 4) {
             difficulties = menuModel.getDifficultiesA().get(menuModel.getLevel() - 1);
             startNewGame();
-            return  true;
+            return true;
         }
         return false;
     }
@@ -201,7 +198,7 @@ public class MenuController implements KeyboardListener {
             fieldModel.setkServer(null);
             fieldModel.settServer(null);
             if (fieldModel.isWon()) {
-                menuModel.setLevel((menuModel.getLevel() + 1)%menuModel.getDifficultiesA().size());
+                menuModel.setLevel((menuModel.getLevel() + 1) % menuModel.getDifficultiesA().size());
                 menuModel.setScore(fieldModel.getPoints());
             }
 
@@ -219,7 +216,7 @@ public class MenuController implements KeyboardListener {
 
     private void setHard() {
         difficulties.clear();
-        for(int i=0;i<8;i++) {
+        for (int i = 0; i < 8; i++) {
             difficulties.add(new Hard());
         }
 
@@ -227,7 +224,7 @@ public class MenuController implements KeyboardListener {
 
     private void setMedium() {
         difficulties.clear();
-        for(int i=0;i<7;i++) {
+        for (int i = 0; i < 7; i++) {
             difficulties.add(new Medium());
         }
 
@@ -235,7 +232,7 @@ public class MenuController implements KeyboardListener {
 
     private void setEasy() {
         difficulties.clear();
-        for(int i=0;i<6;i++) {
+        for (int i = 0; i < 6; i++) {
             difficulties.add(new Easy());
         }
     }

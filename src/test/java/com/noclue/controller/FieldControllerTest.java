@@ -1,25 +1,37 @@
 package com.noclue.controller;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.noclue.IBombInterface;
 import com.noclue.IView;
 import com.noclue.Movement;
+import com.noclue.controller.bomb.BombController;
 import com.noclue.model.*;
+import com.noclue.model.block.IndestructibleBlockModel;
+import com.noclue.model.block.NoBlockModel;
+import com.noclue.model.block.RemovableBlockModel;
 import com.noclue.model.character.MonsterModel;
+import com.noclue.model.collectible.Collectible;
+import com.noclue.model.collectible.NoCollectibleModel;
+import com.noclue.model.difficulty.Difficulty;
 import com.noclue.timer.Timer;
+import com.noclue.view.NoView;
+import com.noclue.view.block.IndestructibleBlockView;
+import com.noclue.view.block.RemovableBlockView;
+import com.noclue.view.bomb.BombViewFire;
+import com.noclue.view.character.HeroView;
+import com.noclue.view.character.MonsterView;
+import com.noclue.view.collectible.DoorView;
 import com.noclue.view.field.FieldView;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.verification.VerificationMode;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class FieldControllerTest {
 
@@ -34,74 +46,350 @@ public class FieldControllerTest {
 
     @Test
     public void createTile() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        Grid grid = new Grid();
+        grid.add_column();
+        grid.add_column();
+        grid.addTile();
+        grid.addTile();
+        when(fieldModel.getTiles()).thenReturn(grid);
+
+        Position position = new Position(23,15,1,1);
+        IView a = Mockito.mock(IView.class);
+        IView b = Mockito.mock(IView.class);
+        TileModel tileModel = new TileModel(Mockito.mock(Collectible.class),Mockito.mock(Filler.class));
+        fieldController.createTile(a,b,tileModel,position);
+
+        Assert.assertEquals(a,grid.getTile(position).getView().getCollectible());
+        Assert.assertEquals(b,grid.getTile(position).getView().getFiller());
 
     }
 
     @Test
     public void setRemovableBlocks() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        Grid grid = new Grid();
+        when(fieldModel.getTiles()).thenReturn(grid);
+
+        fieldController.setIndestructibleBlocks();
+        fieldController.setRemovableBlocks(new Position(23,15,1,1),new Position(23,15,2,1),40);
+        verify(fieldController,times(40)).createTile(any(), any(RemovableBlockView.class), any(TileModel.class), any(Position.class));
+
+        int u = 0;
+
+        for(int y=0;y<grid.getTiles().size();y++){
+            for(int x=0;x<grid.getTiles().get(y).size();x++){
+                if(grid.getTiles().get(y).get(x).getFiller() instanceof RemovableBlockModel)
+                    u++;
+            }
+        }
+        Assert.assertEquals(40,u);
 
     }
 
     @Test
     public void setIndestructibleBlocks() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        Grid grid = new Grid();
+        when(fieldModel.getTiles()).thenReturn(grid);
+
+        fieldController.setIndestructibleBlocks();
+        verify(fieldController,times(132)).createTile(any(NoView.class), any(IndestructibleBlockView.class), any(TileModel.class), any(Position.class));
+        verify(fieldController,times(213)).createTile(any(NoView.class), any(NoView.class), any(TileModel.class), any(Position.class));
+
+        Assert.assertEquals(15,grid.getTiles().size());
+        for(CopyOnWriteArrayList ct:grid.getTiles()){
+            Assert.assertEquals(23,ct.size());
+        }
+
+        for(int y=0;y<grid.getTiles().size();y++){
+            for(int x=0;x<grid.getTiles().get(y).size();x++){
+                if(x == 0 || x==22 || y==0 || y==14 || (x%2 == 0 && y%2==0)) {
+                    Assert.assertTrue(grid.getTiles().get(y).get(x).getFiller().isFilled());
+                }
+                else
+                    Assert.assertFalse(grid.getTiles().get(y).get(x).getFiller().isFilled());
+            }
+        }
 
     }
 
     @Test
     public void setMonsters() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        Grid grid = new Grid();
+        when(fieldModel.getTiles()).thenReturn(grid);
+        fieldController.setIndestructibleBlocks();
+
+        Random random = new Random();
+        Position positionh = new Position(23,15,1,1);
+        Position door = new Position(23, 15, random.nextInt(21) + 1, random.nextInt(13) + 1);
+        ArrayList<Difficulty> difficulties = new ArrayList<>();
+        CopyOnWriteArrayList<MonsterModel> monsterModels = new CopyOnWriteArrayList<>();
+        difficulties.add(Mockito.mock(Difficulty.class));
+        difficulties.add(Mockito.mock(Difficulty.class));
+        difficulties.add(Mockito.mock(Difficulty.class));
+        difficulties.add(Mockito.mock(Difficulty.class));
+        difficulties.add(Mockito.mock(Difficulty.class));
+        difficulties.add(Mockito.mock(Difficulty.class));
+        fieldController.setDifficulty(difficulties);
+        when(fieldModel.getDifficulties()).thenReturn(difficulties);
+        when(fieldModel.getMonsters()).thenReturn(monsterModels);
+        doNothing().when(fieldController).createTile(any(),any(),any(),any());
+
+        fieldController.setMonsters(positionh,door);
+        for(MonsterModel m:monsterModels){
+            Assert.assertNotEquals(positionh,m.getPosition());
+            Assert.assertNotEquals(door,m.getPosition());
+        }
+        Assert.assertEquals(monsterModels.size(),difficulties.size());
+
 
     }
 
     @Test
     public void setHeroPos() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+
+        Position position = new Position(23,15,1,1);
+        Position positionh = fieldController.setHeroPos();
+        Assert.assertEquals(position,positionh);
 
     }
 
     @Test
     public void setDoorPos() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        Grid grid = new Grid();
+        when(fieldModel.getTiles()).thenReturn(grid);
+        fieldController.setIndestructibleBlocks();
 
+        Position position = new Position(15,15,5,5);
+        Assert.assertNotEquals(position,fieldController.setDoorPos(position));
     }
 
     @Test
     public void setHero() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        doNothing().when(fieldController).createTile(any(),any(),any(),any());
 
+        Position position = Mockito.mock(Position.class);
+
+        fieldController.setHero(position);
+        verify(fieldController,times(1)).createTile(any(),any(HeroView.class),any(TileModel.class),any(Position.class));
+        verify(fieldModel,times(1)).setHero(any(HeroController.class));
     }
 
     @Test
     public void setDoor() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        doNothing().when(fieldController).createTile(any(),any(),any(),any());
 
+        Position position = Mockito.mock(Position.class);
+
+        fieldController.setDoor(position);
+        verify(fieldController,times(1)).createTile(any(DoorView.class),any(RemovableBlockView.class),any(TileModel.class),any(Position.class));
     }
 
     @Test
     public void updateOnKeyboard() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        when(fieldController.model.getBomb()).thenReturn(null);
+        HeroController heroController = Mockito.mock(HeroController.class);
+        when(heroController.getPosition()).thenReturn(new Position(10,10,5,5));
+        when(fieldController.model.getHero()).thenReturn(heroController);
+        Timer timer = Mockito.mock(Timer.class);
+        when(fieldController.model.gettServer()).thenReturn(timer);
+        KeyStroke keyStroke = Mockito.mock(KeyStroke.class);
+        when(keyStroke.getCharacter()).thenReturn('p');
+
+        fieldController.updateOnKeyboard(keyStroke);
+
+        verify(fieldModel,times(1)).setBombModel(any(BombController.class));
+        verify(timer,times(1)).addListener(null);
+
+        when(keyStroke.getCharacter()).thenReturn('a');
+        CopyOnWriteArrayList<KeyStroke> keyStrokes = Mockito.mock(CopyOnWriteArrayList.class);
+        fieldController.keyStrokes = keyStrokes;
+        fieldController.updateOnKeyboard(keyStroke);
+        verify(keyStrokes,times(1)).add(keyStroke);
+
+
+        fieldController.ended = true;
+        fieldController.updateOnKeyboard(keyStroke);
+        verify(fieldModel,times(1)).setBombModel(any(BombController.class));
+        verify(timer,times(1)).addListener(null);
+        verify(keyStrokes,times(1)).add(keyStroke);
+
+    }
+
+
+    @Test
+    public void handleKeyboard() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        HeroController heroController = Mockito.mock(HeroController.class);
+        when(fieldModel.getHero()).thenReturn(heroController);
+        when(fieldModel.checkPos(any(),any())).thenReturn(true);
+
+        CopyOnWriteArrayList<KeyStroke> keyStrokes = new CopyOnWriteArrayList<>();
+        KeyStroke keyStroke = Mockito.mock(KeyStroke.class);
+        keyStrokes.add(keyStroke);
+        when(keyStroke.getCharacter()).thenReturn('a');
+        fieldController.keyStrokes = keyStrokes;
+
+
+        Grid grid = Mockito.mock(Grid.class);
+        when(fieldModel.getTiles()).thenReturn(grid);
+        when(heroController.getPosition()).thenReturn(new Position(10,10,5,5));
+        TileController controller = Mockito.mock(TileController.class);
+        when(grid.getTile(any(Position.class))).thenReturn(controller);
+        Collectible collectible = Mockito.mock(Collectible.class);
+        when(controller.getCollectible()).thenReturn(collectible);
+        Filler filler = Mockito.mock(Filler.class);
+        when(controller.getFiller()).thenReturn(filler);
+
+        fieldController.ended = true;
+        when(heroController.isActive()).thenReturn(false);
+        fieldController.handleKeyboard();
+
+        Assert.assertEquals(0,keyStrokes.size());
+        keyStrokes.add(keyStroke);
+
+        verify(heroController,times(0)).isTouching(any());
+        verify(heroController,times(0)).moveLeft(any());
+
+        fieldController.ended = false;
+        when(heroController.isActive()).thenReturn(false);
+        fieldController.handleKeyboard();
+
+        verify(heroController,times(0)).isTouching(any());
+        verify(heroController,times(0)).moveLeft(any());
+
+        Assert.assertEquals(0,keyStrokes.size());
+        keyStrokes.add(keyStroke);
+
+        fieldController.ended = false;
+        when(heroController.isActive()).thenReturn(true);
+        fieldController.handleKeyboard();
+
+        verify(heroController,times(1)).isTouching(any());
+        verify(heroController,times(1)).moveLeft(any());
+        keyStrokes.add(keyStroke);
+
+        when(keyStroke.getCharacter()).thenReturn('s');
+        fieldController.handleKeyboard();
+
+        verify(heroController,times(2)).isTouching(any());
+        verify(heroController,times(1)).moveDown(any());
+        keyStrokes.add(keyStroke);
+
+        when(keyStroke.getCharacter()).thenReturn('w');
+        fieldController.handleKeyboard();
+
+        verify(heroController,times(3)).isTouching(any());
+        verify(heroController,times(1)).moveUp(any());
+        keyStrokes.add(keyStroke);
+
+        when(keyStroke.getCharacter()).thenReturn('d');
+        fieldController.handleKeyboard();
+
+        verify(heroController,times(4)).isTouching(any());
+        verify(heroController,times(1)).moveRight(any());
+
+        verify(collectible,times(6)).visit(any(FieldController.class));
+
+
 
     }
 
     @Test
     public void updateOnTime() {
+        Timer.setSeconds(250);
         FieldModel fieldModel = Mockito.mock(FieldModel.class);
         FieldView fieldView = Mockito.mock(FieldView.class);
         TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
         TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
-        FieldController fieldController = new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft);
+        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
+        doNothing().when(fieldController).purge();
+        CopyOnWriteArrayList<MonsterModel> monsterModels = new CopyOnWriteArrayList<>();
+        monsterModels.add(Mockito.mock(MonsterModel.class));
+        when(fieldModel.getMonsters()).thenReturn(monsterModels);
+        doNothing().when(fieldController).updateMonsterPosition(any(),any());
+        doNothing().when(fieldController).handleKeyboard();
 
+        BombController bombModel = Mockito.mock(BombController.class);
+        when(fieldModel.getBomb()).thenReturn(bombModel);
         int bf = fieldController.getTimerSum();
         fieldController.updateOnTime();
+        when(bombModel.getExplosionList()).thenReturn(new ArrayList<>());
         Assert.assertEquals(bf+1,fieldController.getTimerSum());
+        verify(fieldModel,times(0)).getBomb();
+        verify(bombModel,times(0)).getExplosionList();
 
-        if ((timerSum % (int) (wait / Timer.getSeconds())) == 0) {  //monstros
-            ArrayList<Position> bomb = null;
-            if (model.getBomb() != null) {
-                bomb = model.getBomb().getExplosionList();
-            }
-            for (MonsterModel monster : model.getMonsters()) {
-                updateMonsterPosition(monster,bomb);
-            }
-        }
-        if(timeIsUp())
-            return;
-        purge();
-        view.draw();
+        fieldController.updateOnTime();
+        verify(fieldModel,times(2)).getBomb();
+        verify(bombModel,times(1)).getExplosionList();
+        verify(fieldController,times(1)).updateMonsterPosition(any(),any());
+
+        verify(fieldController,times(2)).purge();
+        verify(fieldController,times(2)).timeIsUp();
+        verify(fieldView,times(2)).draw();
+
+        CopyOnWriteArrayList<KeyStroke> keyStrokes = new CopyOnWriteArrayList<>();
+        com.googlecode.lanterna.input.KeyStroke keyStroke = Mockito.mock(com.googlecode.lanterna.input.KeyStroke.class);
+        keyStrokes.add(keyStroke);
+        fieldController.keyStrokes = keyStrokes;
+
+        fieldController.updateOnTime();
+        verify(fieldModel,times(2)).getBomb();
+        verify(bombModel,times(1)).getExplosionList();
+        verify(fieldController,times(1)).updateMonsterPosition(any(),any());
+
+        verify(fieldController,times(3)).purge();
+        verify(fieldController,times(3)).timeIsUp();
+        verify(fieldView,times(3)).draw();
+        verify(fieldController,times(1)).handleKeyboard();
+
     }
 
     @Test
@@ -576,4 +864,5 @@ public class FieldControllerTest {
         fieldController.fireDone();
         Assert.assertEquals(null,fieldModel.getBomb());
     }
+
 }

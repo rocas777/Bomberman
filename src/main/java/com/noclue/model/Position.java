@@ -33,9 +33,9 @@ public class Position implements Cloneable {
     }
 
     @Override
-    public Object clone() {
+    public Position clone() {
         try {
-            return super.clone();
+            return (Position) super.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

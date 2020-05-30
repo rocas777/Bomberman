@@ -14,7 +14,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class FieldModel {
     private final int width;
     private final int height;
-    private Grid tiles;
     IBombInterface bombController = null;
     KeyBoard kServer;
     Timer tServer;
@@ -22,6 +21,7 @@ public class FieldModel {
     ArrayList<Difficulty> difficulties = new ArrayList<>();
     boolean won = false;
     int level;
+    private Grid tiles;
     private HeroController hero;
     private CopyOnWriteArrayList<MonsterModel> monsters = new CopyOnWriteArrayList<>();
 
@@ -34,10 +34,6 @@ public class FieldModel {
 
     public int getLevel() {
         return level;
-    }
-
-    public void setTiles(Grid tiles){
-        this.tiles = tiles;
     }
 
     public void setLevel(int level) {
@@ -84,6 +80,10 @@ public class FieldModel {
         return tiles;
     }
 
+    public void setTiles(Grid tiles) {
+        this.tiles = tiles;
+    }
+
     public CopyOnWriteArrayList<MonsterModel> getMonsters() {
         return monsters;
     }
@@ -125,7 +125,7 @@ public class FieldModel {
     }
 
     public boolean checkPos(Position position, Movement movement) {
-        if(movement!=null)
+        if (movement != null)
             switch (movement) {
                 case left:
                     return !tiles.getTile(position.getLeft()).isFilled() || !tiles.getTile(position.getLeft()).getFiller().isActive();

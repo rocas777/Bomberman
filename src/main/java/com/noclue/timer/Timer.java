@@ -20,7 +20,9 @@ public class Timer implements TimerInterface {
         return mseconds;
     }
 
-    public static void setSeconds(int seconds) { mseconds = seconds; }
+    public static void setSeconds(int seconds) {
+        mseconds = seconds;
+    }
 
     public CopyOnWriteArrayList<TimeListener> getTimeListeners() {
         return timeListeners;

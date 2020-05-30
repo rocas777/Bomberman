@@ -105,11 +105,11 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     public void setup() {
 
+        setIndestructibleBlocks();
+
         Position hero = setHeroPos();
         Position door = setDoorPos(hero);
-
-        setIndestructibleBlocks();
-        setRemovableBlocks(door, hero, 150);
+        setRemovableBlocks(door, hero, 110);
         setMonsters(door, hero);
 
         setHero(hero);
@@ -118,9 +118,9 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     public void createTile(IView collectible, IView filler, TileModel model, Position position) {
         TileView tmp_view = new TileView(model);
-        if(collectible != null)
+        if (collectible != null)
             tmp_view.setCollectible(collectible);
-        if(filler != null)
+        if (filler != null)
             tmp_view.setFiller(filler);
 
         TileController tileController = new TileController(model, tmp_view);
@@ -132,22 +132,22 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         for (int i = 0; i < numberBlocks; i++) {
             Position position = new Position(23, 15, random.nextInt(21) + 1, random.nextInt(13) + 1);
 
-            while (position.equals(hero) || position.equals(door) || (position.getY() % 2 == 0 && position.getX() % 2 == 0) || (position.getX() < 4 && position.getY() < 4)) {
+            while (position.equals(hero) || position.equals(door) || (position.getX() < 4 && position.getY() < 4) || model.getTiles().getTile(position).getFiller().isFilled()) {
                 position = new Position(23, 15, random.nextInt(21) + 1, random.nextInt(13) + 1);
             }
-            RemovableBlockModel tmp_rm = new RemovableBlockModel((Position) position.clone());
+            RemovableBlockModel tmp_rm = new RemovableBlockModel(position.clone());
             int drop = random.nextInt(21);
             if (drop > 19) {
-                Invencible tmp_life = new Invencible((Position) position.clone());
+                Invencible tmp_life = new Invencible(position.clone());
                 createTile(new InvencibleView(tmp_life, textGraphics), new RemovableBlockView(tmp_rm, textGraphics), new TileModel(tmp_life, tmp_rm), position);
             } else if (drop == 19) {
-                AddLife tmp_life = new AddLife((Position) position.clone());
+                AddLife tmp_life = new AddLife(position.clone());
                 createTile(new AddLifeView(tmp_life, textGraphics), new RemovableBlockView(tmp_rm, textGraphics), new TileModel(tmp_life, tmp_rm), position);
             } else if (drop == 18) {
-                AddTime tmp_time = new AddTime((Position) position.clone());
+                AddTime tmp_time = new AddTime(position.clone());
                 createTile(new AddTimeView(tmp_time, textGraphics), new RemovableBlockView(tmp_rm, textGraphics), new TileModel(tmp_time, tmp_rm), position);
             } else if (drop >= 4) {
-                CoinModel tmp_coin = new CoinModel((Position) position.clone());
+                CoinModel tmp_coin = new CoinModel(position.clone());
                 createTile(new CoinView(tmp_coin, textGraphics), new RemovableBlockView(tmp_rm, textGraphics), new TileModel(tmp_coin, tmp_rm), position);
             } else {
                 createTile(null, new RemovableBlockView(tmp_rm, textGraphics), new TileModel(new NoCollectibleModel(), tmp_rm), position);
@@ -163,10 +163,10 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 Position p = new Position(23, 15, x, y);
                 if (x == 0 || x == 22 || y == 0 || y == 14 || (y % 2 == 0 && x % 2 == 0)) {
                     IndestructibleBlockModel tmp_rm = new IndestructibleBlockModel(new Position(23, 15, x, y));
-                    createTile(new NoView(),new IndestructibleBlockView(tmp_rm,textGraphics),new TileModel(new NoCollectibleModel(),tmp_rm),p);
+                    createTile(new NoView(), new IndestructibleBlockView(tmp_rm, textGraphics), new TileModel(new NoCollectibleModel(), tmp_rm), p);
                 } else {
                     NoBlockModel tmp_rm = new NoBlockModel();
-                    createTile(new NoView(),new NoView(),new TileModel(new NoCollectibleModel(),tmp_rm),p);
+                    createTile(new NoView(), new NoView(), new TileModel(new NoCollectibleModel(), tmp_rm), p);
                 }
             }
         }
@@ -179,30 +179,26 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
             float distToHero = abs(hero.getX() - block.getX()) + abs(hero.getY() - block.getY());
 
-            while (block.equals(hero) || block.equals(door) || (block.getY() % 2 == 0 && block.getX() % 2 == 0) || block.equals(door) || distToHero < 4) {
+            while (block.equals(hero) || block.equals(door) || model.getTiles().getTile(block).getFiller().isFilled() || distToHero < 4) {
                 block = new Position(23, 15, random.nextInt(21) + 1, random.nextInt(13) + 1);
                 distToHero = abs(hero.getX() - block.getX()) + abs(hero.getY() - block.getY());
             }
-            MonsterModel tmp_monster = new MonsterModel(model.getDifficulties().get(i), (Position) block.clone());
-            createTile(null,new MonsterView(tmp_monster, textGraphics),new TileModel(new NoCollectibleModel(), tmp_monster),block);
+            MonsterModel tmp_monster = new MonsterModel(model.getDifficulties().get(i), block.clone());
+            createTile(null, new MonsterView(tmp_monster, textGraphics), new TileModel(new NoCollectibleModel(), tmp_monster), block);
 
             model.getMonsters().add(tmp_monster);
         }
     }
 
     public Position setHeroPos() {
-        Random random = new Random();
         Position hero = new Position(23, 15, 1, 1);
-        while (hero.getX() % 2 == 0 && hero.getY() % 2 == 0) {
-            hero = new Position(23, 15, (random.nextInt(23)), (random.nextInt(13)));
-        }
         return hero;
     }
 
     public Position setDoorPos(Position hero) {
         Random random = new Random();
         Position door = new Position(23, 15, (random.nextInt(12) + 10), (random.nextInt(6) + 6));
-        while ((door.getX() % 2 == 0 && door.getY() % 2 == 0) || door.equals(hero) || door.getX() == 0 || door.getY() == 0 || door.getX() == 22 || door.getY() == 14) {
+        while (door.equals(hero) || model.getTiles().getTile(door).getFiller().isFilled() ) {
             door = new Position(23, 15, (random.nextInt(23)), (random.nextInt(13)));
         }
         System.out.println(door.getX() + " " + door.getY());
@@ -211,23 +207,23 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
 
     public void setHero(Position position) {
-        HeroModel modelh = new HeroModel((Position) position.clone());
+        HeroModel modelh = new HeroModel(position.clone());
         HeroController tmp_hero = new HeroController(modelh, null);
         tmp_hero.setLivesModel(new LivesModel(3, new Position(146, 45, 138, 2)));
-        createTile(null,new HeroView(modelh, textGraphics),new TileModel(new NoCollectibleModel(), tmp_hero),position);
+        createTile(null, new HeroView(modelh, textGraphics), new TileModel(new NoCollectibleModel(), tmp_hero), position);
         model.setHero(tmp_hero);
     }
 
     public void setDoor(Position position) {
-        RemovableBlockModel tmp_hero = new RemovableBlockModel((Position) position.clone());
-        DoorModel doorModel = new DoorModel((Position) position.clone());
-        createTile(new DoorView(doorModel, textGraphics),new RemovableBlockView(tmp_hero, textGraphics),new TileModel(new DoorModel((Position) position.clone()), tmp_hero),position);
+        RemovableBlockModel tmp_hero = new RemovableBlockModel(position.clone());
+        DoorModel doorModel = new DoorModel(position.clone());
+        createTile(new DoorView(doorModel, textGraphics), new RemovableBlockView(tmp_hero, textGraphics), new TileModel(new DoorModel(position.clone()), tmp_hero), position);
     }
 
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
         if (keyPressed.getCharacter() == 'p' && model.getBomb() == null) {
-            BombModel bombModel = new BombModel(1000, this, (Position) model.getHero().getPosition().clone(), model.gettServer());
+            BombModel bombModel = new BombModel(1000, this, model.getHero().getPosition().clone(), model.gettServer());
             BombViewFire viewFire = new BombViewFire(textGraphics, bombModel);
             model.setBombModel(new BombController(bombModel, textGraphics));
             model.gettServer().addListener(model.getBomb());
@@ -238,13 +234,13 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     }
 
-    private void handleKeyboard() {
+    public void handleKeyboard() {
         KeyStroke keyPressed = keyStrokes.get(keyStrokes.size() - 1);
         keyStrokes.clear();
         if (!ended) {
             if (model.getHero().isActive()) {
                 try {
-                    switch (keyPressed.getCharacter()){
+                    switch (keyPressed.getCharacter()) {
                         case 'a':
                             model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getLeft()).getFiller());
                             if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
@@ -275,6 +271,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 }
             }
         }
+        //obter e visitar o collectible na posição agora ocupada pelo heroi
         model.getTiles().getTile(model.getHero().getPosition()).getCollectible().visit(this);
     }
 
@@ -291,22 +288,22 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 bomb = model.getBomb().getExplosionList();
             }
             for (MonsterModel monster : model.getMonsters()) {
-                updateMonsterPosition(monster,bomb);
+                updateMonsterPosition(monster, bomb);
             }
         }
-        if(timeIsUp())
+        if (timeIsUp())
             return;
         purge();
         view.draw();
     }
 
-    public void updateMonsterPosition(MonsterModel monster,ArrayList<Position> bomb){
+    public void updateMonsterPosition(MonsterModel monster, ArrayList<Position> bomb) {
         for (Movement m : monster.nextMove(model.getHero().getPosition(), bomb)) {
             if (model.checkPos(monster.getPosition(), m)) {
                 Position tmp = monster.getPosition().getPositionByMovement(m);
                 model.getTiles().getTile(tmp).getFiller().deactivate();
-                if(!model.getHero().getPosition().equals(tmp))
-                    switch (m){
+                if (!model.getHero().getPosition().equals(tmp))
+                    switch (m) {
                         case up:
                             monster.moveUp(model.getTiles());
                             break;
@@ -325,7 +322,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
     }
 
-    public boolean timeIsUp(){
+    public boolean timeIsUp() {
         if (timerSum >= 1000.0 / Timer.getSeconds()) {   //relogio
             timeLeft.minusSecond();
             if (timeLeft.getSeconds() == 0) {
