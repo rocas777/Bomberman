@@ -5,9 +5,10 @@
 >Our version aims to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players would be caught up in his bomb's explosion he would lose a life. That leads to another difference: lives. The player will have 3 lives which he will lose by exploding himself or getting in contact with the mosnters. There are also various drops from exploded blocks that will add time, lives, score and even turn the hero into Hulk for 10 steps.
 >
 >This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
+>
 > Small trailer:
 >
->![Vid](screenshots/trailer.mkv)
+>![Vid](screenshots/trailer.gif)
 ## Implemented Features
 
 ### Menu
