@@ -8,7 +8,7 @@
 >
 > Small trailer:
 >
->![Vid](https://drive.google.com/file/d/1IeHs9lF763eoFRsjUqeeo6Ztbyz6O4Vc/view?usp=sharing)
+>![Vid](https://drive.google.com/file/d/1IeHs9lF763eoFRsjUqeeo6Ztbyz6O4Vc/view)
 ## Implemented Features
 
 ### Menu
