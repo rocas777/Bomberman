@@ -5,7 +5,9 @@
 >Our version aims to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players would be caught up in his bomb's explosion he would lose a life. That leads to another difference: lives. The player will have 3 lives which he will lose by exploding himself or getting in contact with the mosnters. There are also various drops from exploded blocks that will add time, lives, score and even turn the hero into Hulk for 10 steps.
 >
 >This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
-
+> Small trailer:
+>
+>![Vid](screenshots/trailer.gif)
 ## Implemented Features
 
 ### Menu
@@ -278,7 +280,9 @@
 
 ### 7. Instanceof
 #### The Problem
-> After finishing almost all our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
+> After finishing almost all of our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
+> Some of them were cause of us overcomplicating, for example, before moving the monster we need to know if it would enter contact with the hero and to do that we would pass the position of the tile the monster would move into and then check if the hero was there using the one and only 'instanceof'. To be honest we don't really know why we did this to begin with but stuff like this was simple to rectify just changing what information we give the monster. If the monster were to know where the hero is there is no need for 'instanceof'.
+> Sadly, not all corrections could be this simple when it came to moving the hero and knowing if he was about to pick a collectible up since there are 5 of them.
 #### The Design
 > Suceeding some research and consulting our professor we decided to use a slightly modified version of the Visitor pattern which consists of creating a new class 'visitor' and placing each different behaviour in a new method. Instead of handling the behaviour directly we would pass all the necessary information to the target object and he in turn would call the approriate method of the 'visitor' since obviously he knows what class he is.
 #### The Implementation
