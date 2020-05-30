@@ -173,63 +173,45 @@ public class MenuView implements IView {
 
 
         //DRAW MENU
-        if (menuModel.getOption() == 1) {
-            textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-            textGraphics.putString(68, 20, "Start Game",BOLD);
-            textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-        } else {
-            textGraphics.putString(68, 20, "Start Game");
-        }
-        if (menuModel.getOption() == 2) {
-            textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-            textGraphics.putString(65, 22, "Choose Difficulty", BOLD);
-            textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-            if (menuModel.getOnSubMenu()) {
-                if (menuModel.getSubOption() == 1) {
-                    textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-                    textGraphics.putString(90, 20, "Easy", BOLD);
+        textGraphics.putString(68, 20, "Start Game");
+        textGraphics.putString(65, 22, "Choose Difficulty");
+        textGraphics.putString(71, 24, "Exit");
+        textGraphics.putString(65, 18, "Continue Campaign");
+        textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
+        switch(menuModel.getOption()){
+            case 1:
+                textGraphics.putString(68, 20, "Start Game",BOLD);
+                break;
+            case 2:
+                textGraphics.putString(65, 22, "Choose Difficulty",BOLD);
+                if(menuModel.getOnSubMenu()){
                     textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-                } else {
                     textGraphics.putString(90, 20, "Easy");
-                }
-                if (menuModel.getSubOption() == 2) {
-                    textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-                    textGraphics.putString(90, 22, "Medium", BOLD);
-                    textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-                } else {
                     textGraphics.putString(90, 22, "Medium");
-                }
-                if (menuModel.getSubOption() == 3) {
-                    textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-                    textGraphics.putString(90, 24, "Hard", BOLD);
-                    textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-                } else {
                     textGraphics.putString(90, 24, "Hard");
+                    textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
+                    switch(menuModel.getSubOption()){
+                        case 1:
+                            textGraphics.putString(90, 20, "Easy", BOLD);
+                            break;
+                        case 2:
+                            textGraphics.putString(90, 22, "Medium",BOLD);
+                            break;
+                        case 3:
+                            textGraphics.putString(90, 24, "Hard",BOLD);
+                            break;
+                    }
                 }
-            }
-        } else {
-            textGraphics.putString(65, 22, "Choose Difficulty");
+                break;
+            case 3:
+                textGraphics.putString(71, 24, "Exit",BOLD);
+                break;
+            case 4:
+                textGraphics.putString(65, 18, "Continue Campaign",BOLD);
+                break;
         }
-        if (menuModel.getOption() == 3) {
-            textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-            textGraphics.putString(71, 24, "Exit", BOLD);
-            textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-        } else {
-            textGraphics.putString(71, 24, "Exit");
-        }
-        if (menuModel.getOption() == 4) {
-            textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-            if (menuModel.getLevel() == 1)
-                textGraphics.putString(66, 18, "Start Campaign", BOLD);
-            else
-                textGraphics.putString(65, 18, "Continue Campaign", BOLD);
-            textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
-        } else {
-            if (menuModel.getLevel() == 1)
-                textGraphics.putString(66, 18, "Start Campaign");
-            else
-                textGraphics.putString(65, 18, "Continue Campaign");
-        }
+        textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
+
         try {
             MenuModel.getScreen().refresh();
         } catch (IOException e) {
