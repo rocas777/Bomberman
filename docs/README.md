@@ -309,7 +309,7 @@
 > - Introduces interdependencies
 
 ## Known Code Smells and Refactoring
-### 1. Position Class
+### 1. Lazy/Data classes
 #### Smell
 >The class [position](../src/main/java/com/noclue/model/Position.java) is a data class since it only consists in some private fields, getters and setter for accessing those fields. It can not operate on its own and its only puporse is to be used by other classes.
 #### Refactoring
@@ -321,7 +321,7 @@ We could make so that this class could handle returning other positions next to 
 >This ([Tile](../src/main/java/com/noclue/model/Tile.java)) class can be considered a lazy class since it doesn't do much really. Our main goal developing this class was for it to hold the classes that were in that specific tileModel in each moment and handle conversions between real cli position and game tileModel. We sort-of went with the flow and midway throught the project we noticed it only does half of what it was supossed to do (hold the info about what is in there) and some of its original responsibilities were given to other classes(mainly field).
 #### Refactor
 >In order to fix this smell we could refactor our code to give it its original functionalities or add others like handling the drawing of what is inside. There's also the alternative of simply deleting this class but we don't think it is the best way to go forward. Right now the field is responsible for reseting the tileModel and copying its information to other tileModel. Those tasks can be given to Tile class, it would turn Tile into a useful class, while removing complexity and adding readability to the field class;  
-### 3. Field Class
+### 3. Conditionals on view
 #### Smell
 >We would first like to say that we intended for the FieldModel to contain many other classes that are related to it. In the game, the hero and monsters for example will be inside a field along with other objects so we coded with that same idea in mind. That being said both the FieldModel and FieldController can be considered large classes specially the last one due to a bigger number o methods, fields and overall length.
 >The controller could also be regarded as feature envy considering it accesses other classes information a lot even though these are its own fields. There's also the fact that some methods of the controller can be seen as relatively large and difficult to test. 
