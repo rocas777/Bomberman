@@ -311,22 +311,19 @@
 ## Known Code Smells and Refactoring
 ### 1. Lazy/Data classes
 #### Smell
->The class [position](../src/main/java/com/noclue/model/Position.java) is a data class since it only consists in some private fields, getters and setter for accessing those fields. It can not operate on its own and its only puporse is to be used by other classes.
+>Multiple model classes like the [Hero](../src/main/java/com/noclue/model/character/HeroModel.java) can be considered a lazy or even a data class since they basically consist of some private fields, getters and setter for accessing those same fields and sometimes one or two simple overrides. More often than not they can not operate on their own and their only puporse is to be used by other classes.
 #### Refactoring
->We could follow two paths. One is to remove this class as it could be considered disposable. Other path is to add other functionalities to it, other than the CRUD ones.
-Removing this class would make other classes more crowded so it might not be the better aproach.
-We could make so that this class could handle returning other positions next to it (left, right, up, down),checking if they are inside of the screen, instead of letting the [FieldContoller](src/main/java/com/noclue/controller/FieldController.java) class handle it.
-### 2. Tile Class
+>To remove this problem we would be required to remove/modify these classes as they could be considered disposable. Knowing this we still chose not do it since we would make other classes way to complex and bring in another couple of smells, it would also decrease readability and not follow the Open/Closed Principle and MVC model we chose to organize our project.
+### 2. Long Parameter List
 #### Smell
->This ([Tile](../src/main/java/com/noclue/model/Tile.java)) class can be considered a lazy class since it doesn't do much really. Our main goal developing this class was for it to hold the classes that were in that specific tileModel in each moment and handle conversions between real cli position and game tileModel. We sort-of went with the flow and midway throught the project we noticed it only does half of what it was supossed to do (hold the info about what is in there) and some of its original responsibilities were given to other classes(mainly field).
+>The ([FieldController](../src/main/java/com/noclue/controller/FieldController.java)) construtor with 6 parameters can be said to have a long parameter list. This happens because the way we designed the code the FieldController is kind of the main handler of a lot of information while the game is running (actual gameplay, not the menu) and thus it needs to have access to that same information in order to manipulate it. At first the class construtor didn't have as much parameters but while adding features and refactoring code to reduce its size (it was really big at some point) we introduced this smell.
 #### Refactor
->In order to fix this smell we could refactor our code to give it its original functionalities or add others like handling the drawing of what is inside. There's also the alternative of simply deleting this class but we don't think it is the best way to go forward. Right now the field is responsible for reseting the tileModel and copying its information to other tileModel. Those tasks can be given to Tile class, it would turn Tile into a useful class, while removing complexity and adding readability to the field class;  
-### 3. Conditionals on view
+>To solve this one we could create another object that could bundle a few of similar parameters which we chose against because it would just be unnecessary, confusing and completly overkill. Another option would be to instead of passing the parameters to the constructor we could create them inside which we also didn't want to do due to not being to do dependency injections and it just doesn't make sense for the class to need to know how to create it's own attributes like the TextGraphics.
+### 3. Conditionals
 #### Smell
->We would first like to say that we intended for the FieldModel to contain many other classes that are related to it. In the game, the hero and monsters for example will be inside a field along with other objects so we coded with that same idea in mind. That being said both the FieldModel and FieldController can be considered large classes specially the last one due to a bigger number o methods, fields and overall length.
->The controller could also be regarded as feature envy considering it accesses other classes information a lot even though these are its own fields. There's also the fact that some methods of the controller can be seen as relatively large and difficult to test. 
+>The menu has multiple different 'states' depending on which option the user is on while navigating. To state the obvious, the view has to change according to what the user is doing and this introduces some conditionals and even nested conditionals on the view that can be harder than normal to understand at first.
 #### Refactoring
->To fix some of the said problems we could assign more responsibilities to the other classes instead of relying so heavily on the field and to reduce some bigger methods we could refactor it into more different methods but smaller usign the extract method. We could make two different classes, one handles the static elements as blocks, door and coins, and the other handles the monsters and hero. Both could communicate with a class that would aggregate those classes and manage the Tiles.
+>We did our best to simplify this by drawing everything normally and then overwriting the current option which we think is fine given only one line of code would have no real purpose at a time and we don't notice any performance hit but to remove the conditional we would need to add states, and each state would have a different view. Of course we did not do this as a result of introducing way to much duplicate code, not mencioning how much more complex the menu would become overall.
 ## Testing
 ### Screenshot of test coverage
 ![test](screenshots/Test-Coverage.png)
