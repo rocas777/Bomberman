@@ -7,6 +7,7 @@ import com.noclue.Movement;
 import com.noclue.model.*;
 import com.noclue.model.character.MonsterModel;
 import com.noclue.timer.Timer;
+import com.noclue.view.field.FieldView;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -78,7 +79,29 @@ public class FieldControllerTest {
 
     @Test
     public void updateOnTime() {
+        FieldModel fieldModel = Mockito.mock(FieldModel.class);
+        FieldView fieldView = Mockito.mock(FieldView.class);
+        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+        FieldController fieldController = new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft);
 
+        int bf = fieldController.getTimerSum();
+        fieldController.updateOnTime();
+        Assert.assertEquals(bf+1,fieldController.getTimerSum());
+
+        if ((timerSum % (int) (wait / Timer.getSeconds())) == 0) {  //monstros
+            ArrayList<Position> bomb = null;
+            if (model.getBomb() != null) {
+                bomb = model.getBomb().getExplosionList();
+            }
+            for (MonsterModel monster : model.getMonsters()) {
+                updateMonsterPosition(monster,bomb);
+            }
+        }
+        if(timeIsUp())
+            return;
+        purge();
+        view.draw();
     }
 
     @Test
