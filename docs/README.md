@@ -7,7 +7,7 @@
 >This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
 > Small trailer:
 >
->![Vid](screenshots/trailer.gif)
+>![Vid](screenshots/trailer.mkv)
 ## Implemented Features
 
 ### Menu
