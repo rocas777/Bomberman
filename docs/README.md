@@ -25,6 +25,9 @@
 >
 > - Start Game - This mode will serve as a kind of practice. It will only consist of 1 level with 6, 7 or 8 monster of easy, medium or hard difficulty respectively and those are pretty much the only differences compared to the campaign.
 
+### Saving
+> While doing campaign if the player closes the game the score and level are saved to a file 'currentlevel.lvl' on the root folder. Next time the campaign starts it will go on from where the player left off.
+
 ### Monster
 >The ones we are supposed to run way
 ![Easy Monster](screenshots/easy_monster.png) ![Medium Monster](screenshots/medium_monster.png) ![Hard Monster](screenshots/hard_monster.png) 
