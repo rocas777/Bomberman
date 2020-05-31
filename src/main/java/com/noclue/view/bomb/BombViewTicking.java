@@ -29,17 +29,13 @@ public class BombViewTicking implements IView {
         counter++;
         if (counter % 5 < 2) {
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
-            textGraphics.putString(model.getPosition().getRealPosition().getX() + 2
-                    , model.getPosition().getRealPosition().getY() + 1
-                    , "  ", BOLD
-            );
         } else {
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
-            textGraphics.putString(model.getPosition().getRealPosition().getX() + 2
-                    , model.getPosition().getRealPosition().getY() + 1
-                    , "  ", BOLD
-            );
         }
+        textGraphics.putString(model.getPosition().getRealPosition().getX() + 2
+                , model.getPosition().getRealPosition().getY() + 1
+                , "  ", BOLD
+        );
     }
 
 

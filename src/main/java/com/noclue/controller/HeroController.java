@@ -43,7 +43,7 @@ public class HeroController extends Filler implements Character {
         model.setLivesModel(livesModel);
     }
 
-    public void addLife() {
+    public void addLife() { //increases life if total isn't 5
         if (model.getLivesModel().getLives() < 5) {
             model.getLivesModel().setLives(model.getLivesModel().getLives() + 1);
         }
@@ -80,6 +80,8 @@ public class HeroController extends Filler implements Character {
     public boolean isActive() {
         return model.isActive();
     }
+
+    //moving hero to each direction methods
 
     public void moveLeft(Grid grid) {
         grid.getTile(model.getPosition()).moveTile(grid.getTile(model.getPosition().getLeft()));

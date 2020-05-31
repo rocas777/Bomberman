@@ -35,7 +35,7 @@ public class Easy implements Difficulty {
 
             }
         };
-
+        //randomize the array
         return randomizeArray(out);
     }
 }
