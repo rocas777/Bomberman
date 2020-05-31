@@ -46,12 +46,12 @@ public class Timer implements TimerInterface {
             long timeMilli2;
             while (isOn) {
                 try {
-                    timeMilli2 = System.currentTimeMillis();
+                    timeMilli2 = System.currentTimeMillis();    //track execution time to subtract from sleep
                     updateListeners(timeListeners);
                     if (mseconds < 1) {
                         return;
                     }
-                    long wait = mseconds + timeMilli2 - System.currentTimeMillis();
+                    long wait = mseconds + timeMilli2 - System.currentTimeMillis(); //adjust sleep time
                     if (wait > 0)
                         java.lang.Thread.sleep(wait);
                     else
@@ -81,7 +81,7 @@ public class Timer implements TimerInterface {
     }
 
     @Override
-    public void updateListeners(CopyOnWriteArrayList<TimeListener> timeListeners) {
+    public void updateListeners(CopyOnWriteArrayList<TimeListener> timeListeners) { //notify listeners
         for (TimeListener t : timeListeners)
             t.updateOnTime();
     }

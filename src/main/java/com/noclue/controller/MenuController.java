@@ -41,6 +41,7 @@ public class MenuController implements KeyboardListener {
         menuModel.setDifficultiesA(readDifficulties(menuModel));
     }
 
+    //reads difficulties from resource file
     public ArrayList<ArrayList<Difficulty>> readDifficulties(MenuModel model) {
         ArrayList<ArrayList<Difficulty>> diffi = new ArrayList<>();
         URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
@@ -63,6 +64,8 @@ public class MenuController implements KeyboardListener {
             diffi.add(new ArrayList<>());
             String l = lines.get(li);
             model.setLevels(model.getLevels() + l + "\n");
+
+            //sets monster according to each line on resource file
             for (int i = 0; i < l.length(); i++) {
                 if (l.charAt(i) == ' ') {
 
@@ -85,7 +88,7 @@ public class MenuController implements KeyboardListener {
         return diffi;
     }
 
-    public void killProgram() throws IOException {
+    public void killProgram() throws IOException {  //stops execution
         URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
         BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
         bw.write(menuModel.getLevel() + "\n");
@@ -102,26 +105,27 @@ public class MenuController implements KeyboardListener {
             try {
                 key = MenuModel.getScreen().readInput();
                 KeyType keyType = key.getKeyType();
-                if (keyType == KeyType.EOF) {
+                if (keyType == KeyType.EOF) {   //stop execution if terminal is closed abnormaly
                     killProgram();
                     inOnLoop = false;
                 }
+                //handle menu transitions
                 if (key != null && (keyType == KeyType.Character || keyType == KeyType.Enter)) {
-                    if (!menuModel.getOnSubMenu()) {
+                    if (!menuModel.getOnSubMenu()) {    //normal menu
                         if (key.getCharacter() == 'w') {
                             menuModel.optUp();
                         } else if (key.getCharacter() == 's') {
                             menuModel.optDown();
-                        } else if (keyType == KeyType.Enter) {
+                        } else if (keyType == KeyType.Enter) {  //enter submenu
                             if (chooseOption())
                                 inOnLoop = false;
                         }
-                    } else {
+                    } else {    //submenu
                         if (key.getCharacter() == 'w') {
                             menuModel.subOptUp();
                         } else if (key.getCharacter() == 's') {
                             menuModel.subOptDown();
-                        } else if (keyType == KeyType.Enter) {
+                        } else if (keyType == KeyType.Enter) {  //leave submenu
                             menuModel.setOnSubMenu(false);
                         }
                     }
@@ -135,7 +139,7 @@ public class MenuController implements KeyboardListener {
     }
 
     public boolean chooseOption() {
-        if (menuModel.getOption() == 1) {
+        if (menuModel.getOption() == 1) {   //if start game is chosen sets approriate difficulty
             if (menuModel.getSubOption() == 1) {
                 setEasy();
             } else if (menuModel.getSubOption() == 2) {
@@ -145,15 +149,15 @@ public class MenuController implements KeyboardListener {
             }
             startNewGame();
             return true;
-        } else if (menuModel.getOption() == 2) {
+        } else if (menuModel.getOption() == 2) {    //enter submenu
             menuModel.setOnSubMenu(true);
-        } else if (menuModel.getOption() == 3) {
+        } else if (menuModel.getOption() == 3) {    //stop execution
             try {
                 killProgram();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (menuModel.getOption() == 4) {
+        } else if (menuModel.getOption() == 4) {    //continue/start campaign
             difficulties = menuModel.getDifficultiesA().get(menuModel.getLevel() - 1);
             startNewGame();
             return true;
@@ -162,9 +166,11 @@ public class MenuController implements KeyboardListener {
     }
 
     public void startNewGame() {
+        //create field model
         fieldModel = new FieldModel(146, 45, menuModel.getLevel());
         fieldModel.setPoints(menuModel.getScore());
 
+        //start timer and keyboard listeners
         Timer t = new Timer(40);
         t.start();
 
@@ -175,6 +181,8 @@ public class MenuController implements KeyboardListener {
         fieldModel.setkServer(k);
         fieldModel.settServer(t);
 
+        //create relevant information for the field controller
+
         FieldView fieldView = new FieldView(MenuModel.getScreen(), menuModel.getTextGraphics(), fieldModel);
         TimeLeft timeLeft = new TimeLeft(120, new Position(146, 45, 138, 30));
         fieldView.setTimeLeftView(new TimeLeftView(timeLeft, menuModel.getTextGraphics()));
@@ -183,7 +191,10 @@ public class MenuController implements KeyboardListener {
 
         fieldController.setDifficulty(difficulties);
 
+        //setup the map
         fieldController.setup();
+
+        //subscribe field model to the listeners
         fieldModel.gettServer().addListener(fieldController);
         fieldModel.getkServer().addListener(fieldController);
     }
@@ -197,13 +208,16 @@ public class MenuController implements KeyboardListener {
                 e.printStackTrace();
             }
         }
-        if (keyPressed.getCharacter() == 'q') {
+        if (keyPressed.getCharacter() == 'q') { //returning to menu screen
+            //unsubscribe field from stuff
             fieldModel.gettServer().removeListeners();
             fieldModel.getkServer().removeListeners();
+            //stop the time and keyboard loops
             fieldModel.getkServer().stop();
             fieldModel.gettServer().stop();
             fieldModel.setkServer(null);
             fieldModel.settServer(null);
+            //updater info if level was completed successfully
             if (fieldModel.isWon()) {
                 menuModel.setLevel((menuModel.getLevel() + 1) % menuModel.getDifficultiesA().size());
                 menuModel.setScore(fieldModel.getPoints());
@@ -217,11 +231,14 @@ public class MenuController implements KeyboardListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //go back to normal menu execution
             run();
         }
     }
 
-    private void setHard() {
+    //for start game option
+
+    private void setHard() {    //sets 7 monster of hard difficulty
         difficulties.clear();
         for (int i = 0; i < 8; i++) {
             difficulties.add(new Hard());
@@ -229,7 +246,7 @@ public class MenuController implements KeyboardListener {
 
     }
 
-    private void setMedium() {
+    private void setMedium() {  //sets 6 monster of medium difficulty
         difficulties.clear();
         for (int i = 0; i < 7; i++) {
             difficulties.add(new Medium());
@@ -237,7 +254,7 @@ public class MenuController implements KeyboardListener {
 
     }
 
-    private void setEasy() {
+    private void setEasy() {    //sets 5 monster of easy difficulty
         difficulties.clear();
         for (int i = 0; i < 6; i++) {
             difficulties.add(new Easy());

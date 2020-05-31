@@ -34,6 +34,8 @@ public class Hard implements Difficulty {
         list.add(new Hard.Par(dist3, _3));
         list.add(new Hard.Par(dist4, _4));
 
+        //sort from shortest to furthest away from the hero
+
         Collections.sort(list, new Comparator<Hard.Par>() {
             @Override
             public int compare(Hard.Par par, Hard.Par t1) {
@@ -41,11 +43,15 @@ public class Hard implements Difficulty {
             }
         });
 
+
+
         ArrayList<Movement> out = new ArrayList();
         boolean inExplosionList = checkIsInExplosionList(bomb, monster);
 
+        //adds the movements not in the bomb range, if there is one
         populateArray(out, list, bomb, monster, true);
 
+        //repopulates the array if the mosnter is already in the bomb range. Movements sorted according to closest to hero, so it will chase him
         if (inExplosionList) {
             populateArray(out, list, bomb, monster, false);
         }
