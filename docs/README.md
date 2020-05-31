@@ -2,14 +2,17 @@
 
 >Bomberman is a strategic, maze-based video game franchise in which the player holds an unlimited number of bombs and uses them to open his path on the maze and find the door that will lead to the next level, all this while evading bad monsters :(
 >
->Our version aims to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players would be caught up in his bomb's explosion he would lose a life. That leads to another difference: lives. The player will have 3 lives which he will lose by exploding himself or getting in contact with the mosnters. There are also various drops from exploded blocks that will add time, lives, score and even turn the hero into Hulk for 10 steps.
+>Our version aims to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players would be caught up in his bomb's explosion he would lose a life. That leads to another difference: lives. The player will start out with 3 lives which he will lose by exploding himself or getting in contact with the monsters. There are also various drops from exploded blocks that will add time, lives, score and even turn the hero into the Hulk for 10 steps.
 >
 >This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
-
+>
+> Small trailer (colors aren't really accurate because of format):
+>
+>![Vid](screenshots/trailer.gif)
 ## Implemented Features
 
 ### Menu
-> The initial the menu the player will see after running the game to be navigated using 'w', 'a' and 'ENTER':
+> The initial the menu (to be navigated using 'w', 'a' and 'ENTER') the player will see after running the game :
 >
 >![Menu](screenshots/menu.png)
 >
@@ -40,7 +43,7 @@
 ### Collectibles
 >Everytime you destroy a block it can drop any of the following items:
 >
->The target Tile, The door to Victory 
+>The target Tile, The door to Victory (only 1 per level)
 >![Door](screenshots/door.png)
 >
 >Increases the score by 1 point
@@ -55,21 +58,21 @@
 >Sets hero in a powerfull state where he can destroy blocks and kill monster just by walking to them for 10 steps
 ![Door](screenshots/invincible.png)
 >
->Obviously the drop rates aren't the same for all of them for the sake of balance
+> #### Note: Obviously the drop rates were adjusted for each item for the sake of balance
 
 ### Score
-> The score has no real purpose to be fully honest, it is just there for competitive value if you will. Everytime you pick up a coin it will increase by one and while you are doing a campaign it will carry over to each new level (it won't reset to 0).
+> The score has no real purpose to be fully honest, it is just there for competitive value if you will. Everytime you pick up a coin it will increase by one and while you are doing the campaign it will carry over to each new level (it won't reset to 0).
 
 ### Lives
-> These obviously are very important since if the player were to 'loose', instead he will just loose a life. Also, everytime the hero picks up a life (from a drop) it will only increase the effective number of lives up to 5, so if you already have 5 your best bet would be to let the drop be and pick it up later if you need.
+> These evidently are very important since if the player were to 'lose' instead he will just loose a life. Also, everytime the hero picks up a life (from a drop) it will only increase the effective number of lives up to 5, so if you already have 5, your best bet would be to let the drop be and pick it up later if you need.
 
 ### Time
-> For every level the player will only have 2 minutes to win. Catching time drops will increase time remaining by 15 seconds and there's no upper threshold. If the timer reaches 0 the will hero will fail that level, but he can always try again.
+> For every level the player will only have 2 minutes to win. Getting time drops will increase the total time by 15 seconds and there's no upper threshold. If the timer reaches 0 the will hero will fail that level, but he can always try again.
 
 ### States
 > Everytime the player looses a life he will enter a state of invulnerability for 1,6 seconds so that he has time reposition and think about his poor life choices :D. While this is going on the player's colors will tick so you can easily tell when it ends.
 >
-> There's also another state that the player enters after picking it up that we previously described as 'turning into Hulk'. While on this state for the next 10 steps the player can destroy monsters and blocks just by walking into them. Similar to the above state it is to tell if it is on or not due to the player's ticking colors and the fact that the number of steps remaining are tracked on the sidebar.
+> There's also another state that the player enters after picking it up that we previously described as 'turning into Hulk'. After entering this state, for the next 10 steps the player can destroy monsters and blocks just by walking to them. Similar to the above metioned state it is simple to tell if it is on or not due to the player's ticking colors and the fact that the number of steps remaining are tracked on the sidebar.
 
 ### Movement and collision detection
 >The player moves according to keyboard input (A-left; S-down; D-right; W-up).
@@ -86,20 +89,20 @@
 > If the player is caught up in the explosion he will lose a life.
 
 ### Difficulty
-> There are 3 distinct difficulties. Each one only changes the way the monster moves. This way a difficulty isn't associated with a specific level (being that they are all fundamentally the same) but instead it is associated to a monster.
+> There are 3 distinct difficulties. Each one only changes the way a monster moves. This way difficultyies aren't associated with a specific level (being that they are all fundamentally the same) but instead they are an attribute of each monster.
 > - Easy - The next tile the monster will move to is calculated at random
 > - Medium - The monster will move to the tile closest to the hero
 > - Hard - Similar to Medium the monster will chase the player but on this difficulty it will avoid bombs
 >
 > Pro tip: there's a really simple but hard way (hence the name) to defeat a hard monster. You just need to lure them into a place they cannot escape when you deploy a bomb. Good luck :)
 >
-> Small note: Because the Easy monster's movement is random, sometimes it is in a tile next to the player but won't move in that direction so he won't loose a life. 
+> Small note: Because the Easy monster's movement is random, sometimes it is in a tile next to the player but won't move in his direction so he won't loose a life. 
 ### Map Design
->Each new playthrough the map generated will have all indestructible block in the same place, basically the same fundamental structure. Contrary to that, the destructible ones will be placed at random and so will the monster.
+>Each new playthrough the map generated will have all indestructible block in the same place, basically the same fundamental structure. Contrary to that, the destructible ones will be placed at random and so will the monsters and drops.
 >
 >The player will always start on the top left
 >
->There's also a white sidebar that cointains a number of hearts equal to the number of lives the hero has, the time remaining, the level you will be playing and the number of steps left on the powered-up state.
+>There's also a white sidebar that contains a number of hearts equal to the number of lives the hero has, the time remaining, the level you will be playing and the number of steps left on the powered-up state.
 >
 >![Sidebar](screenshots/sidebar.png)
 
@@ -118,7 +121,7 @@
 #### The Problem
 >On the very first class when we started to plan out the code, one of the main debates we had was on how to structure the code. Initially we just made different classes that would do everything related to them and put them into packages according to their category (for example: we had a class "Monster" that would manipulate and draw itself). It did work, but it wasn't very clean, could be hard to read for other people and this way of coding clearly violates the Single Responsibility Principle.
 #### The Design
->In order to solve this issue and separate responsibilities into different objects we adopted the MVC (Model - View - Controller) pattern. Doing so allowed us to make our code organized, easier to read and overall structured. We also benefict from the fact that changing or adding features is very much simpler. Since we only thought of implementing this design midway it took longer than expected but this is how it turned out...
+>In order to solve this issue and separate responsibilities into different objects we adopted the MVC (Model - View - Controller) pattern. Doing so allowed us to make our code organized, easier to read and, overall, more structured. We also benefict from the fact that changing or adding features is very much simpler. Since we only thought of implementing this design midway it took longer than expected but this is how it turned out...
 #### The Implementation
 >The following UML shows how we implemented this design through one example since it is basically the same for every object:
 >
@@ -188,11 +191,11 @@
 
 ### 4. How to update every object
 #### The Problem
->In order for the game to feel fluid, the monster have to beindependent from player, contrary to what happened on the hero project where the monsters only moved when the player did so. So we made a timer class that would simultate a clock for both image printing and monster movement;
+>In order for the game to feel fluid, the monster have to be independent from the player, contrary to what happened on the hero project where the monsters only moved when the player did so. So we made a timer class that would simulate a clock for both image printing and monster movement;
 >The issue was on how to notify each monster to move. There was a different but similar situation with our hero, where he needed to wait for an input that wasn't his to receive. How should we go about this? The hero situation represented an even bigger setback because the keyboard input is asynchronous.
 #### The Design
 >We rapidly decided to adopt the Observer Pattern for this situation. This design defines a one-to-many dependency between objects so that when one object updates its dependents, they are notified and updated automatically. Applying this to our project, the "status change" would be the instant there's a new frame to draw or when keyboard interrupt is received and both of them have its own "Listener" class that does exactly that, simulate a framerate and listen to keyboard input.
->This way using the concepts of the Observer Pattern, those listeners notify the classes that depend so they can update themselves (TimeListener notifies the FieldController, BombController and NormalState if necessary and KeyboardListener notifies the FieldController and the MenuController. The FieldController has a similiar aproach by notifying the other classes to draw.
+>This way using the concepts of the Observer Pattern, those listeners notify the classes that depend on it so they can update themselves (TimeListener notifies the FieldController, BombController and NormalState if necessary and KeyboardListener notifies the FieldController and the MenuController. The FieldController has a similiar aproach by notifying the other classes to draw.
 #### The Implementation
 >The following UML shows the time listener and how the main controllers depend on it (the keyboard listener is basically the same so we decided not to put it in the UML to simplify):
 >
@@ -217,7 +220,7 @@
 
 ### 5. Simplify draw calls
 #### The Problem
->This wasn't a major issue with our code, but some classes had different arguments for their draw calls and in the midst of development we faced some visual bugs due to not noticing we had passed to wrong arguments to the function. We could just correct the small situation and move one but we chose to make it easier for future draw functions and since the mistake happened once it may as well happen twice. 
+>This wasn't a major issue with our code, but some classes had different arguments for their draw calls and in the midst of development we faced some visual bugs due to not noticing we had passed wrong arguments to some functions. We could just correct the small situation and move one but we chose to make it easier for future draw functions and since the mistake happened once it may as well happen twice. 
 #### The Design
 >The need to adapt the code lead us to the Interface Adapter design. This allows to convert the interface of class into another interface that is expected. Even though we are not following the design to the word since we are not really adapting interfaces (just a simple function) we took some principles off of it and choose tho make a generic draw() call that each class will adapt to its own liking.
 #### The Implementation
@@ -247,7 +250,7 @@
 #### The Design
 > To go around this we decided to make the hero have a few seconds of invulnerability after loosing a life so he can reposition and avoid losing all lives in the same instant. The way we chose to do is using the State pattern which allows us to alter the hero's behaviour according to his current state. To be more precise the invulnerability state (used together with a timer so it can be reverted to the normal state) would just do nothing when the other would decrement lives.
 >
-> Taking advantage of this addition we also implemented a feature where the player could be powered-up for a few steps and although the end result is different, the pattern used is the same altering the 'isTouching' logic.
+> Taking advantage of this addition we also implemented a feature where the player could be powered-up for a few steps and although the end result is different, the pattern used is the same, altering the 'isTouching' logic.
 #### The Implementation
 > The following UML shows how we did this:
 >
@@ -278,9 +281,11 @@
 
 ### 7. Instanceof
 #### The Problem
-> After finishing almost all our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
+> After finishing almost all of our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
+> Some of them were cause of us overcomplicating, for example, before moving the monster we need to know if it would enter contact with the hero and to do that we would pass the position of the tile the monster would move into and then check if the hero was there using the one and only 'instanceof'. To be honest we don't really know why we did it this way to begin with but problems like those were simple to rectify just changing what information we give the monster. If the monster were to know where the hero is there is no need for 'instanceof'.
+> Sadly, not all corrections could be this simple when it came to moving the hero and knowing if he was about to pick one of the 5 different collectibles or none.
 #### The Design
-> Suceeding some research and consulting our professor we decided to use a slightly modified version of the Visitor pattern which consists of creating a new class 'visitor' and placing each different behaviour in a new method. Instead of handling the behaviour directly we would pass all the necessary information to the target object and he in turn would call the approriate method of the 'visitor' since obviously he knows what class he is.
+> Succeeding some research and consulting our professor we decided to use a slightly modified version of the Visitor pattern which consists of creating a new class 'visitor' and placing each different behaviour in a new method. Instead of handling the behaviour directly we would pass all the necessary information to the target object and he in turn would call the approriate method of the 'visitor' since he obviously knows what class he is.
 #### The Implementation
 > The UML that represents how we implemented this pattern:
 >
@@ -313,17 +318,17 @@
 #### Smell
 >Multiple model classes like the [Hero](../src/main/java/com/noclue/model/character/HeroModel.java) can be considered a lazy or even a data class since they basically consist of some private fields, getters and setter for accessing those same fields and sometimes one or two simple overrides. More often than not they can not operate on their own and their only puporse is to be used by other classes.
 #### Refactoring
->To remove this problem we would be required to remove/modify these classes as they could be considered disposable. Knowing this we still chose not do it since we would make other classes way to complex and bring in another couple of smells, it would also decrease readability and not follow the Open/Closed Principle and MVC model we chose to organize our project.
+>To remove this problem we would be required to remove/modify these classes as they could be considered disposable. Knowing this we still chose not do it since we would make other classes way too complex and while also bringing in another couple of smells, it would decrease readability and not follow the Open/Closed Principle and MVC model we chose to organize our project.
 ### 2. Long Parameter List
 #### Smell
 >The ([FieldController](../src/main/java/com/noclue/controller/FieldController.java)) construtor with 6 parameters can be said to have a long parameter list. This happens because the way we designed the code the FieldController is kind of the main handler of a lot of information while the game is running (actual gameplay, not the menu) and thus it needs to have access to that same information in order to manipulate it. At first the class construtor didn't have as much parameters but while adding features and refactoring code to reduce its size (it was really big at some point) we introduced this smell.
 #### Refactor
->To solve this one we could create another object that could bundle a few of similar parameters which we chose against because it would just be unnecessary, confusing and completly overkill. Another option would be to instead of passing the parameters to the constructor we could create them inside which we also didn't want to do due to not being to do dependency injections and it just doesn't make sense for the class to need to know how to create it's own attributes like the TextGraphics.
+>To solve this one we could create another object that could bundle a few of similar parameters, which we chose against because it would just be unnecessary, confusing and completely overkill. Another option would be to instead of passing the parameters to the constructor we could create them inside, which we also didn't want to do due to not being able to do dependency injections and it just doesn't make sense for the class to need to know how to create it's own attributes like the TextGraphics.
 ### 3. Conditionals
 #### Smell
->The menu has multiple different 'states' depending on which option the user is on while navigating. To state the obvious, the view has to change according to what the user is doing and this introduces some conditionals and even nested conditionals on the view that can be harder than normal to understand at first.
+>The menu has multiple different 'states' depending on which option the user is on while navigating. To state the obvious, the view has to change according to what the user is doing and this introduces some conditionals and even nested conditionals on the [view](../src/main/java/com/noclue/view/MenuView.java) that can be harder than normal to understand at first.
 #### Refactoring
->We did our best to simplify this by drawing everything normally and then overwriting the current option which we think is fine given only one line of code would have no real purpose at a time and we don't notice any performance hit but to remove the conditional we would need to add states, and each state would have a different view. Of course we did not do this as a result of introducing way to much duplicate code, not mencioning how much more complex the menu would become overall.
+>We did our best to simplify this by drawing everything normally and then overwriting the current option. It works fine given that only one line of code at a time would have no real purpose and we don't notice any performance hit but to remove the conditionals we would need to add a load states, and each state would have its own view. Of course we did not do this because it would introduce way to much duplicate code, not mencioning how much more complex the menu would become overall.
 ## Testing
 ### Screenshot of test coverage
 ![test](screenshots/Test-Coverage.png)

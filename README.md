@@ -1,30 +1,17 @@
 # lpoo-2020-g81
 lpoo-2020-g81 created by GitHub Classroom
 
-# Bomberman Versão Fixe
+# LPOO_T81 - BOMBERMAN COOL VERSION
 
-## Descrição
-Objetivo do jogo é encontrar uma porta escondida "por baixo" de um dos blocos destrutiveis.
-Estes blocos podem ser destruidos com uma bomba que o player vai ter (munição infinita) e explode na horizontal e vertical num range de 4 blocos.
-O mapa será sempre o mesmo na medida em que os blocos indestrutiveis estarão sempre no mesmo sítio. No entanto os outros serão colocados de forma aleatória, tal como o jogador, porta e monstros.
-Haverão também monstros que se entram em contacto com o player, este perderá uma vida. Se as vidas chegarem ao 0, obviamente, o player perde.
-Para além disso existirão moedas (que podem ou não estar escondidas como a porta) que o player pode apanhar para aumentar o score.
-
-## Funcionalidades:
-1. Existirão 3 dificuldades diferentes, que vão modificar o movimento dos monstros e número de blocos destrutiveis.
-1. Niveis, cada um com tempo limite. Com o passar dos mesmo, a dificuldade do jogo aumentará.
-1. O player, se apanhado na explosão da propria bomba perde 1 vida.
-
-## Design Patterns
-1. Observer: 
-	- o campo atualizar-se-á a um determinado framerate o que notificará cada monstro para se mexer.
-	- receberá os inputs do teclado para atualizar o hero.
-
-1. Strategy:	
-	- implementar as diferentes dificuldades.
-
-1. Commands.Command: 	
-	- registar todas as ações como comandos.
+>Bomberman is a strategic, maze-based video game franchise in which the player holds an unlimited number of bombs and uses them to open his path on the maze and find the door that will lead to the next level, all this while evading bad monsters :(
+>
+>Our version aims to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players would be caught up in his bomb's explosion he would lose a life. That leads to another difference: lives. The player will start out with 3 lives which he will lose by exploding himself or getting in contact with the monsters. There are also various drops from exploded blocks that will add time, lives, score and even turn the hero into the Hulk for 10 steps.
+>
+>This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
+>
+> Small trailer (colors aren't really accurate because of format):
+>
+>![Vid](docs/screenshots/trailer.gif)
 
 
 
