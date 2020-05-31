@@ -6,10 +6,10 @@ import com.noclue.model.Position;
 import static com.noclue.model.collectible.Visitor.visitInvencible;
 
 public class Invencible implements Collectible {
-    Position position;
+    private Position position;
 
     public Invencible(Position position) {
-        this.position = position;
+        this.setPosition(position);
     }
 
     public Position getPosition() {

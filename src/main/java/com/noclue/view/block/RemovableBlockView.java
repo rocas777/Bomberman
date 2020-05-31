@@ -9,12 +9,12 @@ import com.noclue.model.block.RemovableBlockModel;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class RemovableBlockView implements IView {
-    RemovableBlockModel model;
-    TextGraphics textGraphics;
+    private RemovableBlockModel model;
+    private TextGraphics textGraphics;
 
     public RemovableBlockView(RemovableBlockModel model, TextGraphics textGraphics) {
-        this.model = model;
-        this.textGraphics = textGraphics;
+        this.setModel(model);
+        this.setTextGraphics(textGraphics);
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
@@ -32,12 +32,20 @@ public class RemovableBlockView implements IView {
         return textGraphics;
     }
 
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+    }
+
     public RemovableBlockModel getModel() {
         return model;
     }
 
+    public void setModel(RemovableBlockModel model) {
+        this.model = model;
+    }
+
     @Override
     public void draw() {
-        draw(textGraphics, model.getPosition());
+        draw(getTextGraphics(), getModel().getPosition());
     }
 }

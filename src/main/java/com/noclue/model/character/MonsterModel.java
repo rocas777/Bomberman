@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class MonsterModel extends Filler implements Character {
     final private Difficulty difficulty;
-    Position position;
+    private Position position;
 
     public MonsterModel(Difficulty difficulty, Position position) {
-        this.position = position;
+        this.setPosition(position);
         this.difficulty = difficulty;
     }
 
@@ -33,7 +33,7 @@ public class MonsterModel extends Filler implements Character {
     }
 
     public ArrayList<Movement> nextMove(Position position, ArrayList<Position> bomb) {
-        return difficulty.nextMove(this.position, position, bomb);
+        return getDifficulty().nextMove(this.getPosition(), position, bomb);
     }
 
     @Override
@@ -57,22 +57,22 @@ public class MonsterModel extends Filler implements Character {
     //methods to move monster in each direction
 
     public void moveLeft(Grid grid) {
-        grid.getTile(position).moveTile(grid.getTile(position.getLeft()));
-        position.setLeft();
+        grid.getTile(getPosition()).moveTile(grid.getTile(getPosition().getLeft()));
+        getPosition().setLeft();
     }
 
     public void moveRight(Grid grid) {
-        grid.getTile(position).moveTile(grid.getTile(position.getRight()));
-        position.setRight();
+        grid.getTile(getPosition()).moveTile(grid.getTile(getPosition().getRight()));
+        getPosition().setRight();
     }
 
     public void moveUp(Grid grid) {
-        grid.getTile(position).moveTile(grid.getTile(position.getUp()));
-        position.setUp();
+        grid.getTile(getPosition()).moveTile(grid.getTile(getPosition().getUp()));
+        getPosition().setUp();
     }
 
     public void moveDown(Grid grid) {
-        grid.getTile(position).moveTile(grid.getTile(position.getDown()));
-        position.setDown();
+        grid.getTile(getPosition()).moveTile(grid.getTile(getPosition().getDown()));
+        getPosition().setDown();
     }
 }

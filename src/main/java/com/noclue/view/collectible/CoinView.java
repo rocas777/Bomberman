@@ -9,12 +9,12 @@ import com.noclue.model.collectible.CoinModel;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class CoinView implements IView {
-    CoinModel model;
-    TextGraphics textGraphics;
+    private CoinModel model;
+    private TextGraphics textGraphics;
 
     public CoinView(CoinModel model, TextGraphics textGraphics) {
-        this.model = model;
-        this.textGraphics = textGraphics;
+        this.setModel(model);
+        this.setTextGraphics(textGraphics);
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
@@ -28,12 +28,20 @@ public class CoinView implements IView {
         return textGraphics;
     }
 
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+    }
+
     public CoinModel getModel() {
         return model;
     }
 
+    public void setModel(CoinModel model) {
+        this.model = model;
+    }
+
     @Override
     public void draw() {
-        draw(textGraphics, model.getPosition());
+        draw(getTextGraphics(), getModel().getPosition());
     }
 }

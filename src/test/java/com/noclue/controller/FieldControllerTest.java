@@ -50,10 +50,6 @@ public class FieldControllerTest {
     }
 
     @Test
-    public void setup() {
-    }
-
-    @Test
     public void createTile() {
         grid.add_column();
         grid.add_column();
@@ -197,10 +193,10 @@ public class FieldControllerTest {
         Timer timer = Mockito.mock(Timer.class);
         KeyStroke keyStroke = Mockito.mock(KeyStroke.class);
 
-        when(fieldController.model.getBomb()).thenReturn(null);
+        when(fieldController.getModel().getBomb()).thenReturn(null);
         when(heroController.getPosition()).thenReturn(new Position(10,10,5,5));
-        when(fieldController.model.getHero()).thenReturn(heroController);
-        when(fieldController.model.gettServer()).thenReturn(timer);
+        when(fieldController.getModel().getHero()).thenReturn(heroController);
+        when(fieldController.getModel().gettServer()).thenReturn(timer);
         when(keyStroke.getCharacter()).thenReturn('p');
 
         //verificar drop bomb
@@ -211,12 +207,12 @@ public class FieldControllerTest {
         //verificar moveleft
         when(keyStroke.getCharacter()).thenReturn('a');
         CopyOnWriteArrayList<KeyStroke> keyStrokes = Mockito.mock(CopyOnWriteArrayList.class);
-        fieldController.keyStrokes = keyStrokes;
+        fieldController.setKeyStrokes(keyStrokes);
         fieldController.updateOnKeyboard(keyStroke);
         verify(keyStrokes,times(1)).add(keyStroke);
 
         //verificar fim do jogo
-        fieldController.ended = true;
+        fieldController.setEnded(true);
         fieldController.updateOnKeyboard(keyStroke);
         verify(fieldModel,times(1)).setBombModel(any(BombController.class));
         verify(timer,times(1)).addListener(null);
@@ -236,7 +232,7 @@ public class FieldControllerTest {
 
         KeyStroke keyStroke = Mockito.mock(KeyStroke.class);
         keyStrokes.add(keyStroke);
-        fieldController.keyStrokes = keyStrokes;
+        fieldController.setKeyStrokes(keyStrokes);
 
         when(controller.getFiller()).thenReturn(filler);
         when(keyStroke.getCharacter()).thenReturn('a');
@@ -249,7 +245,7 @@ public class FieldControllerTest {
 
 
         //verificar fim do jogo
-        fieldController.ended = true;
+        fieldController.setEnded(true);
         when(heroController.isActive()).thenReturn(false);
         fieldController.handleKeyboard();
 
@@ -260,7 +256,7 @@ public class FieldControllerTest {
         verify(heroController,times(0)).moveLeft(any());
 
         //verificar esquerda se o movimento for proibido
-        fieldController.ended = false;
+        fieldController.setEnded(false);
         when(heroController.isActive()).thenReturn(false);
         fieldController.handleKeyboard();
 
@@ -271,7 +267,7 @@ public class FieldControllerTest {
         keyStrokes.add(keyStroke);
 
         //verificar esquerda se o movimento for permitido
-        fieldController.ended = false;
+        fieldController.setEnded(false);
         when(heroController.isActive()).thenReturn(true);
         fieldController.handleKeyboard();
 
@@ -333,12 +329,12 @@ public class FieldControllerTest {
         //verificar se o somador funciona
         fieldController.updateOnTime();
         Assert.assertEquals(bf+1,fieldController.getTimerSum());
-        verify(fieldModel,times(0)).getBomb();
+        verify(fieldModel,times(1)).getBomb();
         verify(bombModel,times(0)).getExplosionList();
 
         //verificar se a bomba explodiu passados os 500ms
         fieldController.updateOnTime();
-        verify(fieldModel,times(2)).getBomb();
+        verify(fieldModel,times(3)).getBomb();
         verify(bombModel,times(1)).getExplosionList();
         verify(fieldController,times(1)).updateMonsterPosition(any(),any());
         verify(fieldController,times(2)).purge();
@@ -347,9 +343,9 @@ public class FieldControllerTest {
 
 
         //verificar se, havendo teclas premidas, elas são tratadas
-        fieldController.keyStrokes = keyStrokes;
+        fieldController.setKeyStrokes(keyStrokes);
         fieldController.updateOnTime();
-        verify(fieldModel,times(2)).getBomb();
+        verify(fieldModel,times(3)).getBomb();
         verify(bombModel,times(1)).getExplosionList();
         verify(fieldController,times(1)).updateMonsterPosition(any(),any());
         verify(fieldController,times(3)).purge();
@@ -557,7 +553,7 @@ public class FieldControllerTest {
         //verificar se timeIsUp é falso quando o somador é 0
         fieldController.setTimerSum(0);
         Assert.assertFalse(fieldController.timeIsUp());
-        Assert.assertFalse(fieldController.ended);
+        Assert.assertFalse(fieldController.isEnded());
 
         //verificar se timeIsUp é verdadeiro quando o somador está no limite
         fieldController.setEnded(false);
@@ -572,12 +568,12 @@ public class FieldControllerTest {
         //verificar a correta chamada das funções pretendidas
         Mockito.verify(iView,times(2)).draw();
         Mockito.verify(timer,times(2)).removeListener(fieldController);
-        Assert.assertTrue(fieldController.ended);
+        Assert.assertTrue(fieldController.isEnded());
         Mockito.verify(timeLeft,times(2)).minusSecond();
 
         when(timeLeft.getSeconds()).thenReturn(1);
         fieldController.timeIsUp();
-        Assert.assertEquals(0,fieldController.timerSum);
+        Assert.assertEquals(0,fieldController.getTimerSum());
 
     }
 
@@ -819,7 +815,7 @@ public class FieldControllerTest {
         fieldModel.setHero(heroController);
         fieldController.purge();
         Mockito.verify(iView,times(1)).draw();
-        Assert.assertEquals(true,fieldController.ended);
+        Assert.assertEquals(true,fieldController.isEnded());
 
         //end game
         fieldController.setEnded(false);
@@ -829,7 +825,7 @@ public class FieldControllerTest {
         fieldController.purge();
         Mockito.verify(iView,times(1)).draw();
         Mockito.verify(timer,times(1)).removeListener(fieldController);
-        Assert.assertEquals(false,fieldController.ended);
+        Assert.assertEquals(false,fieldController.isEnded());
     }
 
     @Test

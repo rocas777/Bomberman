@@ -8,26 +8,34 @@ import com.noclue.model.BombModel;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class BombViewTicking implements IView {
-    TextGraphics textGraphics;
-    BombModel model;
-    int counter = 0;
+    private TextGraphics textGraphics;
+    private BombModel model;
+    private int counter = 0;
 
     public BombViewTicking(TextGraphics textGraphics, BombModel bombModel) {
-        this.textGraphics = textGraphics;
-        this.model = bombModel;
+        this.setTextGraphics(textGraphics);
+        this.setModel(bombModel);
     }
 
     public TextGraphics getTextGraphics() {
         return textGraphics;
     }
 
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+    }
+
     public BombModel getModel() {
         return model;
     }
 
+    public void setModel(BombModel model) {
+        this.model = model;
+    }
+
     public void draw(TextGraphics textGraphics, BombModel model) {
-        counter++;
-        if (counter % 5 < 2) {
+        setCounter(getCounter() + 1);
+        if (getCounter() % 5 < 2) {
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
         } else {
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
@@ -38,9 +46,16 @@ public class BombViewTicking implements IView {
         );
     }
 
-
     @Override
     public void draw() {
-        draw(textGraphics, model);
+        draw(getTextGraphics(), getModel());
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 }

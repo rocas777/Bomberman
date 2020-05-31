@@ -14,13 +14,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class FieldModel {
     private final int width;
     private final int height;
-    IBombInterface bombController = null;
-    KeyBoard kServer;
-    Timer tServer;
-    Integer points = 0;
-    ArrayList<Difficulty> difficulties = new ArrayList<>();
-    boolean won = false;
-    int level;
+    private IBombInterface bombController = null;
+    private KeyBoard kServer;
+    private Timer tServer;
+    private Integer points = 0;
+    private ArrayList<Difficulty> difficulties = new ArrayList<>();
+    private boolean won = false;
+    private int level;
     private Grid tiles;
     private HeroController hero;
     private CopyOnWriteArrayList<MonsterModel> monsters = new CopyOnWriteArrayList<>();
@@ -28,8 +28,8 @@ public class FieldModel {
     public FieldModel(int width, int height, int level) {
         this.height = height;
         this.width = width;
-        this.level = level;
-        tiles = new Grid();
+        this.setLevel(level);
+        setTiles(new Grid());
     }
 
     public int getLevel() {
@@ -65,7 +65,7 @@ public class FieldModel {
     }
 
     public void addPoint() {
-        this.points++;
+        this.setPoints(this.getPoints() + 1);
     }
 
     public int getHeight() {
@@ -93,7 +93,7 @@ public class FieldModel {
     }
 
     public IBombInterface getBomb() {
-        return bombController;
+        return getBombController();
     }
 
     public KeyBoard getkServer() {
@@ -121,25 +121,32 @@ public class FieldModel {
     }
 
     public void setBombModel(IBombInterface bombController) {
-        this.bombController = bombController;
+        this.setBombController(bombController);
     }
 
     public boolean checkPos(Position position, Movement movement) { //checks if a character can move to a new position. A move can be made if the target psoition isn't filled or isn't active
         if (movement != null)
             switch (movement) {
                 case left:
-                    return !tiles.getTile(position.getLeft()).isFilled() || !tiles.getTile(position.getLeft()).getFiller().isActive();
+                    return !getTiles().getTile(position.getLeft()).isFilled() || !getTiles().getTile(position.getLeft()).getFiller().isActive();
                 case right:
-                    return !tiles.getTile(position.getRight()).isFilled() || !tiles.getTile(position.getRight()).getFiller().isActive();
+                    return !getTiles().getTile(position.getRight()).isFilled() || !getTiles().getTile(position.getRight()).getFiller().isActive();
                 case up:
-                    return !tiles.getTile(position.getUp()).isFilled() || !tiles.getTile(position.getUp()).getFiller().isActive();
+                    return !getTiles().getTile(position.getUp()).isFilled() || !getTiles().getTile(position.getUp()).getFiller().isActive();
                 case down:
-                    return !tiles.getTile(position.getDown()).isFilled() || !tiles.getTile(position.getDown()).getFiller().isActive();
+                    return !getTiles().getTile(position.getDown()).isFilled() || !getTiles().getTile(position.getDown()).getFiller().isActive();
                 case stay:
-                    return !tiles.getTile(position).isFilled() || !tiles.getTile(position).getFiller().isActive();
+                    return !getTiles().getTile(position).isFilled() || !getTiles().getTile(position).getFiller().isActive();
             }
         return false;
     }
 
 
+    public IBombInterface getBombController() {
+        return bombController;
+    }
+
+    public void setBombController(IBombInterface bombController) {
+        this.bombController = bombController;
+    }
 }

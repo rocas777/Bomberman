@@ -42,7 +42,6 @@ public class FieldModelTest {
     public void checkPos() {
         FieldModel fieldModel = new FieldModel(100,100,1);
         Grid grid = Mockito.mock(Grid.class);
-        CopyOnWriteArrayList<CopyOnWriteArrayList<TileController>> tilectrls = new CopyOnWriteArrayList<>();
         fieldModel.setTiles(grid);
 
         Position pl = new Position(20,20,0,1);

@@ -12,10 +12,10 @@ import java.io.IOException;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class MenuView implements IView {
-    MenuModel menuModel;
+    private MenuModel menuModel;
 
     public MenuView(MenuModel menuModel) {
-        this.menuModel = menuModel;
+        this.setMenuModel(menuModel);
     }
 
     public void draw_B(int c, int r, TextGraphics textGraphics) {
@@ -176,7 +176,7 @@ public class MenuView implements IView {
         textGraphics.putString(68, 20, "Start Game");
         textGraphics.putString(65, 22, "Choose Difficulty");
         textGraphics.putString(71, 24, "Exit");
-        if(menuModel.getLevel()!=1)
+        if (getMenuModel().getLevel() != 1)
             textGraphics.putString(65, 18, "Continue Campaign");
         else
             textGraphics.putString(66, 18, "Start Campaign");
@@ -184,19 +184,19 @@ public class MenuView implements IView {
 
         //highlight current option
 
-        switch (menuModel.getOption()) {
+        switch (getMenuModel().getOption()) {
             case 1:
                 textGraphics.putString(68, 20, "Start Game", BOLD);
                 break;
             case 2:
                 textGraphics.putString(65, 22, "Choose Difficulty", BOLD);
-                if (menuModel.getOnSubMenu()) {
+                if (getMenuModel().getOnSubMenu()) {
                     textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
                     textGraphics.putString(90, 20, "Easy");
                     textGraphics.putString(90, 22, "Medium");
                     textGraphics.putString(90, 24, "Hard");
                     textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
-                    switch (menuModel.getSubOption()) {
+                    switch (getMenuModel().getSubOption()) {
                         case 1:
                             textGraphics.putString(90, 20, "Easy", BOLD);
                             break;
@@ -213,10 +213,10 @@ public class MenuView implements IView {
                 textGraphics.putString(71, 24, "Exit", BOLD);
                 break;
             case 4:
-                if(menuModel.getLevel()!=1)
-                    textGraphics.putString(65, 18, "Continue Campaign",BOLD);
+                if (getMenuModel().getLevel() != 1)
+                    textGraphics.putString(65, 18, "Continue Campaign", BOLD);
                 else
-                    textGraphics.putString(66, 18, "Start Campaign",BOLD);
+                    textGraphics.putString(66, 18, "Start Campaign", BOLD);
                 break;
         }
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
@@ -257,6 +257,14 @@ public class MenuView implements IView {
     }
 
     public void draw() {
-        draw(menuModel.getTextGraphics());
+        draw(getMenuModel().getTextGraphics());
+    }
+
+    public MenuModel getMenuModel() {
+        return menuModel;
+    }
+
+    public void setMenuModel(MenuModel menuModel) {
+        this.menuModel = menuModel;
     }
 }

@@ -4,80 +4,84 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Timer implements TimerInterface {
     private static int mseconds;
-    Boolean isOn;
-    Thread thread;
+    private Boolean isOn;
+    private Thread thread;
     private CopyOnWriteArrayList<TimeListener> timeListeners = new CopyOnWriteArrayList<TimeListener>();
 
     public Timer(int mseconds) {
         if (mseconds <= 0)
-            Timer.mseconds = 1;
+            Timer.setMseconds(1);
         else
-            Timer.mseconds = mseconds;
+            Timer.setMseconds(mseconds);
         isOn = false;
     }
 
     public static int getSeconds() {
-        return mseconds;
+        return getMseconds();
     }
 
     public static void setSeconds(int seconds) {
-        mseconds = seconds;
+        setMseconds(seconds);
+    }
+
+    public static int getMseconds() {
+        return mseconds;
+    }
+
+    public static void setMseconds(int mseconds) {
+        Timer.mseconds = mseconds;
     }
 
     public CopyOnWriteArrayList<TimeListener> getTimeListeners() {
         return timeListeners;
     }
 
+    public void setTimeListeners(CopyOnWriteArrayList<TimeListener> timeListeners) {
+        this.timeListeners = timeListeners;
+    }
+
     public int getMSeconds() {
-        return mseconds;
+        return getMseconds();
     }
 
     public void addListener(TimeListener timeListener) {
-        timeListeners.add(timeListener);
+        getTimeListeners().add(timeListener);
     }
 
     public void removeListener(TimeListener timeListener) {
-        timeListeners.remove(timeListener);
+        getTimeListeners().remove(timeListener);
     }
 
     public void start() {
         isOn = true;
-        thread = new Thread(() -> {
+        setThread(new Thread(() -> {
             long timeMilli2;
-            while (isOn) {
+            while (getOn()) {
                 try {
                     timeMilli2 = System.currentTimeMillis();    //track execution time to subtract from sleep
-                    updateListeners(timeListeners);
-                    if (mseconds < 1) {
+                    updateListeners(getTimeListeners());
+                    if (getMseconds() < 1) {
                         return;
                     }
-                    long wait = mseconds + timeMilli2 - System.currentTimeMillis(); //adjust sleep time
+                    long wait = getMseconds() + timeMilli2 - System.currentTimeMillis(); //adjust sleep time
                     if (wait > 0)
-                        java.lang.Thread.sleep(wait);
+                        Thread.sleep(wait);
                     else
-                        java.lang.Thread.sleep(1);
+                        Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        });
-        thread.start();
+        }));
+        getThread().start();
     }
 
     public boolean isOn() {
-        return isOn;
-    }
-
-    public void setOn(boolean on) {
-        isOn = on;
+        return getOn();
     }
 
     public void stop() {
         isOn = false;
-    }
-
-    public void resume() {
-        isOn = true;
     }
 
     @Override
@@ -87,6 +91,22 @@ public class Timer implements TimerInterface {
     }
 
     public void removeListeners() {
-        timeListeners = new CopyOnWriteArrayList<>();
+        setTimeListeners(new CopyOnWriteArrayList<>());
+    }
+
+    public Boolean getOn() {
+        return isOn;
+    }
+
+    public void setOn(boolean on) {
+        isOn = on;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 }

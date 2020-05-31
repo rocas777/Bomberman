@@ -8,20 +8,28 @@ import com.noclue.model.BombModel;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class BombViewFire implements IView {
-    TextGraphics textGraphics;
-    BombModel model;
+    private TextGraphics textGraphics;
+    private BombModel model;
 
     public BombViewFire(TextGraphics textGraphics, BombModel bombModel) {
-        this.textGraphics = textGraphics;
-        this.model = bombModel;
+        this.setTextGraphics(textGraphics);
+        this.setModel(bombModel);
     }
 
     public TextGraphics getTextGraphics() {
         return textGraphics;
     }
 
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+    }
+
     public BombModel getModel() {
         return model;
+    }
+
+    public void setModel(BombModel model) {
+        this.model = model;
     }
 
     public void draw(TextGraphics textGraphics, BombModel model) {
@@ -39,6 +47,6 @@ public class BombViewFire implements IView {
 
     @Override
     public void draw() {
-        draw(textGraphics, model);
+        draw(getTextGraphics(), getModel());
     }
 }

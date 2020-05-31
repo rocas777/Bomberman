@@ -4,33 +4,41 @@ import com.noclue.model.Filler;
 import com.noclue.model.character.HeroModel;
 
 public class InvincibleIsTouching extends IsTouchingState {
-    HeroModel model;
+    private HeroModel model;
 
     public InvincibleIsTouching(HeroModel model) {
-        this.model = model;
+        this.setModel(model);
     }
 
     @Override
     public boolean isTouching(Filler filler) {
-        if (model.getTouchCounter() <= 0) { //go back to normal state
-            model.setIsTouchingState(model.getNormalIsTouching());
-            model.setDeactivateState(model.getNormalDeactivate());
+        if (getModel().getTouchCounter() <= 0) { //go back to normal state
+            getModel().setIsTouchingState(getModel().getNormalIsTouching());
+            getModel().setDeactivateState(getModel().getNormalDeactivate());
         }
-        model.setTouchCounter(model.getTouchCounter() - 1); //subtract a step
+        getModel().setTouchCounter(getModel().getTouchCounter() - 1); //subtract a step
         filler.deactivate();
         return true;
     }
 
     @Override
     public void Activate() {    //activates power-up
-        if (model.getTouchCounter() <= 0) {
-            model.setTouchCounter(10);
-            synchronized (model.getIsTouchingState()) {
-                synchronized (model.getDeactivateState()) {
-                    model.setIsTouchingState(model.getInvencibleIsTouching());
-                    model.setDeactivateState(model.getInvincibleDeactivate());
+        if (getModel().getTouchCounter() <= 0) {
+            getModel().setTouchCounter(10);
+            synchronized (getModel().getIsTouchingState()) {
+                synchronized (getModel().getDeactivateState()) {
+                    getModel().setIsTouchingState(getModel().getInvencibleIsTouching());
+                    getModel().setDeactivateState(getModel().getInvincibleDeactivate());
                 }
             }
         }
+    }
+
+    public HeroModel getModel() {
+        return model;
+    }
+
+    public void setModel(HeroModel model) {
+        this.model = model;
     }
 }

@@ -10,28 +10,36 @@ import com.noclue.view.LivesView;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class HeroView implements IView {
-    HeroModel model;
-    TextGraphics textGraphics;
-    LivesView livesView;
-    int i = 0;
+    private HeroModel model;
+    private TextGraphics textGraphics;
+    private LivesView livesView;
+    private int i = 0;
 
     public HeroView(HeroModel model, TextGraphics textGraphics) {
-        this.model = model;
-        this.textGraphics = textGraphics;
-        livesView = new LivesView(model.getLivesModel(), textGraphics);
+        this.setModel(model);
+        this.setTextGraphics(textGraphics);
+        setLivesView(new LivesView(model.getLivesModel(), textGraphics));
     }
 
     public HeroModel getModel() {
         return model;
     }
 
+    public void setModel(HeroModel model) {
+        this.model = model;
+    }
+
     public TextGraphics getTextGraphics() {
         return textGraphics;
     }
 
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+    }
+
     public void draw(TextGraphics textGraphics, Position position) {
-        i++;
-        if (model.getDeactivateState() == model.getInvincibleDeactivate() && i % 10 <= 4) { //tick one color while invincible
+        setI(getI() + 1);
+        if (getModel().getDeactivateState() == getModel().getInvincibleDeactivate() && getI() % 10 <= 4) { //tick one color while invincible
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));   //head and arms
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY(), "  ", BOLD);
             textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 1, " ", BOLD);
@@ -44,7 +52,7 @@ public class HeroView implements IView {
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 2, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#005555"));
-        } else if (model.getDeactivateState() == model.getInvincibleDeactivate()) { //tick the other color while invincible
+        } else if (getModel().getDeactivateState() == getModel().getInvincibleDeactivate()) { //tick the other color while invincible
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));   //head and arms
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY(), "  ", BOLD);
             textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 1, " ", BOLD);
@@ -73,11 +81,27 @@ public class HeroView implements IView {
         }
 
 
-        livesView.draw();
+        getLivesView().draw();
     }
 
     @Override
     public void draw() {
-        draw(textGraphics, model.getPosition());
+        draw(getTextGraphics(), getModel().getPosition());
+    }
+
+    public LivesView getLivesView() {
+        return livesView;
+    }
+
+    public void setLivesView(LivesView livesView) {
+        this.livesView = livesView;
+    }
+
+    public int getI() {
+        return i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
     }
 }

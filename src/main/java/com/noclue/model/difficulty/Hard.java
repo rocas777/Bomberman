@@ -44,7 +44,6 @@ public class Hard implements Difficulty {
         });
 
 
-
         ArrayList<Movement> out = new ArrayList();
         boolean inExplosionList = checkIsInExplosionList(bomb, monster);
 
@@ -88,7 +87,7 @@ public class Hard implements Difficulty {
         }
     }
 
-    class Par{
+    class Par {
         float f;
         Movement movement;
 

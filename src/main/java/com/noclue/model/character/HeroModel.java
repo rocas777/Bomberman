@@ -6,22 +6,22 @@ import com.noclue.model.state.*;
 import com.noclue.timer.Timer;
 
 public class HeroModel {
-    Position position;
-    LivesModel livesModel;
-    Timer timer = new Timer(50);
-    DeactivateState deactivateState;
-    int timerCount = 0;
-    boolean isActive = true;
-    int touchCounter = -1;
-    DeactivateState normalDeactivate;
-    DeactivateState invincibleDeactivate;
-    IsTouchingState isTouchingState;
-    IsTouchingState normalIsTouching;
-    IsTouchingState invencibleIsTouching;
+    private Position position;
+    private LivesModel livesModel;
+    private Timer timer = new Timer(50);
+    private DeactivateState deactivateState;
+    private int timerCount = 0;
+    private boolean isActive = true;
+    private int touchCounter = -1;
+    private DeactivateState normalDeactivate;
+    private DeactivateState invincibleDeactivate;
+    private IsTouchingState isTouchingState;
+    private IsTouchingState normalIsTouching;
+    private IsTouchingState invencibleIsTouching;
 
     public HeroModel(Position position) {
-        this.position = position;
-        timer.start();
+        this.setPosition(position);
+        getTimer().start();
     }
 
     public int getTouchCounter() {

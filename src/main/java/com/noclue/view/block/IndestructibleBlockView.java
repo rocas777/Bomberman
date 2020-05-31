@@ -9,12 +9,12 @@ import com.noclue.model.block.IndestructibleBlockModel;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class IndestructibleBlockView implements IView {
-    IndestructibleBlockModel model;
-    TextGraphics textGraphics;
+    private IndestructibleBlockModel model;
+    private TextGraphics textGraphics;
 
     public IndestructibleBlockView(IndestructibleBlockModel model, TextGraphics textGraphics) {
-        this.model = model;
-        this.textGraphics = textGraphics;
+        this.setModel(model);
+        this.setTextGraphics(textGraphics);
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
@@ -32,12 +32,20 @@ public class IndestructibleBlockView implements IView {
         return textGraphics;
     }
 
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+    }
+
     public IndestructibleBlockModel getModel() {
         return model;
     }
 
+    public void setModel(IndestructibleBlockModel model) {
+        this.model = model;
+    }
+
     @Override
     public void draw() {
-        draw(textGraphics, model.getPosition());
+        draw(getTextGraphics(), getModel().getPosition());
     }
 }

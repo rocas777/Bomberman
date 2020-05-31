@@ -4,10 +4,10 @@ import com.noclue.model.Filler;
 import com.noclue.model.character.HeroModel;
 
 public class NormalIsTouching extends IsTouchingState {
-    HeroModel model;
+    private HeroModel model;
 
     public NormalIsTouching(HeroModel model) {
-        this.model = model;
+        this.setModel(model);
     }
 
     @Override
@@ -17,15 +17,23 @@ public class NormalIsTouching extends IsTouchingState {
 
     @Override
     public void Activate() {
-        if (model.getTouchCounter() <= 0) {
-            model.setTouchCounter(10);
-            synchronized (model.getIsTouchingState()) {
-                synchronized (model.getDeactivateState()) {
-                    model.getTimer().removeListeners();
-                    model.setIsTouchingState(model.getInvencibleIsTouching());
-                    model.setDeactivateState(model.getInvincibleDeactivate());
+        if (getModel().getTouchCounter() <= 0) {
+            getModel().setTouchCounter(10);
+            synchronized (getModel().getIsTouchingState()) {
+                synchronized (getModel().getDeactivateState()) {
+                    getModel().getTimer().removeListeners();
+                    getModel().setIsTouchingState(getModel().getInvencibleIsTouching());
+                    getModel().setDeactivateState(getModel().getInvincibleDeactivate());
                 }
             }
         }
+    }
+
+    public HeroModel getModel() {
+        return model;
+    }
+
+    public void setModel(HeroModel model) {
+        this.model = model;
     }
 }

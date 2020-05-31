@@ -4,12 +4,12 @@ package com.noclue.model;
 import com.noclue.model.collectible.Collectible;
 
 public class TileModel {
-    Filler filler;
-    Collectible collectible;
+    private Filler filler;
+    private Collectible collectible;
 
     public TileModel(Collectible collectible, Filler filler) {
-        this.collectible = collectible;
-        this.filler = filler;
+        this.setCollectible(collectible);
+        this.setFiller(filler);
     }
 
     public Filler getFiller() {
@@ -29,7 +29,7 @@ public class TileModel {
     }
 
     public boolean isFilled() {
-        return filler.isFilled();
+        return getFiller().isFilled();
     }
 
 

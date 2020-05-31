@@ -33,16 +33,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static java.lang.Math.abs;
 
 public class FieldController implements KeyboardListener, TimeListener, ExplosionListener {
-    int timerSum = 0;
-    FieldModel model;
-    IView view;
-    IView gameView;
-    IView gamoverView;
-    IView winView;
-    TextGraphics textGraphics;
-    TimeLeft timeLeft;
-    CopyOnWriteArrayList<KeyStroke> keyStrokes = new CopyOnWriteArrayList<>();
-    boolean ended = false;
+    private int timerSum = 0;
+    private FieldModel model;
+    private IView view;
+    private IView gamoverView;
+    private IView winView;
+    private TextGraphics textGraphics;
+    private TimeLeft timeLeft;
+    private CopyOnWriteArrayList<KeyStroke> keyStrokes = new CopyOnWriteArrayList<>();
+    private boolean ended = false;
 
 
     public FieldController(FieldModel model, IView gameView, IView gameoverView, IView winView, TextGraphics textGraphics, TimeLeft timeLeft) {
@@ -50,9 +49,20 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         this.view = gameView;
         this.gamoverView = gameoverView;
         this.winView = winView;
-        this.gameView = gameView;
         this.textGraphics = textGraphics;
         this.timeLeft = timeLeft;
+    }
+
+    public void setKeyStrokes(CopyOnWriteArrayList<KeyStroke> keyStrokes) {
+        this.keyStrokes = keyStrokes;
+    }
+
+    public boolean isEnded() {
+        return ended;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
     }
 
     public void setDifficulty(ArrayList<Difficulty> difficulties) {
@@ -71,10 +81,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         return model;
     }
 
-    public void setModel(FieldModel model) {
-        this.model = model;
-    }
-
     public IView getView() {
         return view;
     }
@@ -87,20 +93,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         return winView;
     }
 
-    public TextGraphics getTextGraphics() {
-        return textGraphics;
-    }
-
-    public void setTextGraphics(TextGraphics textGraphics) {
-        this.textGraphics = textGraphics;
-    }
-
     public TimeLeft getTimeLeft() {
         return timeLeft;
-    }
-
-    public void setEnded(boolean ended) {
-        this.ended = ended;
     }
 
     public void setup() {
@@ -203,7 +197,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     public Position setDoorPos(Position hero) {
         Random random = new Random();
         Position door = new Position(23, 15, (random.nextInt(12) + 10), (random.nextInt(6) + 6));
-        while (door.equals(hero) || model.getTiles().getTile(door).getFiller().isFilled() ) {
+        while (door.equals(hero) || model.getTiles().getTile(door).getFiller().isFilled()) {
             door = new Position(23, 15, (random.nextInt(23)), (random.nextInt(13)));
         }
         return door;
@@ -228,7 +222,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     public void updateOnKeyboard(KeyStroke keyPressed) {
         if (keyPressed.getCharacter() == 'p' && model.getBomb() == null) {  //creates a bomb if there isn't one already
             BombModel bombModel = new BombModel(1000, this, model.getHero().getPosition().clone(), model.gettServer());
-            BombViewFire viewFire = new BombViewFire(textGraphics, bombModel);
             model.setBombModel(new BombController(bombModel, textGraphics));
             model.gettServer().addListener(model.getBomb());
         } else if (!ended) {

@@ -9,12 +9,12 @@ import com.noclue.model.collectible.DoorModel;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class DoorView implements IView {
-    DoorModel model;
-    TextGraphics textGraphics;
+    private DoorModel model;
+    private TextGraphics textGraphics;
 
     public DoorView(DoorModel model, TextGraphics textGraphics) {
-        this.model = model;
-        this.textGraphics = textGraphics;
+        this.setModel(model);
+        this.setTextGraphics(textGraphics);
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
@@ -32,12 +32,20 @@ public class DoorView implements IView {
         return textGraphics;
     }
 
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+    }
+
     public DoorModel getModel() {
         return model;
     }
 
+    public void setModel(DoorModel model) {
+        this.model = model;
+    }
+
     @Override
     public void draw() {
-        draw(textGraphics, model.getPosition());
+        draw(getTextGraphics(), getModel().getPosition());
     }
 }

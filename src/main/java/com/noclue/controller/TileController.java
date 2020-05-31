@@ -18,27 +18,27 @@ public class TileController implements Cloneable {
     }
 
     public void blankTile() {   //sets tile to have no filler and thus it will draw nothing
-        this.model.setFiller(new NoBlockModel());
-        this.view.setFiller(new NoView());
+        this.getModel().setFiller(new NoBlockModel());
+        this.getView().setFiller(new NoView());
     }
 
     public void moveTile(TileController tileModel) {    //moves information on this tile to the one passed as argument
-        tileModel.setFiller(model.getFiller());
-        tileModel.view.setFiller(view.getFiller());
+        tileModel.setFiller(getModel().getFiller());
+        tileModel.getView().setFiller(getView().getFiller());
         blankTile();    //cleans this tile
     }
 
     public void blankCollectible() {    //sets colletible to null basically
-        this.model.setCollectible(new NoCollectibleModel());
-        this.view.setCollectible(new NoView());
+        this.getModel().setCollectible(new NoCollectibleModel());
+        this.getView().setCollectible(new NoView());
     }
 
     public boolean isFilled() {
-        return model.getFiller().isFilled();
+        return getModel().getFiller().isFilled();
     }
 
     public void draw() {
-        view.draw();
+        getView().draw();
     }
 
     public TileView getView() {
@@ -46,19 +46,22 @@ public class TileController implements Cloneable {
     }
 
     public Filler getFiller() {
-        return model.getFiller();
+        return getModel().getFiller();
     }
 
     public void setFiller(Filler filler) {
-        model.setFiller(filler);
+        getModel().setFiller(filler);
     }
 
     public Collectible getCollectible() {
-        return model.getCollectible();
+        return getModel().getCollectible();
     }
 
     public void setCollectible(Collectible collectible) {
-        model.setCollectible(collectible);
+        getModel().setCollectible(collectible);
     }
 
+    public TileModel getModel() {
+        return model;
+    }
 }

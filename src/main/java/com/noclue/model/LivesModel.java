@@ -1,12 +1,12 @@
 package com.noclue.model;
 
 public class LivesModel {
-    int lives;
-    Position position;
+    private int lives;
+    private Position position;
 
     public LivesModel(int lives, Position position) {
-        this.lives = lives;
-        this.position = position;
+        this.setLives(lives);
+        this.setPosition(position);
     }
 
     public int getLives() {

@@ -9,12 +9,12 @@ import com.noclue.model.collectible.AddTime;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class AddTimeView implements IView {
-    AddTime addTime;
-    TextGraphics textGraphics;
+    private AddTime addTime;
+    private TextGraphics textGraphics;
 
     public AddTimeView(AddTime addTime, TextGraphics textGraphics) {
-        this.addTime = addTime;
-        this.textGraphics = textGraphics;
+        this.setAddTime(addTime);
+        this.setTextGraphics(textGraphics);
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
@@ -26,6 +26,22 @@ public class AddTimeView implements IView {
 
     @Override
     public void draw() {
-        draw(textGraphics, addTime.getPosition());
+        draw(getTextGraphics(), getAddTime().getPosition());
+    }
+
+    public AddTime getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(AddTime addTime) {
+        this.addTime = addTime;
+    }
+
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
     }
 }

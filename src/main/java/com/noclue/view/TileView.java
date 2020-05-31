@@ -4,9 +4,9 @@ import com.noclue.IView;
 import com.noclue.model.TileModel;
 
 public class TileView implements IView {
-    IView filler;
-    IView collectible;
-    TileModel model;
+    private IView filler;
+    private IView collectible;
+    private TileModel model;
 
     public TileView(TileModel model) {
         this.model = model;
@@ -14,10 +14,10 @@ public class TileView implements IView {
 
     @Override
     public void draw() {
-        if (collectible != null)
-            collectible.draw();
-        if (filler != null)
-            filler.draw();
+        if (getCollectible() != null)
+            getCollectible().draw();
+        if (getFiller() != null)
+            getFiller().draw();
     }
 
     public IView getCollectible() {

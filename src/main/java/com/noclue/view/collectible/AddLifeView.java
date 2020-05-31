@@ -9,12 +9,12 @@ import com.noclue.model.collectible.AddLife;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class AddLifeView implements IView {
-    AddLife addLife;
-    TextGraphics textGraphics;
+    private AddLife addLife;
+    private TextGraphics textGraphics;
 
     public AddLifeView(AddLife addLife, TextGraphics textGraphics) {
-        this.addLife = addLife;
-        this.textGraphics = textGraphics;
+        this.setAddLife(addLife);
+        this.setTextGraphics(textGraphics);
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
@@ -26,6 +26,22 @@ public class AddLifeView implements IView {
 
     @Override
     public void draw() {
-        draw(textGraphics, addLife.getPosition());
+        draw(getTextGraphics(), getAddLife().getPosition());
+    }
+
+    public AddLife getAddLife() {
+        return addLife;
+    }
+
+    public void setAddLife(AddLife addLife) {
+        this.addLife = addLife;
+    }
+
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
     }
 }

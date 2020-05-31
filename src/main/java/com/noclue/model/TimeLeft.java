@@ -1,12 +1,12 @@
 package com.noclue.model;
 
 public class TimeLeft {
-    int seconds;
-    Position position;
+    private int seconds;
+    private Position position;
 
     public TimeLeft(int seconds, Position position) {
-        this.seconds = seconds;
-        this.position = position;
+        this.setSeconds(seconds);
+        this.setPosition(position);
     }
 
     public int getSeconds() {
@@ -26,10 +26,10 @@ public class TimeLeft {
     }
 
     public void minusSecond() {
-        this.seconds--;
+        this.setSeconds(this.getSeconds() - 1);
     }
 
     public void addTime() {
-        this.seconds += 15;
+        this.setSeconds(this.getSeconds() + 15);
     }
 }

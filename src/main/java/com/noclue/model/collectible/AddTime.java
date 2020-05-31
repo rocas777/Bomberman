@@ -6,10 +6,10 @@ import com.noclue.model.Position;
 import static com.noclue.model.collectible.Visitor.visitTime;
 
 public class AddTime implements Collectible {
-    Position position;
+    private Position position;
 
     public AddTime(Position position) {
-        this.position = position;
+        this.setPosition(position);
     }
 
     public Position getPosition() {

@@ -9,52 +9,76 @@ import java.util.ArrayList;
 
 public class KeyBoard {
     private final TerminalScreen screen;
-    Boolean isOn;
+    private Boolean isOn;
     private ArrayList<KeyboardListener> keyboardListeners = new ArrayList<>();
-    Thread thread;
+    private Thread thread;
 
     public KeyBoard(TerminalScreen screen) {
-        isOn = false;
+        setOn(false);
         this.screen = screen;
     }
 
     public void addListener(KeyboardListener keyboardListener) {
-        keyboardListeners.add(keyboardListener);
+        getKeyboardListeners().add(keyboardListener);
     }
 
     public ArrayList<KeyboardListener> getKeyboardListeners() {
         return keyboardListeners;
     }
 
+    public void setKeyboardListeners(ArrayList<KeyboardListener> keyboardListeners) {
+        this.keyboardListeners = keyboardListeners;
+    }
+
     public void start() {
-        isOn = true;
-        thread = new Thread(() -> {
-            while (isOn) {
+        setOn(true);
+        setThread(new Thread(() -> {
+            while (getOn()) {
                 KeyStroke key = null;
                 try {
-                    key = screen.readInput();
+                    key = getScreen().readInput();
                     KeyType keyType = key.getKeyType();
                     if (keyType == KeyType.Character || keyType == KeyType.EOF) {
-                        for (KeyboardListener listener : keyboardListeners) {   //notify all listeners and pass keystroke as argument
+                        for (KeyboardListener listener : getKeyboardListeners()) {   //notify all listeners and pass keystroke as argument
                             listener.updateOnKeyboard(key);
                         }
-                        if(keyType == KeyType.EOF){
-                            isOn = false;   //leave loop if terminal closes abnormally
+                        if (keyType == KeyType.EOF) {
+                            setOn(false);   //leave loop if terminal closes abnormally
                         }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        });
-        thread.start();
+        }));
+        getThread().start();
     }
 
     public void stop() {
-        isOn = false;
+        setOn(false);
     }
 
     public void removeListeners() {
-        keyboardListeners = null;
+        setKeyboardListeners(null);
+    }
+
+    public TerminalScreen getScreen() {
+        return screen;
+    }
+
+    public Boolean getOn() {
+        return isOn;
+    }
+
+    public void setOn(Boolean on) {
+        isOn = on;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 }

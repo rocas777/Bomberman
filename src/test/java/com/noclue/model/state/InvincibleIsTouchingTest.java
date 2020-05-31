@@ -59,7 +59,4 @@ public class InvincibleIsTouchingTest {
                 .deactivate();
     }
 
-    @Test
-    public void activate() {
-    }
 }

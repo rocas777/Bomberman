@@ -6,10 +6,10 @@ import com.noclue.model.Position;
 import static com.noclue.model.collectible.Visitor.visitLife;
 
 public class AddLife implements Collectible {
-    Position position;
+    private Position position;
 
     public AddLife(Position position) {
-        this.position = position;
+        this.setPosition(position);
     }
 
     public Position getPosition() {

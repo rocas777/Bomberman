@@ -9,16 +9,16 @@ import com.noclue.model.TimeLeft;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class TimeLeftView implements IView {
-    TimeLeft timeLeft;
-    TextGraphics textGraphics;
+    private TimeLeft timeLeft;
+    private TextGraphics textGraphics;
 
     public TimeLeftView(TimeLeft timeLeft, TextGraphics textGraphics) {
-        this.timeLeft = timeLeft;
-        this.textGraphics = textGraphics;
+        this.setTimeLeft(timeLeft);
+        this.setTextGraphics(textGraphics);
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
-        String string = "  " + timeLeft.getSeconds() / 60 + ":" + timeLeft.getSeconds() % 60;
+        String string = "  " + getTimeLeft().getSeconds() / 60 + ":" + getTimeLeft().getSeconds() % 60;
 
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffffff"));
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));
@@ -29,6 +29,22 @@ public class TimeLeftView implements IView {
 
     @Override
     public void draw() {
-        draw(textGraphics, timeLeft.getPosition());
+        draw(getTextGraphics(), getTimeLeft().getPosition());
+    }
+
+    public TimeLeft getTimeLeft() {
+        return timeLeft;
+    }
+
+    public void setTimeLeft(TimeLeft timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
     }
 }

@@ -5,10 +5,10 @@ import com.noclue.model.Filler;
 import com.noclue.model.Position;
 
 public class IndestructibleBlockModel extends Filler {
-    Position position;
+    private Position position;
 
     public IndestructibleBlockModel(Position position) {
-        this.position = position;
+        this.setPosition(position);
     }
 
     public Position getPosition() {

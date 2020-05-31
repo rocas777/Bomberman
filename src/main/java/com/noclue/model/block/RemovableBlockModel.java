@@ -4,10 +4,10 @@ import com.noclue.model.Filler;
 import com.noclue.model.Position;
 
 public class RemovableBlockModel extends Filler {
-    Position position;
+    private Position position;
 
     public RemovableBlockModel(Position position) {
-        this.position = position;
+        this.setPosition(position);
     }
 
     public Position getPosition() {

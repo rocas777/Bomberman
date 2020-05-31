@@ -7,20 +7,20 @@ import com.noclue.model.difficulty.Difficulty;
 import java.util.ArrayList;
 
 public class MenuModel {
-    static Screen screen;
-    int option;
-    int subOption;
-    boolean onSubMenu;
-    int score = 0;
-    TextGraphics textGraphics;
-    ArrayList<ArrayList<Difficulty>> difficultiesA;
-    String levels;
-    int level;
+    private static Screen screen;
+    private int option;
+    private int subOption;
+    private boolean onSubMenu;
+    private int score = 0;
+    private TextGraphics textGraphics;
+    private ArrayList<ArrayList<Difficulty>> difficultiesA;
+    private String levels;
+    private int level;
 
     public MenuModel(int option, int subOption) {
-        this.option = option;
-        this.subOption = subOption;
-        onSubMenu = false;
+        this.setOption(option);
+        this.setSubOption(subOption);
+        setOnSubMenu(false);
 
     }
 
@@ -65,34 +65,34 @@ public class MenuModel {
     }
 
     public void optUp() {
-        if (option != 1) {
-            option--;
+        if (getOption() != 1) {
+            setOption(getOption() - 1);
         } else {
-            option = 4;
+            setOption(4);
         }
     }
 
     public void optDown() {
-        if (option != 4) {
-            option++;
+        if (getOption() != 4) {
+            setOption(getOption() + 1);
         } else {
-            option = 1;
+            setOption(1);
         }
     }
 
     public void subOptUp() {
-        if (subOption != 1) {
-            subOption--;
+        if (getSubOption() != 1) {
+            setSubOption(getSubOption() - 1);
         } else {
-            subOption = 3;
+            setSubOption(3);
         }
     }
 
     public void subOptDown() {
-        if (subOption != 3) {
-            subOption++;
+        if (getSubOption() != 3) {
+            setSubOption(getSubOption() + 1);
         } else {
-            subOption = 1;
+            setSubOption(1);
         }
     }
 
@@ -113,11 +113,7 @@ public class MenuModel {
     }
 
     public boolean getOnSubMenu() {
-        return onSubMenu;
-    }
-
-    public void setOnSubMenu(boolean onSubMenu) {
-        this.onSubMenu = onSubMenu;
+        return isOnSubMenu();
     }
 
     public int getOption() {
@@ -126,5 +122,13 @@ public class MenuModel {
 
     public void setOption(int option) {
         this.option = option;
+    }
+
+    public boolean isOnSubMenu() {
+        return onSubMenu;
+    }
+
+    public void setOnSubMenu(boolean onSubMenu) {
+        this.onSubMenu = onSubMenu;
     }
 }

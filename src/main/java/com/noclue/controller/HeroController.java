@@ -13,12 +13,12 @@ import com.noclue.model.state.NormalIsTouching;
 import com.noclue.view.character.HeroView;
 
 public class HeroController extends Filler implements Character {
-    HeroModel model;
-    HeroView view;
+    private HeroModel model;
+    private HeroView view;
 
     public HeroController(HeroModel model, HeroView view) {
-        this.model = model;
-        this.view = view;
+        this.setModel(model);
+        this.setView(view);
         model.setNormalDeactivate(new NormalDeactivate(model));
         model.setInvincibleDeactivate(new InvincibleDeactivate());
 
@@ -32,20 +32,16 @@ public class HeroController extends Filler implements Character {
 
     @Override
     public boolean deactivate() {
-        return model.getDeactivateState().deactivate(model.getLivesModel());
-    }
-
-    public LivesModel getLivesModel() {
-        return model.getLivesModel();
+        return getModel().getDeactivateState().deactivate(getModel().getLivesModel());
     }
 
     public void setLivesModel(LivesModel livesModel) {
-        model.setLivesModel(livesModel);
+        getModel().setLivesModel(livesModel);
     }
 
     public void addLife() { //increases life if total isn't 5
-        if (model.getLivesModel().getLives() < 5) {
-            model.getLivesModel().setLives(model.getLivesModel().getLives() + 1);
+        if (getModel().getLivesModel().getLives() < 5) {
+            getModel().getLivesModel().setLives(getModel().getLivesModel().getLives() + 1);
         }
     }
 
@@ -53,22 +49,26 @@ public class HeroController extends Filler implements Character {
         return model;
     }
 
+    public void setModel(HeroModel model) {
+        this.model = model;
+    }
+
     @Override
     public Position getPosition() {
-        return model.getPosition();
+        return getModel().getPosition();
     }
 
     public void setPosition(Position position) {
-        model.setPosition(position);
+        getModel().setPosition(position);
     }
 
     @Override
     public boolean isTouching(Filler filler) {
-        return model.getIsTouchingState().isTouching(filler);
+        return getModel().getIsTouchingState().isTouching(filler);
     }
 
     public void ActivateInvencible() {
-        model.getIsTouchingState().Activate();
+        getModel().getIsTouchingState().Activate();
     }
 
     @Override
@@ -76,30 +76,38 @@ public class HeroController extends Filler implements Character {
         return false;
     }
 
-    @Override
-    public boolean isActive() {
-        return model.isActive();
-    }
-
     //moving hero to each direction methods
 
+    @Override
+    public boolean isActive() {
+        return getModel().isActive();
+    }
+
     public void moveLeft(Grid grid) {
-        grid.getTile(model.getPosition()).moveTile(grid.getTile(model.getPosition().getLeft()));
-        model.getPosition().setLeft();
+        grid.getTile(getModel().getPosition()).moveTile(grid.getTile(getModel().getPosition().getLeft()));
+        getModel().getPosition().setLeft();
     }
 
     public void moveRight(Grid grid) {
-        grid.getTile(model.getPosition()).moveTile(grid.getTile(model.getPosition().getRight()));
-        model.getPosition().setRight();
+        grid.getTile(getModel().getPosition()).moveTile(grid.getTile(getModel().getPosition().getRight()));
+        getModel().getPosition().setRight();
     }
 
     public void moveUp(Grid grid) {
-        grid.getTile(model.getPosition()).moveTile(grid.getTile(model.getPosition().getUp()));
-        model.getPosition().setUp();
+        grid.getTile(getModel().getPosition()).moveTile(grid.getTile(getModel().getPosition().getUp()));
+        getModel().getPosition().setUp();
     }
 
     public void moveDown(Grid grid) {
-        grid.getTile(model.getPosition()).moveTile(grid.getTile(model.getPosition().getDown()));
-        model.getPosition().setDown();
+        grid.getTile(getModel().getPosition()).moveTile(grid.getTile(getModel().getPosition().getDown()));
+        getModel().getPosition().setDown();
+    }
+
+    public HeroView getView() {
+        return view;
+    }
+
+    public void setView(HeroView view) {
+        this.view = view;
     }
 }

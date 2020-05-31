@@ -12,31 +12,39 @@ import com.noclue.model.difficulty.Medium;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class MonsterView implements IView {
-    TextGraphics textGraphics;
-    MonsterModel monsterModel;
+    private TextGraphics textGraphics;
+    private MonsterModel monsterModel;
 
     public MonsterView(MonsterModel monsterModel, TextGraphics textGraphics) {
-        this.monsterModel = monsterModel;
-        this.textGraphics = textGraphics;
+        this.setMonsterModel(monsterModel);
+        this.setTextGraphics(textGraphics);
     }
 
     public TextGraphics getTextGraphics() {
         return textGraphics;
     }
 
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
+    }
+
     public MonsterModel getMonsterModel() {
         return monsterModel;
     }
 
+    public void setMonsterModel(MonsterModel monsterModel) {
+        this.monsterModel = monsterModel;
+    }
+
     public void draw(TextGraphics textGraphics, Position position) {
 
-        if (monsterModel.getDifficulty() instanceof Medium)
+        if (getMonsterModel().getDifficulty() instanceof Medium)
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffff00"));
 
-        else if (monsterModel.getDifficulty() instanceof Easy) {
+        else if (getMonsterModel().getDifficulty() instanceof Easy) {
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#10ff44"));
 
-        } else if (monsterModel.getDifficulty() instanceof Hard) {
+        } else if (getMonsterModel().getDifficulty() instanceof Hard) {
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#FF1010"));
         }
         textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 1, "  ", BOLD);
@@ -58,6 +66,6 @@ public class MonsterView implements IView {
 
     @Override
     public void draw() {
-        draw(textGraphics, monsterModel.getPosition());
+        draw(getTextGraphics(), getMonsterModel().getPosition());
     }
 }

@@ -6,10 +6,10 @@ import com.noclue.model.Position;
 import static com.noclue.model.collectible.Visitor.visitCoin;
 
 public class CoinModel implements Collectible {
-    Position position;
+    private Position position;
 
     public CoinModel(Position position) {
-        this.position = position;
+        this.setPosition(position);
     }
 
     public Position getPosition() {

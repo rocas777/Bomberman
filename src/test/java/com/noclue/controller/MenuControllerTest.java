@@ -13,7 +13,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
@@ -21,9 +20,6 @@ import static org.mockito.Mockito.*;
 public class MenuControllerTest {
     MenuModel menuModel = mock(MenuModel.class);
     MenuController menuController = spy(new MenuController(menuModel,mock(MenuView.class)));
-    @Before
-    public void setUp(){
-    }
 
     @Test
     public void readDifficulties(){
@@ -62,10 +58,6 @@ public class MenuControllerTest {
         }
         verify(menuModel,atLeast(1)).setLevel(1);
 
-    }
-
-    @Test
-    public void killProgram() {
     }
 
     @Test
@@ -141,10 +133,10 @@ public class MenuControllerTest {
         when(menuModel.getSubOption()).thenReturn(2);
         when(keyStroke.getKeyType()).thenReturn(KeyType.Enter).thenReturn(KeyType.EOF);
         doNothing().when(menuController).startNewGame();
-        menuController.difficulties.add(null);
+        menuController.getDifficulties().add(null);
         menuController.run();
-        Assert.assertEquals(menuController.difficulties.size(),7);
-        for(Difficulty d:menuController.difficulties){
+        Assert.assertEquals(menuController.getDifficulties().size(),7);
+        for(Difficulty d: menuController.getDifficulties()){
             Assert.assertEquals(d.getClass(), Medium.class);
         }
         verify(menuController).startNewGame();
@@ -154,8 +146,8 @@ public class MenuControllerTest {
         when(keyStroke.getKeyType()).thenReturn(KeyType.Enter).thenReturn(KeyType.EOF);
         doNothing().when(menuController).startNewGame();
         menuController.run();
-        Assert.assertEquals(menuController.difficulties.size(),6);
-        for(Difficulty d:menuController.difficulties){
+        Assert.assertEquals(menuController.getDifficulties().size(),6);
+        for(Difficulty d: menuController.getDifficulties()){
             Assert.assertEquals(d.getClass(), Easy.class);
         }
         verify(menuController,times(2)).startNewGame();
@@ -166,8 +158,8 @@ public class MenuControllerTest {
         when(keyStroke.getKeyType()).thenReturn(KeyType.Enter).thenReturn(KeyType.EOF);
         doNothing().when(menuController).startNewGame();
         menuController.run();
-        Assert.assertEquals(menuController.difficulties.size(),8);
-        for(Difficulty d:menuController.difficulties){
+        Assert.assertEquals(menuController.getDifficulties().size(),8);
+        for(Difficulty d: menuController.getDifficulties()){
             Assert.assertEquals(d.getClass(), Hard.class);
         }
         verify(menuController,times(3)).startNewGame();
@@ -180,22 +172,10 @@ public class MenuControllerTest {
         when(keyStroke.getKeyType()).thenReturn(KeyType.Enter);
         doNothing().when(menuController).killProgram();
         when(menuController.chooseOption()).thenReturn(true);
-        menuController.difficulties.add(null);
+        menuController.getDifficulties().add(null);
         menuController.run();
         verify(menuController,times(6)).killProgram();
 
     }
 
-    @Test
-    public void chooseOption() {
-
-    }
-
-    @Test
-    public void startNewGame() {
-    }
-
-    @Test
-    public void updateOnKeyboard() {
-    }
 }

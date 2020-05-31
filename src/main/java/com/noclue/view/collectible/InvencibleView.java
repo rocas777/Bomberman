@@ -9,12 +9,12 @@ import com.noclue.model.collectible.Invencible;
 import static com.googlecode.lanterna.SGR.BOLD;
 
 public class InvencibleView implements IView {
-    Invencible invencible;
-    TextGraphics textGraphics;
+    private Invencible invencible;
+    private TextGraphics textGraphics;
 
     public InvencibleView(Invencible invencible, TextGraphics textGraphics) {
-        this.invencible = invencible;
-        this.textGraphics = textGraphics;
+        this.setInvencible(invencible);
+        this.setTextGraphics(textGraphics);
     }
 
     public void draw(TextGraphics textGraphics, Position position) {
@@ -26,7 +26,23 @@ public class InvencibleView implements IView {
 
     @Override
     public void draw() {
-        draw(textGraphics, invencible.getPosition());
+        draw(getTextGraphics(), getInvencible().getPosition());
+    }
+
+    public Invencible getInvencible() {
+        return invencible;
+    }
+
+    public void setInvencible(Invencible invencible) {
+        this.invencible = invencible;
+    }
+
+    public TextGraphics getTextGraphics() {
+        return textGraphics;
+    }
+
+    public void setTextGraphics(TextGraphics textGraphics) {
+        this.textGraphics = textGraphics;
     }
 }
 

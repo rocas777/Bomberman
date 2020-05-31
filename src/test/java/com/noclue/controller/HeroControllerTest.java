@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -110,7 +109,7 @@ public class HeroControllerTest {
         verify(tileController,times(1))
                 .moveTile(any());
         verify(tileController,times(1))
-                .moveTile(grid.getTile(heroController.model.getPosition().getLeft()));
+                .moveTile(grid.getTile(heroController.getModel().getPosition().getLeft()));
         verify(position,times(1)).setLeft();
     }
 
@@ -120,7 +119,7 @@ public class HeroControllerTest {
         verify(tileController,times(1))
                 .moveTile(any());
         verify(tileController,times(1))
-                .moveTile(grid.getTile(heroController.model.getPosition().getRight()));
+                .moveTile(grid.getTile(heroController.getModel().getPosition().getRight()));
         verify(position,times(1)).setRight();
     }
 
@@ -131,7 +130,7 @@ public class HeroControllerTest {
         verify(tileController,times(1))
                 .moveTile(any());
         verify(tileController,times(1))
-                .moveTile(grid.getTile(heroController.model.getPosition().getUp()));
+                .moveTile(grid.getTile(heroController.getModel().getPosition().getUp()));
 
         verify(position,times(1)).setUp();
     }
@@ -143,7 +142,7 @@ public class HeroControllerTest {
         verify(tileController,times(1))
                 .moveTile(any());
         verify(tileController,times(1))
-                .moveTile(grid.getTile(heroController.model.getPosition().getDown()));
+                .moveTile(grid.getTile(heroController.getModel().getPosition().getDown()));
 
         verify(position,times(1)).setDown();
     }

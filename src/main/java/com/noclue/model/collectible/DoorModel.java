@@ -6,10 +6,10 @@ import com.noclue.model.Position;
 import static com.noclue.model.collectible.Visitor.visitDoor;
 
 public class DoorModel implements Collectible {
-    Position position;
+    private Position position;
 
     public DoorModel(Position position) {
-        this.position = position;
+        this.setPosition(position);
     }
 
     public Position getPosition() {

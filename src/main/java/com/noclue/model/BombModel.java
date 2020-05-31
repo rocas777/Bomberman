@@ -38,10 +38,6 @@ public class BombModel {
         return sum;
     }
 
-    public void setSum(int sum) {
-        this.sum = sum;
-    }
-
     public int getMseconds() {
         return mseconds;
     }

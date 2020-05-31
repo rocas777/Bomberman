@@ -6,14 +6,6 @@ public class Position implements Cloneable {
     private int x, y;
     private int x_max = 1, y_max = 1;
 
-    public int getX_max() {
-        return x_max;
-    }
-
-    public int getY_max() {
-        return y_max;
-    }
-
     public Position(int x_max, int y_max, int x, int y) {
         if (x_max > 0)
             this.x_max = x_max;
@@ -31,8 +23,7 @@ public class Position implements Cloneable {
                 this.y = y;
             else
                 this.y = -1;
-        }
-        else {
+        } else {
             this.y = 0;
         }
 
@@ -41,10 +32,17 @@ public class Position implements Cloneable {
                 this.x = x;
             else
                 this.x = -1;
-        }
-        else {
+        } else {
             this.x = 0;
         }
+    }
+
+    public int getX_max() {
+        return x_max;
+    }
+
+    public int getY_max() {
+        return y_max;
     }
 
     @Override
@@ -105,28 +103,28 @@ public class Position implements Cloneable {
     public Position getUp() {
         Position position = this.clone();
         if (position.getY() > 0)
-            position.y-=1;
+            position.y -= 1;
         return position;
     }
 
     public Position getDown() {
         Position position = this.clone();
         if (position.getY() < y_max)
-            position.y+=1;
+            position.y += 1;
         return position;
     }
 
     public Position getLeft() {
         Position position = this.clone();
         if (position.getX() > 0)
-            position.x-=1;
+            position.x -= 1;
         return position;
     }
 
     public Position getRight() {
         Position position = this.clone();
         if (position.getX() < x_max)
-            position.x+=1;
+            position.x += 1;
         return position;
     }
 
