@@ -115,6 +115,19 @@ public class FieldModelTest {
         setWhens(false,false);
         Assert.assertTrue(fieldModel.checkPos(ps,Movement.down));
 
+
+        setWhens(true,true);
+        Assert.assertFalse(fieldModel.checkPos(ps,Movement.stay));
+
+        setWhens(false,true);
+        Assert.assertTrue(fieldModel.checkPos(ps,Movement.stay));
+
+        setWhens(true,false);
+        Assert.assertTrue(fieldModel.checkPos(ps,Movement.stay));
+
+        setWhens(false,false);
+        Assert.assertTrue(fieldModel.checkPos(ps,Movement.stay));
+
         Assert.assertFalse(fieldModel.checkPos(ps,null));
 
     }

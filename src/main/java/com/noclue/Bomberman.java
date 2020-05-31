@@ -27,6 +27,7 @@ public class Bomberman {
             menuModel.setTextGraphics(MenuModel.getScreen().newTextGraphics());
 
             menuController = new MenuController(menuModel, new MenuView(menuModel));
+            menuController.setDifficulties();
             menuController.run();
         } catch (IOException e) {
             e.printStackTrace();

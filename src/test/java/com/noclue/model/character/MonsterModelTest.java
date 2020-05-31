@@ -1,5 +1,6 @@
 package com.noclue.model.character;
 
+import com.noclue.Movement;
 import com.noclue.controller.TileController;
 import com.noclue.controller.TileControllerTest;
 import com.noclue.model.Filler;
@@ -10,6 +11,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -26,7 +29,8 @@ public class MonsterModelTest {
     @Test
     public void nextMove() {
         Position p1 = Mockito.mock(Position.class);
-        monsterModel.nextMove(p1,null);
+        ArrayList<Movement> movements = monsterModel.nextMove(p1,null);
+        Assert.assertEquals(ArrayList.class,movements.getClass());
         Mockito.verify(difficulty,Mockito.times(1)).nextMove(position,p1,null);
     }
 

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static java.lang.Math.abs;
 import static org.mockito.Mockito.*;
 
 public class FieldControllerTest {
@@ -71,27 +72,32 @@ public class FieldControllerTest {
 
     @Test
     public void setRemovableBlocks() {
-        FieldModel fieldModel = Mockito.mock(FieldModel.class);
-        FieldView fieldView = Mockito.mock(FieldView.class);
-        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
-        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
-        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
-        Grid grid = new Grid();
-        when(fieldModel.getTiles()).thenReturn(grid);
+        for(int i = 0;i<20;i++) {
+            FieldModel fieldModel = Mockito.mock(FieldModel.class);
+            FieldView fieldView = Mockito.mock(FieldView.class);
+            TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+            TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+            FieldController fieldController = spy(new FieldController(fieldModel, fieldView, fieldView, fieldView, textGraphics, timeLeft));
+            Grid grid = new Grid();
+            when(fieldModel.getTiles()).thenReturn(grid);
 
-        fieldController.setIndestructibleBlocks();
-        fieldController.setRemovableBlocks(new Position(23,15,1,1),new Position(23,15,2,1),40);
-        verify(fieldController,times(40)).createTile(any(), any(RemovableBlockView.class), any(TileModel.class), any(Position.class));
+            fieldController.setIndestructibleBlocks();
+            Position positionh = new Position(23, 15, 1, 1);
+            fieldController.setRemovableBlocks(positionh, new Position(23, 15, 2, 1), 140);
+            verify(fieldController, times(140)).createTile(any(), any(RemovableBlockView.class), any(TileModel.class), any(Position.class));
 
-        int u = 0;
+            int u = 0;
 
-        for(int y=0;y<grid.getTiles().size();y++){
-            for(int x=0;x<grid.getTiles().get(y).size();x++){
-                if(grid.getTiles().get(y).get(x).getFiller() instanceof RemovableBlockModel)
-                    u++;
+            for (int y = 0; y < grid.getTiles().size(); y++) {
+                for (int x = 0; x < grid.getTiles().get(y).size(); x++) {
+                    if (grid.getTiles().get(y).get(x).getFiller() instanceof RemovableBlockModel) {
+                        u++;
+                        Assert.assertTrue(x >= 4 || y >= 4);
+                    }
+                }
             }
+            Assert.assertEquals(140, u);
         }
-        Assert.assertEquals(40,u);
 
     }
 
@@ -128,38 +134,64 @@ public class FieldControllerTest {
 
     @Test
     public void setMonsters() {
-        FieldModel fieldModel = Mockito.mock(FieldModel.class);
-        FieldView fieldView = Mockito.mock(FieldView.class);
-        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
-        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
-        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
-        Grid grid = new Grid();
-        when(fieldModel.getTiles()).thenReturn(grid);
-        fieldController.setIndestructibleBlocks();
+        for(int i = 0;i<30;i++) {
+            FieldModel fieldModel = Mockito.mock(FieldModel.class);
+            FieldView fieldView = Mockito.mock(FieldView.class);
+            TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+            TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+            FieldController fieldController = spy(new FieldController(fieldModel, fieldView, fieldView, fieldView, textGraphics, timeLeft));
+            Grid grid = new Grid();
+            when(fieldModel.getTiles()).thenReturn(grid);
+            fieldController.setIndestructibleBlocks();
 
-        Random random = new Random();
-        Position positionh = new Position(23,15,1,1);
-        Position door = new Position(23, 15, random.nextInt(21) + 1, random.nextInt(13) + 1);
-        ArrayList<Difficulty> difficulties = new ArrayList<>();
-        CopyOnWriteArrayList<MonsterModel> monsterModels = new CopyOnWriteArrayList<>();
-        difficulties.add(Mockito.mock(Difficulty.class));
-        difficulties.add(Mockito.mock(Difficulty.class));
-        difficulties.add(Mockito.mock(Difficulty.class));
-        difficulties.add(Mockito.mock(Difficulty.class));
-        difficulties.add(Mockito.mock(Difficulty.class));
-        difficulties.add(Mockito.mock(Difficulty.class));
-        fieldController.setDifficulty(difficulties);
-        when(fieldModel.getDifficulties()).thenReturn(difficulties);
-        when(fieldModel.getMonsters()).thenReturn(monsterModels);
-        doNothing().when(fieldController).createTile(any(),any(),any(),any());
+            Random random = new Random();
+            Position positionh = new Position(23, 15, 1, 1);
+            Position door = new Position(23, 15, random.nextInt(21) + 1, random.nextInt(13) + 1);
+            ArrayList<Difficulty> difficulties = new ArrayList<>();
+            CopyOnWriteArrayList<MonsterModel> monsterModels = new CopyOnWriteArrayList<>();
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            difficulties.add(Mockito.mock(Difficulty.class));
+            fieldController.setDifficulty(difficulties);
+            when(fieldModel.getDifficulties()).thenReturn(difficulties);
+            when(fieldModel.getMonsters()).thenReturn(monsterModels);
+            doNothing().when(fieldController).createTile(any(), any(), any(), any());
 
-        fieldController.setMonsters(positionh,door);
-        for(MonsterModel m:monsterModels){
-            Assert.assertNotEquals(positionh,m.getPosition());
-            Assert.assertNotEquals(door,m.getPosition());
+            fieldController.setMonsters(door, positionh);
+            for (MonsterModel m : monsterModels) {
+                Assert.assertNotEquals(positionh, m.getPosition());
+                Assert.assertNotEquals(door, m.getPosition());
+                Assert.assertTrue(abs(positionh.getX() - m.getPosition().getX()) + abs(positionh.getY() - m.getPosition().getY()) >= 4);
+            }
+            Assert.assertEquals(monsterModels.size(), difficulties.size());
         }
-        Assert.assertEquals(monsterModels.size(),difficulties.size());
-
 
     }
 
@@ -179,17 +211,19 @@ public class FieldControllerTest {
 
     @Test
     public void setDoorPos() {
-        FieldModel fieldModel = Mockito.mock(FieldModel.class);
-        FieldView fieldView = Mockito.mock(FieldView.class);
-        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
-        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
-        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
-        Grid grid = new Grid();
-        when(fieldModel.getTiles()).thenReturn(grid);
-        fieldController.setIndestructibleBlocks();
+        for(int i = 0;i<20;i++) {
+            FieldModel fieldModel = Mockito.mock(FieldModel.class);
+            FieldView fieldView = Mockito.mock(FieldView.class);
+            TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+            TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+            FieldController fieldController = spy(new FieldController(fieldModel, fieldView, fieldView, fieldView, textGraphics, timeLeft));
+            Grid grid = new Grid();
+            when(fieldModel.getTiles()).thenReturn(grid);
+            fieldController.setIndestructibleBlocks();
 
-        Position position = new Position(15,15,5,5);
-        Assert.assertNotEquals(position,fieldController.setDoorPos(position));
+            Position position = new Position(15, 15, 5, 5);
+            Assert.assertNotEquals(position, fieldController.setDoorPos(position));
+        }
     }
 
     @Test
@@ -210,17 +244,20 @@ public class FieldControllerTest {
 
     @Test
     public void setDoor() {
-        FieldModel fieldModel = Mockito.mock(FieldModel.class);
-        FieldView fieldView = Mockito.mock(FieldView.class);
-        TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
-        TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
-        FieldController fieldController = spy(new FieldController(fieldModel,fieldView,fieldView,fieldView,textGraphics,timeLeft));
-        doNothing().when(fieldController).createTile(any(),any(),any(),any());
 
-        Position position = Mockito.mock(Position.class);
+        for(int i = 0;i<20;i++) {
+            FieldModel fieldModel = Mockito.mock(FieldModel.class);
+            FieldView fieldView = Mockito.mock(FieldView.class);
+            TextGraphics textGraphics = Mockito.mock(TextGraphics.class);
+            TimeLeft timeLeft = Mockito.mock(TimeLeft.class);
+            FieldController fieldController = spy(new FieldController(fieldModel, fieldView, fieldView, fieldView, textGraphics, timeLeft));
+            doNothing().when(fieldController).createTile(any(), any(), any(), any());
 
-        fieldController.setDoor(position);
-        verify(fieldController,times(1)).createTile(any(DoorView.class),any(RemovableBlockView.class),any(TileModel.class),any(Position.class));
+            Position position = Mockito.mock(Position.class);
+
+            fieldController.setDoor(position);
+            verify(fieldController, times(1)).createTile(any(DoorView.class), any(RemovableBlockView.class), any(TileModel.class), any(Position.class));
+        }
     }
 
     @Test

@@ -87,6 +87,39 @@ public class HardTest {
         Assert.assertEquals(pm.get(1),Movement.left);
         Assert.assertEquals(pm.get(2),Movement.up);
         Assert.assertEquals(pm.get(3),Movement.down);
+
+
+        hero = new Position(10,10,5,1);
+        monster = new Position(10,10,3,0);
+        arrayList = hard.nextMove(monster,hero,positions);
+
+        pm = removeDuplicates(arrayList);
+        Assert.assertEquals(pm.get(0),Movement.right);
+        Assert.assertEquals(pm.get(1),Movement.down);
+        Assert.assertEquals(pm.get(2),Movement.up);
+        Assert.assertEquals(pm.get(3),Movement.left);
+
+
+        monster = new Position(10,10,5,1);
+        hero = new Position(10,10,3,0);
+        arrayList = hard.nextMove(monster,hero,positions);
+
+        pm = removeDuplicates(arrayList);
+        Assert.assertEquals(pm.get(0),Movement.up);
+        Assert.assertEquals(pm.get(1),Movement.right);
+        Assert.assertEquals(pm.get(2),Movement.down);
+
+        positions = null;
+
+        monster = new Position(10,10,5,2);
+        hero = new Position(10,10,3,1);
+        arrayList = hard.nextMove(monster,hero,positions);
+
+        pm = removeDuplicates(arrayList);
+        Assert.assertEquals(pm.get(0),Movement.left);
+        Assert.assertEquals(pm.get(1),Movement.up);
+        Assert.assertEquals(pm.get(2),Movement.right);
+        Assert.assertEquals(pm.get(3),Movement.down);
     }
 
 }

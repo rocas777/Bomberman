@@ -6,6 +6,13 @@ public class Position implements Cloneable {
     private int x, y;
     private int x_max = 1, y_max = 1;
 
+    public int getX_max() {
+        return x_max;
+    }
+
+    public int getY_max() {
+        return y_max;
+    }
 
     public Position(int x_max, int y_max, int x, int y) {
         if (x_max > 0)
@@ -19,16 +26,24 @@ public class Position implements Cloneable {
 
         //System.out.println(x_max+" "+y_max);
 
-        if (y <= y_max && y >= 0)
-            this.y = y;
+        if (y <= y_max) {
+            if (y >= 0)
+                this.y = y;
+            else
+                this.y = -1;
+        }
         else {
-            this.y = y_max;
+            this.y = 0;
         }
 
-        if (x <= x_max && x >= 0)
-            this.x = x;
+        if (x <= x_max) {
+            if (x >= 0)
+                this.x = x;
+            else
+                this.x = -1;
+        }
         else {
-            this.x = x_max;
+            this.x = 0;
         }
     }
 
@@ -88,30 +103,30 @@ public class Position implements Cloneable {
     }
 
     public Position getUp() {
-        Position position = (Position) this.clone();
+        Position position = this.clone();
         if (position.getY() > 0)
-            position.setY(position.getY() - 1);
+            position.y-=1;
         return position;
     }
 
     public Position getDown() {
-        Position position = (Position) this.clone();
+        Position position = this.clone();
         if (position.getY() < y_max)
-            position.setY(position.getY() + 1);
+            position.y+=1;
         return position;
     }
 
     public Position getLeft() {
-        Position position = (Position) this.clone();
+        Position position = this.clone();
         if (position.getX() > 0)
-            position.setX(position.getX() - 1);
+            position.x-=1;
         return position;
     }
 
     public Position getRight() {
-        Position position = (Position) this.clone();
+        Position position = this.clone();
         if (position.getX() < x_max)
-            position.setX(position.getX() + 1);
+            position.x+=1;
         return position;
     }
 

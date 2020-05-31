@@ -82,18 +82,13 @@ public class Hard implements Difficulty {
         }
     }
 
-    class Par implements Comparator {
+    class Par{
         float f;
         Movement movement;
 
         Par(Float f, Movement movement) {
             this.f = f;
             this.movement = movement;
-        }
-
-        @Override
-        public int compare(Object o, Object t1) {
-            return ((int) o - (int) t1);
         }
     }
 }

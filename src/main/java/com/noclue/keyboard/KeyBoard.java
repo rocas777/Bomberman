@@ -11,6 +11,7 @@ public class KeyBoard {
     private final TerminalScreen screen;
     Boolean isOn;
     private ArrayList<KeyboardListener> keyboardListeners = new ArrayList<>();
+    Thread thread;
 
     public KeyBoard(TerminalScreen screen) {
         isOn = false;
@@ -27,20 +28,26 @@ public class KeyBoard {
 
     public void start() {
         isOn = true;
-        new Thread(() -> {
+        thread = new Thread(() -> {
             while (isOn) {
                 KeyStroke key = null;
                 try {
                     key = screen.readInput();
-                    if (key.getKeyType() == KeyType.Character || key.getKeyType() == KeyType.EOF) {
-                        for (KeyboardListener listener : keyboardListeners)
+                    KeyType keyType = key.getKeyType();
+                    if (keyType == KeyType.Character || keyType == KeyType.EOF) {
+                        for (KeyboardListener listener : keyboardListeners) {
                             listener.updateOnKeyboard(key);
+                        }
+                        if(keyType == KeyType.EOF){
+                            isOn = false;
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        });
+        thread.start();
     }
 
     public void stop() {

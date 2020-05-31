@@ -11,8 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.lang.Thread.sleep;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 public class TimerTest {
     Timer timer;
@@ -107,7 +106,8 @@ public class TimerTest {
         int u=0;
 
         // Execute
-        Timer t=new Timer(1000);
+        Timer t=spy(new Timer(1000));
+        doNothing().when(t).updateListeners(any());
         t.addListener(fieldController);
         t.start();
 
@@ -124,11 +124,10 @@ public class TimerTest {
             }
             i++;
         }
-
-        Assert.assertEquals(u,5);
         Assert.assertEquals(t.isOn(),true);
-        timer.setOn(false);
-        t.setOn(false);
+        t.stop();
+        Assert.assertEquals(u,5);
+        Assert.assertEquals(t.isOn(),false);
     }
 
     @Test

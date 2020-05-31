@@ -12,6 +12,8 @@ public class PositionTest {
     Position p3;
     Position p4;
     Position p5;
+    Position p6;
+    Position p7;
     @Before
     public void setup(){
         p1=new Position(10,20,10,10);
@@ -19,8 +21,16 @@ public class PositionTest {
         p3=new Position(10,20,1,0);//20,20,0,0
         p4=new Position(-10,-20,20,20);//1,1,1,1
         p5=new Position(10,20,40,40);//20,20,40,40
+        p6=new Position(0,0,40,40);//20,20,40,40
+        p7=new Position(0,0,40,40);
+    }
 
-
+    @Test
+    public void constructor(){
+        Assert.assertEquals(0,p6.getX());
+        Assert.assertEquals(0,p6.getY());
+        Assert.assertEquals(1,p7.getX_max());
+        Assert.assertEquals(1,p7.getY_max());
     }
 
     @Test
@@ -36,19 +46,19 @@ public class PositionTest {
     @Test
     public void getY() {
         Assert.assertEquals(p1.getY(),10);
-        Assert.assertEquals(p2.getY(),20);
+        Assert.assertEquals(p2.getY(),-1);
         Assert.assertEquals(p3.getY(),0);
-        Assert.assertEquals(p4.getY(),1);
-        Assert.assertEquals(p5.getY(),20);
+        Assert.assertEquals(p4.getY(),0);
+        Assert.assertEquals(p5.getY(),0);
     }
 
     @Test
     public void getX() {
         Assert.assertEquals(p1.getX(),10);
-        Assert.assertEquals(p2.getX(),10);
+        Assert.assertEquals(p2.getX(),-1);
         Assert.assertEquals(p3.getX(),1);
-        Assert.assertEquals(p4.getX(),1);
-        Assert.assertEquals(p5.getX(),10);
+        Assert.assertEquals(p4.getX(),0);
+        Assert.assertEquals(p5.getX(),0);
     }
 
     @Test
@@ -60,7 +70,7 @@ public class PositionTest {
         p1.setY(40);
         Assert.assertEquals(5,p1.getY());
         p2.setY(21);
-        Assert.assertEquals(20,p2.getY());
+        Assert.assertEquals(-1,p2.getY());
         p3.setY(20);
         Assert.assertEquals(20,p3.getY());
         p3.setY(0);
@@ -76,7 +86,7 @@ public class PositionTest {
         p1.setX(40);
         Assert.assertEquals(5,p1.getX());
         p2.setX(11);
-        Assert.assertEquals(10,p2.getX());
+        Assert.assertEquals(-1,p2.getX());
         p3.setX(10);
         Assert.assertEquals(10,p3.getX());
         p3.setX(0);
@@ -151,6 +161,8 @@ public class PositionTest {
         p3 = new Position(20,20,20,5);
         Assert.assertEquals(new Position(20,20,20,5),p3.getRight());
         p3 = new Position(20,20,19,5);
+        Assert.assertEquals(new Position(20,20,20,5),p3.getRight());
+        p3 = new Position(20,20,20,5);
         Assert.assertEquals(new Position(20,20,20,5),p3.getRight());
     }
 

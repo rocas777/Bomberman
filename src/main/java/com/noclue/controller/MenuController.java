@@ -31,14 +31,17 @@ public class MenuController implements KeyboardListener {
     ArrayList<Difficulty> difficulties = new ArrayList<>();
 
 
-    public MenuController(MenuModel menuModel, MenuView menuView) throws IOException {
+    public MenuController(MenuModel menuModel, MenuView menuView){
         this.menuModel = menuModel;
         this.menuView = menuView;
-        menuModel.setDifficultiesA(readDifficulties(menuModel));
 
     }
 
-    private static ArrayList<ArrayList<Difficulty>> readDifficulties(MenuModel model) {
+    public void setDifficulties(){
+        menuModel.setDifficultiesA(readDifficulties(menuModel));
+    }
+
+    public ArrayList<ArrayList<Difficulty>> readDifficulties(MenuModel model) {
         ArrayList<ArrayList<Difficulty>> diffi = new ArrayList<>();
         URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
         System.out.println(resource);
@@ -70,7 +73,7 @@ public class MenuController implements KeyboardListener {
                 } else if (l.charAt(i) == 'h') {
                     diffi.get(diffi.size() - 1).add(new Hard());
                 } else {
-                    diffi.get(diffi.size() - 1).add(new Hard());
+                    diffi.get(diffi.size() - 1).add(null);
                 }
             }
         }
@@ -93,28 +96,32 @@ public class MenuController implements KeyboardListener {
 
     public void run() {
         KeyStroke key;
-        while (true) {
+        boolean inOnLoop = true;
+        while (inOnLoop) {
             menuView.draw();
             try {
                 key = MenuModel.getScreen().readInput();
-                if (key.getKeyType() == KeyType.EOF)
+                KeyType keyType = key.getKeyType();
+                if (keyType == KeyType.EOF) {
                     killProgram();
-                if (key != null && (key.getKeyType() == KeyType.Character || key.getKeyType() == KeyType.Enter)) {
+                    inOnLoop = false;
+                }
+                if (key != null && (keyType == KeyType.Character || keyType == KeyType.Enter)) {
                     if (!menuModel.getOnSubMenu()) {
                         if (key.getCharacter() == 'w') {
                             menuModel.optUp();
                         } else if (key.getCharacter() == 's') {
                             menuModel.optDown();
-                        } else if (key.getKeyType() == KeyType.Enter) {
+                        } else if (keyType == KeyType.Enter) {
                             if (chooseOption())
-                                break;
+                                inOnLoop = false;
                         }
                     } else {
                         if (key.getCharacter() == 'w') {
                             menuModel.subOptUp();
                         } else if (key.getCharacter() == 's') {
                             menuModel.subOptDown();
-                        } else if (key.getKeyType() == KeyType.Enter) {
+                        } else if (keyType == KeyType.Enter) {
                             menuModel.setOnSubMenu(false);
                         }
                     }
