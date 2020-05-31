@@ -72,8 +72,6 @@ public class MenuController implements KeyboardListener {
                     diffi.get(diffi.size() - 1).add(new Medium());
                 } else if (l.charAt(i) == 'h') {
                     diffi.get(diffi.size() - 1).add(new Hard());
-                } else {
-                    diffi.get(diffi.size() - 1).add(null);
                 }
             }
         }
