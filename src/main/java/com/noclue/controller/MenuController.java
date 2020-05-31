@@ -59,6 +59,18 @@ public class MenuController implements KeyboardListener {
         model.setLevels("");
         model.setLevel(Integer.parseInt(lines.get(0)));
 
+
+        menuModel.setScore(0);
+        BufferedReader bw = null;
+        try {
+            bw = new BufferedReader(new FileReader("./currentlevel.lvl"));
+            menuModel.setLevel(bw.read());
+            menuModel.setScore(bw.read());
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         for (int li = 1; li < lines.size(); li++) {
             diffi.add(new ArrayList<>());
             String l = lines.get(li);
@@ -84,10 +96,15 @@ public class MenuController implements KeyboardListener {
     }
 
     public void killProgram() throws IOException {
-        URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
-        bw.write(menuModel.getLevel() + "\n");
-        bw.write(menuModel.getLevels());
+        BufferedWriter bw = new BufferedWriter(new FileWriter("./currentlevel.lvl"));
+        if(menuModel.getLevel()<=21) {
+            bw.write(menuModel.getLevel());
+            bw.write(menuModel.getScore());
+        }
+        else {
+            bw.write("1");
+            bw.write("0");
+        }
         bw.close();
         System.exit(0);
     }
