@@ -2,7 +2,7 @@
 
 >Bomberman is a strategic, maze-based video game franchise in which the player holds an unlimited number of bombs and uses them to open his path on the maze and find the door that will lead to the next level, all this while evading bad monsters :(
 >
->Our version aims to replicate the original game to some extent. This means the concept will be the same, however, unlikely most iterations of the game, the player does not lose after being caught on an explosion, it just loses a life. The player will start out with 3 lives which he will lose by exploding himself or getting in contact with the monsters. There are also various drops from exploded blocks, some will add time, lives, score and even turn the hero into the Hulk for 10 steps.
+>Our version aims to replicate the original game to some extent. This means the concept will be the same, however, unlike most iterations of the game, the player does not lose after being caught on an explosion, it just loses a life. The player will start out with 3 lives which he will lose by exploding himself or getting in contact with the monsters. There are also various drops from exploded blocks, some will add time, lives, score and even turn the hero into the Hulk for 10 steps.
 >
 >This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
 >
@@ -21,7 +21,7 @@
 >![Difficulties](screenshots/difficulty.png)
 
 ### Gamemodes
-> - Start Campaign - If the campaign mode is chosen, the player will need to defeat 21 levels in order to win the gam. Each level will only differ in the amount and type of monster the hero will have to face, besides the random placement of the collectibles and destructible blocks. After completing each level a 'winning screen' will be shown and the player must press 'q' to go back to the menu and continue with the following level.
+> - Start Campaign - If the campaign mode is chosen, the player will need to defeat 21 levels in order to win the game. Each level will only differ in the amount and type of monster the hero will have to face, besides the random placement of the collectibles and destructible blocks. After completing each level a 'winning screen' will be shown and the player must press 'q' to go back to the menu and continue with the following level.
 >
 > - Start Game - This mode will serve as a kind of practice. It will only consist of 1 level with 6, 7 or 8 monster of easy, medium or hard difficulty respectively and those are pretty much the only differences compared to the campaign.
 
@@ -70,7 +70,7 @@
 > For every level the player will only have 2 minutes to win. Getting time drops will increase the total time by 15 seconds and there's no upper threshold. If the timer reaches 0 the will hero will fail that level, but he can always try again.
 
 ### States
-> Everytime the player loses a life he will enter a state of invulnerability for 1,6 seconds so that he has to run from monsters and think about his poor life choices :D. While this, the player's colors will tick so you can easily tell when it ends.
+> Everytime the player loses a life he will enter a state of invulnerability for 1,6 seconds so that he has time to run from monsters and think about his poor life choices :D. While this, the player's colors will tick so you can easily tell when it ends.
 >
 > There's also another state that the player enters after picking it up that we previously described as 'turning into Hulk'. After entering this state, for the next 10 steps the player can destroy monsters and blocks(removable ones only) just by walking to them. Similar to the above metioned state, the player's colors will change and the number of steps left will also be decremented on the right Panel.
 
@@ -82,7 +82,7 @@
 >There's also collision detection. For players if there is an input that will force the character into a wall it simply won't happen. As for the monsters, if it would happen they'll just choose another position if able.
 
 ### Bomb deployment and explosion
->The player can press 'p' to deploy a bomb. The bomb will not explode for the first second so that the player has time to get to a safe spot. After the safety time expires the bomb will explode horizontally and vertically in a range of 2 for each side and destroy whatever it can (player, monsters, destructible blocks). For 250ms the bomb will left a fire trail that will kill monsters and remove a life from the player.
+>The player can press 'p' to deploy a bomb. The bomb will not explode for the first second so that the player has time to get to a safe spot. After the safety time expires the bomb will explode horizontally and vertically in a range of 2 for each side and destroy whatever it can (player, monsters, destructible blocks). For 250ms the bomb will leave a fire trail that will kill monsters and remove a life from the player.
 >
 >![Explosion](screenshots/bomb_explosion.png)
 >
