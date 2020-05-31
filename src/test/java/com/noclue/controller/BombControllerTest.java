@@ -54,32 +54,27 @@ public class BombControllerTest {
         ExplosionListener explosionListener = Mockito.mock(ExplosionListener.class);
         when(bombModel.getExplosionListener()).thenReturn(explosionListener);
 
+        //atualizar até à atualização anterior ao update explosion listener
         for(int i=0;i<19;i++){
             bombController.updateOnTime();
         }
-
-
-
         Mockito.verify(explosionListener, Mockito.times(0))
                 .explode(any());
-
         Assert.assertEquals(tview,bombController.getView());
 
+        //atualizar explosion lintener
         bombController.updateOnTime();
-
-        System.out.println(bombController.getSum()*Timer.getSeconds()+" "+bombController.getSum()+" "+Timer.getSeconds()+" "+bombModel.getMseconds());
-
         Mockito.verify(explosionListener, Mockito.times(1))
                 .explode(any());
         Assert.assertNotEquals(tview,bombController.getView());
 
 
-        bombController.updateOnTime();
-        bombController.updateOnTime();
-        bombController.updateOnTime();
-        bombController.updateOnTime();
-        bombController.updateOnTime();
-
+        //atualizar até fire done
+        for(int i=0;i<5;i++){
+            Mockito.verify(explosionListener, Mockito.times(0))
+                    .fireDone();
+            bombController.updateOnTime();
+        }
         Mockito.verify(explosionListener, Mockito.times(1))
                 .fireDone();
     }
@@ -88,7 +83,6 @@ public class BombControllerTest {
     public void draw(){
         bombController.setView(bombViewTicking);
         bombController.draw();
-
         Mockito.verify(bombController.getView(),times(1))
                 .draw();
     }

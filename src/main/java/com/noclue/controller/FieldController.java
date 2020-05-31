@@ -116,6 +116,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         setDoor(door);
     }
 
+    //creates a tile with a filler, a view and a collectible on a certain position
     public void createTile(IView collectible, IView filler, TileModel model, Position position) {
         TileView tmp_view = new TileView(model);
         if (collectible != null)
@@ -127,34 +128,36 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         this.model.getTiles().setTiles(tileController, position);
     }
 
+    //set numberBlocks number of removable blocks randomly with a random change of having a certain drop
     public void setRemovableBlocks(Position door, Position hero, int numberBlocks) {
         Random random = new Random();
-        for (int i = 0; i < numberBlocks; i++) {
+        for (int i = 0; i < numberBlocks; i++) {    //create a removable block
             Position position = new Position(23, 15, random.nextInt(21) + 1, random.nextInt(13) + 1);
 
             while (position.equals(hero) || position.equals(door) || (position.getX() < 4 && position.getY() < 4) || model.getTiles().getTile(position).getFiller().isFilled()) {
                 position = new Position(23, 15, random.nextInt(21) + 1, random.nextInt(13) + 1);
             }
             RemovableBlockModel tmp_rm = new RemovableBlockModel(position.clone());
-            int drop = random.nextInt(21);
-            if (drop > 19) {
+            int drop = random.nextInt(21);  //generate random number to assign a collectible
+            if (drop > 19) {    // invincible
                 Invencible tmp_life = new Invencible(position.clone());
                 createTile(new InvencibleView(tmp_life, textGraphics), new RemovableBlockView(tmp_rm, textGraphics), new TileModel(tmp_life, tmp_rm), position);
-            } else if (drop == 19) {
+            } else if (drop == 19) {    //life
                 AddLife tmp_life = new AddLife(position.clone());
                 createTile(new AddLifeView(tmp_life, textGraphics), new RemovableBlockView(tmp_rm, textGraphics), new TileModel(tmp_life, tmp_rm), position);
-            } else if (drop == 18) {
+            } else if (drop == 18) {    //time
                 AddTime tmp_time = new AddTime(position.clone());
                 createTile(new AddTimeView(tmp_time, textGraphics), new RemovableBlockView(tmp_rm, textGraphics), new TileModel(tmp_time, tmp_rm), position);
-            } else if (drop >= 4) {
+            } else if (drop >= 4) { //coin
                 CoinModel tmp_coin = new CoinModel(position.clone());
                 createTile(new CoinView(tmp_coin, textGraphics), new RemovableBlockView(tmp_rm, textGraphics), new TileModel(tmp_coin, tmp_rm), position);
-            } else {
+            } else {    //no collectible
                 createTile(null, new RemovableBlockView(tmp_rm, textGraphics), new TileModel(new NoCollectibleModel(), tmp_rm), position);
             }
         }
     }
 
+    //from tile (2,2) to tile(22,14) jumping a position horinzontally and vertically everytime create an indestructible block
     public void setIndestructibleBlocks() {
         for (int y = 0; y < 15; y++) {
             model.getTiles().add_column();
@@ -172,6 +175,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         }
     }
 
+    //create monsters according to the difficulty on the fieldmodel and put in random places on the map
     public void setMonsters(Position door, Position hero) {
         Random random = new Random();
         for (int i = 0; i < model.getDifficulties().size(); i++) {
@@ -179,6 +183,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
             float distToHero = abs(hero.getX() - block.getX()) + abs(hero.getY() - block.getY());
 
+            //if the monster is close to the hero or is on the door, generate another random position
             while (block.equals(hero) || block.equals(door) || model.getTiles().getTile(block).getFiller().isFilled() || distToHero < 4) {
                 block = new Position(23, 15, random.nextInt(21) + 1, random.nextInt(13) + 1);
                 distToHero = abs(hero.getX() - block.getX()) + abs(hero.getY() - block.getY());
@@ -206,7 +211,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
 
-    public void setHero(Position position) {
+    public void setHero(Position position) {    //creates hero on top left
         HeroModel modelh = new HeroModel(position.clone());
         HeroController tmp_hero = new HeroController(modelh, null);
         tmp_hero.setLivesModel(new LivesModel(3, new Position(146, 45, 138, 2)));
@@ -215,6 +220,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     public void setDoor(Position position) {
+        position.setX(3);
+        position.setY(3);
         RemovableBlockModel tmp_hero = new RemovableBlockModel(position.clone());
         DoorModel doorModel = new DoorModel(position.clone());
         createTile(new DoorView(doorModel, textGraphics), new RemovableBlockView(tmp_hero, textGraphics), new TileModel(new DoorModel(position.clone()), tmp_hero), position);
@@ -222,7 +229,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
 
     @Override
     public void updateOnKeyboard(KeyStroke keyPressed) {
-        if (keyPressed.getCharacter() == 'p' && model.getBomb() == null) {
+        if (keyPressed.getCharacter() == 'p' && model.getBomb() == null) {  //creates a bomb if there isn't one already
             BombModel bombModel = new BombModel(1000, this, model.getHero().getPosition().clone(), model.gettServer());
             BombViewFire viewFire = new BombViewFire(textGraphics, bombModel);
             model.setBombModel(new BombController(bombModel, textGraphics));
@@ -235,12 +242,13 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     public void handleKeyboard() {
-        KeyStroke keyPressed = keyStrokes.get(keyStrokes.size() - 1);
+        KeyStroke keyPressed = keyStrokes.get(keyStrokes.size() - 1);   //only the last input is processed
         keyStrokes.clear();
         if (!ended) {
             if (model.getHero().isActive()) {
                 try {
                     switch (keyPressed.getCharacter()) {
+                        // for every case checks if movement is possible before doing it
                         case 'a':
                             model.getHero().isTouching(model.getTiles().getTile(model.getHero().getPosition().getLeft()).getFiller());
                             if (model.checkPos(model.getHero().getPosition(), Movement.left)) {
@@ -271,7 +279,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 }
             }
         }
-        //obter e visitar o collectible na posição agora ocupada pelo heroi
+        //obtain and visit the collectible in the new hero's position
         model.getTiles().getTile(model.getHero().getPosition()).getCollectible().visit(this);
     }
 
@@ -279,21 +287,21 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     public void updateOnTime() {
         timerSum = timerSum + 1;
         if (keyStrokes.size() > 0)
-            handleKeyboard();
+            handleKeyboard();   //move hero
 
         float wait = (float) 500.0;
-        if ((timerSum % (int) (wait / Timer.getSeconds())) == 0) {  //monstros
+        if ((timerSum % (int) (wait / Timer.getSeconds())) == 0) {  //monsters
             ArrayList<Position> bomb = null;
             if (model.getBomb() != null) {
                 bomb = model.getBomb().getExplosionList();
             }
-            for (MonsterModel monster : model.getMonsters()) {
+            for (MonsterModel monster : model.getMonsters()) {  //move monsters
                 updateMonsterPosition(monster, bomb);
             }
         }
         if (timeIsUp())
             return;
-        purge();
+        purge();    //update activated/deactivated information before drawing
         view.draw();
     }
 
@@ -301,8 +309,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         for (Movement m : monster.nextMove(model.getHero().getPosition(), bomb)) {
             if (model.checkPos(monster.getPosition(), m)) {
                 Position tmp = monster.getPosition().getPositionByMovement(m);
-                model.getTiles().getTile(tmp).getFiller().deactivate();
-                if (!model.getHero().getPosition().equals(tmp))
+                model.getTiles().getTile(tmp).getFiller().deactivate();     //interaction
+                if (!model.getHero().getPosition().equals(tmp)) //moves monster if the hero isn't on the target tile
                     switch (m) {
                         case up:
                             monster.moveUp(model.getTiles());
@@ -323,9 +331,9 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     public boolean timeIsUp() {
-        if (timerSum >= 1000.0 / Timer.getSeconds()) {   //relogio
+        if (timerSum >= 1000.0 / Timer.getSeconds()) {   //game clock
             timeLeft.minusSecond();
-            if (timeLeft.getSeconds() == 0) {
+            if (timeLeft.getSeconds() == 0) {   //if it reaches 0 the game ends and player loses
                 model.gettServer().removeListener(this);
                 view.draw();
                 view = gamoverView;
@@ -339,7 +347,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     @Override
-    public void explode(ArrayList<Position> positions) {
+    public void explode(ArrayList<Position> positions) {    //handle bomb explosion
         ArrayList<Position> tmp = new ArrayList();
         for (int i = 0; i < positions.size(); i++) {
             if ((model.getTiles().getTile(positions.get(i)).getFiller().deactivate())) {
@@ -354,6 +362,7 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     void purge() {
+        //every deactivated block is set to be a blank tile
         for (CopyOnWriteArrayList<TileController> at : model.getTiles().getTiles()) {
             for (TileController t : at) {
                 if (!t.getFiller().isActive()) {
@@ -367,6 +376,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
                 tmp.add(m);
         }
         model.setMonsters(tmp);
+
+        //end game if hero reaches 0 lifes and is deactivated
         if (model.getHero() != null && !model.getHero().isActive()) {
             model.gettServer().removeListener(this);
             view.draw();

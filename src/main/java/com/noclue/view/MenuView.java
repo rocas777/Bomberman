@@ -176,8 +176,14 @@ public class MenuView implements IView {
         textGraphics.putString(68, 20, "Start Game");
         textGraphics.putString(65, 22, "Choose Difficulty");
         textGraphics.putString(71, 24, "Exit");
-        textGraphics.putString(65, 18, "Continue Campaign");
+        if(menuModel.getLevel()!=1)
+            textGraphics.putString(65, 18, "Continue Campaign");
+        else
+            textGraphics.putString(66, 18, "Start Campaign");
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
+
+        //highlight current option
+
         switch (menuModel.getOption()) {
             case 1:
                 textGraphics.putString(68, 20, "Start Game", BOLD);
@@ -207,7 +213,10 @@ public class MenuView implements IView {
                 textGraphics.putString(71, 24, "Exit", BOLD);
                 break;
             case 4:
-                textGraphics.putString(65, 18, "Continue Campaign", BOLD);
+                if(menuModel.getLevel()!=1)
+                    textGraphics.putString(65, 18, "Continue Campaign",BOLD);
+                else
+                    textGraphics.putString(66, 18, "Start Campaign",BOLD);
                 break;
         }
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#000000"));

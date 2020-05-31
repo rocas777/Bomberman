@@ -54,6 +54,8 @@ public class MonsterModel extends Filler implements Character {
         return true;
     }
 
+    //methods to move monster in each direction
+
     public void moveLeft(Grid grid) {
         grid.getTile(position).moveTile(grid.getTile(position.getLeft()));
         position.setLeft();
