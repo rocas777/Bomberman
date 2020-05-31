@@ -21,7 +21,7 @@
 >![Difficulties](screenshots/difficulty.png)
 
 ### Gamemodes
-> - Start Campaign - If the campaign mode is chosen, the player will need to defeat 21 levels in order to win the game. Each level will only differ in the amount and type of monster the hero will have to face, besides the random placement of the collectibles and destructible blocks. After completing each level a 'winning screen' will be shown and the player must press 'q' to go back to the menu and continue with the following level.
+> - Start Campaign - If the campaign mode is chosen, the player will need to defeat 21 levels in order to win the game. Each level will only differ in the amount and type of monster the hero will have to face, besides the random placement of the collectibles and destructible blocks. After completing each level a 'winning screen' will be shown and the player must press 'q' to go back to the menu and continue with the following level. The levels are read from a text file stored in the resources folder. It goes from 1 Easy Monster on the 1º level to 8 Hard Monsters in the 21º level.
 >
 > - Start Game - This mode will serve as a kind of practice. It will only consist of 1 level with 6, 7 or 8 monster of easy, medium or hard difficulty respectively and those are pretty much the only differences compared to the campaign.
 
