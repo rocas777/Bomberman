@@ -2,7 +2,7 @@
 
 >Bomberman is a strategic, maze-based video game franchise in which the player holds an unlimited number of bombs and uses them to open his path on the maze and find the door that will lead to the next level, all this while evading bad monsters :(
 >
->Our version aims to replicate the original game to some extent. This means the concept will be the same but with unlike most iterations of the game, if the players would be caught up in his bomb's explosion he would lose a life. That leads to another difference: lives. The player will start out with 3 lives which he will lose by exploding himself or getting in contact with the monsters. There are also various drops from exploded blocks that will add time, lives, score and even turn the hero into the Hulk for 10 steps.
+>Our version aims to replicate the original game to some extent. This means the concept will be the same, however, unlikely most iterations of the game, the player does not lose after being caught on an explosion, it just loses a life. The player will start out with 3 lives which he will lose by exploding himself or getting in contact with the monsters. There are also various drops from exploded blocks, some will add time, lives, score and even turn the hero into the Hulk for 10 steps.
 >
 >This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
 >
@@ -21,7 +21,7 @@
 >![Difficulties](screenshots/difficulty.png)
 
 ### Gamemodes
-> - Start Campaign - If the campaign mode is chosen the player will need to defeat 21 levels in order to win it. Each level will only differ in the amount and type of monster the hero will have to face besides the random placement of the collectibles and destructible blocks. After completing each level a 'winning screen' will be shown and the player must press 'q' to go back to the menu and continue with the following level.
+> - Start Campaign - If the campaign mode is chosen, the player will need to defeat 21 levels in order to win the gam. Each level will only differ in the amount and type of monster the hero will have to face, besides the random placement of the collectibles and destructible blocks. After completing each level a 'winning screen' will be shown and the player must press 'q' to go back to the menu and continue with the following level.
 >
 > - Start Game - This mode will serve as a kind of practice. It will only consist of 1 level with 6, 7 or 8 monster of easy, medium or hard difficulty respectively and those are pretty much the only differences compared to the campaign.
 
@@ -55,24 +55,24 @@
 >Gives you one more life (max 5)
 ![Door](screenshots/add_life.png)
 >
->Sets hero in a powerfull state where he can destroy blocks and kill monster just by walking to them for 10 steps
+>Sets hero in a powerfull state where he can destroy blocks and kill monster just by walking to them for 10 steps (Hulk Mode)
 ![Door](screenshots/invincible.png)
 >
 > #### Note: Obviously the drop rates were adjusted for each item for the sake of balance
 
 ### Score
-> The score has no real purpose to be fully honest, it is just there for competitive value if you will. Everytime you pick up a coin it will increase by one and while you are doing the campaign it will carry over to each new level (it won't reset to 0).
+> The score has no real practical purpose, it is just there for competitive value. Everytime you pick up a coin it will increase by one and while you are doing the campaign it will carry over to each new level (it won't reset to 0).
 
 ### Lives
-> These evidently are very important since if the player were to 'lose' instead he will just loose a life. Also, everytime the hero picks up a life (from a drop) it will only increase the effective number of lives up to 5, so if you already have 5, your best bet would be to let the drop be and pick it up later if you need.
+> These evidently are very important since if the player were to 'lose', instead he will just lose a life. Also, everytime the hero picks up a life (from a drop) it will only increase the effective number of lives up to 5, so if you already have 5, your best bet would be to let the drop be and pick it up later if you need.
 
 ### Time
 > For every level the player will only have 2 minutes to win. Getting time drops will increase the total time by 15 seconds and there's no upper threshold. If the timer reaches 0 the will hero will fail that level, but he can always try again.
 
 ### States
-> Everytime the player looses a life he will enter a state of invulnerability for 1,6 seconds so that he has time reposition and think about his poor life choices :D. While this is going on the player's colors will tick so you can easily tell when it ends.
+> Everytime the player loses a life he will enter a state of invulnerability for 1,6 seconds so that he has to run from monsters and think about his poor life choices :D. While this, the player's colors will tick so you can easily tell when it ends.
 >
-> There's also another state that the player enters after picking it up that we previously described as 'turning into Hulk'. After entering this state, for the next 10 steps the player can destroy monsters and blocks just by walking to them. Similar to the above metioned state it is simple to tell if it is on or not due to the player's ticking colors and the fact that the number of steps remaining are tracked on the sidebar.
+> There's also another state that the player enters after picking it up that we previously described as 'turning into Hulk'. After entering this state, for the next 10 steps the player can destroy monsters and blocks(removable ones only) just by walking to them. Similar to the above metioned state, the player's colors will change and the number of steps left will also be decremented on the right Panel.
 
 ### Movement and collision detection
 >The player moves according to keyboard input (A-left; S-down; D-right; W-up).
@@ -82,17 +82,17 @@
 >There's also collision detection. For players if there is an input that will force the character into a wall it simply won't happen. As for the monsters, if it would happen they'll just choose another position if able.
 
 ### Bomb deployment and explosion
->The player can press 'p' to deploy a bomb. The bomb will not explode for the first second so that the player has time to get to safety. After the safety time expires the bomb will explode horizontally and vertically in a range of 2 for each side and destroy whatever it can (player, monsters, destructible blocks).
+>The player can press 'p' to deploy a bomb. The bomb will not explode for the first second so that the player has time to get to a safe spot. After the safety time expires the bomb will explode horizontally and vertically in a range of 2 for each side and destroy whatever it can (player, monsters, destructible blocks). For 250ms the bomb will left a fire trail that will kill monsters and remove a life from the player.
 >
 >![Explosion](screenshots/bomb_explosion.png)
 >
 > If the player is caught up in the explosion he will lose a life.
 
 ### Difficulty
-> There are 3 distinct difficulties. Each one only changes the way a monster moves. This way difficultyies aren't associated with a specific level (being that they are all fundamentally the same) but instead they are an attribute of each monster.
+> There are 3 distinct difficulties. Each one only changes the way a monster moves. This way difficulties aren't associated with a specific level (being that they are all fundamentally the same) but instead they are an attribute of each monster.
 > - Easy - The next tile the monster will move to is calculated at random
 > - Medium - The monster will move to the tile closest to the hero
-> - Hard - Similar to Medium the monster will chase the player but on this difficulty it will avoid bombs
+> - Hard - Similar to Medium, the monster will chase the player, but on this difficulty it will avoid bombs
 >
 > Pro tip: there's a really simple but hard way (hence the name) to defeat a hard monster. You just need to lure them into a place they cannot escape when you deploy a bomb. Good luck :)
 >
@@ -282,7 +282,7 @@
 ### 7. Instanceof
 #### The Problem
 > After finishing almost all of our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
-> Some of them were cause of us overcomplicating, for example, before moving the monster we need to know if it would enter contact with the hero and to do that we would pass the position of the tile the monster would move into and then check if the hero was there using the one and only 'instanceof'. To be honest we don't really know why we did it this way to begin with but problems like those were simple to rectify just changing what information we give the monster. If the monster were to know where the hero is there is no need for 'instanceof'.
+> Some of them were cause of us overcomplicating, for example, before moving the monster we need to know if it would enter  contact with the hero and to do that we would pass the position of the tile the monster would move into and then check if the hero was there using the one and only 'instanceof'. To be honest we don't really know why we did it this way to begin with but problems like those were simple to rectify just changing what information we give the monster. If the monster were to know where the hero is there is no need for 'instanceof'.
 > Sadly, not all corrections could be this simple when it came to moving the hero and knowing if he was about to pick one of the 5 different collectibles or none.
 #### The Design
 > Succeeding some research and consulting our professor we decided to use a slightly modified version of the Visitor pattern which consists of creating a new class 'visitor' and placing each different behaviour in a new method. Instead of handling the behaviour directly we would pass all the necessary information to the target object and he in turn would call the approriate method of the 'visitor' since he obviously knows what class he is.
@@ -312,6 +312,7 @@
 > - Open/Closed Principle: ease of adding new visiting behaviours
 > - Single Responsibility Principle: bundle multiple behaviours together
 > - Introduces interdependencies
+> - Makes the code more plugable, to add another Power-Up are only needed changes in the Visitor Class
 
 ## Known Code Smells and Refactoring
 ### 1. Lazy/Data classes
@@ -323,7 +324,7 @@
 #### Smell
 >The ([FieldController](../src/main/java/com/noclue/controller/FieldController.java)) construtor with 6 parameters can be said to have a long parameter list. This happens because the way we designed the code the FieldController is kind of the main handler of a lot of information while the game is running (actual gameplay, not the menu) and thus it needs to have access to that same information in order to manipulate it. At first the class construtor didn't have as much parameters but while adding features and refactoring code to reduce its size (it was really big at some point) we introduced this smell.
 #### Refactor
->To solve this one we could create another object that could bundle a few of similar parameters, which we chose against because it would just be unnecessary, confusing and completely overkill. Another option would be to instead of passing the parameters to the constructor we could create them inside, which we also didn't want to do due to not being able to do dependency injections and it just doesn't make sense for the class to need to know how to create it's own attributes like the TextGraphics.
+>To solve this one we could create another object that could bundle a few of similar parameters, which we chose against because it would just be unnecessary, confusing and completely overkill. Another option would be, instead of passing the parameters to the constructor we could create them inside, which we also didn't want to do due to not being able to do dependency injections and it just doesn't make sense for the class to need to know how to create it's own attributes like the TextGraphics.
 ### 3. Conditionals
 #### Smell
 >The menu has multiple different 'states' depending on which option the user is on while navigating. To state the obvious, the view has to change according to what the user is doing and this introduces some conditionals and even nested conditionals on the [view](../src/main/java/com/noclue/view/MenuView.java) that can be harder than normal to understand at first.
