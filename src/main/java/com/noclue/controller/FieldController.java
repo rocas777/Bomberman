@@ -220,6 +220,8 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     public void setDoor(Position position) {
+        position.setX(3);
+        position.setY(3);
         RemovableBlockModel tmp_hero = new RemovableBlockModel(position.clone());
         DoorModel doorModel = new DoorModel(position.clone());
         createTile(new DoorView(doorModel, textGraphics), new RemovableBlockView(tmp_hero, textGraphics), new TileModel(new DoorModel(position.clone()), tmp_hero), position);
