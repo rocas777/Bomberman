@@ -220,8 +220,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
     }
 
     public void setDoor(Position position) {
-        position.setX(3);
-        position.setY(3);
         RemovableBlockModel tmp_hero = new RemovableBlockModel(position.clone());
         DoorModel doorModel = new DoorModel(position.clone());
         createTile(new DoorView(doorModel, textGraphics), new RemovableBlockView(tmp_hero, textGraphics), new TileModel(new DoorModel(position.clone()), tmp_hero), position);
@@ -335,7 +333,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
             timeLeft.minusSecond();
             if (timeLeft.getSeconds() == 0) {   //if it reaches 0 the game ends and player loses
                 model.gettServer().removeListener(this);
-                view.draw();
                 view = gamoverView;
                 view.draw();
                 ended = true;
@@ -380,7 +377,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         //end game if hero reaches 0 lifes and is deactivated
         if (model.getHero() != null && !model.getHero().isActive()) {
             model.gettServer().removeListener(this);
-            view.draw();
             view = gamoverView;
             view.draw();
             ended = true;
