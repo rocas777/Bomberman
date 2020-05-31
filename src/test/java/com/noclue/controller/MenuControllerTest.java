@@ -1,15 +1,9 @@
 package com.noclue.controller;
 
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
 import com.noclue.model.MenuModel;
-import com.noclue.model.Position;
-import com.noclue.model.character.HeroModel;
 import com.noclue.model.difficulty.Difficulty;
 import com.noclue.model.difficulty.Easy;
 import com.noclue.model.difficulty.Hard;
@@ -17,12 +11,10 @@ import com.noclue.model.difficulty.Medium;
 import com.noclue.view.MenuView;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class MenuControllerTest {

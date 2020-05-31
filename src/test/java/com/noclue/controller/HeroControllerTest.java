@@ -23,6 +23,9 @@ public class HeroControllerTest {
     DeactivateState deactivateState = Mockito.mock(DeactivateState.class);
     IsTouchingState isTouchingState = Mockito.mock(IsTouchingState.class);
     HeroModel heroModel = Mockito.mock(HeroModel.class);
+    Grid grid = Mockito.mock(Grid.class);
+    Position position = Mockito.mock(Position.class);
+    TileController tileController = Mockito.mock(TileController.class);
 
     @Before
     public void setup(){
@@ -33,6 +36,8 @@ public class HeroControllerTest {
         when(heroModel.getDeactivateState()).thenReturn(deactivateState);
         when(heroModel.getIsTouchingState()).thenReturn(isTouchingState);
         when(heroModel.getLivesModel()).thenReturn(livesModel);
+        when(heroModel.getPosition()).thenReturn(position);
+        when(grid.getTile(position)).thenReturn(tileController);
     }
     @Test
     public void deactivate() {
@@ -51,30 +56,30 @@ public class HeroControllerTest {
     @Test
     public void addLife() {
 
+        //check if life limit is respected
         when(livesModel.getLives()).thenReturn(6);
-
         heroController.addLife();
         verify(livesModel,times(0))
                 .setLives(7);
         verify(livesModel,times(0))
                 .setLives(anyInt());
 
+        //verificar se as vidas aumentam
         when(livesModel.getLives()).thenReturn(1);
-
         heroController.addLife();
         verify(livesModel,times(1))
                 .setLives(2);
         verify(livesModel,times(1))
                 .setLives(anyInt());
 
+        //verificar se o limite é respeitado, não deve ser cahamada setLives
         when(livesModel.getLives()).thenReturn(5);
-
         heroController.addLife();
         verify(livesModel,times(1))
                 .setLives(anyInt());
 
+        //verificar se consegue adicionar uma vida até ao maximo de vidas(5)
         when(livesModel.getLives()).thenReturn(4);
-
         heroController.addLife();
         verify(livesModel,times(1))
                 .setLives(5);
@@ -84,59 +89,43 @@ public class HeroControllerTest {
 
     @Test
     public void isTouching() {
-        when(isTouchingState.isTouching(any(Filler.class))).thenReturn(true);
+        //verificar se a chamada ao State é feita com sucesso
 
+        when(isTouchingState.isTouching(any(Filler.class))).thenReturn(true);
         Filler filler = Mockito.mock(Filler.class);
         Assert.assertTrue(heroController.isTouching(filler));
         Mockito.verify(isTouchingState,Mockito.times(1))
                 .isTouching(filler);
 
-        when(isTouchingState.isTouching(any(Filler.class))).thenReturn(false);
 
+        when(isTouchingState.isTouching(any(Filler.class))).thenReturn(false);
         Assert.assertFalse(heroController.isTouching(filler));
         Mockito.verify(isTouchingState,Mockito.times(2))
                 .isTouching(filler);
     }
 
-    Grid grid = Mockito.mock(Grid.class);
-    Position position = Mockito.mock(Position.class);
-    TileController tileController = Mockito.mock(TileController.class);
-
     @Test
     public void moveLeft() {
-        when(heroModel.getPosition()).thenReturn(position);
-        when(grid.getTile(position)).thenReturn(tileController);
-
         heroController.moveLeft(grid);
-
         verify(tileController,times(1))
                 .moveTile(any());
         verify(tileController,times(1))
                 .moveTile(grid.getTile(heroController.model.getPosition().getLeft()));
-
         verify(position,times(1)).setLeft();
     }
 
     @Test
     public void moveRight() {
-        when(heroModel.getPosition()).thenReturn(position);
-        when(grid.getTile(position)).thenReturn(tileController);
-
         heroController.moveRight(grid);
-
         verify(tileController,times(1))
                 .moveTile(any());
         verify(tileController,times(1))
                 .moveTile(grid.getTile(heroController.model.getPosition().getRight()));
-
         verify(position,times(1)).setRight();
     }
 
     @Test
     public void moveUp() {
-        when(heroModel.getPosition()).thenReturn(position);
-        when(grid.getTile(position)).thenReturn(tileController);
-
         heroController.moveUp(grid);
 
         verify(tileController,times(1))
@@ -149,9 +138,6 @@ public class HeroControllerTest {
 
     @Test
     public void moveDown() {
-        when(heroModel.getPosition()).thenReturn(position);
-        when(grid.getTile(position)).thenReturn(tileController);
-
         heroController.moveDown(grid);
 
         verify(tileController,times(1))
