@@ -28,7 +28,7 @@ public class MenuControllerTest {
     @Test
     public void readDifficulties(){
         ArrayList<ArrayList<Difficulty>> arrayLists = menuController.readDifficulties(menuModel);
-        Assert.assertEquals(21,arrayLists.size());
+        Assert.assertEquals(22,arrayLists.size());
         ArrayList<Difficulty> list = new ArrayList<>();
         list.add(new Easy());
         for(int i=0;i<arrayLists.get(0).size();i++){
@@ -60,7 +60,7 @@ public class MenuControllerTest {
         for(int i=0;i<arrayLists.get(12).size();i++){
             Assert.assertEquals(list.get(i).getClass(),arrayLists.get(12).get(i).getClass());
         }
-        verify(menuModel,times(1)).setLevel(1);
+        verify(menuModel,atLeast(1)).setLevel(1);
 
     }
 
@@ -147,6 +147,7 @@ public class MenuControllerTest {
         for(Difficulty d:menuController.difficulties){
             Assert.assertEquals(d.getClass(), Medium.class);
         }
+        verify(menuController).startNewGame();
 
         //verificar se o jogo começa em facil com as opçoes 1:1
         when(menuModel.getSubOption()).thenReturn(1);
@@ -157,6 +158,7 @@ public class MenuControllerTest {
         for(Difficulty d:menuController.difficulties){
             Assert.assertEquals(d.getClass(), Easy.class);
         }
+        verify(menuController,times(2)).startNewGame();
 
         //verificar se o jogo começa em dificil com as opçoes 1:3
 
@@ -168,9 +170,11 @@ public class MenuControllerTest {
         for(Difficulty d:menuController.difficulties){
             Assert.assertEquals(d.getClass(), Hard.class);
         }
+        verify(menuController,times(3)).startNewGame();
 
-        //verificar se o jogo acaba com as opcoes 3:any
+
         when(menuModel.getOnSubMenu()).thenReturn(false);
+        //verificar se o jogo acaba com as opcoes 3:any
         when(menuModel.getOption()).thenReturn(3);
         when(menuModel.getSubOption()).thenReturn(2);
         when(keyStroke.getKeyType()).thenReturn(KeyType.Enter);
@@ -179,7 +183,6 @@ public class MenuControllerTest {
         menuController.difficulties.add(null);
         menuController.run();
         verify(menuController,times(6)).killProgram();
-
 
     }
 

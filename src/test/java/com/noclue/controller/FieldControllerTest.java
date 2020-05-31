@@ -570,7 +570,7 @@ public class FieldControllerTest {
         Assert.assertTrue(fieldController.timeIsUp());
 
         //verificar a correta chamada das funções pretendidas
-        Mockito.verify(iView,times(4)).draw();
+        Mockito.verify(iView,times(2)).draw();
         Mockito.verify(timer,times(2)).removeListener(fieldController);
         Assert.assertTrue(fieldController.ended);
         Mockito.verify(timeLeft,times(2)).minusSecond();
@@ -818,7 +818,7 @@ public class FieldControllerTest {
         fieldModel.settServer(timer);
         fieldModel.setHero(heroController);
         fieldController.purge();
-        Mockito.verify(iView,times(2)).draw();
+        Mockito.verify(iView,times(1)).draw();
         Assert.assertEquals(true,fieldController.ended);
 
         //end game
@@ -827,7 +827,7 @@ public class FieldControllerTest {
         fieldModel.settServer(timer);
         fieldModel.setHero(heroController);
         fieldController.purge();
-        Mockito.verify(iView,times(2)).draw();
+        Mockito.verify(iView,times(1)).draw();
         Mockito.verify(timer,times(1)).removeListener(fieldController);
         Assert.assertEquals(false,fieldController.ended);
     }

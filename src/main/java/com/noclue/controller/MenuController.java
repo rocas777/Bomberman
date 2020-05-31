@@ -45,7 +45,6 @@ public class MenuController implements KeyboardListener {
     public ArrayList<ArrayList<Difficulty>> readDifficulties(MenuModel model) {
         ArrayList<ArrayList<Difficulty>> diffi = new ArrayList<>();
         URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
-        System.out.println(resource);
         ArrayList<String> lines = new ArrayList<>();
         BufferedReader br = null;
 
@@ -54,7 +53,7 @@ public class MenuController implements KeyboardListener {
             for (String line; (line = br.readLine()) != null; )
                 lines.add(line);
         } catch (IOException i) {
-            System.out.println(i);
+            System.out.println("Couldn't open File levels.lvl");
         }
 
         model.setLevels("");
@@ -62,7 +61,7 @@ public class MenuController implements KeyboardListener {
 
 
         menuModel.setScore(0);
-        menuModel.setLevel(20);
+        menuModel.setLevel(1);
         BufferedReader bw = null;
         try {
             bw = new BufferedReader(new FileReader("./currentlevel.lvl"));
@@ -70,7 +69,7 @@ public class MenuController implements KeyboardListener {
             menuModel.setScore(bw.read());
             bw.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Couldn't open File currentlevel.lvl");
         }
 
         for (int li = 1; li < lines.size(); li++) {
@@ -184,7 +183,11 @@ public class MenuController implements KeyboardListener {
     public void startNewGame() {
         //create field model
         fieldModel = new FieldModel(146, 45, menuModel.getLevel());
-        fieldModel.setPoints(menuModel.getScore());
+        //se for campanha poe os pontos da campanha, senão poes 0
+        if(menuModel.getOption()==4)
+            fieldModel.setPoints(menuModel.getScore());
+        else
+            fieldModel.setPoints(0);
 
         //start timer and keyboard listeners
         Timer t = new Timer(40);
@@ -243,8 +246,6 @@ public class MenuController implements KeyboardListener {
                     menuModel.setScore(fieldModel.getPoints());
                 }
             }
-
-            System.out.println("Nivel" + menuModel.getLevel());
             fieldModel = null;
             difficulties = new ArrayList<>();
             try {

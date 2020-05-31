@@ -206,7 +206,6 @@ public class FieldController implements KeyboardListener, TimeListener, Explosio
         while (door.equals(hero) || model.getTiles().getTile(door).getFiller().isFilled() ) {
             door = new Position(23, 15, (random.nextInt(23)), (random.nextInt(13)));
         }
-        System.out.println(door.getX() + " " + door.getY());
         return door;
     }
 
