@@ -12,17 +12,17 @@ public class InvincibleIsTouching extends IsTouchingState {
 
     @Override
     public boolean isTouching(Filler filler) {
-        if (model.getTouchCounter() <= 0) {
+        if (model.getTouchCounter() <= 0) { //go back to normal state
             model.setIsTouchingState(model.getNormalIsTouching());
             model.setDeactivateState(model.getNormalDeactivate());
         }
-        model.setTouchCounter(model.getTouchCounter() - 1);
+        model.setTouchCounter(model.getTouchCounter() - 1); //subtract a step
         filler.deactivate();
         return true;
     }
 
     @Override
-    public void Activate() {
+    public void Activate() {    //activates power-up
         if (model.getTouchCounter() <= 0) {
             model.setTouchCounter(10);
             synchronized (model.getIsTouchingState()) {

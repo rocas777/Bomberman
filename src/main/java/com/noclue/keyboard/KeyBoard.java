@@ -35,11 +35,11 @@ public class KeyBoard {
                     key = screen.readInput();
                     KeyType keyType = key.getKeyType();
                     if (keyType == KeyType.Character || keyType == KeyType.EOF) {
-                        for (KeyboardListener listener : keyboardListeners) {
+                        for (KeyboardListener listener : keyboardListeners) {   //notify all listeners and pass keystroke as argument
                             listener.updateOnKeyboard(key);
                         }
                         if(keyType == KeyType.EOF){
-                            isOn = false;
+                            isOn = false;   //leave loop if terminal closes abnormally
                         }
                     }
                 } catch (IOException e) {

@@ -124,7 +124,7 @@ public class FieldModel {
         this.bombController = bombController;
     }
 
-    public boolean checkPos(Position position, Movement movement) {
+    public boolean checkPos(Position position, Movement movement) { //checks if a character can move to a new position. A move can be made if the target psoition isn't filled or isn't active
         if (movement != null)
             switch (movement) {
                 case left:

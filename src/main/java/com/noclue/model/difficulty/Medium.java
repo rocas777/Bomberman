@@ -34,6 +34,8 @@ public class Medium implements Difficulty {
         list.add(new Par(dist3, _3));
         list.add(new Par(dist4, _4));
 
+        //sort from shortest to furthest away from the hero
+
         Collections.sort(list, new Comparator<Par>() {
             @Override
             public int compare(Par par, Par t1) {

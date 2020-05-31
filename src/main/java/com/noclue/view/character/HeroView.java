@@ -31,42 +31,42 @@ public class HeroView implements IView {
 
     public void draw(TextGraphics textGraphics, Position position) {
         i++;
-        if (model.getDeactivateState() == model.getInvincibleDeactivate() && i % 10 <= 4) {
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
+        if (model.getDeactivateState() == model.getInvincibleDeactivate() && i % 10 <= 4) { //tick one color while invincible
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));   //head and arms
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY(), "  ", BOLD);
             textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 1, " ", BOLD);
             textGraphics.putString(position.getRealPosition().getX() + 4, position.getRealPosition().getY() + 1, " ", BOLD);
 
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffff00"));
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ffff00"));   //shirt
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 1, "  ", BOLD);
 
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));   //legs
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 2, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#005555"));
-        } else if (model.getDeactivateState() == model.getInvincibleDeactivate()) {
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
+        } else if (model.getDeactivateState() == model.getInvincibleDeactivate()) { //tick the other color while invincible
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));   //head and arms
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY(), "  ", BOLD);
             textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 1, " ", BOLD);
             textGraphics.putString(position.getRealPosition().getX() + 4, position.getRealPosition().getY() + 1, " ", BOLD);
 
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#ff0000"));   //shirt
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 1, "  ", BOLD);
 
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));   //legs
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 2, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#005555"));
-        } else {
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));
+        } else {    //normal draw
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#DEB887"));   //head and arms
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY(), "  ", BOLD);
             textGraphics.putString(position.getRealPosition().getX() + 1, position.getRealPosition().getY() + 1, " ", BOLD);
             textGraphics.putString(position.getRealPosition().getX() + 4, position.getRealPosition().getY() + 1, " ", BOLD);
 
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#3B5998"));
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#3B5998"));   //shirt
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 1, "  ", BOLD);
 
-            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
+            textGraphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));   //legs
             textGraphics.putString(position.getRealPosition().getX() + 2, position.getRealPosition().getY() + 2, "  ", BOLD);
 
             textGraphics.setBackgroundColor(TextColor.Factory.fromString("#005555"));

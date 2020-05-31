@@ -178,6 +178,9 @@ public class MenuView implements IView {
         textGraphics.putString(71, 24, "Exit");
         textGraphics.putString(65, 18, "Continue Campaign");
         textGraphics.setForegroundColor(TextColor.Factory.fromString("#ff0000"));
+
+        //highlight current option
+
         switch (menuModel.getOption()) {
             case 1:
                 textGraphics.putString(68, 20, "Start Game", BOLD);
