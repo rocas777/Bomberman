@@ -331,6 +331,8 @@
 #### Refactoring
 >We did our best to simplify this by drawing everything normally and then overwriting the current option. It works fine given that only one line of code at a time would have no real purpose and we don't notice any performance hit but to remove the conditionals we would need to add a load states, and each state would have its own view. Of course we did not do this because it would introduce way to much duplicate code, not mencioning how much more complex the menu would become overall.
 ## Testing
+>Most of the model weren't tested because they consist of only simple getters and setters. Same for the views, it is unnecessary to test draw functions.
+>
 ### Screenshot of test coverage
 ![test](screenshots/Test-Coverage.png)
 ### Screenshot of mutation testing report
