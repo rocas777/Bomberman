@@ -59,6 +59,19 @@ public class MenuController implements KeyboardListener {
         model.setLevels("");
         model.setLevel(Integer.parseInt(lines.get(0)));
 
+
+        menuModel.setScore(0);
+        menuModel.setLevel(20);
+        BufferedReader bw = null;
+        try {
+            bw = new BufferedReader(new FileReader("./currentlevel.lvl"));
+            menuModel.setLevel(bw.read());
+            menuModel.setScore(bw.read());
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         for (int li = 1; li < lines.size(); li++) {
             diffi.add(new ArrayList<>());
             String l = lines.get(li);
@@ -72,8 +85,6 @@ public class MenuController implements KeyboardListener {
                     diffi.get(diffi.size() - 1).add(new Medium());
                 } else if (l.charAt(i) == 'h') {
                     diffi.get(diffi.size() - 1).add(new Hard());
-                } else {
-                    diffi.get(diffi.size() - 1).add(null);
                 }
             }
         }
@@ -86,10 +97,15 @@ public class MenuController implements KeyboardListener {
     }
 
     public void killProgram() throws IOException {
-        URL resource = MenuController.class.getClassLoader().getResource("levels.lvl");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(resource.getFile()));
-        bw.write(menuModel.getLevel() + "\n");
-        bw.write(menuModel.getLevels());
+        BufferedWriter bw = new BufferedWriter(new FileWriter("./currentlevel.lvl"));
+        if(menuModel.getLevel()<=21) {
+            bw.write(menuModel.getLevel());
+            bw.write(menuModel.getScore());
+        }
+        else {
+            bw.write("1");
+            bw.write("0");
+        }
         bw.close();
         System.exit(0);
     }
@@ -205,8 +221,13 @@ public class MenuController implements KeyboardListener {
             fieldModel.setkServer(null);
             fieldModel.settServer(null);
             if (fieldModel.isWon()) {
-                menuModel.setLevel((menuModel.getLevel() + 1) % menuModel.getDifficultiesA().size());
-                menuModel.setScore(fieldModel.getPoints());
+                if(menuModel.getOption()==4) {
+                    if(menuModel.getLevel()<21)
+                        menuModel.setLevel((menuModel.getLevel())+1);
+                    else
+                        menuModel.setLevel(1);
+                    menuModel.setScore(fieldModel.getPoints());
+                }
             }
 
             System.out.println("Nivel" + menuModel.getLevel());
