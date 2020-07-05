@@ -1,10 +1,16 @@
+<table style="width:50%;">
+  <tr>
+    <th><a href="https://github.com/rocas777"><b>Miguel Pinto</b></a></th>
+    <th><a href="https://github.com/NunationFL"><b>Nuno Oliveira</b></a></th>
+  </tr>
+</table>
 # LPOO_T81 - BOMBERMAN COOL VERSION
 
 >Bomberman is a strategic, maze-based video game franchise in which the player holds an unlimited number of bombs and uses them to open his path on the maze and find the door that will lead to the next level, all this while evading bad monsters :(
 >
 >Our version aims to replicate the original game to some extent. This means the concept will be the same, however, unlike most iterations of the game, the player does not lose after being caught on an explosion, it just loses a life. The player will start out with 3 lives which he will lose by exploding himself or getting in contact with the monsters. There are also various drops from exploded blocks, some will add time, lives, score and even turn the hero into the Hulk for 10 steps.
 >
->This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Luis Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
+>This project was developted by Nuno Oliveira (up201806525@fe.up.pt) and Miguel Pinto (up201806206@fe.up.pt) for LPOO 2019/2020.
 >
 > Small trailer (colors aren't really accurate because of format):
 >
