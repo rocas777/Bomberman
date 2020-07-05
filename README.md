@@ -8,17 +8,17 @@
 >
 > Small trailer (colors aren't really accurate because of format):
 >
->![Vid](screenshots/trailer.gif)
+>![Vid](docs/screenshots/trailer.gif)
 ## Implemented Features
 
 ### Menu
 > The initial the menu (to be navigated using 'w', 'a' and 'ENTER') the player will see after running the game :
 >
->![Menu](screenshots/menu.png)
+>![Menu](docs/screenshots/menu.png)
 >
 > A sub menu to choose difficulties:
 >
->![Difficulties](screenshots/difficulty.png)
+>![Difficulties](docs/screenshots/difficulty.png)
 
 ### Gamemodes
 > - Start Campaign - If the campaign mode is chosen, the player will need to defeat 21 levels in order to win the game. Each level will only differ in the amount and type of monster the hero will have to face, besides the random placement of the collectibles and destructible blocks. After completing each level a 'winning screen' will be shown and the player must press 'q' to go back to the menu and continue with the following level. The levels are read from a text file stored in the resources folder. It goes from 1 Easy Monster on the 1º level to 8 Hard Monsters in the 21º level.
@@ -30,36 +30,36 @@
 
 ### Monster
 >The ones we are supposed to run way
-![Easy Monster](screenshots/easy_monster.png) ![Medium Monster](screenshots/medium_monster.png) ![Hard Monster](screenshots/hard_monster.png) 
+![Easy Monster](docs/screenshots/easy_monster.png) ![Medium Monster](docs/screenshots/medium_monster.png) ![Hard Monster](docs/screenshots/hard_monster.png) 
 
 ### Hero
 >The Hero is the one controlled by the player
-![Hero](screenshots/hero.png)
+![Hero](docs/screenshots/hero.png)
 
 ### Blocks
 >The blocks that can be exploded
-![Destructible Block](screenshots/destructible.png) 
+![Destructible Block](docs/screenshots/destructible.png) 
 >
 >The blocks that can´t be exploded
-![Block](screenshots/block.png)
+![Block](docs/screenshots/block.png)
 
 ### Collectibles
 >Everytime you destroy a block it can drop any of the following items:
 >
 >The target Tile, The door to Victory (only 1 per level)
->![Door](screenshots/door.png)
+>![Door](docs/screenshots/door.png)
 >
 >Increases the score by 1 point
-![Door](screenshots/coin.png)
+![Door](docs/screenshots/coin.png)
 >
 >Adds 15 seconds to the remaining time
-![Door](screenshots/add_time.png)
+![Door](docs/screenshots/add_time.png)
 >
 >Gives you one more life (max 5)
-![Door](screenshots/add_life.png)
+![Door](docs/screenshots/add_life.png)
 >
 >Sets hero in a powerfull state where he can destroy blocks and kill monster just by walking to them for 10 steps (Hulk Mode)
-![Door](screenshots/invincible.png)
+![Door](docs/screenshots/invincible.png)
 >
 > #### Note: Obviously the drop rates were adjusted for each item for the sake of balance
 
@@ -87,7 +87,7 @@
 ### Bomb deployment and explosion
 >The player can press 'p' to deploy a bomb. The bomb will not explode for the first second so that the player has time to get to a safe spot. After the safety time expires the bomb will explode horizontally and vertically in a range of 2 for each side and destroy whatever it can (player, monsters, destructible blocks). For 250ms the bomb will leave a fire trail that will kill monsters and remove a life from the player.
 >
->![Explosion](screenshots/bomb_explosion.png)
+>![Explosion](docs/screenshots/bomb_explosion.png)
 >
 > If the player is caught up in the explosion he will lose a life.
 
@@ -107,243 +107,13 @@
 >
 >There's also a white sidebar that contains a number of hearts equal to the number of lives the hero has, the time remaining, the level you will be playing and the number of steps left on the powered-up state.
 >
->![Sidebar](screenshots/sidebar.png)
+>![Sidebar](docs/screenshots/sidebar.png)
 
 ### Lose condition
 > If the player were to reach 0 lives he will lose. If you're doing the campaign the level will not be reset to 0, you can just try again.
 >
->![Lose Screen](screenshots/loose_screen.png)
+>![Lose Screen](docs/screenshots/loose_screen.png)
 ### Win Condition
 > The door will be hidden underneath one destructible block at random. If the player founds it after destroying the respective block he will suceed on completing the level.
 >
->![Win Screen](screenshots/win_screen.png)
-
-## Design
-
-### 1. Code Architecture
-#### The Problem
->On the very first class when we started to plan out the code, one of the main debates we had was on how to structure the code. Initially we just made different classes that would do everything related to them and put them into packages according to their category (for example: we had a class "Monster" that would manipulate and draw itself). It did work, but it wasn't very clean, could be hard to read for other people and this way of coding clearly violates the Single Responsibility Principle.
-#### The Design
->In order to solve this issue and separate responsibilities into different objects we adopted the MVC (Model - View - Controller) pattern. Doing so allowed us to make our code organized, easier to read and, overall, more structured. We also benefict from the fact that changing or adding features is very much simpler. Since we only thought of implementing this design midway it took longer than expected but this is how it turned out...
-#### The Implementation
->The following UML shows how we implemented this design through one example since it is basically the same for every object:
->
->![uml](UML/MVC.png)
->
->These classes can be found at:
->
-> [FieldController](../src/main/java/com/noclue/controller/FieldController.java)
->
-> [FieldView](../src/main/java/com/noclue/view/field/FieldView.java)
->
-> [FieldModel](../src/main/java/com/noclue/model/FieldModel.java)
-#### The Consequences
-> - Following some advantages already stated on "The Design" part like facilitating the change of one component alone the MVC will make simultaneous development easier since each component is technically independent. Another bonus we came across at a chance is the fact that a "model" can have multiple views which will be helpful with the bomb (ticking and fire).
-> - Now the code not only respects the Single Responsibility Principle (each component has responsibility over a single part of the application) but also, in a way, the Open-Closed Principle because if some feature is added that requires a new class the amount of pre-existing code that needs changing is relatively small.
-> - The only downside we think this pattern has is that the framework will become more complex in a way that even if it is more organized it also is much tiring to navigate.
-
-### 2. Bomb Explosion
-#### The Problem
->While implementing the bomb functionalities we had to decide on how to do the bomb explosion part. On one hand we could make each bomb responsible for handling its own explosion rendering, on the other hand we could pass that duty to the field controller (in the way we designed the app the field model holds almost every other class). 
-#### The Design
->We chose to go with the first option of letting each bomb handle itself and implementing a State Pattern since this was specially easier to do with the above mentioned MVC pattern. What this pattern does is allow us to represent different states of application with different subclasses. This pattern allowed us to address this simple problem because the bomb clearly has two different states: ticking and explosion. When the bomb needs to change from ticking to exploded, it only has to change its view. Since both implement the same interface, the controller does not have the need to keep checking flags and if's when it renders to check the state.  
-#### The Implementation
->The following UML shows how we mapped this pattern:
->
->![uml](UML/Bomb-Explosion.png)
->
->These classes/interface can be found at:
->
-> [BombController](../src/main/java/com/noclue/controller/bomb/BombController.java)
->
-> [IView](../src/main/java/com/noclue/IView.java)
->
-> [BombViewFire](../src/main/java/com/noclue/view/bomb/BombViewFire.java)
->
-> [BombViewTicking](../src/main/java/com/noclue/view/bomb/BombViewTicking.java)
-#### The Consequences
-> - The state changing is less complicated and doesn't rely on a bunch of different flags
-> - It will make adding more states (like an actual ticking animation) undemanding
-> - Saves us the trouble of using big if statements
-
-### 3. Difficulties
-#### The Problem
->Even though this is a simple project we wanted our game to be enjoyable for both casuals and tryhard gamers (and something in between). In order to achieve this, we chose to make our game have different difficulties. Depending on the difficulty, the monster will behave differently. To achieve this we could just add a bunch of if statements, but that wouldn't be a good pratice and could hurt future development and even performance.
-#### The Design
->To work this problem out we chose to use the Strategy Pattern. It solves this specific problem allowing us to define a number of related algorithms and encapsulate them, making them interchangeable and thus changing the monsters's behaviour slightly according to the difficulty that is assigned even though their job is all the same. The Monster only has to call the class that was passed to it, and that class is responsible for sorting the four possible movement by most preferable according to each difficulty's objetive.
-#### The Implementation
->The following UML shows how we mapped this pattern:
->
->![uml](UML/Difficulty.png)
->
->These classes/interface can be found at:
->
-> [Monster](../src/main/java/com/noclue/model/character/MonsterModel.java)
->
-> [Difficulty](../src/main/java/com/noclue/model/difficulty/Difficulty.java)
->
-> [Easy](../src/main/java/com/noclue/model/difficulty/Easy.java)
->
-> [Medium](../src/main/java/com/noclue/model/difficulty/Medium.java)
->
-> [Hard](../src/main/java/com/noclue/model/difficulty/Hard.java)
-#### The Consequences
-> - Eliminates a lot of complex conditional statements
-> - Makes adding and changing difficulties effortless
-> - Requires the classes that are influenced by each difficulty to know what it is
-
-### 4. How to update every object
-#### The Problem
->In order for the game to feel fluid, the monster have to be independent from the player, contrary to what happened on the hero project where the monsters only moved when the player did so. So we made a timer class that would simulate a clock for both image printing and monster movement;
->The issue was on how to notify each monster to move. There was a different but similar situation with our hero, where he needed to wait for an input that wasn't his to receive. How should we go about this? The hero situation represented an even bigger setback because the keyboard input is asynchronous.
-#### The Design
->We rapidly decided to adopt the Observer Pattern for this situation. This design defines a one-to-many dependency between objects so that when one object updates its dependents, they are notified and updated automatically. Applying this to our project, the "status change" would be the instant there's a new frame to draw or when keyboard interrupt is received and both of them have its own "Listener" class that does exactly that, simulate a framerate and listen to keyboard input.
->This way using the concepts of the Observer Pattern, those listeners notify the classes that depend on it so they can update themselves (TimeListener notifies the FieldController, BombController and NormalState if necessary and KeyboardListener notifies the FieldController and the MenuController. The FieldController has a similiar aproach by notifying the other classes to draw.
-#### The Implementation
->The following UML shows the time listener and how the main controllers depend on it (the keyboard listener is basically the same so we decided not to put it in the UML to simplify):
->
->![uml](UML/Listeners.png)
->
->These classes/interface can be found at:
->
-> [Timer](../src/main/java/com/noclue/timer/TimeListener.java)
->
-> [ITimer](../src/main/java/com/noclue/timer/Timer.java)
->
-> [TimerListener](../src/main/java/com/noclue/timer/TimerInterface.java)
->
-> [FieldController](../src/main/java/com/noclue/controller/FieldController.java)
->
-> [BombController](../src/main/java/com/noclue/controller/bomb/BombController.java)
->
-> [NormalState](../src/main/java/com/noclue/model/state/NormalDeactivate.java)
-#### The Consequences
-> - Further encapsulation and code structurization where the listeners have no information about their observers, just that they exist and the need to notify them when the time is right, nor do they about the listener.
-#### * Note about the class notification: since the FieldModel holds almost every other model it would make sense for the FieldController to also manipulate most of them.
-
-### 5. Simplify draw calls
-#### The Problem
->This wasn't a major issue with our code, but some classes had different arguments for their draw calls and in the midst of development we faced some visual bugs due to not noticing we had passed wrong arguments to some functions. We could just correct the small situation and move one but we chose to make it easier for future draw functions and since the mistake happened once it may as well happen twice. 
-#### The Design
->The need to adapt the code lead us to the Interface Adapter design. This allows to convert the interface of class into another interface that is expected. Even though we are not following the design to the word since we are not really adapting interfaces (just a simple function) we took some principles off of it and choose tho make a generic draw() call that each class will adapt to its own liking.
-#### The Implementation
->The following UML serves as an example of how we achieved this:
->
->![uml](UML/IVIEW.png)
->
->These classes/interface can be found at:
->
-> [FieldController](../src/main/java/com/noclue/controller/FieldController.java)
->
-> [IView](../src/main/java/com/noclue/IView.java)
->
-> [MonsterView](../src/main/java/com/noclue/view/character/MonsterView.java)
->
-> [HeroView](../src/main/java/com/noclue/view/character/HeroView.java)
->
-> [RemovableBlockView](../src/main/java/com/noclue/view/block/RemovableBlockView.java)
-#### The Consequences
-> - Code less prone to mistakes
-> - More readability
-> - The caller does not have to know the class objects and functions parameters 
-
-### 6. Life Handling and Power-Up
-#### The Problem
-> The implementation of lives was bundled together with a big hurdle. The fact that the player wouldn't lose immediatly wasn't, at first, assured just by removing a life since the monster would just kill the player again real fast and as for the bomb, the tiles where it would explode would continue to 'be exploding' for a while and so the player would mostly lose all his lives instantly anyway.
-#### The Design
-> To go around this we decided to make the hero have a few seconds of invulnerability after loosing a life so he can reposition and avoid losing all lives in the same instant. The way we chose to do is using the State pattern which allows us to alter the hero's behaviour according to his current state. To be more precise the invulnerability state (used together with a timer so it can be reverted to the normal state) would just do nothing when the other would decrement lives.
->
-> Taking advantage of this addition we also implemented a feature where the player could be powered-up for a few steps and although the end result is different, the pattern used is the same, altering the 'isTouching' logic.
-#### The Implementation
-> The following UML shows how we did this:
->
->![UML](UML/States.png)
->
-> These classes can be found at:
->
-> [Hero](../src/main/java/com/noclue/model/character/HeroModel.java)
->
-> [DeactivateState](../src/main/java/com/noclue/model/state/DeactivateState.java)
->
-> [InvincibleDeactivate](../src/main/java/com/noclue/model/state/InvincibleDeactivate.java)
->
-> [NormalDeactivate](../src/main/java/com/noclue/model/state/NormalDeactivate.java)
->
-> [isTouchingState](../src/main/java/com/noclue/model/state/IsTouchingState.java)
->
-> [NormalIsTouching](../src/main/java/com/noclue/model/state/NormalIsTouching.java)
->
-> [InvincibleIsTouching](../src/main/java/com/noclue/model/state/InvencibleIsTouching.java)
->
-> And the one that handles the calling of deactivate and isTouching is [HeroController](../src/main/java/com/noclue/controller/HeroController.java)
-
-#### The Consequences
-> - Adding states is very simple and doesn't require changing the ones that already exist.
-> - Single Responsibility principle: each class has only one job
-> - No need of using a multitude of conditional statements that would make the code harder to read
-
-### 7. Instanceof
-#### The Problem
-> After finishing almost all of our main objectives for the project, while reviewing our code we noticed the use of multiple 'instaceof' which worked fine but isn't a very good practice and makes the code less extensible.
-> Some of them were cause of us overcomplicating, for example, before moving the monster we need to know if it would enter  contact with the hero and to do that we would pass the position of the tile the monster would move into and then check if the hero was there using the one and only 'instanceof'. To be honest we don't really know why we did it this way to begin with but problems like those were simple to rectify just changing what information we give the monster. If the monster were to know where the hero is there is no need for 'instanceof'.
-> Sadly, not all corrections could be this simple when it came to moving the hero and knowing if he was about to pick one of the 5 different collectibles or none.
-#### The Design
-> Succeeding some research and consulting our professor we decided to use a slightly modified version of the Visitor pattern which consists of creating a new class 'visitor' and placing each different behaviour in a new method. Instead of handling the behaviour directly we would pass all the necessary information to the target object and he in turn would call the approriate method of the 'visitor' since he obviously knows what class he is.
-#### The Implementation
-> The UML that represents how we implemented this pattern:
->
->![UML](UML/Visitor.png)
->
->[FieldController](../src/main/java/com/noclue/controller/FieldController.java)
->
->[Collectible](../src/main/java/com/noclue/model/collectible/Collectible.java)
->
->[Time](../src/main/java/com/noclue/model/collectible/AddTime.java)
->
->[Life](../src/main/java/com/noclue/model/collectible/AddLife.java)
->
->[Coin](../src/main/java/com/noclue/model/collectible/CoinModel.java)
->
->[Invincible](../src/main/java/com/noclue/model/collectible/Invencible.java)
->
->[Door](../src/main/java/com/noclue/model/collectible/DoorModel.java)
->
->[Null](../src/main/java/com/noclue/model/collectible/NoCollectibleModel.java)
->
->[Visitor](../src/main/java/com/noclue/model/collectible/Visitor.java)
-#### The Consequences
-> - Open/Closed Principle: ease of adding new visiting behaviours
-> - Single Responsibility Principle: bundle multiple behaviours together
-> - Introduces interdependencies
-> - Makes the code more plugable, to add another Power-Up are only needed changes in the Visitor Class
-
-## Known Code Smells and Refactoring
-### 1. Lazy/Data classes
-#### Smell
->Multiple model classes like the [Hero](../src/main/java/com/noclue/model/character/HeroModel.java) can be considered a lazy or even a data class since they basically consist of some private fields, getters and setter for accessing those same fields and sometimes one or two simple overrides. More often than not they can not operate on their own and their only puporse is to be used by other classes.
-#### Refactoring
->To remove this problem we would be required to remove/modify these classes as they could be considered disposable. Knowing this we still chose not do it since we would make other classes way too complex and while also bringing in another couple of smells, it would decrease readability and not follow the Open/Closed Principle and MVC model we chose to organize our project.
-### 2. Long Parameter List
-#### Smell
->The ([FieldController](../src/main/java/com/noclue/controller/FieldController.java)) construtor with 6 parameters can be said to have a long parameter list. This happens because the way we designed the code the FieldController is kind of the main handler of a lot of information while the game is running (actual gameplay, not the menu) and thus it needs to have access to that same information in order to manipulate it. At first the class construtor didn't have as much parameters but while adding features and refactoring code to reduce its size (it was really big at some point) we introduced this smell.
-#### Refactor
->To solve this one we could create another object that could bundle a few of similar parameters, which we chose against because it would just be unnecessary, confusing and completely overkill. Another option would be, instead of passing the parameters to the constructor we could create them inside, which we also didn't want to do due to not being able to do dependency injections and it just doesn't make sense for the class to need to know how to create it's own attributes like the TextGraphics.
-### 3. Conditionals
-#### Smell
->The menu has multiple different 'states' depending on which option the user is on while navigating. To state the obvious, the view has to change according to what the user is doing and this introduces some conditionals and even nested conditionals on the [view](../src/main/java/com/noclue/view/MenuView.java) that can be harder than normal to understand at first.
-#### Refactoring
->We did our best to simplify this by drawing everything normally and then overwriting the current option. It works fine given that only one line of code at a time would have no real purpose and we don't notice any performance hit but to remove the conditionals we would need to add a load states, and each state would have its own view. Of course we did not do this because it would introduce way to much duplicate code, not mencioning how much more complex the menu would become overall.
-## Testing
->Most of the model weren't tested because they consist of only simple getters and setters. Same for the views, it is unnecessary to test draw functions.
->
-### Screenshot of test coverage
-![test](screenshots/Test-Coverage.png)
-### Screenshot of mutation testing report
-![pit](screenshots/PitTest.png)
->This report can be found [here](report-mutation).
-## Notes about warnings
->After compiling there will appear a warning saying that FieldController.java "uses unchecked or unsafe operations". This probably has to do with the casting of variables but since the program works great and we can't pinpoint what gives off the warning we'll just let it be for now.
-## Self-Evaluation
->Nuno Oliveira (up201806525@fe.up.pt): 50
-
->Luis Pinto (up201806206@fe.up.pt): 50
+>![Win Screen](docs/screenshots/win_screen.png)
